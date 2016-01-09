@@ -174,7 +174,7 @@ namespace NadekoBot.Modules {
                                     var m = await e.Send("Downloading song...");
 
                                     while ((byteCount = streamer.PCMOutput.Read(buffer, 0, blockSize)) > 0) {
-                                        Voice.Send(buffer, byteCount);
+                                        Voice.Send(buffer, 0, byteCount);
                                         counter += blockSize;
                                         if (NextSong) {
                                             NextSong = false;
