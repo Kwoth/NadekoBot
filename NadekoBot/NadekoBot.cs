@@ -22,6 +22,11 @@ namespace NadekoBot
 
         static void Main()
         {
+			//Change Console Window settings.
+			Console.Title = "NadekoBot v0.5.0";
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Green;
+			
             //load credentials from credentials.json
             Credentials c;
             try
@@ -62,7 +67,7 @@ namespace NadekoBot
             var commands = client.Services.Add<CommandService>(commandService);
             
             //create module service
-            var modules = client.Services.Add<ModuleService>(new ModuleService());
+            var modules = client.Services.Add(new ModuleService());
 
             //add audio service
             var audio = client.Services.Add<AudioService>(new AudioService(new AudioServiceConfig() {
@@ -71,18 +76,18 @@ namespace NadekoBot
             }));
 
             //install modules
-            modules.Install(new Administration(), "Administration", FilterType.Unrestricted);
-            modules.Install(new Conversations(), "Conversations", FilterType.Unrestricted);
-            modules.Install(new Gambling(), "Gambling", FilterType.Unrestricted);
-            modules.Install(new Games(), "Games", FilterType.Unrestricted);
-            modules.Install(new Music(), "Music", FilterType.Unrestricted);
-            modules.Install(new Searches(), "Searches", FilterType.Unrestricted);
+            modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
+            modules.Add(new Gambling(), "Gambling", ModuleFilter.None);
+            modules.Add(new Games(), "Games", ModuleFilter.None);
+            modules.Add(new Music(), "Music", ModuleFilter.None);
+            modules.Add(new Searches(), "Searches", ModuleFilter.None);
 
             //run the bot
             client.Run(async () =>
             {
                 await client.Connect(c.Username, c.Password);
-                Console.WriteLine("Connected!");
+                Console.WriteLine("Logged in as " + client.CurrentUser.Name + "\nBot id=" + client.CurrentUser.Id + "\nDiscord.Net v" + DiscordConfig.LibVersion + "\n-------------------------\n");
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();

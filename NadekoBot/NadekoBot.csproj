@@ -47,30 +47,40 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>nadeko.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libvideo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VideoLibrary.1.3.1\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\libvideo.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Discord.Net">
+      <HintPath>bin\dlls\Discord.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.1-beta3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Discord.Net.Audio">
+      <HintPath>bin\dlls\Discord.Net.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Parse, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Parse.1.6.2\lib\net45\Parse.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Discord.Net.Commands">
+      <HintPath>bin\dlls\Discord.Net.Commands.dll</HintPath>
     </Reference>
-    <Reference Include="Parse.NetFx45, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Parse.1.6.2\lib\net45\Parse.NetFx45.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Discord.Net.Modules">
+      <HintPath>bin\dlls\Discord.Net.Modules.dll</HintPath>
     </Reference>
-    <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="libvideo">
+      <HintPath>bin\dlls\libvideo.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\dlls\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Parse">
+      <HintPath>bin\dlls\Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="Parse.NetFx45">
+      <HintPath>bin\dlls\Parse.NetFx45.dll</HintPath>
+    </Reference>
+    <Reference Include="policy.2.0.taglib-sharp">
+      <HintPath>bin\dlls\policy.2.0.taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>bin\dlls\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -81,9 +91,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="taglib-sharp">
+      <HintPath>bin\dlls\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocket4Net">
+      <HintPath>bin\dlls\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -127,22 +139,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Audio.Net45\Discord.Net.Audio.csproj">
-      <Project>{7bfef748-b934-4621-9b11-6302e3a9f6b3}</Project>
-      <Name>Discord.Net.Audio</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Commands.Net45\Discord.Net.Commands.csproj">
-      <Project>{1b5603b4-6f8f-4289-b945-7baae523d740}</Project>
-      <Name>Discord.Net.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Modules.Net45\Discord.Net.Modules.csproj">
-      <Project>{3091164f-66ae-4543-a63d-167c1116241d}</Project>
-      <Name>Discord.Net.Modules</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\Ostalo\Discord.Net\src\Discord.Net.Net45\Discord.Net.csproj">
-      <Project>{8d71a857-879a-4a10-859e-5ff824ed6688}</Project>
-      <Name>Discord.Net</Name>
-    </ProjectReference>
+    <Content Include="nadeko.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
