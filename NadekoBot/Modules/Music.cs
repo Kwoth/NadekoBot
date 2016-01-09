@@ -84,7 +84,7 @@ namespace NadekoBot.Modules {
                     });
 
                 cgb.CreateCommand("testq")
-                    .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
+                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
                     .Do(async e => {
                         var youtube = YouTube.Default;
@@ -94,20 +94,21 @@ namespace NadekoBot.Modules {
 
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
-                            await e.Send("**Queued** " + video.FullName);
+                            
+                            await e.Send("**Queued** " + video.FullName+ video.Stream().Length);
                         }
                     });
 
                 cgb.CreateCommand("q")
                     .Alias("yq")
-                    .Description("Queue a song using a multi/single word name.\nUsage: `!m q Dream Of Venice`")
+                    .Description("Queue a song using a multi/single word name.\n**Usage**: `!m q Dream Of Venice`")
                     .Parameter("Query", ParameterType.Unparsed)
                     .Do(async e => {
                         var youtube = YouTube.Default;
                         var video = youtube.GetAllVideos(Searches.FindYoutubeUrlByKeywords(e.Args[0]))
                             .Where(v => v.AdaptiveKind == AdaptiveKind.Audio)
                             .OrderByDescending(v => v.AudioBitrate).FirstOrDefault();
-
+                        
                         if (video?.Uri != "" && video.Uri != null) {
                             SongQueue.Add(video);
                             await e.Send("**Queued** " + video.FullName);
@@ -173,7 +174,7 @@ namespace NadekoBot.Modules {
                                     var m = await e.Send("Downloading song...");
 
                                     while ((byteCount = streamer.PCMOutput.Read(buffer, 0, blockSize)) > 0) {
-                                        Voice.Send(buffer, 0, byteCount);
+                                        Voice.Send(buffer, byteCount);
                                         counter += blockSize;
                                         if (NextSong) {
                                             NextSong = false;
