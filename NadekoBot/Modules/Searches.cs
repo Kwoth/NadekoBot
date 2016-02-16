@@ -184,6 +184,108 @@ namespace NadekoBot.Modules {
                       }
                   });
 
+
+
+
+
+                            cgb.CreateCommand("~osu!mania")
+                                   .Description("Shows osu!maina stats for a player\n**Usage**:~osu!maina Name")
+                                   .Parameter("usr", Discord.Commands.ParameterType.Unparsed)
+                                   .Do(async e => {
+                                       if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
+                                           return;
+
+                                       using (WebClient cl = new WebClient())
+                                       {
+                                           try
+                                           {
+                                               cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+                                               cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
+                                               cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2&mode=3"));
+                                               cl.DownloadDataCompleted += async (s, cle) => {
+                                                   try
+                                                   {
+                                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
+                                                   }
+                                                   catch (Exception) { }
+                                               };
+                                           }
+                                           catch
+                                           {
+                                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
+                                           }
+                                       }
+                                   });
+
+
+
+
+                                 cgb.CreateCommand("~osu!taiko")
+                                   .Description("Shows osu!taiko stats for a player\n**Usage**:~osu!taiko Name")
+                                   .Parameter("usr", Discord.Commands.ParameterType.Unparsed)
+                                   .Do(async e => {
+                                       if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
+                                           return;
+
+                                       using (WebClient cl = new WebClient())
+                                       {
+                                           try
+                                           {
+                                               cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+                                               cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
+                                               cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2&mode=1"));
+                                               cl.DownloadDataCompleted += async (s, cle) => {
+                                                   try
+                                                   {
+                                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
+                                                   }
+                                                   catch (Exception) { }
+                                               };
+                                           }
+                                           catch
+                                           {
+                                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
+                                           }
+                                       }
+                                   });
+
+
+
+                                 cgb.CreateCommand("~osu!ctb")
+                                   .Description("Shows osu!ctb stats for a player\n**Usage**:~osu!ctb Name")
+                                   .Parameter("usr", Discord.Commands.ParameterType.Unparsed)
+                                   .Do(async e => {
+                                       if (string.IsNullOrWhiteSpace(e.GetArg("usr")))
+                                           return;
+
+                                       using (WebClient cl = new WebClient())
+                                       {
+                                           try
+                                           {
+                                               cl.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+                                               cl.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.2; Win64; x64)");
+                                               cl.DownloadDataAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ e.GetArg("usr") }&flagshadow&xpbar&xpbarhex&pp=2&mode=2"));
+                                               cl.DownloadDataCompleted += async (s, cle) => {
+                                                   try
+                                                   {
+                                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
+                                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
+                                                   }
+                                                   catch (Exception) { }
+                                               };
+                                           }
+                                           catch
+                                           {
+                                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
+                                           }
+                                       }
+                                   });
+
+
+
+
                 //todo when moved from parse
                 /*
                 cgb.CreateCommand("~osubind")
