@@ -26,6 +26,12 @@ namespace NadekoBot.Classes.Trivia {
             return list[rand];
         }
 
+        public void RandomizeTriviaQuestion ()
+        {
+            var r = new Random();
+            pool = pool.OrderBy(x => r.Next()).ToList();
+        }
+
         internal void Reload() {
             JArray arr = JArray.Parse(File.ReadAllText("data/questions.txt"));
 

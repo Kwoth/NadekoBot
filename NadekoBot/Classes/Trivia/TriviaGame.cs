@@ -36,6 +36,7 @@ namespace NadekoBot.Classes.Trivia {
         }
 
         private async Task StartGame() {
+            TriviaQuestionPool.Instance.RandomizeTriviaQuestion();
             while (!ShouldStopGame) {
                 // reset the cancellation source
                 triviaCancelSource = new CancellationTokenSource();
