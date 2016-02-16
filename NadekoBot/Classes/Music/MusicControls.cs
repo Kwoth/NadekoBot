@@ -9,20 +9,20 @@ using MusicModule = NadekoBot.Modules.Music;
 namespace NadekoBot.Classes.Music {
     public class MusicControls {
         private CommandEventArgs _e;
-        public bool NextSong = false;
-        public IAudioClient Voice;
+        public bool NextSong { get; set; } = false;
+        public IAudioClient Voice { get; set; }
 
-        public bool Pause = false;
-        public List<StreamRequest> SongQueue = new List<StreamRequest>();
-        public StreamRequest CurrentSong = null;
+        public bool Pause { get; set; } = false;
+        public List<StreamRequest> SongQueue { get; set; } = new List<StreamRequest>();
+        public StreamRequest CurrentSong { get; set; } = null;
         public float Volume { get; set; } = .5f;
 
         public bool IsPaused { get; internal set; } = false;
         public bool Stopped { get; private set; }
 
-        public Channel VoiceChannel = null;
+        public Channel VoiceChannel { get; set; } = null;
 
-        public IAudioClient VoiceClient = null;
+        public IAudioClient VoiceClient { get; set; } = null;
 
         private readonly object _voiceLock = new object();
 
@@ -42,9 +42,11 @@ namespace NadekoBot.Classes.Music {
             });
         }
 
-        public MusicControls(Channel voiceChannel, CommandEventArgs e) : this() {
+        public MusicControls(Channel voiceChannel, CommandEventArgs e, float? vol) : this() {
             if (voiceChannel == null)
                 throw new ArgumentNullException(nameof(voiceChannel));
+            if (vol != null)
+                Volume = (float)vol;
             VoiceChannel = voiceChannel;
             _e = e;
         }
@@ -65,7 +67,7 @@ namespace NadekoBot.Classes.Music {
                 if (VoiceClient == null) {
                     Console.WriteLine($"Joining voice channel [{DateTime.Now.Second}]");
                     //todo add a new event, to tell people nadeko is trying to join
-                    VoiceClient = await NadekoBot.client.Audio().Join(VoiceChannel);
+                    VoiceClient = await VoiceChannel.JoinAudio();
                     Console.WriteLine($"Joined voicechannel [{DateTime.Now.Second}]");
                 }
                 await Task.Factory.StartNew(async () => await CurrentSong?.Start(), TaskCreationOptions.LongRunning).Unwrap();

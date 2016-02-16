@@ -19,12 +19,14 @@ using Timer = System.Timers.Timer;
 namespace NadekoBot.Modules {
     class Administration : DiscordModule {
         public Administration() : base() {
-            commands.Add(new HelpCommand());
             commands.Add(new ServerGreetCommand());
         }
 
         public override void Install(ModuleManager manager) {
             manager.CreateCommands("", cgb => {
+                
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 var client = manager.Client;
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -32,7 +34,7 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand(".sr").Alias(".setrole")
                     .Description("Sets a role for a given user.\n**Usage**: .sr @User Guest")
                     .Parameter("user_name", ParameterType.Required)
-                    .Parameter("role_name", ParameterType.Required)
+                    .Parameter("role_name", ParameterType.Unparsed)
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageRoles) return;
                         var usr = e.Server.FindUsers(e.GetArg("user_name")).FirstOrDefault();
@@ -49,7 +51,7 @@ namespace NadekoBot.Modules {
 
                         try {
                             await usr.AddRoles(new Role[] { role });
-                            await e.Send($"Successfully added role **{role.Name}** to user **{usr.Mention}**");
+                            await e.Send($"Successfully added role **{role.Name}** to user **{usr.Name}**");
                         } catch (Exception ex) {
                             await e.Send("Failed to add roles. Most likely reason: Insufficient permissions.\n");
                             Console.WriteLine(ex.ToString());
@@ -76,9 +78,9 @@ namespace NadekoBot.Modules {
 
                         try {
                             await usr.RemoveRoles(new Role[] { role });
-                            await e.Send($"Successfully removed role **{role.Name}** from user **{usr.Mention}**");
+                            await e.Send($"Successfully removed role **{role.Name}** from user **{usr.Name}**");
                         } catch (InvalidOperationException) {
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("Failed to remove roles. Most likely reason: Insufficient permissions.");
                         }
                     });
@@ -103,7 +105,7 @@ namespace NadekoBot.Modules {
                     .Parameter("r", ParameterType.Optional)
                     .Parameter("g", ParameterType.Optional)
                     .Parameter("b", ParameterType.Optional)
-                    .Description("Set a role's color to the hex or 0-255 color value provided.\n**Usage*: .color Admin 255 200 100 or .color Admin ffba55")
+                    .Description("Set a role's color to the hex or 0-255 color value provided.\n**Usage**: .color Admin 255 200 100 or .color Admin ffba55")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageRoles) {
                             await e.Channel.SendMessage("You don't have permission to use this!");
@@ -138,11 +140,40 @@ namespace NadekoBot.Modules {
                         }
 
                     });
+
                 cgb.CreateCommand(".roles")
-                  .Description("List all roles on this server")
+                  .Description("List all roles on this server or a single user if specified.")
+                  .Parameter("user", ParameterType.Unparsed)
                   .Do(async e => {
-                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "[everyone]"));
+
+                      if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) {
+                          var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
+                          if (usr != null) {
+                              await e.Send($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles).Replace("@everyone", "මeveryone"));
+                              return;
+                          }
+                      }
+                      await e.Send("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles).Replace("@everyone", "මeveryone"));
                   });
+
+                cgb.CreateCommand(".modules")
+                    .Description("List all bot modules")
+                    .Do(async e => {
+                        await e.Send("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.client.Modules().Modules.Select(m => m.Name)));
+                    });
+
+                cgb.CreateCommand(".commands")
+                    .Description("List all of the bot's commands from a certain module.")
+                    .Parameter("module", ParameterType.Unparsed)
+                    .Do(async e => {
+                        var commands = NadekoBot.client.Services.Get<CommandService>().AllCommands
+                                                    .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
+                        if (commands == null || commands.Count() == 0) {
+                            await e.Send("That module does not exist.");
+                            return;
+                        }
+                        await e.Send("`List of commands:` \n• " + string.Join("\n• ", commands.Select(c => c.Text)));
+                    });
 
                 cgb.CreateCommand(".b").Alias(".ban")
                     .Parameter("everything", ParameterType.Unparsed)
@@ -167,7 +198,7 @@ namespace NadekoBot.Modules {
                                     await usr.Server.Unban(usr);
                                     await e.Send("Unbanned user " + usr.Name + " Id: " + usr.Id);
                                 }
-                            } catch (Exception) { }
+                            } catch  { }
                         });
 
                 cgb.CreateCommand(".k").Alias(".kick")
@@ -180,7 +211,7 @@ namespace NadekoBot.Modules {
                                 await e.Message.MentionedUsers.First().Kick();
                                 await e.Send("Kicked user " + usr.Name + " Id: " + usr.Id);
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -199,7 +230,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: true);
                             }
                             await e.Send("Mute successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -219,7 +250,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isMuted: false);
                             }
                             await e.Send("Unmute successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -240,7 +271,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: true);
                             }
                             await e.Send("Deafen successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -261,7 +292,7 @@ namespace NadekoBot.Modules {
                                 await u.Edit(isDeafened: false);
                             }
                             await e.Send("Undeafen successful");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("I do not have permission to do that most likely.");
                         }
                     });
@@ -275,7 +306,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Voice).FirstOrDefault()?.Delete();
                                 await e.Send($"Removed channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -289,7 +320,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Voice);
                                 await e.Send($"Created voice channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -303,7 +334,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault()?.Delete();
                                 await e.Send($"Removed text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -317,7 +348,7 @@ namespace NadekoBot.Modules {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Text);
                                 await e.Send($"Added text channel **{e.GetArg("channel_name")}**.");
                             }
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("No sufficient permissions.");
                         }
                     });
@@ -329,7 +360,7 @@ namespace NadekoBot.Modules {
                         try {
                             if (e.User.ServerPermissions.ManageChannels)
                                 await e.Channel.Edit(topic: e.GetArg("topic"));
-                        } catch (Exception) { }
+                        } catch  { }
                     });
 
                 cgb.CreateCommand(".uid").Alias(".userid")
@@ -353,7 +384,7 @@ namespace NadekoBot.Modules {
                     .Description("Shows some basic stats for nadeko")
                     .Do(async e => {
                         var t = Task.Run(() => {
-                            return NadekoStats.Instance.GetStats() + "\n`" + Music.GetMusicStats() + "`";
+                            return NadekoStats.Instance.GetStats() + "`" + Music.GetMusicStats() + "`";
                         });
 
                         await e.Send(await t);
@@ -366,30 +397,20 @@ namespace NadekoBot.Modules {
                         if (e.User.Id == NadekoBot.OwnerID)
                             NadekoBot.client.Servers.ForEach(async s => { if (s.Name == e.Server.Name) return; await s.Leave(); });
                     });
-                
+
                 cgb.CreateCommand(".prune")
                     .Parameter("num", ParameterType.Required)
                     .Description("Prunes a number of messages from the current channel.\n**Usage**: .prune 5")
                     .Do(async e => {
                         if (!e.User.ServerPermissions.ManageMessages) return;
+                        int val;
+                        if (string.IsNullOrWhiteSpace(e.GetArg("num")) || !int.TryParse(e.GetArg("num"), out val) || val < 0)
+                            return;
 
-                        e.Send("This feature is being reconstructed.");
-                        /*
-                        if (pruneDict.ContainsKey(e.Server))
-                            return;
-                        int num;
-                        if (!Int32.TryParse(e.GetArg("num"), out num) || num < 1) {
-                            await e.Send("Incorrect amount.");
-                            return;
+                        foreach (var msg in await e.Channel.DownloadMessages(val)) {
+                            await msg.Delete();
+                            await Task.Delay(100);
                         }
-                        if (num > 10)
-                            num = 10;
-                        var msgs = await e.Channel.DownloadMessages(num);
-                        foreach (var m in msgs) {
-                            await m.Delete();
-                            await Task.Delay(500);
-                        }
-                        */
                     });
 
                 cgb.CreateCommand(".die")
@@ -414,24 +435,8 @@ namespace NadekoBot.Modules {
                             foreach (var m in msgs)
                                 await m.Delete();
                         });
-                        /*
-                        try {
-                            if (clearDictionary.ContainsKey(e.Server))
-                                return;
-                            clearDictionary.TryAdd(e.Server, true);
-                            var msgs = await e.Channel.DownloadMessages(100);
-                            await Task.Run(async () => {
-                                var ms = msgs.Where(msg => msg.User.Id == client.CurrentUser.Id);
-                                foreach (var m in ms) {
-                                    try { await m.Delete(); } catch (Exception) { }
-                                    await Task.Delay(500);
-                                }
-                            });
-                        } catch (Exception) { }
-                        bool throwaway;
-                        clearDictionary.TryRemove(e.Server, out throwaway);
-                        */
                     });
+
                 cgb.CreateCommand(".newname")
                     .Alias(".setname")
                     .Description("Give the bot a new name.")
@@ -441,19 +446,31 @@ namespace NadekoBot.Modules {
 
                         await client.CurrentUser.Edit(NadekoBot.password, e.GetArg("new_name"));
                     });
-                /*
+
                 cgb.CreateCommand(".newavatar")
                     .Alias(".setavatar")
-                    .Description("Sets the new avatar from the image URL. PNG and JPEG supported")
-                    .Parameter("new_avatar", ParameterType.Required)
+                    .Description("Sets a new avatar image for the NadekoBot.")
+                    .Parameter("img", ParameterType.Unparsed)
                     .Do(async e => {
-                        if (e.User.Id != NadekoBot.OwnerID || e.GetArg("new_avatar") == null) return;
-                        var arg = e.GetArg("new_avatar").Trim();
-                        ImageType imgType = arg.EndsWith("png") ? ImageType.Png: ImageType.Jpeg;
-                        var res = await Searches.GetResponseStream(e.GetArg("new_avatar"));
-                        await client.CurrentUser.Edit(NadekoBot.password, avatar: res, avatarType: imgType);
+                        if (e.User.Id != NadekoBot.OwnerID || string.IsNullOrWhiteSpace(e.GetArg("img")))
+                            return;
+                        // Gather user provided URL.
+                        string avatarAddress = e.GetArg("img");
+                        // Creates an HTTPWebRequest object, which references the URL given by the user.
+                        System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(Uri.EscapeUriString(avatarAddress));
+                        // Discard the response if image isnt downloaded in 5 s as to not lock Nadeko. Prevents loading from faulty links.
+                        webRequest.Timeout = 5000;
+                        // Gathers the webRequest response as a Stream object.
+                        System.Net.WebResponse webResponse = await webRequest.GetResponseAsync();
+                        // Create image object from the response we got from the webRequest stream. This is because there is no "GetResponseStream".
+                        System.Drawing.Image image = System.Drawing.Image.FromStream(webResponse.GetResponseStream());
+                        // Save the image to disk.
+                        image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
+                        await client.CurrentUser.Edit(NadekoBot.password, avatar: image.ToStream());
+                        // Send confirm.
+                        await e.Send("New avatar set.");
                     });
-                */
+
                 cgb.CreateCommand(".setgame")
                   .Description("Sets the bots game.")
                   .Parameter("set_game", ParameterType.Unparsed)
@@ -531,7 +548,7 @@ namespace NadekoBot.Modules {
 
                 cgb.CreateCommand(".menrole")
                     .Alias(".mentionrole")
-                    .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention @everyone permission.")
+                    .Description("Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have mention everyone permission.")
                     .Parameter("roles", ParameterType.Unparsed)
                     .Do(async e => {
                         if (!e.User.ServerPermissions.MentionEveryone) return;
@@ -574,18 +591,16 @@ namespace NadekoBot.Modules {
                           return;
                       await Task.Run(() => NadekoBot.client.MessageQueue.Clear());
                   });
-                
+
                 cgb.CreateCommand(".donators")
                     .Description("List of lovely people who donated to keep this project alive.")
                     .Do(async e => {
                         await Task.Run(async () => {
                             var rows = Classes.DBHandler.Instance.GetAllRows<Donator>();
-                            var donatorsOrdered = rows.OrderBy(d => d.Amount);
+                            var donatorsOrdered = rows.OrderByDescending(d => d.Amount);
                             string str = $"`Total number of people who donated is {donatorsOrdered.Count()}`\n";
-                            foreach (var don in donatorsOrdered) {
-                                str += don.UserName;
-                            }
-                            await e.Channel.SendMessage(str);
+
+                            await e.Channel.SendMessage(str + string.Join(", ", donatorsOrdered.Select(d => d.UserName)));
                         });
                     });
 
@@ -612,47 +627,6 @@ namespace NadekoBot.Modules {
                             Console.WriteLine("---------------\nInner error:\n" + ex.InnerException);
                         }
                     });
-                /*
-                               cgb.CreateCommand(".no")
-                                 .Description("desc")
-                                 .Parameter("arg", ParameterType.Required)
-                                 .Do(async e => {
-                                     var arg = e.GetArg("arg");
-
-                                 });
-
-                              cgb.CreateCommand(".voicetext")
-                                   .Description("Enabled or disabled voice to text channel connection. Only people in a certain voice channel will see ")
-
-                              cgb.CreateCommand(".jsontype")
-                                  .Do(async e => {
-                                      Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText("data.json"));
-                                      if (data == null || data.Count == 0) return;
-
-                                      var wer = data.Where(jt => jt["Description"].ToString().Length > 120);
-                                      var list = wer.Select(jt => { 
-                                          var obj = new Parse.ParseObject("TypingArticles");
-                                          obj["text"] = jt["Description"].ToString();
-                                          return obj;
-                                      });
-                                      await Parse.ParseObject.SaveAllAsync(list);
-                                      await e.Send("saved to parse");
-
-                                  });
-
-                              cgb.CreateCommand(".repeat")
-                                  .Do(async e => {
-                                      if (e.User.Id != NadekoBot.OwnerID) return;
-
-                                      string[] notifs = { "Admin use .bye .greet", "Unstable - fixing", "fixing ~ani, ~mang", "join NadekoLog server", "-h is help, .stats",};
-                                      int i = notifs.Length;
-                                      while (true) {
-                                          await e.Channel.SendMessage($".setgame {notifs[--i]}");
-                                          await Task.Delay(20000);
-                                          if (i == 0) i = notifs.Length;
-                                      }
-                                  });
-                              */
             });
         }
 

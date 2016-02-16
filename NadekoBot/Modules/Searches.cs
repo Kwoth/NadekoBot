@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Discord.Modules;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections.Generic;
-using NadekoBot.Classes.PermissionCheckers;
 using NadekoBot.Classes;
 
 namespace NadekoBot.Modules {
@@ -24,6 +20,8 @@ namespace NadekoBot.Modules {
             var client = NadekoBot.client;
 
             manager.CreateCommands("", cgb => {
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
@@ -81,7 +79,7 @@ namespace NadekoBot.Modules {
                                     .GetResponse()
                                     .GetResponseStream())
                                 .ReadToEnd())["file"].ToString());
-                        } catch (Exception) { }
+                        } catch  { }
                     });
 
                 cgb.CreateCommand("~i")
@@ -178,7 +176,7 @@ namespace NadekoBot.Modules {
                                   try {
                                       await e.Channel.SendFile($"{e.GetArg("usr")}.png", new MemoryStream(cle.Result));
                                       await e.Send($"`Profile Link:`https://osu.ppy.sh/u/{Uri.EscapeDataString(e.GetArg("usr"))}\n`Image provided by https://lemmmy.pw/osusig`");
-                                  } catch (Exception) { }
+                                  } catch  { }
                               };
                           } catch {
                               await e.Channel.SendMessage("💢 Failed retrieving osu signature :\\");
@@ -186,22 +184,51 @@ namespace NadekoBot.Modules {
                       }
                   });
 
-                //todo when moved from parse
-                /*
-                cgb.CreateCommand("~osubind")
-                    .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
-                    .Parameter("osu_name", ParameterType.Unparsed)
-                    .Do(async e => {
-                        var userName = e.GetArg("user_name");
-                        var osuName = e.GetArg("osu_name");
-                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
-                        if (usr == null) {
-                            await e.Send("Cannot find that discord user.");
-                            return;
-                        }
-                    });
-                */
-            });
+
+                cgb.CreateCommand("~ud")
+                  .Description("Searches Urban Dictionary for a word\n**Usage**:~ud Pineapple")
+                  .Parameter("query", ParameterType.Unparsed)
+                  .Do(async e => {
+                      var arg = e.GetArg("query");
+                      if (string.IsNullOrWhiteSpace(arg))
+                      {
+                          await e.Send("💢 Please enter a search term.");
+                          return;
+                      }
+                      await e.Channel.SendIsTyping();
+                      var res = await SearchHelper.GetResponseAsync($"https://mashape-community-urban-dictionary.p.mashape.com/define?term={Uri.EscapeUriString(arg)}",
+                          new Tuple<string, string>[] {
+                                  new Tuple<string, string>("X-Mashape-Key", NadekoBot.creds.MashapeKey)
+                          });
+                      try
+                      {
+                          var items = JObject.Parse(res);
+                          await e.Send($"`Term:` {items["list"][0]["word"].ToString()}\n");
+                          await e.Send($"`Definition:` {items["list"][0]["definition"].ToString()}\n");
+                          await e.Send($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl()}>");
+                      }
+                      catch (Exception ex)
+                      {
+                          await e.Channel.SendMessage("💢 Exception: " + ex.Message);
+                      }
+                      });
+
+                      //todo when moved from parse
+                      /*
+                      cgb.CreateCommand("~osubind")
+                          .Description("Bind discord user to osu name\n**Usage**: ~osubind My osu name")
+                          .Parameter("osu_name", ParameterType.Unparsed)
+                          .Do(async e => {
+                              var userName = e.GetArg("user_name");
+                              var osuName = e.GetArg("osu_name");
+                              var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                              if (usr == null) {
+                                  await e.Send("Cannot find that discord user.");
+                                  return;
+                              }
+                          });
+                      */
+                  });
         }
     }
 }

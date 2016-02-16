@@ -11,7 +11,7 @@ namespace NadekoBot
 {
     public class NadekoStats
     {
-        public string BotVersion = "0.8-beta9";
+        public string BotVersion = "0.8-beta11";
 
         private static readonly NadekoStats _instance = new NadekoStats();
         public static NadekoStats Instance => _instance;
@@ -28,7 +28,7 @@ namespace NadekoBot
         static NadekoStats() { }
 
         private NadekoStats() {
-            _service = NadekoBot.client.Commands();
+            _service = NadekoBot.client.Services.Get<CommandService>();
             _client = NadekoBot.client;
 
             _statsSW = new Stopwatch();
@@ -48,21 +48,23 @@ namespace NadekoBot
         }
 
         public void LoadStats() {
-            _statsCache =
-            "`Author: Kwoth`" +
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("`Author: Kwoth`");
             //$"\nDiscord.Net version: {DiscordConfig.LibVersion}" +
             //$"\nRuntime: {_client.GetRuntime()}" +
-            $"\n`Bot Version: {BotVersion}`" +
+            sb.AppendLine($"`Bot Version: {BotVersion}`");
             //$"\nLogged in as: {_client.CurrentUser.Name}" +
-            $"\n`Bot id: {_client.CurrentUser.Id}`" +
-            $"\n`Uptime: {GetUptimeString()}`" +
-            $"\n`Servers: {_client.Servers.Count()}`" +
-            $"\n`Channels: {_client.Servers.Sum(s => s.AllChannels.Count())}`" +
+            sb.AppendLine($"`Bot id: {_client.CurrentUser.Id}`");
+            sb.AppendLine($"`Owner id: {NadekoBot.OwnerID}`");
+            sb.AppendLine($"`Uptime: {GetUptimeString()}`");
+            sb.Append($"`Servers: {_client.Servers.Count()}");
+            sb.AppendLine($" | Channels: {_client.Servers.Sum(s => s.AllChannels.Count())}`");
             //$"\nUsers: {_client.Servers.SelectMany(x => x.Users.Select(y => y.Id)).Count()} (non-unique)" +
-            $"\n`Heap: {Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString()} MB`" +
-            $"\n`Commands Ran this session: {_commandsRan}`" +
-            $"\n`Message queue size:{_client.MessageQueue.Count}`" +
-            $"\n`Greeted/Byed {Commands.ServerGreetCommand.Greeted} times.`";
+            sb.AppendLine($"`Heap: {Math.Round((double)GC.GetTotalMemory(true) / 1.MiB(), 2).ToString()} MB`");
+            sb.AppendLine($"`Commands Ran this session: {_commandsRan}`");
+            sb.AppendLine($"`Message queue size:{_client.MessageQueue.Count}`");
+            sb.AppendLine($"`Greeted {Commands.ServerGreetCommand.Greeted} times.`");
+            _statsCache = sb.ToString();
         }
 
         public string GetStats() {
@@ -89,7 +91,7 @@ namespace NadekoBot
                         ConnectedServers = connectedServers,
                         DateAdded = DateTime.Now
                     });
-                } catch (Exception) {
+                } catch  {
                     Console.WriteLine("DB Exception in stats collecting.");
                     break;
                 }
@@ -110,7 +112,7 @@ namespace NadekoBot
                     CommandName = e.Command.Text,
                     DateAdded = DateTime.Now
                 });
-            } catch (Exception) {
+            } catch  {
                 Console.WriteLine("Parse error in ran command.");
             }
         }

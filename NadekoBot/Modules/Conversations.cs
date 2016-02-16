@@ -26,6 +26,9 @@ namespace NadekoBot.Modules {
             Random rng = new Random();
 
             manager.CreateCommands("", cgb => {
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 var client = manager.Client;
 
                 cgb.CreateCommand("\\o\\")
@@ -43,6 +46,8 @@ namespace NadekoBot.Modules {
 
             manager.CreateCommands(NadekoBot.botMention, cgb => {
                 var client = manager.Client;
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
@@ -96,7 +101,7 @@ namespace NadekoBot.Modules {
                                             "\n**Online Members:** " + server.Users.Where(u => u.Status == UserStatus.Online).Count() +
                                             "\n**Invite:** " + inv.Url);
                                 break;
-                            } catch (Exception) { continue; }
+                            } catch  { continue; }
                         }
                     });
                 /*
@@ -267,7 +272,7 @@ namespace NadekoBot.Modules {
                         try {
                             await (await client.GetInvite(e.Args[0])).Accept();
                             await e.Send("I got in!");
-                        } catch (Exception) {
+                        } catch  {
                             await e.Send("Invalid code.");
                         }
                     });
@@ -329,8 +334,8 @@ namespace NadekoBot.Modules {
                 cgb.CreateCommand("unhide")
                     .Description("Unhides nadeko in plain sight!1!!1")
                     .Do(async e => {
-                        using (Stream ms = Resources.nadeko.ToStream()) {
-                            await client.CurrentUser.Edit(NadekoBot.password, avatar: ms, avatarType: ImageType.Jpeg);
+                        using (FileStream fs = new FileStream("data/avatar.png", FileMode.Open)) {
+                            await client.CurrentUser.Edit(NadekoBot.password, avatar: fs);
                         }
                         await e.Send("*unhides*");
                     });
@@ -347,7 +352,7 @@ namespace NadekoBot.Modules {
                                 var invite = await s.CreateInvite(0);
                                 invites += invite.Url + "\n";
                                 i++;
-                            } catch (Exception) {
+                            } catch  {
                                 j++;
                                 continue;
                             }

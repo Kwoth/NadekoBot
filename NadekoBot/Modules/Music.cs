@@ -9,11 +9,13 @@ using NadekoBot.Classes.Music;
 using Timer = System.Timers.Timer;
 using System.Threading.Tasks;
 using NadekoBot.Classes;
+using Discord.Audio;
 
 namespace NadekoBot.Modules {
     class Music : DiscordModule {
 
         public static ConcurrentDictionary<Server, MusicControls> musicPlayers = new ConcurrentDictionary<Server, MusicControls>();
+        public static ConcurrentDictionary<ulong, float> musicVolumes = new ConcurrentDictionary<ulong, float>();
 
         internal static string GetMusicStats() {
             var stats = musicPlayers.Where(kvp => kvp.Value?.SongQueue.Count > 0 || kvp.Value?.CurrentSong != null);
@@ -28,7 +30,9 @@ namespace NadekoBot.Modules {
             var client = NadekoBot.client;
 
             manager.CreateCommands("!m", cgb => {
-                //queue all more complex commands
+
+                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand("n")
@@ -106,13 +110,28 @@ namespace NadekoBot.Modules {
                       await e.Send($"🎵 `Volume set to {volume}%`");
                   });
 
+                cgb.CreateCommand("dv")
+                    .Alias("defvol")
+                    .Description("Sets the default music volume when music playback is started (0-100). Does not persist through restarts.\n**Usage**: !m dv 80")
+                    .Parameter("val", ParameterType.Required)
+                    .Do(async e => {
+                        var arg = e.GetArg("val");
+                        float volume;
+                        if (!float.TryParse(arg, out volume) || volume < 0 || volume > 100) {
+                            await e.Send("Volume number invalid.");
+                            return;
+                        }
+                        musicVolumes.AddOrUpdate(e.Server.Id, volume / 100, (key, newval) => volume / 100);
+                        await e.Send($"🎵 `Default volume set to {volume}%`");
+                    });
+
                 cgb.CreateCommand("min").Alias("mute")
-                  .Description("Sets the music volume to 0%")
-                  .Do(e => {
-                      if (musicPlayers.ContainsKey(e.Server) == false) return;
-                      var player = musicPlayers[e.Server];
-                      player.SetVolume(0);
-                  });
+                    .Description("Sets the music volume to 0%")
+                    .Do(e => {
+                        if (musicPlayers.ContainsKey(e.Server) == false) return;
+                        var player = musicPlayers[e.Server];
+                        player.SetVolume(0);
+                    });
 
                 cgb.CreateCommand("max")
                   .Description("Sets the music volume to 100% (real max is actually 150%).")
@@ -194,6 +213,33 @@ namespace NadekoBot.Modules {
                         await QueueSong(e, e.GetArg("radio_link"), radio: true);
                     });
 
+                cgb.CreateCommand("mv")
+                  .Description("Moves the bot to your voice channel. (works only if music is already playing)")
+                  .Do(async e => {
+                      MusicControls mc;
+                      if (e.User.VoiceChannel == null || e.User.VoiceChannel.Server != e.Server || !musicPlayers.TryGetValue(e.Server,out mc))
+                          return;
+                      mc.VoiceChannel = e.User.VoiceChannel;
+                      mc.VoiceClient = await mc.VoiceChannel.JoinAudio();
+                  });
+
+                cgb.CreateCommand("rm")
+                    .Description("Removes a song by a # from the queue")
+                    .Parameter("num",ParameterType.Required)
+                    .Do(async e => {
+                        var arg = e.GetArg("num");
+                        int num;
+                        MusicControls mc;
+                        if (!musicPlayers.TryGetValue(e.Server, out mc) || !int.TryParse(arg, out num)) {
+                            return;
+                        }
+                        if (num <= 0 || num > mc.SongQueue.Count)
+                            return;
+
+                        mc.SongQueue.RemoveAt(num - 1);
+                        await e.Send($"🎵Song at position `{num}` has been removed.");
+                    });
+
                 cgb.CreateCommand("debug")
                     .Description("Writes some music data to console. **BOT OWNER ONLY**")
                     .Do(e => {
@@ -211,12 +257,18 @@ namespace NadekoBot.Modules {
                 await e.Send("💢 You need to be in the voice channel on this server.");
                 return;
             }
-            if (musicPlayers.ContainsKey(e.Server) == false)
-                if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e))) {
+            if (musicPlayers.ContainsKey(e.Server) == false) {
+                float? vol = null;
+                float throwAway;
+                if (musicVolumes.TryGetValue(e.Server.Id, out throwAway))
+                    vol = throwAway;
+
+                if (!musicPlayers.TryAdd(e.Server, new MusicControls(e.User.VoiceChannel, e, vol))) {
                     await e.Send("Failed to create a music player for this server.");
                     return;
                 }
-            if (query == null || query.Length < 4)
+            }
+            if (query == null || query.Length < 3)
                 return;
 
             var player = musicPlayers[e.Server];

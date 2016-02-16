@@ -132,8 +132,9 @@
     <Compile Include="Classes\Music\MusicControls.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\Music\SoundCloud.cs" />
-    <Compile Include="Classes\PermissionCheckers\NSWFPermissionChecker.cs" />
-    <Compile Include="Classes\PermissionCheckers\PermissionChecker.cs" />
+    <Compile Include="Classes\Permissions\PermissionChecker.cs" />
+    <Compile Include="Classes\Permissions\PermissionHelper.cs" />
+    <Compile Include="Classes\Permissions\PermissionsHandler.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
@@ -166,9 +167,11 @@
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling.cs" />
     <Compile Include="Modules\Games.cs" />
+    <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
     <Compile Include="Commands\PollCommand.cs" />
     <Compile Include="Modules\NSFW.cs" />
+    <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Modules\Searches.cs" />
     <Compile Include="Modules\Trello.cs" />
     <Compile Include="NadekoBot.cs" />
