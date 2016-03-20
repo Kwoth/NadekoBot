@@ -377,6 +377,12 @@ namespace NadekoBot.Modules {
                         await e.Channel.SendMessage(construct + "~");
                     });
 
+                cgb.CreateCommand("Which is better subs or dubs")
+                    .Description("Answers a time old question")
+                    .Do(async e => {
+                        await e.Channel.SendMessage("Subs obviously");
+                    });
+
                 cgb.CreateCommand("av").Alias("avatar")
                     .Parameter("mention", ParameterType.Required)
                     .Description("Shows a mentioned person's avatar.\n**Usage**: ~av @X")
