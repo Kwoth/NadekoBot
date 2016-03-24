@@ -347,7 +347,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
         //For now only HP
         private Dictionary<ulong, int> stats = new Dictionary<ulong, int>();
 
-
+        //The weaknesses and strengths of attacks
         private static Dictionary<PokeType, Dictionary<PokeType, double>> pTypes = new Dictionary<PokeType, Dictionary<PokeType, double>>()
         {
             {PokeType.NORMAL, new Dictionary<PokeType, double>()
@@ -401,160 +401,129 @@ There really is a {loonix}, and these people are using it, but it is just a part
                 {PokeType.STEEL, 2}
             }
             },
-            //not done yet
             {PokeType.ICE, new Dictionary<PokeType, double>()
             {
                 {PokeType.FIRE,  0.5},
                 {PokeType.WATER, 0.5 },
                 {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.ICE, 0.5},
+                {PokeType.GROUND, 2 },
+                {PokeType.FLYING, 2 },
+                {PokeType.DRAGON, 2 },
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.FIGHTING, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
+                {PokeType.NORMAL,  2},
                 {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.POISON, 0.5},
+                {PokeType.FLYING, 0.5 },
+                {PokeType.PSYCHIC, 0.5 },
+                {PokeType.BUG, 0.5 },
+                {PokeType.ROCK, 2 },
+                {PokeType.GHOST, 0},
+                {PokeType.DARK, 2 },
+                {PokeType.STEEL, 2 }
             }
             },
-             //not done yet
             {PokeType.POISON, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
+                {PokeType.GRASS,  2},
+                {PokeType.POISON, 0.5 },
+                {PokeType.GROUND, 0.5 },
                 {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.GHOST, 0.5 },
+                {PokeType.STEEL, 0}
             }
             },
-             //not done yet
             {PokeType.GROUND, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
+                {PokeType.FIRE,  2},
+                {PokeType.ELECTRIC, 2 },
+                {PokeType.GRASS, 0.5},
+                {PokeType.POISON, 0.5},
+                {PokeType.FLYING, 0 },
+                {PokeType.BUG, 0.5 },
+                {PokeType.ROCK, 2 },
                 {PokeType.STEEL, 2}
             }
             },
-             //not done yet
             {PokeType.FLYING, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
+                {PokeType.ELECTRIC,  0.5},
                 {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
+                {PokeType.FIGHTING, 2 },
                 {PokeType.BUG, 2 },
                 {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.PSYCHIC, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.FIGHTING,  2},
+                {PokeType.POISON, 2 },
+                {PokeType.PSYCHIC, 0.5 },
+                {PokeType.DARK, 0 },
+                {PokeType.STEEL, 0.5 }
             }
             },
-             //not done yet
             {PokeType.BUG, new Dictionary<PokeType, double>()
             {
                 {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
                 {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.FIGHTING, 0.5 },
+                {PokeType.POISON, 0.5 },
+                {PokeType.FLYING, 0.5 },
+                {PokeType.PSYCHIC, 2 },
+                {PokeType.ROCK, 0.5},
+                {PokeType.DARK, 2 },
+                {PokeType.STEEL,0.5 }
             }
             },
-             //not done yet
             {PokeType.ROCK, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
+                {PokeType.FIRE,  2},
                 {PokeType.ICE, 2 },
+                {PokeType.FIGHTING, 0.5 },
+                {PokeType.GROUND, 0.5 },
+                {PokeType.FLYING, 2 },
                 {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.GHOST, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.NORMAL,  0},
+                {PokeType.PSYCHIC, 2 },
+                {PokeType.GHOST, 2 },
+                {PokeType.DARK, 0.5 },
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.DRAGON, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.DRAGON, 2 },
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.DARK, new Dictionary<PokeType, double>()
             {
-                {PokeType.FIRE,  0.5},
-                {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
-                {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.FIGHTING,  0.5},
+                {PokeType.PSYCHIC, 2 },
+                {PokeType.GHOST, 2 },
+                {PokeType.DARK, 0.5 },
+                {PokeType.STEEL, 0.5}
             }
             },
-             //not done yet
             {PokeType.STEEL, new Dictionary<PokeType, double>()
             {
                 {PokeType.FIRE,  0.5},
                 {PokeType.WATER, 0.5 },
-                {PokeType.GRASS, 2 },
+                {PokeType.ELECTRIC, 0.5 },
                 {PokeType.ICE, 2 },
-                {PokeType.BUG, 2 },
-                {PokeType.ROCK, 0.5 },
-                {PokeType.DRAGON, 0.5 },
-                {PokeType.STEEL, 2}
+                {PokeType.ROCK, 2 },
+                {PokeType.STEEL, 0.5}
             }
             },
 
