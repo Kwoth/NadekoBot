@@ -9,6 +9,8 @@ using NadekoBot.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using NadekoBot.Classes;
+using System.Threading.Tasks;
+using NadekoBot.Classes._DataModels;
 
 namespace NadekoBot.Modules
 {
@@ -65,12 +67,33 @@ namespace NadekoBot.Modules
                         catch { }
                     });
 
+                cgb.CreateCommand(Prefix + "listmoves")
+                .Do(async e =>
+                {
+                    var rows = DbHandler.Instance.GetAllRows<PokeMoves>();
+                    string str = $"**Moves:**\n";
+                    var movesOrdered = rows.OrderByDescending(d => d.move);
+                    
+                    for (int i=0; i< movesOrdered.Count(); i++)
+                    {
+                        str += $"\n {movesOrdered.ElementAt(i).move} of type" + GetImage((PokeType) movesOrdered.ElementAt(i).type);
+                    }
+
+                        
+                      
+                    
+                    
+
+                    await e.Channel.SendMessage(str);
+                });
+
                 cgb.CreateCommand(Prefix + "attack")
                     .Description("Attack a person. Supported attacks: 'splash', 'strike', 'burn', 'surge'.\n**Usage**: >attack strike @User")
                     .Parameter("attack_type", Discord.Commands.ParameterType.Required)
                     .Parameter("target", Discord.Commands.ParameterType.Required)
                     .Do(async e =>
                     {
+
                         if (stats.ContainsKey(e.User.Id))
                         {
                             //If the one attacking has already fainted, they shouldn't be able to move
@@ -88,8 +111,12 @@ namespace NadekoBot.Modules
                         }
                         var usrType = GetType(usr.Id);
                         var response = "";
-                        var dmg = GetDamage(usrType, GetType(e.User.Id), e.GetArg("attack_type").ToLowerInvariant());
-                        response = e.GetArg("attack_type") + (e.GetArg("attack_type") == "splash" ? "es " : "s ") + $"{usr.Mention}{GetImage(usrType)} for {dmg}\n";
+                        var t = GetType(e.User.Id);
+                        var attack_type = e.GetArg("attack_type").ToLowerInvariant();
+                        
+                        var dmg = GetDamage(usrType, t, attack_type);
+                        
+                        response = $"{e.User.Mention }{GetImage(GetType(e.User.Id))} uses **{e.GetArg("attack_type")}** on {usr.Name}! (temp: did {dmg} HP\n";
                         if (!stats.ContainsKey(usr.Id))
                         {
                             stats.Add(usr.Id, BASEHEALTH - dmg);
@@ -104,7 +131,11 @@ namespace NadekoBot.Modules
                         }
                         else if (dmg <= 35)
                         {
-                            response += "Ineffective!";
+                            response += "It's ineffective!";
+                        }
+                        else
+                        {
+                            response += "It's somewhat effective.";
                         }
                         if (stats[usr.Id] > 0)
                         {
@@ -114,7 +145,7 @@ namespace NadekoBot.Modules
                         {
                             response += $"\n{usr.Name} has fainted!";
                         }
-                        await e.Channel.SendMessage($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
+                        await e.Channel.SendMessage($"{response}");
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
@@ -139,7 +170,7 @@ namespace NadekoBot.Modules
                             return;
                         }
                         stats[usr.Id] = BASEHEALTH;
-                        await FlowersHandler.AddFlowersAsync(e.User, $"Healed {usr.Name}", -1);
+                        await FlowersHandler.SpentFlowersAsync(e.User, $"Heal " + ((usr.Id == e.User.Id) ? "yourself" : usr.Name) + " in the pokemon game!", 1);
                         if (HP < 0)
                         {
                             //Could heal only for half HP?
@@ -151,6 +182,34 @@ namespace NadekoBot.Modules
                         return;
                     }
                 });
+
+                cgb.CreateCommand(Prefix + "addmove")
+                .Description("Add a move to the collection of moves, requires 🌸")
+                .Parameter("move", ParameterType.Required)
+                .Parameter("type", ParameterType.Required)
+                .Do(async e =>
+                {
+                    string newMove = e.GetArg("move");
+                    string newType = e.GetArg("type");
+                    newType = newType.ToUpperInvariant();
+                    int numType = toType(newType);
+                    var db = DbHandler.Instance.GetAllRows<PokeMoves>().Select(x=>x.move);
+                    if (db.Contains(newMove))
+                    {
+                        await e.Channel.SendMessage($"{newMove} already exists");
+                        return;
+                    }
+                    await Task.Run(() =>
+                    {
+                        DbHandler.Instance.InsertData(new Classes._DataModels.PokeMoves
+                        {
+                            move = newMove,
+                            type = numType
+                        });
+                    });
+                    await e.Channel.SendMessage($"Added {GetImage((PokeType) numType)}{newMove}");
+                });
+                    
 
                 cgb.CreateCommand(Prefix + "poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
@@ -166,6 +225,35 @@ namespace NadekoBot.Modules
                         var t = GetType(usr.Id);
                         await e.Channel.SendMessage($"{usr.Name}'s type is {GetImage(t)} {t}");
                     });
+
+                cgb.CreateCommand(Prefix + "setpoketype")
+                .Description("Sets poketype of yourself.\n Current types are: NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL")
+                .Parameter("type", ParameterType.Required)
+                .Do(async e =>
+                {
+                    var typeString = e.GetArg("type");
+                    int typeNum = toType(typeString.ToUpperInvariant());
+                    if (typeNum < 0)
+                    {
+                        await e.Channel.SendMessage($"Given type \"{typeString}\" does not exist. Type must be one of\n NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL");
+                        return;
+                    }
+                    var preTypes = DbHandler.Instance.GetAllRows<PokeTypes>();
+                    Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id);
+                    if (Dict.ContainsKey((long) e.User.Id))
+                    {
+                        //delete previous type
+                        DbHandler.Instance.Delete<PokeTypes>(Dict[(long)e.User.Id]);
+                    } 
+                    
+                    DbHandler.Instance.InsertData(new Classes._DataModels.PokeTypes
+                    {
+                        UserId =(long) e.User.Id,
+                        type = typeNum
+                    });
+                    await e.Channel.SendMessage($"{e.User.Mention}, your Poketype has been set to {typeString}{GetImage((PokeType) typeNum)}");
+                });
+
                 cgb.CreateCommand(Prefix + "rps")
                     .Description("Play a game of rocket paperclip scissors with nadeko.\n**Usage**: >rps scissors")
                     .Parameter("input", ParameterType.Required)
@@ -226,9 +314,52 @@ There really is a {loonix}, and these people are using it, but it is just a part
                     });
             });
         }
+
+        private int toType(string newType)
+        {
+            switch(newType)
+            {
+                case "FIRE":
+                    return (int)PokeType.FIRE;
+                case "WATER":
+                    return (int)PokeType.WATER;
+                case "ELECTRIC":
+                    return (int)PokeType.ELECTRIC;
+                case "GRASS":
+                    return (int)PokeType.GRASS;
+                case "ICE":
+                    return (int)PokeType.ICE;
+                case "FIGHTING":
+                    return (int)PokeType.FIGHTING;
+                case "POISON":
+                    return (int)PokeType.POISON;
+                case "GROUND":
+                    return (int)PokeType.GROUND;
+                case "FLYING":
+                    return (int)PokeType.FLYING;
+                case "PSYCHIC":
+                    return (int)PokeType.PSYCHIC;
+                case "BUG":
+                    return (int)PokeType.BUG;
+                case "ROCK":
+                    return (int)PokeType.ROCK;
+                case "GHOST":
+                    return (int)PokeType.GHOST;
+                case "DRAGON":
+                    return (int)PokeType.DRAGON;
+                case "DARK":
+                    return (int)PokeType.DARK;
+                case "STEEL":
+                    return (int)PokeType.STEEL;
+                case "NORMAL":
+                    return (int) PokeType.NORMAL;
+                default: return -1;
+            }
+        }
+
         /*
 
-            🌿 or 🍃 or 🌱 Grass
+   🌿 or 🍃 or 🌱 Grass
 ⚡ Electric
 ❄ Ice
 ☁ Fly
@@ -238,7 +369,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
 🐛 Insect
 🌟 or 💫 or ✨ Fairy
 ⛰ or 🏔 or 🗻 Ground
-    */
+*/
         //NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL
         private string GetImage(PokeType t)
         {
@@ -284,9 +415,12 @@ There really is a {loonix}, and these people are using it, but it is just a part
         private int GetDamage(PokeType targetType, PokeType userType, string v)
         {
             var rng = new Random();
-            int damage = rng.Next(0, 100);
+            int damage = rng.Next(40, 60);
             //Default magnification
             double magnifier = 1;
+            var preMoves = DbHandler.Instance.GetAllRows<PokeMoves>();
+
+            Dictionary<string, PokeType> moves = preMoves.ToDictionary(x => x.move, y => (PokeType)y.type);
             if (moves.ContainsKey(v))
             {
                 //Get the PokeType of the move
@@ -311,33 +445,26 @@ There really is a {loonix}, and these people are using it, but it is just a part
 
         private PokeType GetType(ulong id)
         {
-
-            if (setTypes.ContainsKey(id))
+            var db = DbHandler.Instance.GetAllRows<PokeTypes>();
+            Dictionary<long, int> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
+            if (setTypes.ContainsKey((long) id))
             {
-                return setTypes[id];
+                return (PokeType) setTypes[(long) id];
             }
 
             var remainder = id % 16;
             return (PokeType)remainder;
         }
 
-        private enum PokeType
+        public enum PokeType
         {
             NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL
         }
 
-        private static Dictionary<string, PokeType> moves = new Dictionary<string, PokeType>()
-        {
-            {"splash", PokeType.WATER },
-            {"burn", PokeType.FIRE },
-            {"flame", PokeType.FIRE },
-            {"freeze", PokeType.ICE },
-            {"strike", PokeType.GRASS },
-            {"surge", PokeType.ELECTRIC },
-            {"electrocute", PokeType.ELECTRIC }
-
-        };
+       
+        
         //This should actually be saved in a DataModel, but I'm not good at that
+        /*
         private Dictionary<ulong, PokeType> setTypes = new Dictionary<ulong, PokeType>()
         {
             {113760353979990024, PokeType.FIRE},
@@ -345,7 +472,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
             {131474815298174976, PokeType.DRAGON},
             {144807035337179136, PokeType.DARK }
         };
-
+        */
         //For now only HP
         private Dictionary<ulong, int> stats = new Dictionary<ulong, int>();
 

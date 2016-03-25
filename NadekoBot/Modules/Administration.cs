@@ -603,6 +603,8 @@ namespace NadekoBot.Modules {
                           SaveParseToDb<Request>("data/parsedata/Requests.json");
                           SaveParseToDb<Stats>("data/parsedata/Stats.json");
                           SaveParseToDb<TypingArticle>("data/parsedata/TypingArticles.json");
+                          SaveParseToDb<PokeMoves>("data/parsedata/pokemoves.json");
+                          SaveParseToDb<PokeTypes>("data/parsedate/poketypes.json");
                       });
                   });
 
