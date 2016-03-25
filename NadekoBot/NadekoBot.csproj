@@ -136,11 +136,13 @@
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\ServerSpecificConfig.cs" />
     <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
+    <Compile Include="Classes\_DataModels\PokeMoves.cs" />
     <Compile Include="Classes\_DataModels\CommandModel.cs" />
     <Compile Include="Classes\_DataModels\CurrencyStateModel.cs" />
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
+    <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
