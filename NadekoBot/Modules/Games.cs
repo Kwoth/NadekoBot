@@ -8,6 +8,7 @@ using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using NadekoBot.Classes;
 
 namespace NadekoBot.Modules
 {
@@ -107,11 +108,11 @@ namespace NadekoBot.Modules
                         }
                         if (stats[usr.Id] > 0)
                         {
-                            response += $"{usr.Name} has {stats[usr.Id]} Health left!";
+                            response += $"\n{usr.Name} has {stats[usr.Id]} Health left!";
                         }
                         else
                         {
-                            response += $"{usr.Name} has fainted!";
+                            response += $"\n{usr.Name} has fainted!";
                         }
                         await e.Channel.SendMessage($"{ e.User.Mention }{GetImage(GetType(e.User.Id))} {response}");
                     });
@@ -138,21 +139,22 @@ namespace NadekoBot.Modules
                             return;
                         }
                         stats[usr.Id] = BASEHEALTH;
+                        await FlowersHandler.AddFlowersAsync(e.User, $"Healed {usr.Name}", -1);
                         if (HP < 0)
                         {
                             //Could heal only for half HP?
-                            await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name}");
+                            await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} for 🌸");
                             return;
                         }
 
-                        await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {BASEHEALTH - HP} HP");
+                        await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {BASEHEALTH - HP} HP with a 🌸");
                         return;
                     }
                 });
 
                 cgb.CreateCommand(Prefix + "poketype")
                     .Parameter("target", Discord.Commands.ParameterType.Required)
-                    .Description("Gets the users element type. Use this to do more damage with strike!")
+                    .Description("Gets the users element type. Use this to do more damage with strike!\n Current types are: NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL")
                     .Do(async e =>
                     {
                         var usr = e.Server.FindUsers(e.GetArg("target")).FirstOrDefault();
@@ -235,13 +237,13 @@ There really is a {loonix}, and these people are using it, but it is just a part
 ⭕ Normal
 🐛 Insect
 🌟 or 💫 or ✨ Fairy
+⛰ or 🏔 or 🗻 Ground
     */
         //NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL
         private string GetImage(PokeType t)
         {
             switch (t)
             {
-
                 case PokeType.FIRE:
                     return "🔥";
                 case PokeType.WATER:
@@ -252,20 +254,20 @@ There really is a {loonix}, and these people are using it, but it is just a part
                     return "🌿";
                 case PokeType.ICE:
                     return "❄";
-                case PokeType.FIGHTING: //1
-                    return "⚡️";
+                case PokeType.FIGHTING:
+                    return "✊";
                 case PokeType.POISON:
                     return "☠";
-                case PokeType.GROUND: //1
-                    return "⚡️";
+                case PokeType.GROUND:
+                    return "🗻";
                 case PokeType.FLYING:
                     return "☁";
                 case PokeType.PSYCHIC:
                     return "💫";
                 case PokeType.BUG:
                     return "🐛";
-                case PokeType.ROCK: //1
-                    return "⚡️";
+                case PokeType.ROCK: //Bad one
+                    return "💎";
                 case PokeType.GHOST:
                     return "👻";
                 case PokeType.DRAGON:
@@ -293,7 +295,7 @@ There really is a {loonix}, and these people are using it, but it is just a part
                 var specialTypes = pTypes[moveType];
                 if (specialTypes.ContainsKey(targetType))
                 {
-                    //Change magnification if the type is special (as in, super effective or weak)
+                    //Change magnification if the type is special to target (as in, super effective or weak)
                     magnifier = specialTypes[targetType];
                 }
                 //If the move is used by same-type user

@@ -3,8 +3,6 @@
 namespace NadekoBot.Classes {
     internal static class FlowersHandler {
         public static async Task AddFlowersAsync(Discord.User u, string reason, int amount) {
-            if (amount <= 0)
-                return;
             await Task.Run(() => {
                 DbHandler.Instance.InsertData(new _DataModels.CurrencyTransaction {
                     Reason = reason,
@@ -13,10 +11,22 @@ namespace NadekoBot.Classes {
                 });
             });
             var flows = "";
-            for (var i = 0; i < amount; i++) {
-                flows += "🌸";
+            if (amount > 0)
+            {
+                for (var i = 0; i < amount; i++)
+                {
+                    flows += "🌸";
+                }
+                await u.SendMessage("👑Congratulations!👑\nYou got: " + flows);
             }
-            await u.SendMessage("👑Congratulations!👑\nYou got: "+flows);
+            else
+            {
+                for (var i = 0; i > amount; i--)
+                {
+                    flows += "🌸";
+                }
+                await u.SendMessage("You lost " + flows + ", poor you");
+            }
         }
     }
 }
