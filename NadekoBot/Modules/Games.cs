@@ -71,12 +71,12 @@ namespace NadekoBot.Modules
                 .Do(async e =>
                 {
                     var rows = DbHandler.Instance.GetAllRows<PokeMoves>();
-                    string str = $"**Moves:**\n";
+                    string str = $"**Moves:**";
                     var movesOrdered = rows.OrderByDescending(d => d.move);
                     
                     for (int i=0; i< movesOrdered.Count(); i++)
                     {
-                        str += $"\n {movesOrdered.ElementAt(i).move} of type" + GetImage((PokeType) movesOrdered.ElementAt(i).type);
+                        str += $"\n{GetImage((PokeType) movesOrdered.ElementAt(i).type)}{movesOrdered.ElementAt(i).move}";
                     }
 
                         
