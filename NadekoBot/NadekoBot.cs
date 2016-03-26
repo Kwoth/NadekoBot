@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Manatee.StateMachine.Exceptions;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
+using NadekoBot.Modules.pokegame;
 
 namespace NadekoBot {
     public class NadekoBot {
@@ -143,6 +144,7 @@ namespace NadekoBot {
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
+            modules.Add(new Pokegame(), "Pokemon", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 

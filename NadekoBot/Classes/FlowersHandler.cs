@@ -30,6 +30,7 @@ namespace NadekoBot.Classes
 
 
         }
+        //This does not check whether the User CAN pay
         public static async Task SpentFlowersAsync(Discord.User u, string reason, int amount)
         {
             if (amount < 0)
@@ -52,10 +53,8 @@ namespace NadekoBot.Classes
                 flows += "🌸";
             }
             await u.SendMessage($"You've spent {flows} to {reason}");
-
-
-
         }
+        
     }
 
   
