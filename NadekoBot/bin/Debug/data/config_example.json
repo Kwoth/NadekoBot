@@ -2,6 +2,7 @@
   "DontJoinServers": false,
   "ForwardMessages": true,
   "IsRotatingStatus": false,
+  "MagicItems": [],
   "RotatingStatuses": [],
   "CommandPrefixes": {
     "Administration": ".",
@@ -15,7 +16,8 @@
     "Games": ">",
     "Gambling": "$",
     "Permissions": ";",
-    "Programming": "%"
+    "Programming": "%",
+    "Pokemon": "poke"
   },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
