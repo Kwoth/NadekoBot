@@ -385,6 +385,38 @@ namespace NadekoBot.Modules
                         }
                     });
 
+                cgb.CreateCommand("r")
+                .Alias("repeat")
+                .Description("Repeats the currently playing song up to 25 times.\n**Usage**:!m repeat [number of repetitions]")
+                .Parameter("repetitions", ParameterType.Required)
+                .Do(async e =>
+                {
+                    int reps;
+                    int.TryParse(e.GetArg("repetitions"), out reps);
+                    if (reps <= 0 || reps > 25)
+                    {
+                        await e.Channel.SendMessage("Repetitions invalid");
+                        return;
+                    }
+                    MusicPlayer musicPlayer;
+                    if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                        return;
+                    var currentSong = musicPlayer.CurrentSong;
+                    if (currentSong == null)
+                    {
+                        await e.Channel.SendMessage("Nothing is playing");
+                        return;
+                    }
+                    for(int i =0; i< reps; i++)
+                    {
+                        //very basic way
+                        musicPlayer.AddSong(currentSong);
+                    }
+                    
+                    await e.Send($"Done adding `{currentSong.PrettyName}` to the queue {reps} time(s)");
+                });
+
+
                 //cgb.CreateCommand("debug")
                 //    .Description("Does something magical. **BOT OWNER ONLY**")
                 //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
@@ -419,7 +451,7 @@ namespace NadekoBot.Modules
                     {
                         await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
                     }
-                    catch { }
+                    catch { await textCh.SendMessage("error in player"); }
                 };
                 mp.OnStarted += async (s, song) =>
                 {
@@ -431,15 +463,18 @@ namespace NadekoBot.Modules
                         var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
                         await textCh.SendMessage(msgTxt);
                     }
-                    catch { }
+                    catch { await textCh.SendMessage("error in player"); }
                 };
                 return mp;
             });
             var resolvedSong = await Song.ResolveSong(query, musicType);
             resolvedSong.MusicPlayer = musicPlayer;
             if (!silent)
+            {
+
                 await textCh.Send($"🎵`Queued`{resolvedSong.PrettyName}");
-            musicPlayer.AddSong(resolvedSong);
+            }
+                musicPlayer.AddSong(resolvedSong);
         }
     }
 }
