@@ -29,6 +29,9 @@ namespace NadekoBot.Classes
                 conn.CreateTable<UserPokeTypes>();
                 conn.CreateTable<UserQuote>();
                 conn.CreateTable<Reminder>();
+                conn.CreateTable<SongInfo>();
+                conn.CreateTable<PlaylistSongInfo>();
+                conn.CreateTable<MusicPlaylist>();
                 conn.Execute(Queries.TransactionTriggerQuery);
             }
         }
@@ -38,6 +41,14 @@ namespace NadekoBot.Classes
             using (var conn = new SQLiteConnection(FilePath))
             {
                 return conn.Table<T>().Where(p).FirstOrDefault();
+            }
+        }
+
+        internal IList<T> FindAll<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                return conn.Table<T>().Where(p).ToList();
             }
         }
 
@@ -122,6 +133,20 @@ namespace NadekoBot.Classes
                     conn.Insert(o, typeof(T));
                 else
                     conn.Update(o, typeof(T));
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing object or creates a new one
+        /// </summary>
+        internal void SaveAll<T>(IEnumerable<T> ocol) where T : IDataModel, new()
+        {
+            using (var conn = new SQLiteConnection(FilePath))
+            {
+                foreach (var o in ocol)
+                {
+                    conn.InsertOrReplace(o, typeof(T));
+                }
             }
         }
 

@@ -2,14 +2,15 @@
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
+using NadekoBot.Classes._DataModels;
 using NadekoBot.Classes.Music;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Extensions;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Timer = System.Timers.Timer;
 
 namespace NadekoBot.Modules
 {
@@ -19,24 +20,8 @@ namespace NadekoBot.Modules
         public static ConcurrentDictionary<Server, MusicPlayer> MusicPlayers = new ConcurrentDictionary<Server, MusicPlayer>();
         public static ConcurrentDictionary<ulong, float> DefaultMusicVolumes = new ConcurrentDictionary<ulong, float>();
 
-        private readonly Timer setgameTimer = new Timer();
-
-        private bool setgameEnabled = false;
-
         public Music()
         {
-
-            setgameTimer.Interval = 20000;
-            setgameTimer.Elapsed += (s, e) =>
-            {
-                try
-                {
-                    var num = MusicPlayers.Count(kvp => kvp.Value.CurrentSong != null);
-                    NadekoBot.Client.SetGame($"{num} songs".SnPl(num) + $", {MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count())} queued");
-                }
-                catch { }
-            };
-
             // ready for 1.0
             //NadekoBot.Client.UserUpdated += (s, e) =>
             //{
@@ -64,7 +49,7 @@ namespace NadekoBot.Modules
             manager.CreateCommands(Prefix, cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
@@ -128,6 +113,11 @@ namespace NadekoBot.Modules
                     .Do(async e =>
                     {
                         await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("query"));
+                        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
+                        {
+                            await Task.Delay(10000);
+                            await e.Message.Delete();
+                        }
                     });
 
                 cgb.CreateCommand("lq")
@@ -287,7 +277,7 @@ namespace NadekoBot.Modules
                 cgb.CreateCommand("lopl")
                     .Description("Queues up to 50 songs from a directory. **Owner Only!**\n**Usage**: `!m lopl C:/music/classical`")
                     .Parameter("directory", ParameterType.Unparsed)
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
                         var arg = e.GetArg("directory");
@@ -316,12 +306,17 @@ namespace NadekoBot.Modules
                             return;
                         }
                         await QueueSong(e.Channel, e.User.VoiceChannel, e.GetArg("radio_link"), musicType: MusicType.Radio);
+                        if (e.Server.CurrentUser.GetPermissions(e.Channel).ManageMessages)
+                        {
+                            await Task.Delay(10000);
+                            await e.Message.Delete();
+                        }
                     });
 
                 cgb.CreateCommand("lo")
                     .Description("Queues a local file by specifying a full path. **Owner Only!**\n**Usage**: `!m ra C:/music/mysong.mp3`")
                     .Parameter("path", ParameterType.Unparsed)
-                    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
+                    .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
                         var arg = e.GetArg("path");
@@ -365,9 +360,9 @@ namespace NadekoBot.Modules
                         }
                         if (num <= 0 || num > musicPlayer.Playlist.Count)
                             return;
-
+                        var song = (musicPlayer.Playlist as List<Song>)?[num - 1];
                         musicPlayer.RemoveSongAt(num - 1);
-                        await e.Channel.SendMessage($"🎵**Track at position `#{num}` has been removed.**");
+                        await e.Channel.SendMessage($"🎵**Track {song.PrettyName} at position `#{num}` has been removed.**");
                     });
 
                 cgb.CreateCommand("cleanup")
@@ -416,13 +411,124 @@ namespace NadekoBot.Modules
                         var currentValue = musicPlayer.ToggleRepeatPlaylist();
                         await e.Channel.SendMessage($"🎵🔁`Repeat playlist {(currentValue ? "enabled" : "disabled")}`");
                     });
-                //cgb.CreateCommand("debug")
-                //    .Description("Does something magical. **BOT OWNER ONLY**")
-                //    .AddCheck(Classes.Permissions.SimpleCheckers.OwnerOnly())
-                //    .Do(e => {
-                //        var inactivePlayers = 
-                //        Console.WriteLine("");
+
+                cgb.CreateCommand("save")
+                    .Description("Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes.\n**Usage**: `!m save classical1`")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var name = e.GetArg("name")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(name) ||
+                            name.Length > 20 ||
+                            name.Contains("-"))
+                            return;
+
+                        MusicPlayer musicPlayer;
+                        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                            return;
+
+                        //to avoid concurrency issues
+                        var currentPlaylist = new List<Song>(musicPlayer.Playlist);
+                        var curSong = musicPlayer.CurrentSong;
+                        if (curSong != null)
+                            currentPlaylist.Insert(0, curSong);
+
+                        if (!currentPlaylist.Any())
+                            return;
+
+
+                        var songInfos = currentPlaylist.Select(s => new Classes._DataModels.SongInfo
+                        {
+                            Provider = s.SongInfo.Provider,
+                            ProviderType = (int)s.SongInfo.ProviderType,
+                            Title = s.SongInfo.Title,
+                            Uri = s.SongInfo.Uri,
+                            Query = s.SongInfo.Query,
+                        }).ToList();
+
+                        var playlist = new MusicPlaylist
+                        {
+                            CreatorId = (long)e.User.Id,
+                            CreatorName = e.User.Name,
+                            Name = name.ToLowerInvariant(),
+                        };
+                        DbHandler.Instance.SaveAll(songInfos);
+                        DbHandler.Instance.Save(playlist);
+                        DbHandler.Instance.InsertMany(songInfos.Select(s => new PlaylistSongInfo
+                        {
+                            PlaylistId = playlist.Id.Value,
+                            SongInfoId = s.Id.Value
+                        }));
+
+                        await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`");
+
+                    });
+
+                //cgb.CreateCommand("info")
+                //    .Description("Prints music info (queued/finished/playing) only to this channel")
+                //    .Do(async e =>
+                //    {
+                //        MusicPlayer musicPlayer;
+                //        if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
+                //            return;
+                //        musicPlayer
                 //    });
+
+                cgb.CreateCommand("load")
+                    .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
+                    .Parameter("name", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var voiceCh = e.User.VoiceChannel;
+                        var textCh = e.Channel;
+                        if (voiceCh == null || voiceCh.Server != textCh.Server)
+                        {
+                            await textCh.SendMessage("💢 You need to be in a voice channel on this server.\n If you are already in a voice channel, try rejoining.");
+                            return;
+                        }
+                        var name = e.GetArg("name")?.Trim().ToLowerInvariant();
+
+                        if (string.IsNullOrWhiteSpace(name))
+                            return;
+
+                        var parts = name.Split('-');
+                        if (parts.Length != 2)
+                            return;
+                        var playlistName = parts[0];
+
+                        int playlistNumber;
+                        if (!int.TryParse(parts[1], out playlistNumber))
+                            return;
+
+                        var playlist = DbHandler.Instance.FindOne<MusicPlaylist>(
+                            p => p.Id == playlistNumber);
+
+                        if (playlist == null)
+                        {
+                            await e.Channel.SendMessage("Can't find playlist under that name.");
+                            return;
+                        }
+
+                        var psis = DbHandler.Instance.FindAll<PlaylistSongInfo>(psi =>
+                            psi.PlaylistId == playlist.Id);
+
+                        var songInfos = psis.Select(psi => DbHandler.Instance
+                            .FindOne<Classes._DataModels.SongInfo>(si => si.Id == psi.SongInfoId));
+
+                        await e.Channel.SendMessage($"`Attempting to load {songInfos.Count()} songs`");
+                        foreach (var si in songInfos)
+                        {
+                            try
+                            {
+                                await QueueSong(textCh, voiceCh, si.Query, true, (MusicType)si.ProviderType);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Failed QueueSong in load playlist. {ex}");
+                            }
+                        }
+                    });
             });
         }
 
@@ -444,11 +550,19 @@ namespace NadekoBot.Modules
                 if (DefaultMusicVolumes.TryGetValue(server.Id, out throwAway))
                     vol = throwAway;
                 var mp = new MusicPlayer(voiceCh, vol);
+
+
+                Message playingMessage = null;
+                Message lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
                 {
                     try
                     {
-                        await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
+                        if (lastFinishedMessage != null)
+                            await lastFinishedMessage.Delete();
+                        if (playingMessage != null)
+                            await playingMessage.Delete();
+                        lastFinishedMessage = await textCh.SendMessage($"🎵`Finished`{song.PrettyName}");
                     }
                     catch { }
                 };
@@ -460,7 +574,7 @@ namespace NadekoBot.Modules
                     try
                     {
                         var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
-                        await textCh.SendMessage(msgTxt);
+                        playingMessage = await textCh.SendMessage(msgTxt);
                     }
                     catch { }
                 };
@@ -468,9 +582,23 @@ namespace NadekoBot.Modules
             });
             var resolvedSong = await Song.ResolveSong(query, musicType);
             resolvedSong.MusicPlayer = musicPlayer;
-            if (!silent)
-                await textCh.Send($"🎵`Queued`{resolvedSong.PrettyName}");
+
             musicPlayer.AddSong(resolvedSong);
+            if (!silent)
+            {
+                var queuedMessage = await textCh.SendMessage($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count}`");
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () =>
+                {
+                    await Task.Delay(10000);
+                    try
+                    {
+                        await queuedMessage.Delete();
+                    }
+                    catch { }
+                });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
         }
     }
 }

@@ -90,7 +90,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -151,9 +151,12 @@
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
+    <Compile Include="Classes\_DataModels\MusicPlaylist.cs" />
+    <Compile Include="Classes\_DataModels\PlaylistSongInfo.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
     <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
+    <Compile Include="Classes\_DataModels\SongInfo.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
