@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Translator
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "trans")
-                .Description("Translates from>to text. From the given language to the destiation language.")
+                .Description("Translates from>to text. From the given language to the destination language.")
                 .Parameter("langs", ParameterType.Required)
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(TranslateFunc());
@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Translator
             }
             catch
             {
-                await e.Channel.SendMessage("Bad input format, or sth went wrong...");
+                await e.Channel.SendMessage("Bad input format, or something went wrong...");
             }
 
         };

@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5936.28974`
+Version: `NadekoBot v0.9.5945.19933`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -122,7 +122,7 @@ Command and aliases | Description | Usage
 ### Conversations  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`e`  |  You did it.
+`e`  |  You did it. Or someone else!
 `comeatmebro`  |  Come at me bro (ง’̀-‘́)ง  |  comeatmebro {target}
 `\o\`  |  Nadeko replies with /o/
 `/o/`  |  Nadeko replies with \o\
@@ -169,15 +169,15 @@ Command and aliases | Description | Usage
 `$roll`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
-`$$$`  |  Check how much NadekoFlowers you have.
-`$give`  |  Give someone a certain amount of NadekoFlowers
+`$$$`  |  Check how much Dragon Gems you have.
+`$give`  |  Give someone a certain amount of Dragon Gems
 `$award`  |  Gives someone a certain amount of flowers. **Owner only!**
 `$take`  |  Takes a certain amount of flowers from someone. **Owner only!**
 
 ### Games  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>t`  |  Starts a game of trivia.
+`>t`  |  Starts a game of trivia. You can add nohint to prevent hints.First player to get to 10 points wins. 30 seconds per question. | `>t nohint`
 `>tl`  |  Shows a current trivia leaderboard.
 `>tq`  |  Quits current trivia after current question.
 `>typestart`  |  Starts a typing contest.
@@ -187,6 +187,8 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
+`>cah`  |  Starts a game of cards against humanity, mention all players in this message
+`>cahq`  |  Quits current CAH game after current round
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
@@ -217,6 +219,8 @@ Command and aliases | Description | Usage
 `!m cleanup`  |  Cleans up hanging voice connections. **Owner Only!** |  `!m cleanup`
 `!m rcs`, `!m repeatcurrentsong`  |  Toggles repeat of current song. |  `!m rcs`
 `!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
+`!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
+`!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -257,6 +261,8 @@ Command and aliases | Description | Usage
 `~hentai`  |  Shows a random NSFW hentai image from gelbooru and danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~hentai yuri+kissing
 `~danbooru`  |  Shows a random hentai image from danbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~danbooru yuri+kissing
 `~gelbooru`  |  Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
+`~safebooru`  |  Shows a random image from safebooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~safebooru yuri+kissing
+`~rule34`  |  Shows a random image from rule34.xx with a given tag. Tag is optional but preffered. (multiple tags are appended with +) |  ~gelbooru yuri+kissing
 `~e621`  |  Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags. |  ~e621 yuri+kissing
 `~cp`  |  We all know where this will lead you to.
 `~boobs`  |  Real adult content.
@@ -276,23 +282,14 @@ Command and aliases | Description | Usage
 ### Pokegame  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>attack`  |  Attacks a target with the given move
-`>ml`, `movelist`  |  Lists the moves you are able to use
-`>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
-`>type`  |  Get the poketype of the target. |  >type @someone
-`>settype`  |  Set your poketype. Costs a NadekoFlower. |  >settype fire
+`pokeattack`  |  Attacks a target with the given move
+`pokeml`, `movelist`  |  Lists the moves you are able to use
+`pokeheal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | pokerevive @someone
+`poketype`  |  Get the poketype of the target. |  poketype @someone
+`pokesettype`  |  Set your poketype. Costs a Dragon Gem. |  pokesettype fire
 
 ### Translator  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~trans`  |  Translates from>to text. From the given language to the destiation language.
 `~translangs`  |  List the valid languages for translation.
-
-### Trello  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`trello  join`, `trello  j`  |  Joins a server
-`trello  bind`  |  Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited. |  bind [board_id]
-`trello  unbind`  |  Unbinds a bot from the channel and board.
-`trello  lists`, `trello  list`  |  Lists all lists yo ;)
-`trello  cards`  |  Lists all cards from the supplied list. You can supply either a name or an index.
