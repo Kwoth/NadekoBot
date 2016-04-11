@@ -21807,8 +21807,8 @@
     "Answer": "Frog"
   },
   {
-    "Category": "Art & Literature: In JRR Tolkien's Lord of the Rings, 3 wizards are mentioned by name",
-    "Question": " Gandalf, Saruman, and who?",
+    "Category": "Art & Literature",
+    "Question": " In JRR Tolkien's Lord of the Rings, 3 wizards are mentioned by name: Gandalf, Saruman, and who?",
     "Answer": "Radagast"
   },
   {
@@ -21827,8 +21827,8 @@
     "Answer": "Australia"
   },
   {
-    "Category": "History: True or false",
-    "Question": " French was never the official language of England.",
+    "Category": "History",
+    "Question": " True or false: French was never the official language of England.",
     "Answer": "False. French was the official language for over 600 years."
   },
   {
@@ -21837,8 +21837,8 @@
     "Answer": "Hawaii"
   },
   {
-    "Category": "Science & Nature: True or False",
-    "Question": " 10 percent of professional boxers have suffered brain damage.",
+    "Category": "Science & Nature",
+    "Question": " True or False: 10 percent of professional boxers have suffered brain damage.",
     "Answer": "False, over 80% have suffered brain damage"
   },
   {
@@ -21847,8 +21847,8 @@
     "Answer": "St. Petersburg, Russia"
   },
   {
-    "Category": "Language: True or false",
-    "Question": " The word 'karate' means 'empty hand'.",
+    "Category": "Language",
+    "Question": " True or false: The word 'karate' means 'empty hand'.",
     "Answer": "True"
   },
   {
@@ -21864,7 +21864,7 @@
   {
     "Category": "Geography",
     "Question": " How many cities in the world boast populations in excess of 1 million people; over 50, over 200, over 300 or over 400?",
-    "Answer": "over 300"
+    "Answer": "Over 300"
   },
   {
     "Category": "Mythology",
@@ -21894,12 +21894,12 @@
   {
     "Category": "Science & Nature",
     "Question": " The blood of mammals is red. What color is a lobster's blood?",
-    "Answer": "blue"
+    "Answer": "Blue"
   },
   {
     "Category": "Languages",
     "Question": " What is the world's most widely spoken language?",
-    "Answer": "the Mandarin dialect of Chinese"
+    "Answer": "The Mandarin dialect of Chinese"
   },
   {
     "Category": "Geography",
@@ -21909,7 +21909,7 @@
   {
     "Category": "Science & Nature",
     "Question": " If offered a new pen to write with, what will 97% of people do with it?",
-    "Answer": "write their own name"
+    "Answer": "Write their own name"
   },
   {
     "Category": "Science & Nature",
@@ -21929,17 +21929,17 @@
   {
     "Category": "Science & Nature",
     "Question": " The blood of mammals is red. What color is insect's blood?",
-    "Answer": "yellow"
+    "Answer": "Yellow"
   },
   {
     "Category": "Science & Nature",
     "Question": " What does a speleologist study?",
-    "Answer": "studies caves"
+    "Answer": "Studies caves"
   },
   {
     "Category": "UnitedStates",
     "Question": " Which product is more money spent on per year, baby food or pet food?",
-    "Answer": "pet food"
+    "Answer": "Pet food"
   },
   {
     "Category": "Geography",
@@ -21947,8 +21947,8 @@
     "Answer": "Greenland, at 840,000 square miles"
   },
   {
-    "Category": "Geography: True or false",
-    "Question": " In Paraguay dueling is still legal as long as both parties are registered blood donors.",
+    "Category": "Geography",
+    "Question": " True or false: In Paraguay dueling is still legal as long as both parties are registered blood donors.",
     "Answer": "True"
   },
   {
@@ -21984,17 +21984,17 @@
   {
     "Category": "Science & Nature",
     "Question": " What insect is known for being a carrier of malaria, encephalitis, yellow fever and dengue fever?",
-    "Answer": "mosquitos"
+    "Answer": "Mosquitos"
   },
   {
     "Category": "Science & Nature",
     "Question": " Which part of your body accounts for one quarter of the bones your body contains?",
-    "Answer": "your feet"
+    "Answer": "Your feet"
   },
   {
     "Category": "Science & Nature",
     "Question": " What does a person with hexidectylism have?",
-    "Answer": "six fingers or six toes"
+    "Answer": "Six fingers or six toes"
   },
   {
     "Category": "Geography",
@@ -22054,7 +22054,7 @@
   {
     "Category": "Geography",
     "Question": " Rome was originally built on how many hills?",
-    "Answer": "seven"
+    "Answer": "Seven"
   },
   {
     "Category": "Geography",
@@ -22074,7 +22074,7 @@
   {
     "Category": "Literature",
     "Question": " Who or what was the only one to recognize Odysseus when he arrived home after an absence of 20 years?",
-    "Answer": "his dog, Argus"
+    "Answer": "His dog, Argus"
   },
   {
     "Category": "Literature",
@@ -22107,9 +22107,9 @@
     "Answer": "The Great Lakes"
   },
   {
-    "Category": "Science & Nature: A zebra is which",
-    "Question": " black with white stripes or white with black stripes?",
-    "Answer": "white with black stripes"
+    "Category": "Science & Nature",
+    "Question": " A zebra is which: black with white stripes or white with black stripes?",
+    "Answer": "White with black stripes"
   },
   {
     "Category": "Science & Nature",
@@ -22429,12 +22429,12 @@
   {
     "Category": "Science & Nature",
     "Question": " Which can last longer without water, a camel or a rat?",
-    "Answer": "a rat"
+    "Answer": "A rat"
   },
   {
     "Category": "Science & Nature",
     "Question": " Which is bigger, an ostrich's eye or it's brain?",
-    "Answer": "it's eye"
+    "Answer": "It's eye"
   },
   {
     "Category": "Science & Nature",
@@ -22442,34 +22442,34 @@
     "Answer": "3"
   },
   {
-    "Category": "Science & Nature: True or false",
-    "Question": " Snakes are immune to their own poison.",
-    "Answer": "true"
+    "Category": "Science & Nature",
+    "Question": " True or false: Snakes are immune to their own poison.",
+    "Answer": "True"
   },
   {
     "Category": "Science & Nature",
     "Question": " Which insect is responsible for the most human deaths world-wide?",
-    "Answer": "mosquito"
+    "Answer": "Mosquito"
   },
   {
-    "Category": "Science & Nature: True or false",
-    "Question": " The bones of a pidgeon weigh less than it's feathers.",
-    "Answer": "true"
+    "Category": "Science & Nature",
+    "Question": " True or false: The bones of a pidgeon weigh less than it's feathers.",
+    "Answer": "True"
   },
   {
     "Category": "Science & Nature",
     "Question": " What bird is the only bird in the world that can fly backwards?",
-    "Answer": "the hummingbird"
+    "Answer": "The hummingbird"
   },
   {
     "Category": "Science & Nature",
     "Question": " Name the national bird of New Zealand?",
-    "Answer": "the Kiwi"
+    "Answer": "The Kiwi"
   },
   {
     "Category": "Science & Nature",
     "Question": " What is the most common mammal in the United States?",
-    "Answer": "the mouse"
+    "Answer": "The mouse"
   },
   {
     "Category": "Science & Nature",
@@ -22479,12 +22479,12 @@
   {
     "Category": "Science & Nature",
     "Question": " Whose venom is more potent, a rattlesnake's or a female black widow spider's?",
-    "Answer": "the female black widow spider's"
+    "Answer": "The female black widow spider's"
   },
   {
     "Category": "Science & Nature",
     "Question": " What is the world's largest mammal?",
-    "Answer": "the blue whale"
+    "Answer": "The blue whale"
   },
   {
     "Category": "Science & Nature",
@@ -22544,7 +22544,7 @@
   {
     "Category": "Monsters",
     "Question": " What was the only thing that Beetlejuice was afraid of?",
-    "Answer": "sand worms"
+    "Answer": "Sand worms"
   },
   {
     "Category": "Characters",
@@ -22597,9 +22597,9 @@
     "Answer": "Christopher Lee"
   },
   {
-    "Category": "Complete The Quote: Complete this quote",
-    "Question": " 'Soylent Green is...'",
-    "Answer": "people"
+    "Category": "Complete The Quote",
+    "Question": " Complete this quote: 'Soylent Green is...'",
+    "Answer": "People"
   },
   {
     "Category": "Characters",
@@ -22609,7 +22609,7 @@
   {
     "Category": "General Knowledge",
     "Question": " To what was Dracula referring to as 'children of the night'?",
-    "Answer": "wolves"
+    "Answer": "Wolves"
   },
   {
     "Category": "Horror Roles",
@@ -22624,12 +22624,12 @@
   {
     "Category": "Monsters",
     "Question": " The monsters in the film, 'Them', were giant, what?",
-    "Answer": "ants"
+    "Answer": "Ants"
   },
   {
     "Category": "General Knowledge",
     "Question": " What type of bat is most often used in horror films?",
-    "Answer": "flying fox"
+    "Answer": "Flying fox"
   },
   {
     "Category": "Horror Roles",
@@ -22642,9 +22642,9 @@
     "Answer": "Damien"
   },
   {
-    "Category": "Complete The Quote: Complete this quote",
-    "Question": " 'It's alive!...'",
-    "Answer": "it's alive"
+    "Category": "Complete The Quote",
+    "Question": " Complete this quote: 'It's alive!...'",
+    "Answer": "It's alive"
   },
   {
     "Category": "General Knowledge",
@@ -22679,7 +22679,7 @@
   {
     "Category": "Monsters",
     "Question": " In 'King Kong vs. Godzilla', who won?",
-    "Answer": "neither"
+    "Answer": "Neither"
   },
   {
     "Category": "Horror Roles",
@@ -22694,12 +22694,12 @@
   {
     "Category": "General Knowledge",
     "Question": " What was Norman Bates' hobby in 'Psycho'?",
-    "Answer": "taxidermy"
+    "Answer": "Taxidermy"
   },
   {
-    "Category": "Complete The Quote: Complete this quote from the monster in Frankenstein",
-    "Question": " 'Fire...'",
-    "Answer": "bad!"
+    "Category": "Complete The Quote",
+    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'",
+    "Answer": "Bad!"
   },
   {
     "Category": "Monsters",
@@ -22709,7 +22709,7 @@
   {
     "Category": "Characters",
     "Question": " What role did Christopher Lee play in Hammer's 'The Curse of Frankenstein'?",
-    "Answer": "monster"
+    "Answer": "Monster"
   },
   {
     "Category": "General Knowledge",
@@ -22724,7 +22724,7 @@
   {
     "Category": "Characters",
     "Question": " What character did Vincent Price play in 'Abbott and Costello meet Frankenstein'?",
-    "Answer": "invisible man"
+    "Answer": "Invisible man"
   },
   {
     "Category": "General Knowledge",
@@ -22739,7 +22739,7 @@
   {
     "Category": "Monsters",
     "Question": " What was the name of the clown in Stephen King's 'IT'?",
-    "Answer": "pennywise"
+    "Answer": "Pennywise"
   },
   {
     "Category": "Characters",
@@ -22747,9 +22747,9 @@
     "Answer": "Seth Brundle"
   },
   {
-    "Category": "Complete The Quote: Complete this quote",
-    "Question": " 'Enter freely, of your own will, and leave some of the...'",
-    "Answer": "happiness you bring"
+    "Category": "Complete The Quote",
+    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'",
+    "Answer": "Happiness you bring"
   },
   {
     "Category": "General Knowledge",
