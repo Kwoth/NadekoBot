@@ -111,7 +111,7 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
                     $"Current Card Czar = {currentCzar.Mention}\n" +
                     $"Black Card:\n" +
                     $"{currentBlackCard.ToString()}\n" +
-                    $"**SET YOUR CHOICE BY SENDING INDEX OF CARD TO CHAT: a number from 0-{CAHStats.HandSize -1}**\n"+
+                    $"**SET YOUR CHOICE BY SENDING INDEX OF CARD TO CHAT: a number from 1-{CAHStats.HandSize}**\n"+
                     "If multiple cards are asked, seperate them with commas: `1,2`");
 
                 //send the players their cards
@@ -340,14 +340,16 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
         {
             try
             {
+                #region checks
                 //Getting the messages we want
                 if (e.Channel.IsPrivate) return; //Because the default message would show up as well
                 if (e.Server != server) return; 
                 if (!Players.Keys.Contains(e.User)) return; //Only track current players
                 if (e.User == currentCzar && !CzarDecision) return;
                 if (CzarDecision && e.User != currentCzar) return;
+                #endregion
 
-
+                #region CzarDecision
                 //if the Tzar is making the decision
                 if (CzarDecision)
                 {
@@ -395,7 +397,9 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
                     await FlowersHandler.AddFlowersAsync(winner, "Won CAH", 2);
                     return;
                 }
+                #endregion
 
+                #region regularPlayers
                 var msg = e.Message.Text;
                 var cardSet = new HashSet<CAHWhiteCard>();
                 CAHStats stat;
@@ -433,10 +437,23 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
                 }
 
                 
-               
+                
                 var newIndex = getRandomIndex();
                 var kvp = new KeyValuePair<User, HashSet<CAHWhiteCard>>(e.User, cardSet);
-                WhiteCardsAssortment.AddOrUpdate(newIndex, x=> kvp, (x,y) => kvp);
+                var containing = false;
+                WhiteCardsAssortment.Values.ForEach(x =>
+                {
+                    if (x.Key == e.User) {
+                        containing = true;
+                        var toUpdate = WhiteCardsAssortment.Where(y => y.Value.Equals(x)).First();
+                        WhiteCardsAssortment.TryUpdate(toUpdate.Key, kvp, toUpdate.Value);
+                    }
+                });
+                if (!containing)
+                {
+                    WhiteCardsAssortment.TryAdd(newIndex, kvp);
+                }
+                
                 //chosenWhiteCards.Add(e.User, stat.Hand[index]); //catch the outofRangeExceptions
                 var unset = unSetPlayers();
                 await channel.SendMessage($"Registered chosen card(s) for {e.User.Mention}\n{unset}");
@@ -444,8 +461,11 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
                 {
                     allChosen = true;
                 }
-            } catch (IndexOutOfRangeException)
+                #endregion
+            }
+            catch (IndexOutOfRangeException)
             {
+                //This shouldn't happen anymore
                 await channel.SendMessage("Index given was out of range");
             }
             catch (Exception ex)
@@ -540,7 +560,7 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
         /// <summary>
         /// A random index between the limits
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Random index</returns>
         private int getRandomIndex()
         {
             var random = new Random();
