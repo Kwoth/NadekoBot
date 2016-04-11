@@ -1,7 +1,353 @@
 [
   {
-    "Question": "7x was used to refer to the secret ingredient of what drink",
-    "Answer": "coca cola"
+    "Category": "Biology",
+    "Question": " What's the fastest man can run - 18, 28 or 38 miles per hour?",
+    "Answer": "28"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which is bigger, an ostrich's eye or it's brain?",
+    "Answer": "It's eye"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many eyelids does a camel's eye have?",
+    "Answer": "3"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True or false: Snakes are immune to their own poison.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which insect is responsible for the most human deaths world-wide?",
+    "Answer": "Mosquito"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True or false: The bones of a pidgeon weigh less than it's feathers.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What bird is the only bird in the world that can fly backwards?",
+    "Answer": "The hummingbird"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the most common mammal in the United States?",
+    "Answer": "The mouse"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The poison-arrow frog has enough poison to kill how many people; 10, 500, 1,200 or 2,200?",
+    "Answer": "2,200"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Whose venom is more potent, a rattlesnake's or a female black widow spider's?",
+    "Answer": "The female black widow spider's"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the world's largest mammal?",
+    "Answer": "The blue whale"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Of the approximately 2,600 different species of frogs, what is the only continent that they don't live on?",
+    "Answer": "Antartica"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What well-known ancient site in England is 1,500 years older then the Colosseum in Rome?",
+    "Answer": "Stonehenge"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the national bird of New Zealand?",
+    "Answer": "The Kiwi"
+  },
+  {
+    "Category": "Geography",
+    "Question": " How tall is the Eiffel Tower; 196, 583, 721 or 984 feet?",
+    "Answer": "984"
+  },
+  {
+    "Category": "History",
+    "Question": " Who did Cleopatra wed after frustrating marriages with her two younger brothers?",
+    "Answer": "Marc Antony"
+  },
+  {
+    "Category": "History",
+    "Question": " What name did Mohammed A. Salameh use when he rented the van that carried the bomb that blew up the World Trade Center in New York City?",
+    "Answer": "Mohammed A. Salameh"
+  },
+  {
+    "Category": "History",
+    "Question": " What building did a wayward B-25 smack the 78th floor of in 1945?",
+    "Answer": "The Empire State Building"
+  },
+  {
+    "Category": "History",
+    "Question": " What war cost an average of one billion dollars a day?",
+    "Answer": "The Persian Gulf War"
+  },
+  {
+    "Category": "History",
+    "Question": " True or false: The Jordanian city, Amman, was once called Philadelphia.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Who wrote the novel, 'Jaws'?",
+    "Answer": "Peter Benchley"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1986 remake of 'The Fly', what was the name of the scientist that accidentally had his dna mixed with that of a fly?",
+    "Answer": "Seth Brundle"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the movie 'Godzilla', what was the name of Godzilla's son?",
+    "Answer": "Minya"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Wolfman', what was Lon Chaney Jr's human name?",
+    "Answer": "Larry Talbot"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'",
+    "Answer": "Happiness you bring"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Halloween', Michael Myers' mask was made from the novelty Halloween mask of what well-known actor?",
+    "Answer": "William Shatner"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'Leprechaun' series, who played the title character?",
+    "Answer": "Warwick Davis"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Who was the '50's horror film hostess that also appeared in 'Plan 9 from Outer Space'?",
+    "Answer": "Vampira"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was the only thing that Beetlejuice was afraid of?",
+    "Answer": "Sand worms"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was the name of the Addams Family butler?",
+    "Answer": "Lurch"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Rosemary's Baby', which actress played the mother?",
+    "Answer": "Mia Farrow"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Rocky Horror Picture Show', what was the name of the Faithful Handyman?",
+    "Answer": "Riff Raff"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Which actor has played Dracula in more films than anyone else?",
+    "Answer": "Christopher Lee"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'Soylent Green is...'",
+    "Answer": "People"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1921's 'Nosferatu', what was the name of the villian?",
+    "Answer": "Count Orlock"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To what was Dracula referring to as 'children of the night'?",
+    "Answer": "Wolves"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1943's 'Son of Dracula', which actor played Count Alucard?",
+    "Answer": "Lon Chaney Jr"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1931 film 'Frankenstein', what was the doctor's first name?",
+    "Answer": "Henry"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'A Nightmare on Elm Street', how many blades were on Freddy Kruger's glove?",
+    "Answer": "4"
+  },
+  {
+    "Category": "Movies",
+    "Question": "  In 'Interview with the Vampire', in what city does the interview take place?",
+    "Answer": "San Fransisco"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1985's 'Teen Wolf', what television star played the title role?",
+    "Answer": "Michael J. Fox"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Abbott and Costello meet Frankenstein', what character did Vincent Price play?",
+    "Answer": "Invisible man"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Munsters', what was 'The Munsters''s street address?",
+    "Answer": "1313 Mockingbird Lane"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Love at First Bite', who played Dracula?",
+    "Answer": "George Hamilton"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In Stephen King's 'IT', what was the name of the clown?",
+    "Answer": "Pennywise"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Halloween H20', who played Jamie Lee Curtis' 'Psycho' mother?",
+    "Answer": "Janet Leigh"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'The Evil Dead' trilogy, what was the name of the hero played by Bruce Campbell?",
+    "Answer": "Ash"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Psycho', what was Norman Bates' hobby?",
+    "Answer": "Taxidermy"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'",
+    "Answer": "Bad!"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'From Dusk Til Dawn', the 'heroes' stumble into a nightclub full of what?",
+    "Answer": "Vampires"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In Hammer's 'The Curse of Frankenstein', what role did Christopher Lee play?",
+    "Answer": "Monster"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1957's 'I was a Teenage Werewolf', which television star played the title role?",
+    "Answer": "Michael Landon"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1925's 'The Phantom of the Opera', what was the title character's name?",
+    "Answer": "Eric"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was Bela Lugosi's real name?",
+    "Answer": "Bela Blasko"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1986 remake of 'The Little Shop of Horrors', Who played the masochistic dental patient?",
+    "Answer": "Bill Murray"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What actress played in the movies 'Firestarter' and 'E.T.'?",
+    "Answer": "Drew Barrymore"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'King Kong vs. Godzilla', who won?",
+    "Answer": "Neither"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the film 'Them', the monsters were giant what?",
+    "Answer": "Ants"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What type of bat is most often used in horror films?",
+    "Answer": "Flying fox"
+  },
+  {
+    "Category": "Movies",
+    "Question": " On the original 'The Munsters' television series, who played Herman?",
+    "Answer": "Fred Gwynne"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'Omen' trilogy, what was the name of the antichrist character?",
+    "Answer": "Damien"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'It's alive!...'",
+    "Answer": "It's alive"
+  },
+  {
+    "Category": "General Knowledge",
+    "Question": " In 'War of the Worlds', what finally destroyed the aliens?",
+    "Answer": "germs"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Nightmare on Elm Street', what young actor was eaten by a bed?",
+    "Answer": "Johnny Depp"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Blair Witch Project', what was the town of Blair renamed as?",
+    "Answer": "Burkittsville"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Carrie', who played the title role?",
+    "Answer": "Sissy Spacek"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Who was billed as the 'Man of 1000 Faces'?",
+    "Answer": "Lon Chaney"
+  },
+  {
+    "Category": "Other",
+    "Question": " Who is friends of Nadekobot?",
+	"Answer": "RoboNitori and Bakabot"
+  },
+  {
+	"Category": "Other"
+    "Question": " '7x' was used to refer to the secret ingredient of what drink?",
+    "Answer": "Coca Cola"
+  },
+  {
+    "Category": "Science",
+    "Question": " What invention rendered the short-lived Pony Express delivery service unnecessary?",
+    "Answer": "The telegraph"
   },
   {
     "Question": "And the big wheel keep on turning neon burning up above and I'm just high on the world come on and take the low ride with me girl on the..... What's the Dire Straits song title?",
@@ -7030,87 +7376,87 @@
     "Answer": "ten years"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " What band did James Brown tour and record with in the 1950's?",
     "Answer": "The Famous Flames"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " What brother and sister duo produced a show in their family studio",
     "Answer": "donny and marie osmond"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " what composer and organist was married twice and had 20 children;johann sebastian bach",
     "Answer": "bach"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " What song by Frankie Avalon went to #1 in 1959?",
     "Answer": "Venus"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " what song of shania twain's was on the notting hill soundtrack",
     "Answer": "you've"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " what was Steve Miller's magical incantation in 1982",
     "Answer": "abracadabra"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " what were frankie and johnny to each other in the old song",
     "Answer": "lovers"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " What year did Chet Atkins release his first solo album",
     "Answer": "1953"
   },
   {
-    "Category": "music",
+    "Category": "Musics",
     "Question": " who is the late kurt coabain's widow?",
     "Answer": "courtney love"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who re-recorded 'Secret Agent Man' in 1979?",
     "Answer": "Devo"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " who recorded 'i want you to want me' on epic records in 1979",
     "Answer": "cheap"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who recorded 'Be True to your School' in 1963",
     "Answer": "The Beach Boys"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who recorded 'Cuts Like a Knife' in 1983?",
     "Answer": "Bryan Adams"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " who recorded the 1966 hit song 'barbara ann'",
     "Answer": "beach boys"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who recorded the 1969 hit song 'Let's Work Together'",
     "Answer": "wilbert harrison"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who replaced 'Bernie Leadon' of 'The Eagles' in 1975?",
     "Answer": "Joe Walsh"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who sang 'Everybody wants to Rule the World?'",
     "Answer": "Tears for fears"
   },
@@ -7555,8 +7901,8 @@
     "Answer": "Mother Teresa"
   },
   {
-    "Category": "Quotations: 'Here is the test to find whether your ------------ is finished",
-    "Question": " if you're alive, it isn't.'- Richard Bach",
+    "Category": "Quotations",
+    "Question": " 'Here is the test to find whether your ------------ is finished: if you're alive, it isn't.'- Richard Bach",
     "Answer": "mission on earth"
   },
   {
@@ -9731,9 +10077,9 @@
     "Answer": "fifty"
   },
   {
-    "Category": "UnScramble this Word",
-    "Question": " y g u o n",
-    "Answer": "young"
+    "Category": "Other",
+    "Question": " UnScramble this Word: y g u o n",
+    "Answer": "Young"
   },
   {
     "Question": "Until 1947, what did 'gripe water' contain",
@@ -15799,36 +16145,39 @@
     "Answer": "balaclava helmet"
   },
   {
-    "Category": "Words containing for",
-    "Question": " many trees",
+    "Category": "Other",
+    "Question": " Words containing for many trees",
     "Answer": "forest"
   },
   {
-    "Category": "Words containing pot or pan",
-    "Question": " Tyrant;despot;despotic",
+    "Category": "Other",
+    "Question": " Words containing pot or pan: Tyrant;despot;despotic",
     "Answer": "potentate"
   },
   {
+	"Category": "Science"
     "Question": "Workshop for casting metal",
-    "Answer": "foundry"
+    "Answer": "Foundry"
   },
   {
-    "Question": "Wreath of flowers used as a decoration",
-    "Answer": "garland"
+	"Category": "Biology"
+    "Question": "What wreath of flowers is used as a decoration?",
+    "Answer": "Garland"
   },
   {
+	"Category": "Movies"
     "Question": "Wwhat is the name of Mulder and Scully's supervisor on the X-files?",
     "Answer": "Walter Skinner"
   },
   {
-    "Category": "X-Men Comics",
+    "Category": "Literatures",
     "Question": " Gahck battled wolverine here",
     "Answer": "savage land"
   },
   {
-    "Category": "X-Men Comics",
-    "Question": " Wolverine and SpiderMan discovered the identity of HobGoblin Here",
-    "Answer": "berlin"
+    "Category": "Literatures",
+    "Question": " Where Wolverine and SpiderMan discovered the identity of HobGoblin?",
+    "Answer": "Berlin"
   },
   {
     "Question": "Year in which the Battle of Balaklava took place",
@@ -15836,7 +16185,7 @@
   },
   {
     "Question": "You have to run 360 feet if you hit a ______",
-    "Answer": "home run"
+    "Answer": "Home run"
   },
   {
     "Question": "Young man paid by older woman to be escort or lover",
@@ -15847,8 +16196,8 @@
     "Answer": "Raging Bull"
   },
   {
-    "Category": "Sports & Leisure",
-    "Question": " Who said, 'You don't know what a weight it was off my shoulders, a tremendous weight,' on April 8, 1974?",
+    "Category": "Sports",
+    "Question": " Who said: 'You don't know what a weight it was off my shoulders, a tremendous weight,' on April 8, 1974?",
     "Answer": "Hank Aaron"
   },
   {
@@ -18057,7 +18406,7 @@
     "Answer": "Impedence"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What did they use for croquet mallets in Wonderland?",
     "Answer": "Flamingoes"
   },
@@ -18812,7 +19161,7 @@
     "Answer": "Jules Leotard"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " Who wrote 'The Sun Also Rises' ?",
     "Answer": "Ernest Hemingway"
   },
@@ -20447,23 +20796,23 @@
     "Answer": "Abraham Lincoln"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " Who's the only NBA player to have scored 4,000 points in a season?",
     "Answer": "Wilt Chamberlain"
   },
   {
-    "Category": "People & Places",
+    "Category": "Geography",
     "Question": " What North African capital was built atop the ancient city of Memphis?",
     "Answer": "Cairo"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " How many miles away did lightning strike, if you heard thunder five seconds after you saw it?",
     "Answer": "One"
   },
   {
-    "Category": "Science & Nature: Who noted",
-    "Question": " 'It will make a big bang - a very big bang - but it is not a weapon which is useful in war'?",
+    "Category": "History",
+    "Question": " Who noted: 'It will make a big bang - a very big bang - but it is not a weapon which is useful in war'?",
     "Answer": "J. Robert Oppenheimer"
   },
   {
@@ -20512,17 +20861,17 @@
     "Answer": "Saudi Arabia"
   },
   {
-    "Category": "People & Places",
+    "Category": "Musics",
     "Question": " Where can you make it, if you can make it here, according to a Frank Sinatra hit?",
     "Answer": "Anywhere"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " What legendary recording artist was coined 'The King of Pop' by actress Elizabeth Taylor?",
     "Answer": "Michael Jackson"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " What country did Switzerland tie in the first World Cup soccer game held indoors?",
     "Answer": "The U.S."
   },
@@ -21022,12 +21371,12 @@
     "Answer": "Napoleon"
   },
   {
-    "Category": "People & Places: Who opined",
-    "Question": " 'Everybody has a right to pronounce foreign names as he chooses'?",
+    "Category": "History",
+    "Question": " Who opined: 'Everybody has a right to pronounce foreign names as he chooses'?",
     "Answer": "Winston Churchill"
   },
   {
-    "Category": "People & Places",
+    "Category": "History",
     "Question": " How did Rasputin die, after being poisoned, shot, beaten, bound and thrown in the Neva River?",
     "Answer": "He drowned"
   },
@@ -21057,22 +21406,22 @@
     "Answer": "Wisconsin"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " What member of the 1919 Black Sox was banned from baseball despite a World Series-best .375 average?",
     "Answer": "Shoeless Joe Jackson"
   },
   {
-    "Category": "People & Places",
+    "Category": "History",
     "Question": " What section of Los Angeles did these National Guardsmen patrol during this 1965 riot?",
     "Answer": "Watts"
   },
   {
-    "Category": "World",
+    "Category": "Movies",
     "Question": " What David Lynch movie might some film buffs have attended expecting to see Bobby Vinton's life story?",
     "Answer": "Blue Velvet"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " Who left Genesis in 1975?",
     "Answer": "Peter Gabriel"
   },
@@ -21087,7 +21436,7 @@
     "Answer": "Wampum"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What feathered creature is sometimes called the 'man-o'-war bird'?",
     "Answer": "The frigate bird"
   },
@@ -21102,12 +21451,12 @@
     "Answer": "The Hail Mary"
   },
   {
-    "Category": "History: Whose 1923 death prompted Henry Cabot Lodge to gush",
-    "Question": " 'My God! That means Coolidge is president'?",
+    "Category": "History",
+    "Question": " Whose 1923 death prompted Henry Cabot Lodge to gush: 'My God! That means Coolidge is president'?",
     "Answer": "Warren G. Harding's"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "History",
     "Question": " What did Nikita Khrushchev call the rocket NASA tried to launch two months after 'Sputnik' made history?",
     "Answer": "Kaputnik"
   },
@@ -21132,12 +21481,12 @@
     "Answer": "Wyoming"
   },
   {
-    "Category": "World",
+    "Category": "Music",
     "Question": " What Beatles album had just come out when John Lennon dressed up a Rolls-Royce?",
     "Answer": "Sgt. Pepper's Lonely Hearts Club Band"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What does a television set have if it comes with 'PIP'?",
     "Answer": "Picture-in-picture"
   },
@@ -21147,22 +21496,22 @@
     "Answer": "World War I"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " How many natural satellites does Earth have?",
     "Answer": "One"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "History",
     "Question": " What member of Bill Clinton's administration first championed the information highway?",
     "Answer": "Al Gore"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What's the most abundant element on earth?",
     "Answer": "Oxygen"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What's the astronomical phenomenon where the moon partially covers the sun called?",
     "Answer": "An eclipse"
   },
@@ -21172,12 +21521,12 @@
     "Answer": "Christopher Columbus'"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What oceanic climatic condition is named after the Spanish term for 'the Christ Child'?",
     "Answer": "El Nino"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Music",
     "Question": " What letter does the first four notes of Beethoven's Fifth Symphony denote in Morse code, making it a onetime favorite of the Allies?",
     "Answer": "V"
   },
@@ -21187,17 +21536,17 @@
     "Answer": "Zero"
   },
   {
-    "Category": "Science & Nature: What product did you need if you marveled",
-    "Question": " 'I can't believe I ate the whole thing'?",
+    "Category": "Science & Nature",
+    "Question": " What product did you need if you marveled: 'I can't believe I ate the whole thing'?",
     "Answer": "Alka-Seltzer"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " What Olympic skater worked off her community service sentence serving meals to Oregon's elderly?",
     "Answer": "Tonya Harding"
   },
   {
-    "Category": "People & Places",
+    "Category": "History",
     "Question": " What country did the U.S. and Britain blame for the 1988 plane bombing over Scotland?",
     "Answer": "Libya"
   },
@@ -21212,17 +21561,17 @@
     "Answer": "Judy Garland"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " What was received on the second day of Christmas, according to the song?",
     "Answer": "Two turtledoves"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "History",
     "Question": " Who did the Roman Catholic Church admit was right 350 years ago to suggest Earth revolved around the sun?",
     "Answer": "Galileo"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What's the term for chemicals that kill weeds and unwanted plants?",
     "Answer": "Herbicides"
   },
@@ -21237,17 +21586,17 @@
     "Answer": "Franklin D. Roosevelt"
   },
   {
-    "Category": "History: Who warned in 1917",
-    "Question": " 'This is only a preliminary step toward a similar revolution everywhere'?",
+    "Category": "History",
+    "Question": " Who warned in 1917: 'This is only a preliminary step toward a similar revolution everywhere'?",
     "Answer": "V.I. Lenin"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " What English-language song is the most frequently sung?",
     "Answer": "Happy Birthday to You"
   },
   {
-    "Category": "People & Places",
+    "Category": "Geography",
     "Question": " What skyscraper shares New York state's nickname?",
     "Answer": "The Empire State Building"
   },
@@ -21257,22 +21606,22 @@
     "Answer": "Orville and Wilbur Wright"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " What U.S. president asked for rules changes after 18 players died during the 1905 football season?",
     "Answer": "Theodore Roosevelt"
   },
   {
-    "Category": "People & Places",
+    "Category": "Geography",
     "Question": " What president was so unpopular that he almost didn't get his name on a dam?",
     "Answer": "Herbert Hoover"
   },
   {
-    "Category": "World",
+    "Category": "Movies",
     "Question": " What Disney animated feature required the drawing of 6,469,952 black spots?",
     "Answer": "101 Dalmatians"
   },
   {
-    "Category": "World",
+    "Category": "Movies",
     "Question": " What film puts an animated rodent to work, hauling buckets of water in his masters abode?",
     "Answer": "Fantasia"
   },
@@ -21282,7 +21631,7 @@
     "Answer": "Charles Lindbergh"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " Whose 565-foot home run over the wall at Griffith Stadium gave birth to the term 'tape measure shot'?",
     "Answer": "Mickey Mantle's"
   },
@@ -21292,7 +21641,7 @@
     "Answer": "Norman Schwarzkopf's"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " What cult leader was rejected at an audition for The Monkees for just not being cute enough?",
     "Answer": "Charles Manson"
   },
@@ -21312,7 +21661,7 @@
     "Answer": "Robert E. Lee"
   },
   {
-    "Category": "World",
+    "Category": "Musics",
     "Question": " What top-selling Christmas single of 1985 was not the least bit amusing to many senior citizens?",
     "Answer": "Grandma Got Run Over by a Reindeer"
   },
@@ -21327,8 +21676,8 @@
     "Answer": "A bond"
   },
   {
-    "Category": "World",
-    "Question": " 1 Jan of what year will mark the first day of the 21st century?",
+    "Category": "History",
+    "Question": " The 1st January of what year have marked the first day of the 21st century?",
     "Answer": "2001"
   },
   {
@@ -21342,12 +21691,12 @@
     "Answer": "Leni Riefenstahl"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What's defined as 'species not definitely located in the wild during the past 50 years'?",
     "Answer": "Endangered species"
   },
   {
-    "Category": "People & Places",
+    "Category": "History",
     "Question": " Who might never have found the Pacific Ocean without the help of a Native American?",
     "Answer": "Meriwether Lewis and William Clark"
   },
@@ -21382,7 +21731,7 @@
     "Answer": "The toilet"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " What kind of sportsman is endangered by 'nitrogen narcosis' at a depth of more than 130 feet?",
     "Answer": "A scuba diver"
   },
@@ -21392,7 +21741,7 @@
     "Answer": "Mt. Everest in Nepal and Tibet at 29,028 feet"
   },
   {
-    "Category": "United States",
+    "Category": "History",
     "Question": " In what year did Alaska become a state?",
     "Answer": "1959 as the 49th state"
   },
@@ -21407,29 +21756,29 @@
     "Answer": "Lake Superior"
   },
   {
-    "Category": "United States",
+    "Category": "History",
     "Question": " What year did women win the right to vote in national elections in the U.S.?",
     "Answer": "August 18, 1920"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many tentacles does an octopus have?",
     "Answer": "8"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many legs does a spider have?",
     "Answer": "8"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " About how fast can a dragonfly fly; 10, 20, 30 or 40 miles per hour?",
     "Answer": "30 miles per hour"
   },
   {
-    "Category": "United States",
+    "Category": "History",
     "Question": " In what city did Rosa Parks first take a stand against 'Jim Crow' laws by refusing to stand?",
-    "Answer": "Montgomery, Alabama, December 1, 1955"
+    "Answer": "Montgomery, Alabama"
   },
   {
     "Category": "Geography",
@@ -21452,9 +21801,9 @@
     "Answer": "They are all historical names for the same place"
   },
   {
-    "Category": "Sports & Leisure",
+    "Category": "Sports",
     "Question": " Who fought in the boxing match called 'The Thrilla in Manila'?",
-    "Answer": "Muhammad Ali and Joe Frazier (Ali won)"
+    "Answer": "Muhammad Ali and Joe Frazier"
   },
   {
     "Category": "History",
@@ -21464,7 +21813,7 @@
   {
     "Category": "History",
     "Question": " What 2 countries fought the Hundred Years War?",
-    "Answer": "France and England from 1334 to 1453"
+    "Answer": "France and England"
   },
   {
     "Category": "History",
@@ -21482,22 +21831,22 @@
     "Answer": "The Sahara at 3,500,000 square miles"
   },
   {
-    "Category": "United States",
+    "Category": "Geography",
     "Question": " What U.S. city is also called 'The Windy City'?",
     "Answer": "Chicago"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How far can a skunk spray; 5, 10 or 15 feet?",
     "Answer": "up to 10 feet"
   },
   {
     "Category": "Geography",
     "Question": " What is the highest mountain in Africa?",
-    "Answer": "Mt. Kilimanjaro at 19,340 feet"
+    "Answer": "Mt. Kilimanjaro"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " Who invented the computer mouse?",
     "Answer": "Douglas C. Engelbart in 1968 but it wasn't popularized until Apple used it in 1984"
   },
@@ -21517,7 +21866,7 @@
     "Answer": "Dionysus"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What is the name of the bad guy in Peter Pan?",
     "Answer": "Captain Hook"
   },
@@ -21527,12 +21876,12 @@
     "Answer": "Wellington, capital of New Zealand"
   },
   {
-    "Category": "United States",
+    "Category": "History",
     "Question": " Who is the only U.S. President who was never married?",
     "Answer": "James Buchanan"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What is the river named most often in the Bible?",
     "Answer": "Jordan"
   },
@@ -21547,12 +21896,12 @@
     "Answer": "Dog"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " Which planet is closest to the sun?",
     "Answer": "Mercury"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " How many moons does Mars have?",
     "Answer": "2"
   },
@@ -21564,7 +21913,7 @@
   {
     "Category": "History",
     "Question": " What year did the Russian revolution take place?",
-    "Answer": "1917 (the Russian civil war lasted from 1918-1921)"
+    "Answer": "1917"
   },
   {
     "Category": "History",
@@ -21597,7 +21946,7 @@
     "Answer": "1901"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What did Sir Galahad search for?",
     "Answer": "The Holy Grail"
   },
@@ -21619,7 +21968,7 @@
   {
     "Category": "Language",
     "Question": " What is the meaning of the French word estragon?",
-    "Answer": "Tarragon (the spice)"
+    "Answer": "Tarragon"
   },
   {
     "Category": "Geography",
@@ -21667,12 +22016,12 @@
     "Answer": "Aphrodite"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What are Pyxis, Puppis, and Pavo?",
     "Answer": "Constellations in the southern sky"
   },
   {
-    "Category": "United States",
+    "Category": "Geography",
     "Question": " How many deserts are in or extend into the United States?",
     "Answer": "5"
   },
@@ -21682,27 +22031,27 @@
     "Answer": "Gobi"
   },
   {
-    "Category": "Computers",
+    "Category": "Science",
     "Question": " What is the type of computer virus that is named after a device of trickery used in a famous mythological war?",
     "Answer": "Trojan Horse"
   },
   {
-    "Category": "Computers",
+    "Category": "Science",
     "Question": " When was the World Wide Web developed?",
     "Answer": "1990"
   },
   {
-    "Category": "Computers",
+    "Category": "Science",
     "Question": " What is the name of the group that developed the World Wide Web?",
     "Answer": "European Center for Nuclear Research"
   },
   {
-    "Category": "Computers",
+    "Category": "Science",
     "Question": " In what Swiss city was the World Wide Web first developed?",
     "Answer": "Geneva, Switzerland"
   },
   {
-    "Category": "Art & Literature",
+    "Category": "Literatures",
     "Question": " What was Odysseus' dog's name?",
     "Answer": "Argo"
   },
@@ -21718,12 +22067,12 @@
   },
   {
     "Category": "Art & Literature",
-    "Question": " Name 1 of the 4 Horsemen of the Apocalypse.",
+    "Question": " What is the name of the 4 Horsemen of the Apocalypse.",
     "Answer": "War, Pestilence, Famine and Death"
   },
   {
-    "Category": "Art & Literature: What famous British novel begins with the line",
-    "Question": " 'It was a cold day in April, and the clocks were striking thirteen'?",
+    "Category": "Literatures",
+    "Question": " What famous British novel begins with the line: 'It was a cold day in April, and the clocks were striking thirteen'?",
     "Answer": "1984"
   },
   {
@@ -21737,7 +22086,7 @@
     "Answer": "Mau Mau"
   },
   {
-    "Category": "Sciece & Nature",
+    "Category": "Sciece",
     "Question": " What is the most abundant metal in the Earth's crust?",
     "Answer": "Aluminum"
   },
@@ -21752,7 +22101,7 @@
     "Answer": "Zama"
   },
   {
-    "Category": "Art & Literature",
+    "Category": "Literatures",
     "Question": " James Bond creator Ian Fleming wrote what famous children's story, later made into a movie?",
     "Answer": "Chitty Chitty Bang Bang"
   },
@@ -21767,13 +22116,13 @@
     "Answer": "Niflheim"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What is the name given to the change in pitch accompanied by an approaching or receeding sound source?",
     "Answer": "Doppler Effect"
   },
   {
-    "Category": "Art & Literature",
-    "Question": " Name 1 of Dumas' 3 musketeers.",
+    "Category": "Literatures",
+    "Question": " What is the name of Dumas' 3 musketeers?",
     "Answer": "Porthos, Athos and Aramis"
   },
   {
@@ -21792,8 +22141,8 @@
     "Answer": "Janus"
   },
   {
-    "Category": "Art & Literature",
-    "Question": " Name Captain Nemo's submarine?",
+    "Category": "Literatures",
+    "Question": " What is the name of Captain Nemo's submarine?",
     "Answer": "Nautilus"
   },
   {
@@ -21802,12 +22151,12 @@
     "Answer": "Babylon"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What is the underside of a horse's hoove called?",
     "Answer": "Frog"
   },
   {
-    "Category": "Art & Literature",
+    "Category": "Literatures",
     "Question": " In JRR Tolkien's Lord of the Rings, 3 wizards are mentioned by name: Gandalf, Saruman, and who?",
     "Answer": "Radagast"
   },
@@ -21832,7 +22181,7 @@
     "Answer": "False. French was the official language for over 600 years."
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " Which is the only state that grows coffee?",
     "Answer": "Hawaii"
   },
@@ -21872,27 +22221,27 @@
     "Answer": "Nike"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " What city is the oldest one in the United States?",
     "Answer": "St. Augustine, Florida"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What continent is the only one on Earth that has no reptiles or snakes?",
     "Answer": "Antarctica"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What breed of dog bites more humans than any other breed?",
     "Answer": "German Shepherds"
   },
   {
-    "Category": "Science & Nature: True or false",
-    "Question": " Adolescent male crickets can chirp.",
+    "Category": "Biology",
+    "Question": " True or false: Adolescent male crickets can chirp.",
     "Answer": "False"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " The blood of mammals is red. What color is a lobster's blood?",
     "Answer": "Blue"
   },
@@ -21907,12 +22256,12 @@
     "Answer": "Mexico City"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " If offered a new pen to write with, what will 97% of people do with it?",
     "Answer": "Write their own name"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " The average person has a vocabulary of 1,000 to 2,000, 3,000 to 4,000, or 5,000 to 6,000 words?",
     "Answer": "5,000 to 6,000"
   },
@@ -21922,17 +22271,17 @@
     "Answer": "Arctic Ocean"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " About how many feet of earth could an ambitious mole tunnel through in one day; 20 feet, 100 feet, 200 feet or 300 feet?",
     "Answer": "300 feet"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " The blood of mammals is red. What color is insect's blood?",
     "Answer": "Yellow"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What does a speleologist study?",
     "Answer": "Studies caves"
   },
@@ -21967,32 +22316,32 @@
     "Answer": "President Grover Cleveland"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " In area, which city is larger, Los Angeles, California or Juneau, Alaska?",
     "Answer": "Juneau, Alaska"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How much of the world's population is left-handed, 5 percent, 10 percent, 15 percent or 20 percent?",
     "Answer": "10 percent"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many times a day does an average adult person laugh, 10 times, 15 times, 20 times or 25 times?",
     "Answer": "15 times"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What insect is known for being a carrier of malaria, encephalitis, yellow fever and dengue fever?",
     "Answer": "Mosquitos"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which part of your body accounts for one quarter of the bones your body contains?",
     "Answer": "Your feet"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What does a person with hexidectylism have?",
     "Answer": "Six fingers or six toes"
   },
@@ -22063,7 +22412,7 @@
   },
   {
     "Category": "Geography",
-    "Question": " Name the world's smallest independant state.",
+    "Question": " What is the world's smallest independant state.",
     "Answer": "Vatican City"
   },
   {
@@ -22072,89 +22421,89 @@
     "Answer": "The Pantheon"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " Who or what was the only one to recognize Odysseus when he arrived home after an absence of 20 years?",
     "Answer": "His dog, Argus"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What famous ancient Greek author wrote about the epic journey of Odysseus?",
     "Answer": "Homer"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " Which US state has 8 national park sites?",
     "Answer": "Alaska"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " Which is larger, the island of Manhattan in New York or Disney World in Orlando, Florida?",
     "Answer": "Disney World in Orlando, Florida"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " Which state is the only one whose name has only one syllable?",
     "Answer": "Maine"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " Which of Michigan's 'Great Lakes' lies entirely inside the United States?",
     "Answer": "Lake Michigan"
   },
   {
-    "Category": "United-States",
+    "Category": "Geography",
     "Question": " What is the most important inland waterway in North America?",
     "Answer": "The Great Lakes"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " A zebra is which: black with white stripes or white with black stripes?",
     "Answer": "White with black stripes"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What animal produces the loudest sound of any animal on Earth?",
     "Answer": "The blue whale"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which animal, cat or dog, has the most vocal sounds?",
     "Answer": "Cats"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What gossamer-winged insect is the fastest flying of all the insects?",
     "Answer": "Dragonflies"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many worker bees would have to spend their lifetime to produce 1 teaspoon of honey?",
     "Answer": "12"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which do mosquitos prefer, brunettes or blonds?",
     "Answer": "Blonds"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which do mosquitos prefer, children or adults?",
     "Answer": "Children"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What part of the mosquito does citronella bother the most?",
     "Answer": "Their feet"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Herbivorous means only plants are eaten for food. What word means anything is eaten for food?",
     "Answer": "Omnivorous"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What is the world's largest living bird?",
-    "Answer": "Adult male ostrich"
+    "Answer": "Ostrich"
   },
   {
     "Category": "Sports & Leisure;G;",
@@ -22162,12 +22511,12 @@
     "Answer": "Police officers"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " How did Kurt Cobain announce The Meat Puppets on Nirvana's 'Unplugged in New York?",
     "Answer": "Thing 1 and Thing 2"
   },
   {
-    "Category": "Music",
+    "Category": "Musics",
     "Question": " Who were the guest artists in Nirvana's 'Unplugged in New York?",
     "Answer": "The Meat Puppets"
   },
@@ -22182,12 +22531,12 @@
     "Answer": "Bock's Car"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which takes more muscles to do, frowning or smiling?",
     "Answer": "Frowning"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What is the body's largest internal organ?",
     "Answer": "Small intestine"
   },
@@ -22217,7 +22566,7 @@
     "Answer": "Portugal"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " Who said: 'Fie Fi Fo Fum, I smell the blood of an Englishman'?",
     "Answer": "The giant in 'Jack In The Beanstalk'"
   },
@@ -22227,12 +22576,12 @@
     "Answer": "1 Kg"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which of the big, jungle cats is the only cat to be social rather than solitary?",
     "Answer": "The lion"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What type of nucleic acid carries hereditary information from generation to generation?",
     "Answer": "Deoxyribonucleic acid or DNA"
   },
@@ -22242,7 +22591,7 @@
     "Answer": "Tobacco"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Movies",
     "Question": " What movie had Michael Keaton playing a character loosely named after a huge star in the constellation of Orion?",
     "Answer": "Beetlejuice"
   },
@@ -22267,7 +22616,7 @@
     "Answer": "Idaho's"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What's an organism made from the genetic material of another commonly called?",
     "Answer": "A clone"
   },
@@ -22282,32 +22631,32 @@
     "Answer": "Romania"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many bones does a shark have?",
     "Answer": "Zero"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What does the male Emperor Penguine balance atop his feet for two months while its mate feeds?",
     "Answer": "An egg"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What tracking device was the Stealth bomber designed to evade?",
     "Answer": "Radar"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What's the heaviest naturally-occurring element?",
     "Answer": "Uranium"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " Which of the 9 planets in our solar system is blue and white when seen from outer space?",
     "Answer": "Earth"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What poet immortalized a famous silversmith's midnight ride to warn that the British were coming?",
     "Answer": "Henry Wadsworth Longfellow"
   },
@@ -22317,7 +22666,7 @@
     "Answer": "Charles Lindbergh"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " How many buffalo/bison roamed North America in 1492 - 600,000, 6 million or 60 million?",
     "Answer": "60 million"
   },
@@ -22337,7 +22686,7 @@
     "Answer": "Fort McHenry's"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What bird in the heron family is named for the long feathers, or 'aigrettes,' grown by the male during mating season?",
     "Answer": "An egret"
   },
@@ -22372,17 +22721,17 @@
     "Answer": "What you see is what you get"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What type of engineering sees organisms have their DNA altered to produce new substances?",
     "Answer": "Genetic engineering"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What Intel chip is the successor to the 80286, 80386 and 80486?",
     "Answer": "The Pentium"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What planet did the U.S. 'Viking I' send surface images of, starting in 1976?",
     "Answer": "Mars"
   },
@@ -22392,7 +22741,7 @@
     "Answer": "South America"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " What is the only mammal that can fly, and not simply glide?",
     "Answer": "The bat"
   },
@@ -22407,12 +22756,12 @@
     "Answer": "The Brandenburg Gate"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What invention did the most to discourage the practice of letter writing?",
     "Answer": "The telephone"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Science",
     "Question": " What country was proud to see Marc Garneau as it's first astronaut 1984?",
     "Answer": "Canada"
   },
@@ -22427,348 +22776,8 @@
     "Answer": "The Conservative (Tory) Party"
   },
   {
-    "Category": "Science & Nature",
+    "Category": "Biology",
     "Question": " Which can last longer without water, a camel or a rat?",
     "Answer": "A rat"
   },
-  {
-    "Category": "Science & Nature",
-    "Question": " Which is bigger, an ostrich's eye or it's brain?",
-    "Answer": "It's eye"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " How many eyelids does a camel's eye have?",
-    "Answer": "3"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " True or false: Snakes are immune to their own poison.",
-    "Answer": "True"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " Which insect is responsible for the most human deaths world-wide?",
-    "Answer": "Mosquito"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " True or false: The bones of a pidgeon weigh less than it's feathers.",
-    "Answer": "True"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " What bird is the only bird in the world that can fly backwards?",
-    "Answer": "The hummingbird"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " Name the national bird of New Zealand?",
-    "Answer": "The Kiwi"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " What is the most common mammal in the United States?",
-    "Answer": "The mouse"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " The poison-arrow frog has enough poison to kill how many people; 10, 500, 1,200 or 2,200?",
-    "Answer": "2,200"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " Whose venom is more potent, a rattlesnake's or a female black widow spider's?",
-    "Answer": "The female black widow spider's"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " What is the world's largest mammal?",
-    "Answer": "The blue whale"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " Of the approximately 2,600 different species of frogs, what is the only continent that they don't live on?",
-    "Answer": "Antartica"
-  },
-  {
-    "Category": "People & Places",
-    "Question": " What well-known ancient site in England is 1,500 years older then the Colosseum in Rome?",
-    "Answer": "Stonehenge"
-  },
-  {
-    "Category": "People & Places",
-    "Question": " How tall is the Eiffel Tower; 583 feet, 196 feet, 984 feet or 721 feet?",
-    "Answer": "984 feet high"
-  },
-  {
-    "Category": "History",
-    "Question": " Who did Cleopatra wed after frustrating marriages with her two younger brothers?",
-    "Answer": "Marc Antony"
-  },
-  {
-    "Category": "People & Places",
-    "Question": " What name did Mohammed A. Salameh use when he rented the van that carried the bomb that blew up the World Trade Center in New York City?",
-    "Answer": "Mohammed A. Salameh"
-  },
-  {
-    "Category": "People & Places",
-    "Question": " What building did a wayward B-25 smack the 78th floor of in 1945?",
-    "Answer": "The Empire State Building"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " What's the fastest man can run - 18, 28 or 38 miles per hour?",
-    "Answer": "Twenty-eight miles per hour"
-  },
-  {
-    "Category": "History",
-    "Question": " What war cost an average of one billion dollars a day?",
-    "Answer": "The Persian Gulf War"
-  },
-  {
-    "Category": "Science & Nature",
-    "Question": " What invention rendered the short-lived Pony Express delivery service unnecessary?",
-    "Answer": "The telegraph"
-  },
-  {
-    "Category": "History",
-    "Question": " True or false: The Jordanian city, Amman, was once called Philadelphia.",
-    "Answer": "True"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Who was the '50's horror film hostess that also appeared in 'Plan 9 from Outer Space'?",
-    "Answer": "Vampira"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was the only thing that Beetlejuice was afraid of?",
-    "Answer": "Sand worms"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was the name of the Addams Family butler?",
-    "Answer": "Lurch"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Which actress played the mother of 'Rosemary's Baby'?",
-    "Answer": "Mia Farrow"
-  },
-  {
-    "Category": "General Knowledge",
-    "Question": " What finally destroyed the aliens in 'War of the Worlds'?",
-    "Answer": "germs"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What young actor was eaten by a bed in 'Nightmare on Elm Street'?",
-    "Answer": "Johnny Depp"
-  },
-  {
-    "Category": "General Knowledge",
-    "Question": " What was the town of Blair in 'The Blair Witch Project' renamed as?",
-    "Answer": "Burkittsville"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Who played the title role in 'Carrie'?",
-    "Answer": "Sissy Spacek"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was the name of Godzilla's (movie) son?",
-    "Answer": "Minya"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was Lon Chaney Jr's human name in 'The Wolfman'?",
-    "Answer": "Larry Talbot"
-  },
-  {
-    "Category": "Literature",
-    "Question": " Who wrote the novel, 'Jaws'?",
-    "Answer": "Peter Benchley"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Which actor has played Dracula in more films than anyone else?",
-    "Answer": "Christopher Lee"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Complete this quote: 'Soylent Green is...'",
-    "Answer": "People"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 1921's 'Nosferatu', what was the name of the villian?",
-    "Answer": "Count Orlock"
-  },
-  {
-    "Category": "Movies",
-    "Question": " To what was Dracula referring to as 'children of the night'?",
-    "Answer": "Wolves"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 1943's 'Son of Dracula', which actor played Count Alucard?",
-    "Answer": "Lon Chaney Jr"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In the 1931 film 'Frankenstein', what was the doctor's first name?",
-    "Answer": "Henry"
-  },
-  {
-    "Category": "Movies",
-    "Question": " The monsters in the film, 'Them', were giant what?",
-    "Answer": "Ants"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What type of bat is most often used in horror films?",
-    "Answer": "Flying fox"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Who played Herman on the original 'The Munsters' television series?",
-    "Answer": "Fred Gwynne"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was the name of the antichrist character in the 'Omen' trilogy?",
-    "Answer": "Damien"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Complete this quote: 'It's alive!...'",
-    "Answer": "It's alive"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Who was billed as the 'Man of 1000 Faces'?",
-    "Answer": "Lon Chaney"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Which television star played the title role in 1957's 'I was a Teenage Werewolf'?",
-    "Answer": "Michael Landon"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was the title character's name in 1925's 'The Phantom of the Opera'?",
-    "Answer": "Eric"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What was Bela Lugosi's real name?",
-    "Answer": "Bela Blasko"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Who played the masochistic dental patient in the 1986 remake of 'The Little Shop of Horrors'?",
-    "Answer": "Bill Murray"
-  },
-  {
-    "Category": "Movies",
-    "Question": " What actress played in the movies 'Firestarter' and 'E.T.'?",
-    "Answer": "Drew Barrymore"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'King Kong vs. Godzilla', who won?",
-    "Answer": "Neither"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'Halloween H20', who played Jamie Lee Curtis' 'Psycho' mother?",
-    "Answer": "Janet Leigh"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In the 'The Evil Dead' trilogy, what was the name of the hero played by Bruce Campbell?",
-    "Answer": "Ash"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'Psycho', what was Norman Bates' hobby?",
-    "Answer": "Taxidermy"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'",
-    "Answer": "Bad!"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'From Dusk Til Dawn', the 'heroes' stumble into a nightclub full of what?",
-    "Answer": "Vampires"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In Hammer's 'The Curse of Frankenstein', what role did Christopher Lee play?",
-    "Answer": "Monster"
-  },
-  {
-    "Category": "Movies",
-    "Question": "  In 'Interview with the Vampire', in what city does the interview take place?",
-    "Answer": "San Fransisco"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 1985's 'Teen Wolf', what television star played the title role?",
-    "Answer": "Michael J. Fox"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'Abbott and Costello meet Frankenstein', what character did Vincent Price play?",
-    "Answer": "Invisible man"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'The Munsters', what was 'The Munsters''s street address?",
-    "Answer": "1313 Mockingbird Lane"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'Love at First Bite', who played Dracula?",
-    "Answer": "George Hamilton"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In Stephen King's 'IT', what was the name of the clown?",
-    "Answer": "Pennywise"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In the 1986 remake of 'The Fly', what was the name of the scientist that accidentally had his dna mixed with that of a fly?",
-    "Answer": "Seth Brundle"
-  },
-  {
-    "Category": "Movies",
-    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'",
-    "Answer": "Happiness you bring"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'Halloween', Michael Myers' mask was made from the novelty Halloween mask of what well-known actor?",
-    "Answer": "William Shatner"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In the 'Leprechaun' series, who played the title character?",
-    "Answer": "Warwick Davis"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'The Rocky Horror Picture Show', what was the name of the Faithful Handyman?",
-    "Answer": "Riff Raff"
-  },
-  {
-    "Category": "Movies",
-    "Question": " In 'A Nightmare on Elm Street', how many blades were on Freddy Kruger's glove?",
-    "Answer": "4"
-  }
 ]
