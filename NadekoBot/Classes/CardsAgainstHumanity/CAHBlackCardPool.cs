@@ -25,7 +25,10 @@ namespace NadekoBot.Classes.CardsAgainstHumanity
 
         public CAHBlackCard GetRandomBlackCard(IEnumerable<CAHBlackCard> exclude)
         {
-            var list = pool.Except(exclude).ToList();
+           var list=  pool.Where(x => x.WhiteCards > 1).ToList();
+            //return t[1];
+
+            //var list = pool.Except(exclude).ToList();
             var rand = rng.Next(0, list.Count);
             return list[rand];
         }
