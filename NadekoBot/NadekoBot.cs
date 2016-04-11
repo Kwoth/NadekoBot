@@ -5,8 +5,11 @@ using Discord.Modules;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Commands;
 using NadekoBot.Modules;
+using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.Gambling;
+using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Pokemon;
+using NadekoBot.Modules.Translator;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,7 +22,7 @@ namespace NadekoBot
 {
     public class NadekoBot
     {
-        public static DiscordClient Client;
+        public static DiscordClient Client { get; private set; }
         public static Credentials Creds { get; set; }
         public static Configuration Config { get; set; }
         public static LocalizedStrings Locale { get; set; } = new LocalizedStrings();
@@ -63,10 +66,12 @@ namespace NadekoBot
             {
                 Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
                 Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
+                Config.PokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText("data/PokemonTypes.json"));
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("Failed loading configuration.");
+                Console.WriteLine(ex);
                 Console.ReadKey();
                 return;
             }
@@ -84,7 +89,7 @@ namespace NadekoBot
             }
 
             //if password is not entered, prompt for password
-            if (string.IsNullOrWhiteSpace(Creds.Password))
+            if (string.IsNullOrWhiteSpace(Creds.Password) && !string.IsNullOrWhiteSpace(Creds.Token))
             {
                 Console.WriteLine("Password blank. Please enter your password:\n");
                 Creds.Password = Console.ReadLine();
@@ -109,7 +114,7 @@ namespace NadekoBot
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
-                ConnectionTimeout = 60000,
+                ConnectionTimeout = 120000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
                     Console.WriteLine($"Severity: {e.Severity}" +
@@ -156,17 +161,18 @@ namespace NadekoBot
             }));
 
             //install modules
-            modules.Add(new Administration(), "Administration", ModuleFilter.None);
+            modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
             modules.Add(new Help(), "Help", ModuleFilter.None);
             modules.Add(new PermissionModule(), "Permissions", ModuleFilter.None);
             modules.Add(new Conversations(), "Conversations", ModuleFilter.None);
             modules.Add(new GamblingModule(), "Gambling", ModuleFilter.None);
-            modules.Add(new Games(), "Games", ModuleFilter.None);
+            modules.Add(new GamesModule(), "Games", ModuleFilter.None);
             modules.Add(new Music(), "Music", ModuleFilter.None);
             modules.Add(new Searches(), "Searches", ModuleFilter.None);
             modules.Add(new NSFW(), "NSFW", ModuleFilter.None);
             modules.Add(new ClashOfClans(), "ClashOfClans", ModuleFilter.None);
-            modules.Add(new PokemonGame(), "Pokegame", ModuleFilter.None);
+            modules.Add(new PokemonModule(), "Pokegame", ModuleFilter.None);
+            modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new Trello(), "Trello", ModuleFilter.None);
 
@@ -175,12 +181,17 @@ namespace NadekoBot
             {
                 try
                 {
-                    await Client.Connect(Creds.Username, Creds.Password);
+                    if (string.IsNullOrWhiteSpace(Creds.Token))
+                        await Client.Connect(Creds.Username, Creds.Password);
+                    else
+                        await Client.Connect(Creds.Token);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Probably wrong EMAIL or PASSWORD.\n{ex.Message}");
-                    Console.ReadKey();
+                    if (string.IsNullOrWhiteSpace(Creds.Token))
+                        Console.WriteLine($"Probably wrong EMAIL or PASSWORD.");
+                    else
+                        Console.WriteLine($"Token is wrong. Don't set a token if you don't have an official BOT account.");
                     Console.WriteLine(ex);
                     Console.ReadKey();
                     return;

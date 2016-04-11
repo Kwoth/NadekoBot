@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NadekoBot</RootNamespace>
     <AssemblyName>NadekoBot</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -32,6 +32,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -89,12 +90,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="ScaredFingers.UnitsConversion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\ScaredFingers.UnitsConversion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -115,6 +120,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCard.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCard.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCardPool.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CardsAgainstHumanityGame.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCardPool.cs" />
     <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
@@ -124,10 +134,13 @@
     <Compile Include="Classes\JSONModels\AnimeResult.cs" />
     <Compile Include="Classes\JSONModels\Configuration.cs" />
     <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
+    <Compile Include="Classes\JSONModels\MagicItem.cs" />
     <Compile Include="Classes\JSONModels\MangaResult.cs" />
+    <Compile Include="Classes\JSONModels\PokemonType.cs" />
     <Compile Include="Classes\JSONModels\_JSONModels.cs" />
     <Compile Include="Classes\Leet.cs" />
     <Compile Include="Classes\Music\MusicControls.cs" />
+    <Compile Include="Classes\Music\PoopyBuffer.cs" />
     <Compile Include="Classes\Music\Song.cs" />
     <Compile Include="Classes\Music\StreamRequest.cs" />
     <Compile Include="Classes\Music\SoundCloud.cs" />
@@ -143,29 +156,35 @@
     <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
     <Compile Include="Classes\_DataModels\Donator.cs" />
     <Compile Include="Classes\_DataModels\IDataModel.cs" />
-    <Compile Include="Classes\_DataModels\pokemoves.cs" />
+    <Compile Include="Classes\_DataModels\MusicPlaylist.cs" />
+    <Compile Include="Classes\_DataModels\PlaylistSongInfo.cs" />
     <Compile Include="Classes\_DataModels\PokeTypes.cs" />
+    <Compile Include="Classes\_DataModels\Reminder.cs" />
     <Compile Include="Classes\_DataModels\RequestModel.cs" />
+    <Compile Include="Classes\_DataModels\SongInfo.cs" />
     <Compile Include="Classes\_DataModels\StatsModel.cs" />
     <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
-    <Compile Include="Commands\CrossServerTextChannel.cs" />
-    <Compile Include="Commands\SelfAssignedRolesCommand.cs" />
+    <Compile Include="Commands\CardsAgainstHumanityCommand.cs" />
+    <Compile Include="Commands\PlantPick.cs" />
+    <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
+    <Compile Include="Modules\Administration\Commands\Remind.cs" />
+    <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
     <Compile Include="Modules\ClashOfClans.cs" />
     <Compile Include="Commands\FilterWordsCommand.cs" />
     <Compile Include="Commands\FilterInvitesCommand.cs" />
-    <Compile Include="Commands\LogCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
     <Compile Include="Commands\LoLCommands.cs" />
-    <Compile Include="Commands\MessageRepeater.cs" />
-    <Compile Include="Commands\PlayingRotate.cs" />
+    <Compile Include="Modules\Administration\Commands\MessageRepeater.cs" />
+    <Compile Include="Modules\Administration\Commands\PlayingRotate.cs" />
     <Compile Include="Commands\StreamNotifications.cs" />
     <Compile Include="Commands\TriviaCommand.cs" />
     <Compile Include="Classes\Trivia\TriviaGame.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
     <Compile Include="Classes\Trivia\TriviaQuestionPool.cs" />
     <Compile Include="Commands\RequestsCommand.cs" />
-    <Compile Include="Commands\ServerGreetCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\ServerGreetCommand.cs" />
     <Compile Include="Commands\SpeedTyping.cs" />
     <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
@@ -175,40 +194,24 @@
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\VoiceNotificationCommand.cs" />
-    <Compile Include="Commands\VoicePlusTextCommand.cs" />
-    <Compile Include="Modules\Administration.cs" />
+    <Compile Include="Modules\Administration\Commands\VoiceNotificationCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\VoicePlusTextCommand.cs" />
+    <Compile Include="Modules\Administration\AdministrationModule.cs" />
     <Compile Include="Modules\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling\GamblingModule.cs" />
-    <Compile Include="Modules\Games.cs" />
+    <Compile Include="Modules\Games\Commands\Bomberman.cs" />
+    <Compile Include="Modules\Games\GamesModule.cs" />
     <Compile Include="Modules\Help.cs" />
     <Compile Include="Modules\Music.cs" />
     <Compile Include="Commands\PollCommand.cs" />
     <Compile Include="Modules\NSFW.cs" />
     <Compile Include="Modules\Permissions.cs" />
-    <Compile Include="Commands\RatelimitCommand.cs" />
+    <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\PokeType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\PsychicType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\BugType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\RockType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\GhostType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\Dragontype.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\DarkType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\SteelType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\WaterType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\ElectricType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\GrassType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\IceType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\FightingType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\PoisonType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\GroundType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\FlyingType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\FireType.cs" />
-    <Compile Include="Modules\Pokemon\PokemonTypes\NormalType.cs" />
     <Compile Include="Modules\Pokemon\PokeStats.cs" />
     <Compile Include="Modules\Searches.cs" />
+    <Compile Include="Modules\Search\Commands\ConverterCommand.cs" />
     <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
     <Compile Include="Modules\Translator\TranslateCommand.cs" />
     <Compile Include="Modules\Translator\TranslatorModule.cs" />
@@ -469,6 +472,9 @@
       <Project>{8d71a857-879a-4a10-859e-5ff824ed6688}</Project>
       <Name>Discord.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

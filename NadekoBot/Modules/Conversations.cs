@@ -1,18 +1,17 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 using NadekoBot.Classes;
+using NadekoBot.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Properties;
-using NadekoBot.Commands;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules
 {
@@ -36,10 +35,15 @@ namespace NadekoBot.Modules
                 cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
 
                 cgb.CreateCommand("e")
-                    .Description("You did it.")
+                    .Description("You did it. Or someone else!")
+                    .Parameter("other", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
+                        var other = e.GetArg("other");
+                        if (string.IsNullOrWhiteSpace(other))
+                            await e.Channel.SendMessage($"{e.User.Name} did it. 😒 🔫");
+                        else
+                            await e.Channel.SendMessage($"{other} did it. 😒 🔫");
                     });
 
                 cgb.CreateCommand("comeatmebro")
@@ -160,6 +164,7 @@ namespace NadekoBot.Modules
                     });
 
                 cgb.CreateCommand("how are you")
+                    .Alias("how are you?")
                     .Description("Replies positive only if bot owner is online.")
                     .Do(async e =>
                     {

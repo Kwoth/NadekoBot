@@ -4,7 +4,7 @@ namespace NadekoBot.Classes
 {
     internal static class FlowersHandler
     {
-        public static async Task AddFlowersAsync(Discord.User u, string reason, int amount)
+        public static async Task AddFlowersAsync(Discord.User u, string reason, int amount, bool silent = false)
         {
             if (amount <= 0)
                 return;
@@ -17,27 +17,35 @@ namespace NadekoBot.Classes
                     Value = amount,
                 });
             });
+
+            if (silent)
+                return;
+
             var flows = "";
             for (var i = 0; i < amount; i++)
             {
-                flows += "🌸";
+                flows += NadekoBot.Config.CurrencySign;
             }
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows);
         }
 
-        public static async Task RemoveFlowersAsync(Discord.User u, string reason, int amount)
+        public static bool RemoveFlowers(Discord.User u, string reason, int amount)
         {
             if (amount <= 0)
-                return;
-            await Task.Run(() =>
+                return false;
+            var uid = (long)u.Id;
+            var state = DbHandler.Instance.FindOne<_DataModels.CurrencyState>(cs => cs.UserId == uid);
+
+            if (state.Value < amount)
+                return false;
+
+            DbHandler.Instance.InsertData(new _DataModels.CurrencyTransaction
             {
-                DbHandler.Instance.InsertData(new _DataModels.CurrencyTransaction
-                {
-                    Reason = reason,
-                    UserId = (long)u.Id,
-                    Value = -amount,
-                });
+                Reason = reason,
+                UserId = (long)u.Id,
+                Value = -amount,
             });
+            return true;
         }
     }
 }

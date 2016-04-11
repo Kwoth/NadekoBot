@@ -1,39 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using Discord.Commands;
+﻿using Discord.Commands;
 using NadekoBot.Classes;
 using NadekoBot.Classes.JSONModels;
 using NadekoBot.Classes.Permissions;
 using NadekoBot.Modules;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 
-namespace NadekoBot.Commands {
-    internal class StreamNotifications : DiscordCommand {
+namespace NadekoBot.Commands
+{
+    internal class StreamNotifications : DiscordCommand
+    {
 
-        private readonly Timer checkTimer = new Timer {
+        private readonly Timer checkTimer = new Timer
+        {
             Interval = new TimeSpan(0, 0, 15).TotalMilliseconds,
         };
-        public StreamNotifications(DiscordModule module) : base(module) {
 
-            checkTimer.Elapsed += async (s, e) => {
-                try {
+        private ConcurrentDictionary<string, Tuple<bool, string>> cachedStatuses = new ConcurrentDictionary<string, Tuple<bool, string>>();
+
+        public StreamNotifications(DiscordModule module) : base(module)
+        {
+
+            checkTimer.Elapsed += async (s, e) =>
+            {
+                cachedStatuses.Clear();
+                try
+                {
                     var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
                     if (!streams.Any()) return;
 
-                    foreach (var stream in streams) {
+                    foreach (var stream in streams)
+                    {
                         Tuple<bool, string> data;
-                        try {
+                        try
+                        {
                             data = await GetStreamStatus(stream);
-                        } catch {
+                        }
+                        catch
+                        {
                             continue;
                         }
 
-                        if (data.Item1 != stream.LastStatus) {
+                        if (data.Item1 != stream.LastStatus)
+                        {
                             stream.LastStatus = data.Item1;
                             var server = NadekoBot.Client.GetServer(stream.ServerId);
                             var channel = server?.GetChannel(stream.ChannelId);
@@ -47,40 +60,66 @@ namespace NadekoBot.Commands {
                                     msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.Twitch)
                                     msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
+                                else if (stream.Type == StreamNotificationConfig.StreamType.Beam)
+                                    msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
                                 else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
                                     msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
                             await channel.SendMessage(msg);
                         }
                     }
-                } catch { }
+                }
+                catch { }
                 ConfigHandler.SaveConfig();
             };
-
             checkTimer.Start();
         }
 
-        private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream) {
+        private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream)
+        {
             bool isLive;
             string response;
             JObject data;
-            switch (stream.Type) {
+            Tuple<bool, string> result;
+            switch (stream.Type)
+            {
                 case StreamNotificationConfig.StreamType.Hitbox:
-                    response = await SearchHelper.GetResponseStringAsync($"https://api.hitbox.tv/media/status/{stream.Username}");
+                    var hitboxUrl = $"https://api.hitbox.tv/media/status/{stream.Username}";
+                    if (cachedStatuses.TryGetValue(hitboxUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(hitboxUrl);
                     data = JObject.Parse(response);
                     isLive = data["media_is_live"].ToString() == "1";
-                    return new Tuple<bool, string>(isLive, data["media_views"].ToString());
+                    result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
+                    cachedStatuses.TryAdd(hitboxUrl, result);
+                    return result;
                 case StreamNotificationConfig.StreamType.Twitch:
-                    response = await SearchHelper.GetResponseStringAsync($"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}");
+                    var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
+                    if (cachedStatuses.TryGetValue(twitchUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(twitchUrl);
                     data = JObject.Parse(response);
                     isLive = !string.IsNullOrWhiteSpace(data["stream"].ToString());
-                    return new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
+                    result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
+                    cachedStatuses.TryAdd(twitchUrl, result);
+                    return result;
+                case StreamNotificationConfig.StreamType.Beam:
+                    var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
+                    if (cachedStatuses.TryGetValue(beamUrl, out result))
+                        return result;
+                    response = await SearchHelper.GetResponseStringAsync(beamUrl);
+                    data = JObject.Parse(response);
+                    isLive = data["online"].ToObject<bool>() == true;
+                    result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
+                    cachedStatuses.TryAdd(beamUrl, result);
+                    return result;
                 default:
                     break;
             }
             return new Tuple<bool, string>(false, "0");
         }
 
-        internal override void Init(CommandGroupBuilder cgb) {
+        internal override void Init(CommandGroupBuilder cgb)
+        {
             cgb.CreateCommand(Module.Prefix + "hitbox")
                 .Alias(Module.Prefix + "hb")
                 .Description("Notifies this channel when a certain user starts streaming." +
@@ -97,13 +136,22 @@ namespace NadekoBot.Commands {
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Twitch));
 
+            cgb.CreateCommand(Module.Prefix + "beam")
+                .Alias(Module.Prefix + "bm")
+                .Description("Notifies this channel when a certain user starts streaming." +
+                             "\n**Usage**: ~beam SomeStreamer")
+                .AddCheck(SimpleCheckers.ManageServer())
+                .Parameter("username", ParameterType.Unparsed)
+                .Do(TrackStream(StreamNotificationConfig.StreamType.Beam));
+
             cgb.CreateCommand(Module.Prefix + "removestream")
                 .Alias(Module.Prefix + "rms")
                 .Description("Removes notifications of a certain streamer on this channel." +
                              "\n**Usage**: ~rms SomeGuy")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
-                .Do(async e => {
+                .Do(async e =>
+                {
                     var username = e.GetArg("username")?.ToLower().Trim();
                     if (string.IsNullOrWhiteSpace(username))
                         return;
@@ -113,7 +161,8 @@ namespace NadekoBot.Commands {
                     var toRemove = config.ObservingStreams
                         .FirstOrDefault(snc => snc.ChannelId == e.Channel.Id &&
                                         snc.Username.ToLower().Trim() == username);
-                    if (toRemove == null) {
+                    if (toRemove == null)
+                    {
                         await e.Channel.SendMessage(":anger: No such stream.");
                         return;
                     }
@@ -127,7 +176,8 @@ namespace NadekoBot.Commands {
                 .Alias(Module.Prefix + "ls")
                 .Description("Lists all streams you are following on this server." +
                              "\n**Usage**: ~ls")
-                .Do(async e => {
+                .Do(async e =>
+                {
 
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
@@ -136,15 +186,19 @@ namespace NadekoBot.Commands {
 
                     var streamsArray = streams as StreamNotificationConfig[] ?? streams.ToArray();
 
-                    if (streamsArray.Length == 0) {
+                    if (streamsArray.Length == 0)
+                    {
                         await e.Channel.SendMessage("You are not following any streams on this server.");
                         return;
                     }
 
-                    var text = string.Join("\n", streamsArray.Select(snc => {
-                        try {
+                    var text = string.Join("\n", streamsArray.Select(snc =>
+                    {
+                        try
+                        {
                             return $"`{snc.Username}`'s stream on **{e.Server.GetChannel(e.Channel.Id).Name}** channel. 【`{snc.Type.ToString()}`】";
-                        } catch { }
+                        }
+                        catch { }
                         return "";
                     }));
 
@@ -153,27 +207,34 @@ namespace NadekoBot.Commands {
         }
 
         private Func<CommandEventArgs, Task> TrackStream(StreamNotificationConfig.StreamType type) =>
-            async e => {
+            async e =>
+            {
                 var username = e.GetArg("username")?.ToLowerInvariant();
                 if (string.IsNullOrWhiteSpace(username))
                     return;
 
                 var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
-                var stream = new StreamNotificationConfig {
+                var stream = new StreamNotificationConfig
+                {
                     ServerId = e.Server.Id,
                     ChannelId = e.Channel.Id,
                     Username = username,
                     Type = type,
                 };
                 var exists = config.ObservingStreams.Contains(stream);
-                if (exists) {
+                if (exists)
+                {
                     await e.Channel.SendMessage(":anger: I am already notifying that stream on this channel.");
+                    return;
                 }
                 Tuple<bool, string> data;
-                try {
+                try
+                {
                     data = await GetStreamStatus(stream);
-                } catch {
+                }
+                catch
+                {
                     await e.Channel.SendMessage(":anger: Stream probably doesn't exist.");
                     return;
                 }
@@ -183,6 +244,8 @@ namespace NadekoBot.Commands {
                         msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
                     else if (type == StreamNotificationConfig.StreamType.Twitch)
                         msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
+                    else if (type == StreamNotificationConfig.StreamType.Beam)
+                        msg += $"\n`Here is the Link:`【 https://beam.pro/{stream.Username}/ 】";
                     else if (type == StreamNotificationConfig.StreamType.YoutubeGaming)
                         msg += $"\n`Here is the Link:` not implemented yet - {stream.Username}";
                 stream.LastStatus = data.Item1;
