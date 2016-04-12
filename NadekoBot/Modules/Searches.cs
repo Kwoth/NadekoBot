@@ -389,6 +389,76 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                             return;
                         await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}");
                     });
+                    cgb.CreateCommand(Prefix + "osustat")
+                .Alias(Prefix + "oq")
+        .Description("Get osu user stats")
+        .Parameter("input", ParameterType.Unparsed)
+        .Do(async e =>
+        {
+            if (string.IsNullOrWhiteSpace(e.GetArg("input")))
+            {
+                await e.Send("Please enter a username");
+                return;
+            }
+
+
+            var user = e.GetArg("input");
+
+            String[] uxm = user.Split(':');
+            var mode = uxm[1];
+            try
+            {
+                if (uxm[1].Equals("std", StringComparison.OrdinalIgnoreCase)|| uxm[1].Equals("0")|| uxm[1].Equals("standard", StringComparison.OrdinalIgnoreCase))
+                {
+                    mode = "0";
+                }
+                else if (uxm[1].Equals("taiko", StringComparison.OrdinalIgnoreCase)|| uxm[1].Equals("1"))
+                {
+                    mode = "1";
+                }
+                else if (uxm[1].Equals("ctb", StringComparison.OrdinalIgnoreCase) || uxm[1].Equals("2")||uxm[1].Equals("catch the beat", StringComparison.OrdinalIgnoreCase))/*|| choice == "ctb" || choice == "Ctb" || choice == "CTb" || choice == "CTB" || choice == "cTb" || choice == "ctB"*/
+                {
+                    mode = "2";
+                }
+                else if (uxm[1].Equals("mania", StringComparison.OrdinalIgnoreCase) || uxm[1].Equals("3"))
+                {
+                    mode = "3";
+                }
+                else if (uxm[1] == "")
+                {
+                    uxm[1] = "std";
+                    mode = "0";
+                }
+                else
+                {
+                    await e.Send("Must be a valid mode");
+                    return;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting mode: " + ex);
+                return;
+            }
+
+            var api = new Osu.OsuApi("Api_Key_Here");
+            var oUser = api.GetUser(uxm[0], mode);
+            var formatString = 
+            "```" + "Mode: " + uxm[1] 
+            + "\nUsername: " + uxm[0] 
+            + "\nCountry: " + oUser.country 
+            + "\nPP: " + oUser.pp_raw 
+            + "\nPP rank: #" + String.Format("{0:###,###}", oUser.pp_rank) 
+            + "\nRanked score: " + String.Format("{0:###,###}", oUser.ranked_score) 
+            + "\nLevel: " + oUser.level 
+            + "\nAccuracy: " + oUser.accuracy + "%"
+            + "\n\nSS rank: " + oUser.count_rank_ss 
+            + "\nS rank: " + oUser.count_rank_s 
+            + "\nA rank: " + oUser.count_rank_a + "```";
+
+            await e.Send(formatString);
+        });
             });
         }
     }
