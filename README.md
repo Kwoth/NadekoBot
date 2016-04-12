@@ -64,3 +64,34 @@ Enjoy
 ##List of commands   
 
 [**click here for a list of commands**](https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md)
+
+##FAQ:
+- **Q1: How do I get @NadekoBot#6685 to join my server?**
+*A: You either PM the invite, or use @NadekoBot#6685 j INVITE_LINK*
+- **Q2: How do I get @HaNadeko🎶#8686 to join my server and play music?**
+*A: Direct Message @Hanadeko with anything and she'll respond with the answer*
+- **Q3: How can I get this bot for myself?**
+*A: Get the updater from <https://github.com/Kwoth/NadekoUpdater/releases/tag/v1.0> and follow the instructions*
+- **Q4: I want to change permissions, but it doesn't work D:**
+*to change permissions, you have to first have or set the `;permsrole`. Only the owner of the server can change permissions without having this role.*
+- **Q5: I want to disable NSFW on my server, please?**
+*A: You would first have to be able to change permissions (see* ***Q4*** *), and then run `;sm NSFW disable`*
+- **Q6: How do I get NadekoFlowers/whatever I changed my currency to?**
+*A: You get NadekoFlowers by answering Triviaquestions, which you can then either plant (for more!) or spend on healing|setting your type in the Pokemon game, or give away.*
+- **Q7: I have an issue/bug/suggestion, where can I get it noticed?**
+*A: First of all, check <https://github.com/Kwoth/NadekoBot/issues> and #suggestions for your problem/improvement. If it's not there, create a new issue on <https://github.com/Kwoth/NadekoBot/issues>.*
+- **Q8: How do I use the command XXXX?**
+*A: most commands have a description, with a usage guide if required; use `-h command`, like `-h ;pr`*
+- **Q9: Music doesn't work!?**
+*A: If you're not hosting, get @HaNadeko🎶#8686 (see* ***Q2*** *) instead of @NadekoBot#6685 .
+If you are hosting your own bot, make sure ffmpeg is working correctly; running `ffmpeg` in the commandline should have a response. see <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md#setting-up-nadekobot-for-music> for more*
+- **Q10: My music is still not working/very laggy?**
+*A: Try switching server location, try giving the bot permissions on the server you want to use it on.*
+- **Q11: hanadeko's music is laggy/bad?**
+*A: Try switching server locations. If that doesn't work, it's likely because poor Hanadeko is being overloaded from all the requests; not much you can do about that :(*
+- **Q12: I want to change data in the database (like NadekoFlowers or the pokemontypes of users, but how?**
+*A: Open data/nadekobot.sqlite using sqlitebrowser (or some alternative), Browse Data, select relevant table, change data, Write changes*
+- **Q13:  The .greet and .bye commands doesn't work, but everything else is**
+*A: Set a greeting message by using `.greetmsg YourMessageHere` 
+and a bye-message by using `.byemsg YourMessageHere`*
+
