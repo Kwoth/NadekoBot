@@ -120,6 +120,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCard.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCard.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCardPool.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CardsAgainstHumanityGame.cs" />
+    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCardPool.cs" />
     <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
@@ -162,6 +167,7 @@
     <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
     <Compile Include="Commands\BetrayGame.cs" />
     <Compile Include="Commands\PlantPick.cs" />
+    <Compile Include="Commands\CardsAgainstHumanityCommand.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
     <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
     <Compile Include="Modules\Administration\Commands\Remind.cs" />
