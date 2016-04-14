@@ -201,6 +201,8 @@
     <Compile Include="Modules\Music.cs" />
     <Compile Include="Commands\PollCommand.cs" />
     <Compile Include="Modules\NSFW.cs" />
+    <Compile Include="Modules\Osu\OsuApi.cs" />
+    <Compile Include="Modules\Osu\User.cs" />
     <Compile Include="Modules\Permissions.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
