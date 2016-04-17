@@ -1,0 +1,3332 @@
+[
+  {
+    "Category": "Anime",
+    "Question": "In 'Shingetsutan Tsukihime', how many beast Nrvnqsr(Nero) Chaos's body contain?",
+    "Answer": "666"
+  },
+  {
+    "Category": "Anime",
+    "Question": "In 'Rozen Maiden', Souseiseki (Twin sister of Suiseiseki) have minnow eyes, one green and one red. Which eye is red?",
+    "Answer": "Left eye"
+  },
+  {
+    "Category": "Anime",
+    "Question": " What is the name of the male protagonist in 'Vision of Escaflowne'?",
+    "Answer": "Van Fanel"
+  },
+  {
+    "Category": "Anime",
+    "Question": " What is the name of the most recent 'Tenchi Muyo' series",
+    "Answer": "Shin Tenchi Muyo"
+  },
+  {
+    "Category": "Arts",
+    "Question": " How is also called an artists workshop or studio?",
+    "Answer": "Atelier"
+  },
+  {
+    "Category": "Arts",
+    "Question": " What late female painter's art, drawn from desert scenes fueled calendar sales?",
+    "Answer": "Georgia O'Keeffe"
+  },
+  {
+    "Category": "Arts",
+    "Question": " In what field of study would you find 'flying buttresses'?",
+    "Answer": "Architecture"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True of false: The dolphin have to stop physically to sleep.",
+    "Answer": "False"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What's the fastest man can run - 18, 28 or 38 miles per hour?",
+    "Answer": "28"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How often (in years) the female condor lays a egg?",
+    "Answer": "2"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How far (in miles) the smell of a skunk can be detected by a human?",
+    "Answer": "1"
+  },
+  {
+    "Category": "Biology",
+    "Question": " According to tradition, which animals desert a sinking ship?",
+    "Answer": "Rats"
+  },
+  {
+    "Category": "Biology",
+    "Question": " A herb or drug described as 'haemostatic' performs which effect?",
+    "Answer": "Stops bleeding"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The biggest electric ray, the Atlantic torpedo ray, can weigh how many pounds?",
+    "Answer": "200"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Bull giraffes forage higher or lower in trees than cow giraffes?",
+    "Answer": "Higher"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How is called a wild ox?",
+    "Answer": "Bison"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What part of the human body holds the head to shoulders?",
+    "Answer": "Neck"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What Arizona snake is not poisonous, but can vibrate its tail like a rattlesnake?",
+    "Answer": "Gopher snake"
+  },
+  {
+    "Category": "Biology",
+    "Question": " An average adult raccoon weighs how many pounds?",
+    "Answer": "21"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which complex alcohol is a constituent of all animal fats and oils",
+    "Answer": "Cholesterol"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What a dolphin can remember specifically better than a human?",
+    "Answer": "Tone"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What a terrapin is a type of?",
+    "Answer": "Turtle"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How is called a bone specialist?",
+    "Answer": "Osteopath"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which takes more muscles to do, frowning or smiling?",
+    "Answer": "Frowning"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How much of the world's population is left-handed, 5 percent, 10 percent, 15 percent or 20 percent?",
+    "Answer": "10 percent"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many times a day does an average adult person laugh, 10 times, 15 times, 20 times or 25 times?",
+    "Answer": "15 times"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What insect is known for being a carrier of malaria, encephalitis, yellow fever and dengue fever?",
+    "Answer": "Mosquitos"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What continent is the only one on Earth that has no reptiles or snakes?",
+    "Answer": "Antarctica"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What breed of dog bites more humans than any other breed?",
+    "Answer": "German Shepherds"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True or false: Adolescent male crickets can chirp.",
+    "Answer": "False"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The blood of mammals is red. What color is a lobster's blood?",
+    "Answer": "Blue"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The word 'ass' refers to several hoofed mammals of the genus Equus, including which one?",
+    "Answer": "Onager"
+  },
+  {
+    "Category": "Biology",
+    "Question": " A garter snake can give birth to how many babies?",
+    "Answer": "85"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal can swim for a 1/2 mile without resting, and can tread water for 3 days straight?",
+    "Answer": "Rat"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the most famous america reindeer?",
+    "Answer": "Caribou"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What an animal need to have to be a fish ?",
+    "Answer": "Gills"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal is the only one to be born with horns?",
+    "Answer": "Giraffe"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What bird have a natural habitat inaccessible and of little use to man?",
+    "Answer": "Flamingo"
+  },
+  {
+    "Category": "Biology",
+    "Question": " With red meat, what monkeys will not eat?",
+    "Answer": "Butter"
+  },
+  {
+    "Category": "Biology",
+    "Question": " In which country a peak in wildlife population occurs in a cycle of about 9 years?",
+    "Answer": "Canada"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal, with short-tailed shrews, sleep only two hours a day?",
+    "Answer": "Elephant"
+  },
+  {
+    "Category": "Biology",
+    "Question": "Anthocyanins are compounds which produce what?",
+    "Answer": "Colors"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Boxer dogs will stand on his hind legs and bat at his opponent, appearing to 'box' with what?",
+    "Answer": "Front paws"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Australia exports how many crocodile skins a year?",
+    "Answer": "5000"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Camels in captivity can live up to how many years?",
+    "Answer": "50"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal feel safest when they are crowded together, about hundreds in a group?",
+    "Answer": "Flamingo"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What dog have the best eyesight of any breed?",
+    "Answer": "Greyhound"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Javelina is more sensitive to cold or heat?",
+    "Answer": "Cold"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal have a brain about six times heavier than a human?.",
+    "Answer": "Sperm whale"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Milk snakes lay about how many eggs?",
+    "Answer": "13"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The leech have how many brains?",
+    "Answer": "32"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Elephants, lions, and camels roamed what place 12,000 years ago?",
+    "Answer": "Alaska"
+  },
+  {
+    "Category": "Biology",
+    "Question": " In which country pink elephants can be found?",
+    "Answer": "India"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal herd post their own sentries, which can alert the rest of the herd in case of danger?",
+    "Answer": "Elephant"
+  },
+  {
+    "Category": "Biology",
+    "Question": "What animal may travel about 25,000 miles in all in a single year on migrations?",
+    "Answer": "Bird"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How is called a camel with two hump?",
+    "Answer": "Bactrian"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Baby beavers are called kits or?",
+    "Answer": "Kittens"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Because its tongue is too short for its beak, what animal must juggle its food before swallowing it?",
+    "Answer": "Toucan"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What giant Pacific animal can fit its entire body through an opening no bigger than the size of its beak?",
+    "Answer": "Octopus"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal that has been neutered is known as a 'wether'?",
+    "Answer": "Goat"
+  },
+  {
+    "Category": "Biology",
+    "Question": " In one night, a mole can dig a tunnel to how much feet: 50, 100, 300 or 500?",
+    "Answer": "300"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How is called a young pigeon that has not yet flown?",
+    "Answer": "Squab"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What all porcupines float in?",
+    "Answer": "Water"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The average person has a vocabulary of 1,000 to 2,000, 3,000 to 4,000, or 5,000 to 6,000 words?",
+    "Answer": "5,000 to 6,000"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which part of your body accounts for one quarter of the bones your body contains?",
+    "Answer": "Your feet"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What does a person with hexidectylism have?",
+    "Answer": "Six fingers or six toes"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which of the big, jungle cats is the only cat to be social rather than solitary?",
+    "Answer": "The lion"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What type of nucleic acid carries hereditary information from generation to generation?",
+    "Answer": "Deoxyribonucleic acid"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the body's largest internal organ?",
+    "Answer": "Small intestine"
+  },
+  {
+    "Category": "Biology",
+    "Question": " 'Daffodils' belong to which genus of bulb",
+    "Answer": "Narcissus"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many bones does a shark have?",
+    "Answer": "Zero"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which do mosquitos prefer, brunettes or blonds?",
+    "Answer": "Blonds"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which do mosquitos prefer, children or adults?",
+    "Answer": "Children"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What part of the mosquito does citronella bother the most?",
+    "Answer": "Their feet"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Herbivorous means only plants are eaten for food. What word means anything is eaten for food?",
+    "Answer": "Omnivorous"
+  },
+  {
+    "Category": "Biology",
+    "Question": " A zebra is which: black with white stripes or white with black stripes?",
+    "Answer": "White with black stripes"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Cats are the only domestic animals that walk directly on their what?",
+    "Answer": "Claws"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal smell 44 times better than humans?",
+    "Answer": "Sheepdog"
+  },
+  {
+    "Category": "Biology",
+    "Question": " At least how many muscles have a bird wing?",
+    "Answer": "40"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How are called animals that once existed and exist no more?",
+    "Answer": "Extinct"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What bird spread their wings, clack bills, and shake heads in a ritual dance?",
+    "Answer": "Albatros"
+  },
+  {
+    "Category": "Biology",
+    "Question": " When young abalones feed on red seaweed, their shells turn to what color?",
+    "Answer": "Red"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What a camel's humps made up of?",
+    "Answer": "Fat"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What animal produces the loudest sound of any animal on Earth?",
+    "Answer": "The blue whale"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which animal, cat or dog, has the most vocal sounds?",
+    "Answer": "Cats"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What gossamer-winged insect is the fastest flying of all the insects?",
+    "Answer": "Dragonflies"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many worker bees would have to spend their lifetime to produce 1 teaspoon of honey?",
+    "Answer": "12"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the world's largest living bird?",
+    "Answer": "Ostrich"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The blood of mammals is red. What color is insect's blood?",
+    "Answer": "Yellow"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What's an organism made from the genetic material of another commonly called?",
+    "Answer": "A clone"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What bird in the heron family is named for the long feathers, or 'aigrettes,' grown by the male during mating season?",
+    "Answer": "An egret"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What does the male Emperor Penguine balance atop his feet for two months while its mate feeds?",
+    "Answer": "An egg"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the only mammal that can fly, and not simply glide?",
+    "Answer": "The bat"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which is bigger, an ostrich's eye or it's brain?",
+    "Answer": "It's eye"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many eyelids does a camel's eye have?",
+    "Answer": "3"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True or false: Snakes are immune to their own poison.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which insect is responsible for the most human deaths world-wide?",
+    "Answer": "Mosquito"
+  },
+  {
+    "Category": "Biology",
+    "Question": " True or false: The bones of a pidgeon weigh less than it's feathers.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What bird is the only bird in the world that can fly backwards?",
+    "Answer": "The hummingbird"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the underside of a horse's hoove called?",
+    "Answer": "Frog"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the most common mammal in the United States?",
+    "Answer": "The mouse"
+  },
+  {
+    "Category": "Biology",
+    "Question": " The poison-arrow frog has enough poison to kill how many people; 10, 500, 1,200 or 2,200?",
+    "Answer": "2,200"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Whose venom is more potent, a rattlesnake's or a female black widow spider's?",
+    "Answer": "The female black widow spider's"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Which can last longer without water, a camel or a rat?",
+    "Answer": "A rat"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What is the world's largest mammal?",
+    "Answer": "The blue whale"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Of the approximately 2,600 different species of frogs, what is the only continent that they don't live on?",
+    "Answer": "Antartica"
+  },
+  {
+    "Category": "Games",
+    "Question": "In the game 'Moutain of Faith' (Touhou Project), who is the boss of stage 3?",
+    "Answer": "Nitori Kawashiro"
+  },
+  {
+    "Category": "Games",
+    "Question": "In the game 'Touhou Project', Alice Margatroid's first appearance is as a child. But in which Touhou?",
+    "Answer": "Mystic Square"
+  },
+  {
+    "Category": "Games",
+    "Question": "In total, how many different masks have Hata no Kokoro (Touhou Project)?",
+    "Answer": "66"
+  },
+  {
+    "Category": "Games",
+    "Question": " In the game 'Cluedo', who is the only woman suspect who isn't married?",
+    "Answer": "Miss Scarlett"
+  },
+  {
+    "Category": "Games",
+    "Question": " In a game of snooker, how many balls are used in addition to the cue ball?",
+    "Answer": "Twenty-one"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the only man-made feature visible from space?",
+    "Answer": "Great Wall of China"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What U.S. state adopted a cactus blossom as its state flower?",
+    "Answer": "Arizona" 
+  },
+  {
+    "Category": "Geography",
+    "Question": " What's the first foreign country you'd reach by traveling due south from Detroit's City Airport?",
+    "Answer": "Canada"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What well-known ancient site in England is 1,500 years older then the Colosseum in Rome?",
+    "Answer": "Stonehenge"
+  },
+  {
+    "Category": "Geography",
+    "Question": "Alphabetically speaking, which is the last of the 26 Irish counties?",
+    "Answer": "Wicklow"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What continent boasts Angel Falls, the tallest in the world?",
+    "Answer": "South America"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What's the name of the stately stone gate in the center of Berlin?",
+    "Answer": "The Brandenburg Gate"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the national bird of New Zealand?",
+    "Answer": "Kiwi"
+  },
+  {
+    "Category": "Geography",
+    "Question": " How tall is the Eiffel Tower; 196, 583, 721 or 984 feet?",
+    "Answer": "984"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which animal are the Canary Islands named after?",
+    "Answer": "Dog"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the lowest point on land in the world?",
+    "Answer": "The Dead Sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What African country is only 8 miles from Spain?",
+    "Answer": "Morocco"
+  },
+  {
+    "Category": "Geography",
+    "Question": " America's country's first commercial oil well was located in what state?",
+    "Answer": "Pennsylvania"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which of Michigan's 'Great Lakes' lies entirely inside the United States?",
+    "Answer": "Lake Michigan"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the most important inland waterway in North America?",
+    "Answer": "The Great Lakes"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Alberta's shield on the coat of arms, bears the cross of?",
+    "Answer": "Saint George"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Name all of the 'Great Lakes' that surround Michigan.",
+    "Answer": "Michigan, Huron, Erie and Superior"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which US state has 8 national park sites?",
+    "Answer": "Alaska"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which is larger, the island of Manhattan in New York or Disney World in Orlando in Florida?",
+    "Answer": "Disney World"
+  },
+  {
+    "Category": "Geography",
+    "Question": " How many deserts are in or extend into the United States?",
+    "Answer": "5"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which ocean is the smallest and shallowest?",
+    "Answer": "Artic Ocean"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which ocean is saltier, the Pacific or the Atlantic?",
+    "Answer": "Atlantic Ocean"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What name was the city of St. Petersburg, Russia given in 1914 because Russian leaders thought it's name sounded too German?",
+    "Answer": "Petrograd"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What name was the city of St. Petersburg, Russia given in 1924 to honor the founder of the Soviet Union?",
+    "Answer": "Petrograd"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What desert Mongolia and China share?",
+    "Answer": "Gobi"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What country's national flag is flown differently depending on if the country is at war or at peace?",
+    "Answer": "Philippines"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the highest mountain range in the world?",
+    "Answer": "The Himilayas"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What body of water does the river Danube empty into?",
+    "Answer": "The Black Sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What city is the oldest one in the United States?",
+    "Answer": "St. Augustine"
+  },
+  {
+    "Category": "Geography",
+    "Question": " How many cities in the world boast populations in excess of 1 million people; over 50, 200, 300 or 400?",
+    "Answer": "300"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the southern most capital city in the world?",
+    "Answer": "Wellington"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the narrow sea between the Arabian Peninsula and Africa called?",
+    "Answer": "The Red Sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What former Middle Eastern tourist mecca has been reduced to rubble by civil war and terrorism?",
+    "Answer": "Beirut"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What skyscraper shares New York state's nickname?",
+    "Answer": "The Empire State Building"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the highest mountain in the world?",
+    "Answer": "Mt. Everest"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the largest 'lake' in the world?",
+    "Answer": "The Caspian Sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the largest lake in North America?",
+    "Answer": "Lake Superior"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Where is the Weddell Sea?",
+    "Answer": "Antartica"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the highest waterfall in the world?",
+    "Answer": "Angel Falls"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the longest river in the world?",
+    "Answer": "The Nile"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What do Istanbul, Constantinople, and Byzantium have in common?",
+    "Answer": "They are the same place"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the largest lake in Africa?",
+    "Answer": "Lake Victoria"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the world's largest desert?",
+    "Answer": "The Sahara"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What U.S. city is also called 'The Windy City'?",
+    "Answer": "Chicago"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the highest mountain in Africa?",
+    "Answer": "Mt. Kilimanjaro"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which well-known Russian city has seen it's name changed 3 times since it was founded in 1703 by Peter the Great?",
+    "Answer": "St. Petersburg"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the Spanish name for the South American capital which means 'good air'?",
+    "Answer": "Buenos Aires"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Ecuador?",
+    "Answer": "Quito"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Somalia?",
+    "Answer": "Mogadishu"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which country is the world's leading importer of iron ore?",
+    "Answer": "Japan"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What country's name is a Native American Indian word meaning 'Big Village'?",
+    "Answer": "Canada"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Over which waterfall does the most water flow over per year?",
+    "Answer": "Niagara Falls"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Hungary?",
+    "Answer": "Budapest"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What middle eastern state was founded in 1948?",
+    "Answer": "Israel"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which large island is 3 times the size of Texas?",
+    "Answer": "Greenland"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which county in Great Britain is the only one that has 2 coasts?",
+    "Answer": "Devon"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Rome was originally built on how many hills?",
+    "Answer": "Seven"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What group of islands boasts the 'wettest spot on Earth' because of the rainfall there?",
+    "Answer": "The Hawaiian Islands"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the world's smallest independant state.",
+    "Answer": "Vatican City"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which state is the only one whose name has only one syllable?",
+    "Answer": "Maine"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which sea lies along the western side of Holland (the Netherlands)?",
+    "Answer": "North Sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the largest island in the world?",
+    "Answer": "Greenland"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which large, well-known Central American city is sinking at the rate of 6 to 8 inches per year?",
+    "Answer": "Mexico City"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which one of Earth's oceans is mostly covered by solid ice, ice floes and icebergs?",
+    "Answer": "Arctic Ocean"
+  },
+  {
+    "Category": "Geography",
+    "Question": " True or false: In Paraguay dueling is still legal as long as both parties are registered blood donors.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which country is also a continent?",
+    "Answer": "Australia"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which is the only state that grows coffee?",
+    "Answer": "Hawaii"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What city in the world was the first one to reach the population of 1 million people?",
+    "Answer": "Rome"
+  },
+  {
+    "Category": "Geography",
+    "Question": " True or false: Michigan's Great Lakes are the largest group of freshwater lakes in the world.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In area, which city is larger, Los Angeles, California or Juneau, Alaska?",
+    "Answer": "Juneau"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What country lies along the western side of Spain?",
+    "Answer": "Portugal"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the most populous city in North America?",
+    "Answer": "Mexico"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In what city is the Smithsonian Institute?",
+    "Answer": "Washington"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In which city is Red Square?",
+    "Answer": "Moscow"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In which city is the Coliseum located?",
+    "Answer": "Rome"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Into what body of water does the 'Danube River' flow?",
+    "Answer": "Black sea"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Linz, Austria is a leading port on which river?",
+    "Answer": "Danube"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Madrid and Lisbon are both located near what river?",
+    "Answer": "Tagus"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the longest river in Asia?",
+    "Answer": "Yangtze"
+  },
+  {
+    "Category": "Geography",
+    "Question": " On what island is the Blue Grotto?",
+    "Answer": "Capri"
+  },
+  {
+    "Category": "Geography",
+    "Question": " On what peninsula are Spain and Portugal located?",
+    "Answer": "The iberian peninsula"
+  },
+  {
+    "Category": "Geography",
+    "Question": " On which river is the Aswan High Dam?",
+    "Answer": "Nile"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What canal connects Lake Ontario and Lake Erie?",
+    "Answer": "Welland"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What city is the Christian Science Monitor based in?",
+    "Answer": "Boston"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What country formed the union of Tanganyika and Zanzibar?",
+    "Answer": "Tanzania"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What English city does the Prime Meridian pass through?",
+    "Answer": "Greenwich"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Andorra?",
+    "Answer": "Andorra la Vella"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Angola?",
+    "Answer": "Luanda"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Australia",
+    "Answer": "Canberra"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Bhutan?",
+    "Answer": "Thimphu"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Colorado?",
+    "Answer": "Denver"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Equatorial Guinea?",
+    "Answer": "Malabo"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Finland?",
+    "Answer": "Helsinki"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Iraq?",
+    "Answer": "Baghdad"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Ireland?",
+    "Answer": "Dublin"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Kuwait?",
+    "Answer": "Kuwait City"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Monaco?",
+    "Answer": "Monaco"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Niger?",
+    "Answer": "Niamey"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Papua New Guinea?",
+    "Answer": "Port Moresby"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Solomon Islands?",
+    "Answer": "Honiara"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Switzerland?",
+    "Answer": "Bern"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Tanzania?",
+    "Answer": "Dar es Salaam"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Tonga?",
+    "Answer": "Nuku'alofa"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Turkmenistan?",
+    "Answer": "Ashkhabad"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital of Tuvalu?",
+    "Answer": "Fanafuti"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the highest mountain in Canada?",
+    "Answer": "Mt. Logan"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the largest of the countries in Central America?",
+    "Answer": "Nicaragua"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which Irish city is famous for its crystal?",
+    "Answer": "Waterford"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which is the Earth's fourth largest continent?",
+    "Answer": "South America"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which state is the 'Garden State'?",
+    "Answer": "New Jersey"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which U.S. city is known as the 'Biggest Little City in the World'?",
+    "Answer": "Reno"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which U.S. state borders a Canadian territory?",
+    "Answer": "Alaska"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What is the capital city of Utah?",
+    "Answer": "Salt Lake City"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What mountain range separates Europe from Asia?",
+    "Answer": "Urals"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What U.S. state is known as The Land of 10,000 Lakes?",
+    "Answer": "Minnesota"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In which city is Beacon Street?",
+    "Answer": "Boston"
+  },
+  {
+    "Category": "Geography",
+    "Question": " In which US city is the Sears tower?",
+    "Answer": "Chicago"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which Central American country extends furthest north?",
+    "Answer": "Belize"
+  },
+  {
+    "Category": "Geography",
+    "Question": " Which city is known as Motown?",
+    "Answer": "Detroit"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What tropical U.S. state has chosen the yellow hibiscus as it's state flower?",
+    "Answer": "Hawaii"
+  },
+  {
+    "Category": "Geography",
+    "Question": " What European country contains Transylvania, commonly considered to be the home of 'Count Dracula'?",
+    "Answer": "Romania"
+  },
+  {
+    "Category": "History",
+    "Question": " Who did Cleopatra wed after frustrating marriages with her two younger brothers?",
+    "Answer": "Marc Antony"
+  },
+  {
+    "Category": "History",
+    "Question": " Whose signature on the USA's 'Declaration Of Independance' is legible from the farthest distance?",
+    "Answer": "John Hancock's"
+  },
+  {
+    "Category": "History",
+    "Question": " 'Operation Desert Storm' took place in 1989, 1991 or 1995",
+    "Answer": "1991"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the name of the B-29 bomber that dropped the Atomic Bomb on Nagasaki?",
+    "Answer": "Bock's Car"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the first U.S. battle cry of World War II?",
+    "Answer": "Remember Pearl Harbor!"
+  },
+  {
+    "Category": "History",
+    "Question": " What form of ancient writing was finally deciphered with the help of a chunk of basalt known as the Rosetta Stone?",
+    "Answer": "Hieroglyphics"
+  },
+  {
+    "Category": "History",
+    "Question": " When was the Rosetta stone found?",
+    "Answer": "1799"
+  },
+  {
+    "Category": "History",
+    "Question": " Where are the great Walls of Babylon located in the modern day world?",
+    "Answer": "Iraq"
+  },
+  {
+    "Category": "History",
+    "Question": " Which famous piece of artwork depcits the 'Battle of Hastings'?",
+    "Answer": "Bayeux Tapestry"
+  },
+  {
+    "Category": "History",
+    "Question": " What religion was founded by Lao-tzu?",
+    "Answer": "Taoism"
+  },
+  {
+    "Category": "History",
+    "Question": " What country did Hitler's troops invade, kicking off World War II?",
+    "Answer": "Poland"
+  },
+  {
+    "Category": "History",
+    "Question": " In ancient Egypt which animal was considered sacred?",
+    "Answer": "Cat"
+  },
+  {
+    "Category": "History",
+    "Question": " What fort's 1814 bombardment inspired Francis Scott Key to pen the USA's anthem's lyrics?",
+    "Answer": "Fort McHenry"
+  },
+  {
+    "Category": "History",
+    "Question": " To date, who has been the only American president to win non-consecutive terms to the White House?",
+    "Answer": "President Grover Cleveland"
+  },
+  {
+    "Category": "History",
+    "Question": " 'The 900 Days' is a chronicle about what group's siege of Leningrad?",
+    "Answer": "Nazi"
+  },
+  {
+    "Category": "History",
+    "Question": " Which god was a favourite of the Roman legions, who sacrificed a bull to him in secret rituals?",
+    "Answer": "Mithras"
+  },
+  {
+    "Category": "History",
+    "Question": " Who is the only U.S. President who was never married?",
+    "Answer": "James Buchanan"
+  },
+  {
+    "Category": "History",
+    "Question": " In what ancient city did Alexander the Great die?",
+    "Answer": "Babylon"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the first director of Britain's National Theatre?",
+    "Answer": "Laurence Olivier"
+  },
+  {
+    "Category": "History",
+    "Question": " True or false: French was never the official language of England.",
+    "Answer": "False"
+  },
+  {
+    "Category": "History",
+    "Question": " The ancient Egyptians used what substance as the earliest know contraceptive?",
+    "Answer": "Crocodile dung"
+  },
+  {
+    "Category": "History",
+    "Question": " What year was the Republic of Israel established, 1933, 1948, 1957 or 1966?",
+    "Answer": "1948"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the Greek goddess of victory?",
+    "Answer": "Nike"
+  },
+  {
+    "Category": "History",
+    "Question": " What country found wooden shoes to be no match for German jackboots in 1940?",
+    "Answer": "The Netherlands"
+  },
+  {
+    "Category": "History",
+    "Question": " What city General Sherman burned in 1864?",
+    "Answer": "Atlanta"
+  },
+  {
+    "Category": "History",
+    "Question": " Who ruled Rome when Christ was born?",
+    "Answer": "Caesar Augustus"
+  },
+  {
+    "Category": "History",
+    "Question": " In what year of WW II did Russia declare war on Japan?",
+    "Answer": "1945"
+  },
+  {
+    "Category": "History",
+    "Question": " In which country did the Boxer Rebellion take place?",
+    "Answer": "China"
+  },
+  {
+    "Category": "History",
+    "Question": " What Roman city was founded in 753 BC?",
+    "Answer": "Rome"
+  },
+  {
+    "Category": "History",
+    "Question": " What did Temujin change his name to?",
+    "Answer": "Genghis Khan"
+  },
+  {
+    "Category": "History",
+    "Question": " Israel occupied the Golan Heights. Whose territory was it?",
+    "Answer": "Syria"
+  },
+  {
+    "Category": "History",
+    "Question": " What state's license plates began saying 'Famous Potatoes' in 1957?",
+    "Answer": "Idaho's"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the first pilot to take off solo in New York and land in Paris?",
+    "Answer": "Charles Lindbergh"
+  },
+  {
+    "Category": "History",
+    "Question": " How many buffalo/bison roamed North America in 1492 - 600,000, 6 million or 60 million?",
+    "Answer": "60 million"
+  },
+  {
+    "Category": "History",
+    "Question": " American indians used beads as currency. What was it called?",
+    "Answer": "Wampum"
+  },
+  {
+    "Category": "History",
+    "Question": " Who is an american inventor and teacher of the deaf, most famous for his invention of the telephone?",
+    "Answer": "Alexander Graham Bell"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the name of the B-29 that dropped the bomb on Hiroshima?",
+    "Answer": "Enola Gay"
+  },
+  {
+    "Category": "History",
+    "Question": " What industry, according to Melvin Belli, 'has conspired to catch you, hold you and kill you'?",
+    "Answer": "Tobacco industry"
+  },
+  {
+    "Category": "History",
+    "Question": " What British political party made Margaret Thatcher its first female leader?",
+    "Answer": "The Conservative (Tory) Party"
+  },
+  {
+    "Category": "History",
+    "Question": " What 'Little Boy' & 'Fat Man' were the first?",
+    "Answer": "Atomic bombs"
+  },
+  {
+    "Category": "History",
+    "Question": " About which Prime Minister was it said 'He could never see a belt without hitting below it'?",
+    "Answer": "Lloyd george"
+  },
+  {
+    "Category": "History",
+    "Question": " According to John Aubrey's Brief Lives , what card game did the English poet, Sir John Suckling, invent in 1630?",
+    "Answer": "Cribbage"
+  },
+  {
+    "Category": "History",
+    "Question": " What name did Mohammed A. Salameh use when he rented the van that carried the bomb that blew up the World Trade Center in New York City?",
+    "Answer": "Mohammed A. Salameh"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the name of the battle in which Hannibal was defeated?",
+    "Answer": "Zama"
+  },
+  {
+    "Category": "History",
+    "Question": " What building did a wayward B-25 smack the 78th floor of in 1945?",
+    "Answer": "The Empire State Building"
+  },
+  {
+    "Category": "History",
+    "Question": " What war cost an average of one billion dollars a day?",
+    "Answer": "The Persian Gulf War"
+  },
+  {
+    "Category": "History",
+    "Question": " What Kenyan secret terrorist organization revolted against British colonists in 1952?",
+    "Answer": "Mau Mau"
+  },
+  {
+    "Category": "History",
+    "Question": " Which people created the sundial?",
+    "Answer": "The Egyptians"
+  },
+  {
+    "Category": "History",
+    "Question": " Who did Paris, the ruler of Troy, select as the most beautiful goddess?",
+    "Answer": "Aphrodite"
+  },
+  {
+    "Category": "History",
+    "Question": " True or false: The Jordanian city, Amman, was once called Philadelphia.",
+    "Answer": "True"
+  },
+  {
+    "Category": "History",
+    "Question": " When were PopTarts invented?",
+    "Answer": "1964"
+  },
+  {
+    "Category": "History",
+    "Question": " In Norse mythology, how was called the icy underworld?",
+    "Answer": "Niflheim"
+  },
+  {
+    "Category": "History",
+    "Question": " Which Roman god had two faces?",
+    "Answer": "Janus"
+  },
+  {
+    "Category": "History",
+    "Question": " After whom is the month of July named?",
+    "Answer": "Julius Caesar"
+  },
+  {
+    "Category": "History",
+    "Question": " In what Swiss city was the World Wide Web first developed?",
+    "Answer": "Geneva"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the largest airplane ever built?",
+    "Answer": "Spruce Goose"
+  },
+  {
+    "Category": "History",
+    "Question": " What is the name of the largest building from ancient Rome that survives intact?",
+    "Answer": "The Pantheon"
+  },
+  {
+    "Category": "History",
+    "Question": " One of the 7 Wonders of the ancient world was a giant bronze statue, what was it called?",
+    "Answer": "Colossus of Rhodes"
+  },
+  {
+    "Category": "History",
+    "Question": " Which holy book do not mention cats and rats?",
+    "Answer": "Bible"
+  },
+  {
+    "Category": "History",
+    "Question": " What did Sir Galahad search for?",
+    "Answer": "The Holy Grail"
+  },
+  {
+    "Category": "History",
+    "Question": " What year saw the break up of the USSR?",
+    "Answer": "1991"
+  },
+  {
+    "Category": "History",
+    "Question": " What year did the Russian revolution take place?",
+    "Answer": "1917"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the first person to set foot on the moon?",
+    "Answer": "Neil Armstrong"
+  },
+  {
+    "Category": "History",
+    "Question": " What year was a sheep named Dolly created by cloning?",
+    "Answer": "1997"
+  },
+  {
+    "Category": "History",
+    "Question": " What year did the Titanic sink?",
+    "Answer": "1912"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the first person in space?",
+    "Answer": "Yuri Gagarin"
+  },
+  {
+    "Category": "History",
+    "Question": " What year was the Commonwealth of Australia established?",
+    "Answer": "1901"
+  },
+  {
+    "Category": "History",
+    "Question": " In Norse mythology, what was the Twilight of the Gods called?",
+    "Answer": "Ragnarok"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Who wrote 'Chitty Chitty Bang Bang'?",
+    "Answer": "Ian Fleming"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the true identity of 'Kay Challis'?",
+    "Answer": "Crazy Jane"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the true identity of 'Maggie Sawyer'?",
+    "Answer": "Maggie Sawyer"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the name of Captain Nemo's submarine?",
+    "Answer": "Nautilus"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the name of Dumas' 3 musketeers?",
+    "Answer": "Porthos, Athos and Aramis"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the river named most often in the Bible?",
+    "Answer": "Jordan"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " In JRR Tolkien's Lord of the Rings, 3 wizards are mentioned by name: Gandalf, Saruman, and who?",
+    "Answer": "Radagast"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " 'The Diary of Anne Frank' was first published in English under what title?",
+    "Answer": "Diary of a Young Girl"
+  },
+  {
+    "Category": "Literature",
+    "Question": " What is the name of the 4 Horsemen of the Apocalypse.",
+    "Answer": "War, Pestilence, Famine and Death"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What famous British novel begins with the line: 'It was a cold day in April, and the clocks were striking thirteen'?",
+    "Answer": "1984"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " According to Douglas Adams' 'Hitchhiker's Guide To The Galaxy', who designed Norway?",
+    "Answer": "Slartibartfast"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote the novel, 'Jaws'?",
+    "Answer": "Peter Benchley"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Illiad'?",
+    "Answer": "Alexander Pope"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'The Silence of the Lambs'?",
+    "Answer": "Thomas Harris"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'A Bridge to Far'?",
+    "Answer": "Cornelius Ryan"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'A Christmas Carol?",
+    "Answer": "Charles Dickens"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'A Clockwork Orange?",
+    "Answer": "Anthony Burgess"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'As I Lay Dying?",
+    "Answer": "William Faulkner"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Cardinal of the Kremlin?",
+    "Answer": "Tom Clancy"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Catch 22?",
+    "Answer": "Joseph Heller"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Cry the Beloved Country?",
+    "Answer": "Alan Paton"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Deptford Trilogy?",
+    "Answer": "Robertson Davies"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'El Gringo?",
+    "Answer": "Carlos Fuentes"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Fahrenheit 451?",
+    "Answer": "Ray Bradbury"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Ice Palace?",
+    "Answer": "Edna Furber"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Interview with a Vampire?",
+    "Answer": "Anne Rice"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Ironweed?",
+    "Answer": "William Kennedy"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Islands in the Stream?",
+    "Answer": "Ernest Hemingway"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Jane Eyre'?",
+    "Answer": "Charlotte Bronte"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Lightning'?",
+    "Answer": "Dean Koontz"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Little Country'?",
+    "Answer": "Charles de Lint"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Lolita'?",
+    "Answer": "Vladimir Nabokov"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Movable Feast'?",
+    "Answer": "Ernest Hemingway"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Murders of Rue Morgue'?",
+    "Answer": "Edgar Allan Poe"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Pilgrims Progress'?",
+    "Answer": "John Bunyan"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Portnoy's Complaint'?",
+    "Answer": "Philip Roth"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Puppet Masters'?",
+    "Answer": "Robert Heinlein"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Silas Marner'?",
+    "Answer": "George Elliot"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Single and Single'?",
+    "Answer": "John le Carre"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Someplace to Be Flying'?",
+    "Answer": "Charles de Lint"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Sound and the Fury'?",
+    "Answer": "William Faulkner"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Sum of All Fears'?",
+    "Answer": "Tom Clancy"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'The Runaway Jury'?",
+    "Answer": "John Grisham"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Travels'?",
+    "Answer": "Marco Polo"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Vet in Harness'?",
+    "Answer": "James Herriot"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Wizard of Oz'?",
+    "Answer": "Lyman Frank Baum"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Which author wrote 'Zorba the Greek'?",
+    "Answer": "Nikos Kazantzakis"
+  },
+  {
+    "Category": "Literatures",
+    "Question": "In which novel by George Eliot is Eppie Cass adopted by a miser whose gold has been stolen by her father?",
+    "Answer": "Silas Marner"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What poet immortalized a famous silversmith's midnight ride to warn that the British were coming?",
+    "Answer": "Henry Wadsworth Longfellow"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is a famous RAH novel, as well as a number believed to be cursed?",
+    "Answer": "The number of the beast"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " According to the title of a famous novel, there are how many 'Years of Solitude'?",
+    "Answer": "One hundred"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What was Odysseus' dog's name?",
+    "Answer": "Argos"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Who or what was the only one to recognize Odysseus when he arrived home after an absence of 20 years?",
+    "Answer": "His dog, Argos"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What famous ancient Greek author wrote about the epic journey of Odysseus?",
+    "Answer": "Homer"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " Who said: 'Fie Fi Fo Fum, I smell the blood of an Englishman'?",
+    "Answer": "The giant in 'Jack In The Beanstalk'"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'A ___ to a Kill'.",
+    "Answer": "View"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'A ___ to India'.",
+    "Answer": "Passage"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Baby ___'.",
+    "Answer": "Boom"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Big ___ in Little China'.",
+    "Answer": "Trouble"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Black ___'.",
+    "Answer": "Rain"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Dead ___ Don't Wear Plaid'.",
+    "Answer": "Men"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Dirty ___'.",
+    "Answer": "Dancing"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Driving Miss ___'.",
+    "Answer": "Daisy"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'First ___'.",
+    "Answer": "Blood"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'For Your ___ Only'.",
+    "Answer": "Eyes"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Less than ___'.",
+    "Answer": "Zero"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Mr. ___'.",
+    "Answer": "Mom"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'My Left ___'.",
+    "Answer": "Foot"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ Eye'.",
+    "Answer": "Cat's"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Say ___'.",
+    "Answer": "Anything"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The ___ Crystal'.",
+    "Answer": "Dark"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ Guy'.",
+    "Answer": "Lonely"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The Right ___'.",
+    "Answer": "Stuff"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The ___ Brothers'.",
+    "Answer": "Blues"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'This is ___ Tap'.",
+    "Answer": "Spinal"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Three Men and a ___'.",
+    "Answer": "Baby"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Urban ___'.",
+    "Answer": "Cowboy"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'War___'.",
+    "Answer": "Games"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ Boys'.",
+    "Answer": "Bad"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ By Me'.",
+    "Answer": "Stand"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The Evil ___'.",
+    "Answer": "Dead"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The Last ___ of Christ'.",
+    "Answer": "Temptation"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Sex, Lies and ___'.",
+    "Answer": "Videotape"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'Some Kind of ___'.",
+    "Answer": "Wonderful"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'The Big ___'.",
+    "Answer": "Chill"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ of Dreams'.",
+    "Answer": "Field"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ of Fire'.",
+    "Answer": "Chariots"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ of the Universe'.",
+    "Answer": "Masters"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ of War'.",
+    "Answer": "Casualties"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ Taste'.",
+    "Answer": "Bad"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ That Girl?'.",
+    "Answer": "Who's"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: '___ the 13th'.",
+    "Answer": "Friday"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the title of this 80s film: 'No Way ___'.",
+    "Answer": "Out"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'In the Southeast, they say if you want to go to heaven, you have to change planes in Atlanta.'?",
+    "Answer": "Accidental Tourist"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Andy McCarthy does Robby Lowe's Mom, and she's Jackie Bissette!'?",
+    "Answer": "Class"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Bill Murray, post-SNL, pre-Groundhog. Think spaghetti.'?",
+    "Answer": "Meatballs"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Guy really gets into playing videogames.'?",
+    "Answer": "Tron"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Hmm. Let's make Chevy Chase a spy!'?",
+    "Answer": "Fletch"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Proof that there's life in the afterlife. And Geena Davis's lips.'?",
+    "Answer": "Beetlejuice"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'Ricki Lake. Before her television show.'?",
+    "Answer": "Hairspray"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'The bitch is back, and it's not Sigourney.'?",
+    "Answer": "Aliens"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To which 80s film this quote came from: 'The paean to late nights and teens in the 1950s'?",
+    "Answer": "Diner"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the movie 'Godzilla', what was the name of Godzilla's son?",
+    "Answer": "Minya"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Wolfman', what was Lon Chaney Jr's human name?",
+    "Answer": "Larry Talbot"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'",
+    "Answer": "Happiness you bring"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Halloween', Michael Myers' mask was made from the novelty Halloween mask of what well-known actor?",
+    "Answer": "William Shatner"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'Leprechaun' series, who played the title character?",
+    "Answer": "Warwick Davis"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Who was the '50's horror film hostess that also appeared in 'Plan 9 from Outer Space'?",
+    "Answer": "Vampira"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was the only thing that Beetlejuice was afraid of?",
+    "Answer": "Sand worms"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was the name of the Addams Family butler?",
+    "Answer": "Lurch"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Rosemary's Baby', which actress played the mother?",
+    "Answer": "Mia Farrow"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Rocky Horror Picture Show', what was the name of the Faithful Handyman?",
+    "Answer": "Riff Raff"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Which actor has played Dracula in more films than anyone else?",
+    "Answer": "Christopher Lee"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'Soylent Green is...'",
+    "Answer": "People"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1921's 'Nosferatu', what was the name of the villian?",
+    "Answer": "Count Orlock"
+  },
+  {
+    "Category": "Movies",
+    "Question": " To what was Dracula referring to as 'children of the night'?",
+    "Answer": "Wolves"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1943's 'Son of Dracula', which actor played Count Alucard?",
+    "Answer": "Lon Chaney Jr"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1931 film 'Frankenstein', what was the doctor's first name?",
+    "Answer": "Henry"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'A Nightmare on Elm Street', how many blades were on Freddy Kruger's glove?",
+    "Answer": "4"
+  },
+  {
+    "Category": "Movies",
+    "Question": "  In 'Interview with the Vampire', in what city does the interview take place?",
+    "Answer": "San Fransisco"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1986 remake of 'The Fly', what was the name of the scientist that accidentally had his dna mixed with that of a fly?",
+    "Answer": "Seth Brundle"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1985's 'Teen Wolf', what television star played the title role?",
+    "Answer": "Michael J. Fox"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Abbott and Costello meet Frankenstein', what character did Vincent Price play?",
+    "Answer": "Invisible man"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Munsters', what was 'The Munsters''s street address?",
+    "Answer": "1313 Mockingbird Lane"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Star Trek', what colour was Mr Spock's blood?",
+    "Answer": "Green"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Love at First Bite', who played Dracula?",
+    "Answer": "George Hamilton"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In Stephen King's 'IT', what was the name of the clown?",
+    "Answer": "Pennywise"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Halloween H20', who played Jamie Lee Curtis' 'Psycho' mother?",
+    "Answer": "Janet Leigh"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'The Evil Dead' trilogy, what was the name of the hero played by Bruce Campbell?",
+    "Answer": "Ash"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Psycho', what was Norman Bates' hobby?",
+    "Answer": "Taxidermy"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'",
+    "Answer": "Bad!"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'From Dusk Til Dawn', the 'heroes' stumble into a nightclub full of what?",
+    "Answer": "Vampires"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In Hammer's 'The Curse of Frankenstein', what role did Christopher Lee play?",
+    "Answer": "Monster"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1957's 'I was a Teenage Werewolf', which television star played the title role?",
+    "Answer": "Michael Landon"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 1925's 'The Phantom of the Opera', what was the title character's name?",
+    "Answer": "Eric"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was Bela Lugosi's real name?",
+    "Answer": "Bela Blasko"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 1986 remake of 'The Little Shop of Horrors', Who played the masochistic dental patient?",
+    "Answer": "Bill Murray"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What actress played in the movies 'Firestarter' and 'E.T.'?",
+    "Answer": "Drew Barrymore"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'King Kong vs. Godzilla', who won?",
+    "Answer": "Neither"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the film 'Them', the monsters were giant what?",
+    "Answer": "Ants"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What type of bat is most often used in horror films?",
+    "Answer": "Flying fox"
+  },
+  {
+    "Category": "Movies",
+    "Question": " On the original 'The Munsters' television series, who played Herman?",
+    "Answer": "Fred Gwynne"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Beverly Hills Cop', when Axel Foley enters the hotel, for whom he claims to work ?",
+    "Answer": "Rolling Stone"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Beverly Hills Cop', when Axel Foley enters the hotel, who does he say he's going to interview?",
+    "Answer": "Michael Jackson"
+  },
+  {
+    "Category": "Movies",
+    "Question": " This citation are the last words of which film: 'Louis, I think this is the beginning of a beautiful friendship'?",
+    "Answer": "Casablanca"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What was the first 'James Bond' film?",
+    "Answer": "Dr. No"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Which actor, born may 7, 1901, have starred in the movie 'Dallas'?",
+    "Answer": "Gary Cooper"
+  },
+  {
+    "Category": "Movies",
+    "Question": " When actor Arnold Schwarzenegger bought the first Hummer manufactured for civilian use?",
+    "Answer": "1992"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete the name of this actor :  '______ Borgnine'.",
+    "Answer": "Ernest"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What movie had Michael Keaton playing a character loosely named after a huge star in the constellation of Orion?",
+    "Answer": "Beetlejuice"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In the 'Omen' trilogy, what was the name of the antichrist character?",
+    "Answer": "Damien"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Complete this quote: 'It's alive!...'",
+    "Answer": "It's alive"
+  },
+  {
+    "Category": "Movies",
+	"Question": " 'The Shining' was the film playing at the drive-in in which film?",
+    "Answer": "Twister"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'War of the Worlds', what finally destroyed the aliens?",
+    "Answer": "Germs"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Nightmare on Elm Street', what young actor was eaten by a bed?",
+    "Answer": "Johnny Depp"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'The Blair Witch Project', what was the town of Blair renamed as?",
+    "Answer": "Burkittsville"
+  },
+  {
+    "Category": "Movies",
+    "Question": " 'Oliver's Story' was the sequel to which Erich Segal's best-seller? ",
+    "Answer": "Love story"
+  },
+  {
+    "Category": "Movies",
+    "Question": " 'Back in the Habit' is the sub-title to which film sequel",
+    "Answer": "Sister act 2"
+  },
+  {
+    "Category": "Movies",
+    "Question": " In 'Carrie', who played the title role?",
+    "Answer": "Sissy Spacek"
+  },
+  {
+    "Category": "Movies",
+    "Question": " Who was billed as the 'Man of 1000 Faces'?",
+    "Answer": "Lon Chaney"
+  },
+  {
+    "Category": "Movies",
+    "Question": " A character named 'Spearchucker Jones' was deleted from which famous American television show's cast after only five episodes?",
+    "Answer": "MASH"
+  },
+  {
+    "Category": "Musics",
+    "Question": "To which female singer the number '39' is a reference?",
+	"Answer": "Miku Hatsune"
+  },
+  {
+    "Category": "Musics",
+    "Question": " To which Dire Straits' music these lyrics came from: 'And the big wheel keep on turning neon burning up above'",
+    "Answer": "Tunnel of love"
+  },
+  {
+    "Category": "Musics",
+    "Question": " 'Bowser' and 'Jocko' have been two prominent members of what very successful rock & roll nostalgia act?",
+    "Answer": "Sha Na Na"
+  },
+  {
+    "Category": "Musics",
+    "Question": " Who sang 'Never Say Never'?",
+    "Answer": "Romeo Void"
+  },
+  {
+    "Category": "Musics",
+    "Question": "Kiss on My List' was which duo's second number one hit?",
+    "Answer": "Hall and Oates"
+  },
+  {
+    "Category": "Musics",
+    "Question": " To which Dire Straits' music these lyrics came from: 'You get a shiver in the dark, it's raining in the park ...'?",
+    "Answer": "Sultans of Swing"
+  },
+  {
+    "Category": "Musics",
+    "Question": " To which ZZ-Top's music these lyrics came from: 'The girls'll go crazy for a....'?",
+    "Answer": "Sharp Dressed Man"
+  },
+  {
+    "Category": "Musics",
+    "Question": " 'Dr. Feelgood' was which group's last album with Vince Neill?",
+    "Answer": "Motley Crue"
+  },
+  {
+    "Category": "Musics",
+    "Question": " How did Kurt Cobain announce The Meat Puppets on Nirvana's 'Unplugged in New York?",
+    "Answer": "Thing 1 and Thing 2"
+  },
+  {
+    "Category": "Musics",
+    "Question": " Who were the guest artists in Nirvana's 'Unplugged in New York?",
+    "Answer": "The Meat Puppets"
+  },
+  {
+    "Category": "Musics",
+    "Question": " Which east L.A kid had a memorable top ten hit about his girlfriend Donna?",
+    "Answer": "Richie Valens"
+  },
+  {
+    "Category": "Other",
+    "Question": " Who is friends of Nadekobot?",
+    "Answer": "RoboNitori and Bakabot"
+  },
+  {
+    "Category": "Other",
+    "Question": " What does the acronym 'WYSIWYG' stand for?",
+    "Answer": "What you see is what you get"
+  },
+  {
+    "Category": "Other",
+    "Question": " A charge of DWAI is for what",
+    "Answer": "Driving While Ability Impaired"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is a word formed from the initials of other words?",
+    "Answer": "Acronym"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'JVC'?",
+    "Answer": "Japan Victor Company"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'ACK'?",
+    "Answer": "ACKnowledgement"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'ANSI'?",
+    "Answer": "American National Standards Institute"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'AOL'?",
+    "Answer": "America On Line"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'AWGTHTGTTA'?",
+    "Answer": "Are We Going To Have To Go Through This/That Again"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BAC'?",
+    "Answer": "By Any Chance"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BAK'?",
+    "Answer": "Back At Keyboard"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BBL'?",
+    "Answer": "Be Back Later"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BOS'?",
+    "Answer": "Boyfriend Over Shoulder"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BRT'?",
+    "Answer": "Be Right There"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BST'?",
+    "Answer": "British Summer Time"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BTOBD'?",
+    "Answer": "Be There Or Be Dead"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'BWL'?",
+    "Answer": "Bursting With Laughter"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'COD'?",
+    "Answer": "Cash On Delivery"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DBN'?",
+    "Answer": "Doing Business Not"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DFM'?",
+    "Answer": "Don't Flame Me"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DIIK'?",
+    "Answer": "Damned If I Know"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DOB'?",
+    "Answer": "Date Of Birth"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DWIM'?",
+    "Answer": "Do What I Mean"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'E2EG'?",
+    "Answer": "Ear To Ear Grin"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'EMSG'?",
+    "Answer": "Email MeSsaGe"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'FIRST'?",
+    "Answer": "Forum of Incident Response and Security Teams"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'FOAF'?",
+    "Answer": "Friend Of A Friend"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'FOD'?",
+    "Answer": "Finger Of Death"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'FURTB'?",
+    "Answer": "Full Up Ready To Burst"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'GAFIA'?",
+    "Answer": "Get Away From It All"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'GIWIST'?",
+    "Answer": "Gee I Wish I'd Said That"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'GMT'?",
+    "Answer": "Greenwich Mean Time"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'HTTP'?",
+    "Answer": "Hyper Text Transfer Protocol"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'IAAD'?",
+    "Answer": "I Am A Doctor"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'IAE'?",
+    "Answer": "In Any Event"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'IBTD'?",
+    "Answer": "I Beg To Differ"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'IMBO'?",
+    "Answer": "In My Biased Opinion"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'IWALY'?",
+    "Answer": "I Will Always Love You"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'JIC'?",
+    "Answer": "Just In Case"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'JTLYK'?",
+    "Answer": "Just To Let You Know"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'JTUSK'?",
+    "Answer": "Just Thought You Should Know"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'JTYMLTK'?",
+    "Answer": "Just Thought You Might Like To Know"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'L8TRZ'?",
+    "Answer": "LATeRS"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LHU'?",
+    "Answer": "Lord Help Us"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LLAP'?",
+    "Answer": "Live Long And Prosper"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LMC'?",
+    "Answer": "Lost My Connection"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LoTR'?",
+    "Answer": "Lord of The Rings"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LSFIAB'?",
+    "Answer": "Like Shooting Fish In A Barrel"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'LYLAB'?",
+    "Answer": "Love You Like A Brother"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'MD'?",
+    "Answer": "MaileD"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'MHM'?",
+    "Answer": "Members Helping Members"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'MHOTY'?",
+    "Answer": "My Hat's Off To You"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'MIPS'?",
+    "Answer": "Meaningless Information Per Second"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'MORF'?",
+    "Answer": "Male OR Female"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NAGI'?",
+    "Answer": "Not A Good Idea"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NDM'?",
+    "Answer": "No Disrespect Meant"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NIDWTC'?",
+    "Answer": "No I Don't Want To Chat"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NIH'?",
+    "Answer": "Not Invented Here"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NOOTO'?",
+    "Answer": "Nothing Out Of The Ordinary"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'NYM'?",
+    "Answer": "New York Minute"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'OTT'?",
+    "Answer": "Over The Top"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PAW'?",
+    "Answer": "Parents Are Watching"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PDQ'?",
+    "Answer": "Pretty Damn Quick"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PIMP'?",
+    "Answer": "Pee In My Pants"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PLMKO'?",
+    "Answer": "Please Let Me Know Ok"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PMBI'?",
+    "Answer": "Pardon My Butting In"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'PTO'?",
+    "Answer": "Please Turn Over"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'Q'?",
+    "Answer": "Queue"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'QPQ'?",
+    "Answer": "Quid Pro Quo"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'RA'?",
+    "Answer": "Red Alert"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'ROFLMHO'?",
+    "Answer": "Rolling On Floor Laughing My Head Off"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'ROTFLAS'?",
+    "Answer": "Rolling On The Floor Laughing And Snorting"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'RTS'?",
+    "Answer": "Real Time Strategy"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SASS'?",
+    "Answer": "Short Attention Span Society/Syndrome"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SMOFF'?",
+    "Answer": "Serious Mode OFF"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SMOP'?",
+    "Answer": "Small Matter Of Programming"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SNR'?",
+    "Answer": "Signal to Noise Ratio"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SOHB'?",
+    "Answer": "Sense Of Humour Bypass"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'ST-DS9'?",
+    "Answer": "Star Trek - Deep Space 9"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'SUFID'?",
+    "Answer": "Screwing Up Face In Disgust"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'TBE'?",
+    "Answer": "To Be Expected"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'TIATLG'?",
+    "Answer": "Truly I Am The Living God"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'TMIKTLIU'?",
+    "Answer": "The More I Know The Less I Understand"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'TN'?",
+    "Answer": "TelNet"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'TRDMC'?",
+    "Answer": "Tears Running Down My Cheeks"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'UUCP'?",
+    "Answer": "Unix-toUnix CoPy"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'VR'?",
+    "Answer": "Virtual Reality"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'W/'?",
+    "Answer": "With"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'WAIS'?",
+    "Answer": "Wide Area Information Server"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'WC'?",
+    "Answer": "Way Cool"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'WYM'?",
+    "Answer": "What You Mean?"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'YCLIU'?",
+    "Answer": "You Can Look It Up"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'YGTBK'?",
+    "Answer": "You've Got To Be Kidding"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'YHBW'?",
+    "Answer": "You Have Been Warned"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'YKYATP'?",
+    "Answer": "You Know You're A Tired Parent"
+  },
+  {
+    "Category": "Other",
+    "Question": " How a group of cattle is called?",
+    "Answer": "Herd"
+  },
+  {
+    "Category": "Other",
+    "Question": " How a group of ducks is called?",
+    "Answer": "Brace"
+  },
+  {
+    "Category": "Other",
+    "Question": " How a group of lion is called?",
+    "Answer": "Pride"
+  },
+  {
+    "Category": "Other",
+    "Question": " A hoop worn under skirts is called a what?",
+    "Answer": "Farthingale"
+  },
+  {
+    "Category": "Other",
+    "Question": " A kipper is what type of smoked fish?",
+    "Answer": "Herring"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a large French country house?",
+    "Answer": "Chateau"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a light canvas shoe with a plaited sole?",
+    "Answer": "Espadrille"
+  },
+  {
+    "Category": "Other",
+    "Question": " A magnum of champagne is how many litres?",
+    "Answer": "1.5"
+  },
+  {
+    "Category": "Other",
+    "Question": " What a male singer whose sexual organs have been modified is known as?",
+    "Answer": "Castrato"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a person refusing to join a strike?",
+    "Answer": "Blackleg"
+  },
+  {
+    "Category": "Other",
+    "Question": " A sadhu is a holy man in which country?",
+    "Answer": "India"
+  },
+  {
+    "Category": "Other",
+    "Question": " What name a sailor who has not yet crossed the equator is referred to?",
+    "Answer": "Pollywog"
+  },
+  {
+    "Category": "Other",
+    "Question": " What a salad containing diced apple, celery, walnuts and mayonnaise is known as?",
+    "Answer": "Waldorf salad"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a ships officer in charge of equipment and crew?",
+    "Answer": "Boatswain"
+  },
+  {
+    "Category": "Other",
+    "Question": " What all Hebrew orignating names that end with the letters 'el' have something to do with?",
+    "Answer": "God"
+  },
+  {
+    "Category": "Other",
+    "Question": " In kilograms, how much does one litre of water weigh?",
+    "Answer": "1 Kg"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a short legged hunting dog?",
+    "Answer": "Basset"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is the meaning of the French word 'estragon'?",
+    "Answer": "Tarragon"
+  },
+  {
+    "Category": "Other",
+    "Question": " What does the ancient Greek word 'electron' mean?",
+    "Answer": "Amber"
+  },
+  {
+    "Category": "Other",
+    "Question": " What African language do Boers speak?",
+    "Answer": "Afrikaans"
+  },
+  {
+    "Category": "Other",
+    "Question": " What does the Russian word 'Buran' mean?",
+    "Answer": "Blizzard"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is a Wyvern?",
+    "Answer": "A type of dragon"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a short womens jacket without fastenings?",
+    "Answer": "Bolero"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a small crown?",
+    "Answer": "Coronet"
+  },
+  {
+    "Category": "Other",
+    "Question": "100 zeros after the number 1 is a very very large number called what?",
+    "Answer": "Googol"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is the Scottish word for 'Lake'?",
+    "Answer": "Loch"
+  },
+  {
+    "Category": "Other",
+    "Question": " According to superstition, what do you do when you stub the toes on your right foot?",
+    "Answer": "Make a wish"
+  },
+  {
+    "Category": "Other",
+	"Question": " '7x' was used to refer to the secret ingredient of what drink?",
+    "Answer": "Coca Cola"
+  },
+  {
+    "Category": "Other",
+    "Question": " Which product is more money spent on per year, baby food or pet food?",
+    "Answer": "Pet food"
+  },
+  {
+    "Category": "Other",
+    "Question": " What do American parents of infants dump 17 billion of each year?",
+    "Answer": "Disposable diapers"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is the world's most widely spoken language?",
+    "Answer": "The Mandarin dialect of Chinese"
+  },
+  {
+    "Category": "Other",
+    "Question": " True or false: The word 'karate' means 'empty hand'.",
+    "Answer": "True"
+  },
+  {
+    "Category": "Other",
+    "Question": " If offered a new pen to write with, what will 97% of people do with it?",
+    "Answer": "Write their own name"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called a small pickled cucumber?",
+    "Answer": "gherkin"
+  },
+  {
+    "Category": "Other",
+    "Question": " According to U.S. law, what may not be granted on a useless invention?",
+    "Answer": "Patent"
+  },
+  {
+    "Category": "Other",
+    "Question": " Most people wear a watch on their left or right wrist?",
+    "Answer": "Left"
+  },
+  {
+    "Category": "Other",
+    "Question": " What profession is troubled by the most workplace violence?",
+    "Answer": "Police officers"
+  },
+  {
+    "Category": "Other",
+    "Question": " What are the 3 best-known western personages in China?",
+    "Answer": "Jesus Christ, Richard Nixon and Elvis Presley"
+  },
+  {
+    "Category": "Other",
+    "Question": "In Greek language, what mean 'polis"?",
+    "Answer": "City"
+  },
+  {
+    "Category": "Other",
+    "Question": " What do you study if you are studying entomology?",
+    "Answer": "Insects"
+  },
+  {
+    "Category": "Other",
+    "Question": " What is the official language of Egypt?",
+    "Answer": "Arabic"
+  },
+  {
+    "Category": "Other",
+    "Question": " If you study etymology, what are you studying?",
+    "Answer": "Word origins"
+  },
+  {
+    "Category": "Other",
+    "Question": " Complete this slogan : 'Always _______'.",
+    "Answer": "Coca Cola"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called an addition to a will?",
+    "Answer": "Codicil"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called the study of religion?",
+    "Answer": "Theology"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called the study of mans and their culture?",
+    "Answer": "Anthropology"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is called an area seperating potential belligerents?",
+    "Answer": "Buffer zone"
+  },
+  {
+	"Category": "Other",
+    "Question": " How is called an underground layer of water filled rock?",
+    "Answer": "Aquifer"
+  },
+  {
+    "Category": "Other",
+    "Question": "How is called an advertising film which is informative and purportedly objective?",
+    "Answer": "Infomercial"
+  },
+  {
+    "Category": "Other",
+    "Question": " How is also called guardian angels?",
+    "Answer": "Watchers"
+  },
+  {
+    "Category": "Science",
+    "Question": " Define the value of X: '-10x - 19 = 19 - 8x'.",
+    "Answer": "-19"
+  },
+  {
+    "Category": "Science",
+    "Question": " Define the value of X: '99 + 5x = 2000 - 5x - 911'.",
+    "Answer": "99"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is the square root of '-1'?",
+    "Answer": "i"
+  },
+  {
+    "Category": "Science",
+    "Question": " A capital 'D' is the Roman numeral for which number",
+    "Answer": "Five hundred"
+  },
+  {
+    "Category": "Science",
+    "Question": " How many seconds a day have?",
+    "Answer": "86400"
+  },
+  {
+    "Category": "Science",
+    "Question": "What is the acronym for 'quasi-stellar radio source'?",
+    "Answer": "Quasar"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is actually caused by layers of hot air refracting sunlight?",
+    "Answer": "Mirage"
+  },
+  {
+    "Category": "Science",
+    "Question": " What invention did the most to discourage the practice of letter writing?",
+    "Answer": "The telephone"
+  },
+  {
+    "Category": "Science",
+    "Question": " What country was proud to see Marc Garneau as it's first astronaut 1984?",
+    "Answer": "Canada"
+  },
+  {
+    "Category": "Science",
+    "Question": " What rock floats in water?",
+    "Answer": "Pumice"
+  },
+  {
+    "Category": "Science",
+    "Question": " How is called an anti-tank rocket launcher?",
+    "Answer": "Bazooka"
+  },
+  {
+    "Category": "Science",
+    "Question": " What type of engineering sees organisms have their DNA altered to produce new substances?",
+    "Answer": "Genetic engineering"
+  },
+  {
+    "Category": "Science",
+    "Question": " How is commonly called phencyclidine hydrochloride?",
+    "Answer": "Angel dust"
+  },
+  {
+    "Category": "Science",
+    "Question": " What was the first transatlantic radio message sent?",
+    "Answer": "S"
+  },
+  {
+    "Category": "Science",
+    "Question": " Which artificial fiber was invented in 1938?",
+    "Answer": "Nylon"
+  },
+  {
+    "Category": "Science",
+    "Question": " How is scientifically called wood alcohol?",
+    "Answer": "Methanol"
+  },
+  {
+    "Category": "Science",
+    "Question": " What Intel chip is the successor to the 80286, 80386 and 80486?",
+    "Answer": "Pentium"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is the type of computer virus that is named after a device of trickery used in a famous mythological war?",
+    "Answer": "Trojan Horse"
+  },
+  {
+    "Category": "Science",
+    "Question": " When was the World Wide Web developed?",
+    "Answer": "1990"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is the name of the group that developed the World Wide Web?",
+    "Answer": "European Center for Nuclear Research"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is the most abundant metal in the Earth's crust?",
+    "Answer": "Aluminum"
+  },
+  {
+    "Category": "Science",
+    "Question": " What substance is the largest single preventable cause of death?",
+    "Answer": "Tobacco"
+  },
+  {
+    "Category": "Science",
+    "Question": " What number is indicated by this symbol in the Greek numeral system 'VII'?",
+    "Answer": "Seven"
+  },
+  {
+    "Category": "Science",
+    "Question": " What's the term for a device that uses the sun and horizon to determine location?",
+    "Answer": "Sextant"
+  },
+  {
+    "Category": "Science",
+    "Question": " What planet did the U.S. 'Viking I' send surface images of, starting in 1976?",
+    "Answer": "Mars"
+  },
+  {
+    "Category": "Science",
+    "Question": " What invention rendered the short-lived Pony Express delivery service unnecessary?",
+    "Answer": "The telegraph"
+  },
+  {
+    "Category": "Science",
+    "Question": " The sun sets in what cardinal direction?",
+    "Answer": "West"
+  },
+  {
+    "Category": "Science",
+    "Question": " Which planet is closest to the sun?",
+    "Answer": "Mercury"
+  },
+  {
+    "Category": "Science",
+    "Question": " How many moons does Mars have?",
+    "Answer": "2"
+  },
+  {
+    "Category": "Science",
+    "Question": " What tracking device was the Stealth bomber designed to evade?",
+    "Answer": "Radar"
+  },
+  {
+    "Category": "Science",
+    "Question": " What's the heaviest naturally-occurring element?",
+    "Answer": "Uranium"
+  },
+  {
+    "Category": "Science",
+    "Question": " What does a speleologist study?",
+    "Answer": "Caves"
+  },
+  {
+    "Category": "Science",
+    "Question": " Which of the 9 planets in our solar system is blue and white when seen from outer space?",
+    "Answer": "Earth"
+  },
+  {
+    "Category": "Science",
+    "Question": " 'Dephlogisticated air' was the name given by Joseph Priestley to which gas?",
+    "Answer": "Oxygen"
+  },
+  {
+    "Category": "Science",
+    "Question": " A 'double sheet bend' is a type of what?",
+    "Answer": "Knot"
+  },
+  {
+    "Category": "Science",
+    "Question": " How a block of compressed coal dust used as fuel is called?",
+    "Answer": "Briquette"
+  },
+  {
+    "Category": "Science",
+    "Question": " Air is 21% oxygen and 1% of other gases. What gaz is present at 78%?",
+    "Answer": "Nitrogen"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is the name given to the change in pitch accompanied by an approaching or receeding sound source?",
+    "Answer": "Doppler Effect"
+  },
+  {
+    "Category": "Science",
+    "Question": " How is called the classical medical symbol of two serpents wrapped around a staff?",
+    "Answer": "Caduceus"
+  },
+  {
+    "Category": "Science",
+    "Question": " What are Pyxis, Puppis, and Pavo?",
+    "Answer": "Constellations in the southern sky"
+  },
+  {
+    "Category": "Science",
+    "Question": " Which element makes up 2.83% of the Earth's crust?",
+    "Answer": "Sodium"
+  },
+  {
+    "Category": "Science",
+    "Question": " Which element makes up 5% of the Earth's crust?",
+    "Answer": "Iron"
+  },
+  {
+    "Category": "Science",
+    "Question": " What is a boat or raft with two parallel hulls?",
+    "Answer": "Catamaran"
+  },
+  {
+    "Category": "Science",
+    "Question": " Does Uranus have an aurora?",
+    "Answer": "Yes"
+  },
+  {
+    "Category": "Science",
+    "Question": " What cluster of stars is also known as the Seven Sisters?",
+    "Answer": "Pleiades"
+  },
+  {
+    "Category": "Science",
+    "Question": " How is called a group of stars?",
+    "Answer": "Constellation"
+  },
+  {
+    "Category": "Sports",
+    "Question": " In Basketball, who was a very tall center and a real ladies man?",
+    "Answer": "Wilt the Stilt"
+  },
+  {
+    "Category": "Sports",
+    "Question": " How may percent of professional boxers have suffered brain damage: 10, 30, 50 or 90 percent?",
+    "Answer": "90"
+  },
+  {
+    "Category": "Sports",
+    "Question": " How many gold medals did Jesse Owens win in the 1936 Berlin Olympics?",
+    "Answer": "4"
+  },
+]
