@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Commands;
+using NadekoBot.Classes;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +34,7 @@ namespace NadekoBot.Modules.Administration.Commands
             NadekoBot.Client.UserJoined += UserJoined;
             NadekoBot.Client.UserLeft += UserLeft;
 
-            var data = Classes.DbHandler.Instance.GetAllRows<Classes._DataModels.Announcement>();
+            var data = Classes.DbHandler.Instance.GetAllRows<DataModels.Announcement>();
 
             if (!data.Any()) return;
             foreach (var obj in data)
@@ -114,7 +114,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public class AnnounceControls
         {
-            private Classes._DataModels.Announcement _model { get; }
+            private DataModels.Announcement _model { get; }
 
             public bool Greet {
                 get { return _model.Greet; }
@@ -160,14 +160,14 @@ namespace NadekoBot.Modules.Administration.Commands
                 set { _model.ServerId = (long)value; }
             }
 
-            public AnnounceControls(Classes._DataModels.Announcement model)
+            public AnnounceControls(DataModels.Announcement model)
             {
                 this._model = model;
             }
 
             public AnnounceControls(ulong serverId)
             {
-                this._model = new Classes._DataModels.Announcement();
+                this._model = new DataModels.Announcement();
                 ServerId = serverId;
             }
 

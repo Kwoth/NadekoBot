@@ -1,8 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Classes;
-using NadekoBot.Classes._DataModels;
-using NadekoBot.Commands;
+using NadekoBot.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +22,6 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             var remList = DbHandler.Instance.GetAllRows<Reminder>();
 
-            Console.WriteLine(string.Join("\n-", remList.Select(r => r.When.ToString())));
             reminders = remList.Select(StartNewReminder).ToList();
         }
 

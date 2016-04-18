@@ -2,10 +2,10 @@ using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
-using NadekoBot.Classes._DataModels;
-using NadekoBot.Classes.Permissions;
+using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
+using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -27,6 +27,7 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new CrossServerTextChannel(this));
             commands.Add(new SelfAssignedRolesCommand(this));
             commands.Add(new Remind(this));
+            commands.Add(new InfoCommands(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
@@ -181,7 +182,7 @@ namespace NadekoBot.Modules.Administration
                             await role.Edit(color: new Color(red, green, blue));
                             await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.");
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             await e.Channel.SendMessage("Error occured, most likely invalid parameters or insufficient permissions.");
                         }
@@ -726,7 +727,7 @@ namespace NadekoBot.Modules.Administration
                       await Task.Run(() =>
                       {
                           SaveParseToDb<Announcement>("data/parsedata/Announcements.json");
-                          SaveParseToDb<Classes._DataModels.Command>("data/parsedata/CommandsRan.json");
+                          SaveParseToDb<DataModels.Command>("data/parsedata/CommandsRan.json");
                           SaveParseToDb<Request>("data/parsedata/Requests.json");
                           SaveParseToDb<Stats>("data/parsedata/Stats.json");
                           SaveParseToDb<TypingArticle>("data/parsedata/TypingArticles.json");
@@ -786,7 +787,7 @@ namespace NadekoBot.Modules.Administration
                     });
 
                 cgb.CreateCommand(Prefix + "videocall")
-                  .Description("Creates a private appear.in video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
+                  .Description("Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.")
                   .Parameter("arg", ParameterType.Unparsed)
                   .Do(async e =>
                   {
