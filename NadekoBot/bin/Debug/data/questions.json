@@ -7,7 +7,7 @@
   {
     "Category": "Anime",
     "Question": "In 'Rozen Maiden', Souseiseki (Twin sister of Suiseiseki) have minnow eyes, one green and one red. Which eye is red?",
-    "Answer": "Left eye"
+    "Answer": "Left"
   },
   {
     "Category": "Anime",
@@ -16,7 +16,7 @@
   },
   {
     "Category": "Anime",
-    "Question": " What is the name of the most recent 'Tenchi Muyo' series",
+    "Question": " What is the name of the most recent 'Tenchi Muyo' series?",
     "Answer": "Shin Tenchi Muyo"
   },
   {
@@ -61,6 +61,21 @@
   },
   {
     "Category": "Biology",
+    "Question": " How many tentacles does an octopus have?",
+    "Answer": "8"
+  },
+  {
+    "Category": "Biology",
+    "Question": " How many legs does a spider have?",
+    "Answer": "8"
+  },
+  {
+    "Category": "Biology",
+    "Question": " About how fast can a dragonfly fly; 10, 20, 30 or 40 miles per hour?",
+    "Answer": "30"
+  },
+  {
+    "Category": "Biology",
     "Question": " A herb or drug described as 'haemostatic' performs which effect?",
     "Answer": "Stops bleeding"
   },
@@ -96,7 +111,7 @@
   },
   {
     "Category": "Biology",
-    "Question": " Which complex alcohol is a constituent of all animal fats and oils",
+    "Question": " Which complex alcohol is a constituent of all animal fats and oils?",
     "Answer": "Cholesterol"
   },
   {
@@ -171,12 +186,17 @@
   },
   {
     "Category": "Biology",
+    "Question": " How far can a skunk spray: 5, 10 or 15 feet?",
+    "Answer": "10"
+  },
+  {
+    "Category": "Biology",
     "Question": " What is the most famous america reindeer?",
     "Answer": "Caribou"
   },
   {
     "Category": "Biology",
-    "Question": " What an animal need to have to be a fish ?",
+    "Question": " What an animal need to have to be a fish?",
     "Answer": "Gills"
   },
   {
@@ -241,7 +261,7 @@
   },
   {
     "Category": "Biology",
-    "Question": " What animal have a brain about six times heavier than a human?.",
+    "Question": " What animal have a brain about six times heavier than a human?",
     "Answer": "Sperm whale"
   },
   {
@@ -316,13 +336,13 @@
   },
   {
     "Category": "Biology",
-    "Question": " The average person has a vocabulary of 1,000 to 2,000, 3,000 to 4,000, or 5,000 to 6,000 words?",
-    "Answer": "5,000 to 6,000"
+    "Question": " The average person has a vocabulary of: 4,000, 5,000 or 6,000 words?",
+    "Answer": "5,000"
   },
   {
     "Category": "Biology",
-    "Question": " Which part of your body accounts for one quarter of the bones your body contains?",
-    "Answer": "Your feet"
+    "Question": " Which part of the human body accounts for one quarter of the bones the body contains?",
+    "Answer": "Feet"
   },
   {
     "Category": "Biology",
@@ -346,7 +366,7 @@
   },
   {
     "Category": "Biology",
-    "Question": " 'Daffodils' belong to which genus of bulb",
+    "Question": " 'Daffodils' belong to which genus of bulb?",
     "Answer": "Narcissus"
   },
   {
@@ -447,27 +467,37 @@
   {
     "Category": "Biology",
     "Question": " What's an organism made from the genetic material of another commonly called?",
-    "Answer": "A clone"
+    "Answer": "Clone"
   },
   {
     "Category": "Biology",
-    "Question": " What bird in the heron family is named for the long feathers, or 'aigrettes,' grown by the male during mating season?",
-    "Answer": "An egret"
+    "Question": " What bird in the heron family is named for the long feathers, or 'aigrettes', grown by the male during mating season?",
+    "Answer": "Egret"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Who is the only bird that can fly backwards?",
+    "Answer": "Hummingbird"
+  },
+  {
+    "Category": "Biology",
+    "Question": " Who is the only mammal that can fly?",
+    "Answer": "Bat"
   },
   {
     "Category": "Biology",
     "Question": " What does the male Emperor Penguine balance atop his feet for two months while its mate feeds?",
-    "Answer": "An egg"
+    "Answer": "Egg"
   },
   {
     "Category": "Biology",
     "Question": " What is the only mammal that can fly, and not simply glide?",
-    "Answer": "The bat"
+    "Answer": "Bat"
   },
   {
     "Category": "Biology",
-    "Question": " Which is bigger, an ostrich's eye or it's brain?",
-    "Answer": "It's eye"
+    "Question": " Which ostrish organ is bigger: eye or brain?",
+    "Answer": "Eye"
   },
   {
     "Category": "Biology",
@@ -530,8 +560,18 @@
     "Answer": "Antartica"
   },
   {
+    "Category": "Biology",
+    "Question": " How many bones are there in the adult human body?",
+    "Answer": "206"
+  },
+  {
+    "Category": "Biology",
+    "Question": " What's defined as 'species not definitely located in the wild during the past 50 years'?",
+    "Answer": "Endangered species"
+  },
+  {
     "Category": "Games",
-    "Question": "In the game 'Moutain of Faith' (Touhou Project), who is the boss of stage 3?",
+    "Question": "In the game 'Moutain of Faith' (Touhou Project), what is the name of the boss of stage 3?",
     "Answer": "Nitori Kawashiro"
   },
   {
@@ -541,13 +581,18 @@
   },
   {
     "Category": "Games",
-    "Question": "In total, how many different masks have Hata no Kokoro (Touhou Project)?",
+    "Question": "In the game 'Touhou Project', how many different masks have Hata no Kokoro in total?",
     "Answer": "66"
   },
   {
     "Category": "Games",
-    "Question": " In the game 'Cluedo', who is the only woman suspect who isn't married?",
+    "Question": " In the game 'Cluedo', what is the name of the only woman suspect who isn't married?",
     "Answer": "Miss Scarlett"
+  },
+  {
+    "Category": "Games",
+    "Question": "In the game 'Embodiment of Scarlet Devil(Touhou Project)', what is the name of Remilia Scarlet's young sister?",
+	"Answer": "Flandre Scarlet"
   },
   {
     "Category": "Games",
@@ -996,7 +1041,7 @@
   },
   {
     "Category": "Geography",
-    "Question": " What is the capital of Australia",
+    "Question": " What is the capital of Australia?",
     "Answer": "Canberra"
   },
   {
@@ -1171,7 +1216,7 @@
   },
   {
     "Category": "History",
-    "Question": " 'Operation Desert Storm' took place in 1989, 1991 or 1995",
+    "Question": " 'Operation Desert Storm' took place in: 1989, 1991 or 1995?",
     "Answer": "1991"
   },
   {
@@ -1181,13 +1226,13 @@
   },
   {
     "Category": "History",
-    "Question": " What was the first U.S. battle cry of World War II?",
-    "Answer": "Remember Pearl Harbor!"
+    "Question": " What form of ancient writing was finally deciphered with the help of a chunk of basalt known as the Rosetta Stone?",
+    "Answer": "Hieroglyphics"
   },
   {
     "Category": "History",
-    "Question": " What form of ancient writing was finally deciphered with the help of a chunk of basalt known as the Rosetta Stone?",
-    "Answer": "Hieroglyphics"
+    "Question": " What country did the U.S. and Britain blame for the 1988 plane bombing over Scotland?",
+    "Answer": "Libya"
   },
   {
     "Category": "History",
@@ -1198,6 +1243,61 @@
     "Category": "History",
     "Question": " Where are the great Walls of Babylon located in the modern day world?",
     "Answer": "Iraq"
+  },
+  {
+    "Category": "History",
+    "Question": " What is the name of the Greek wine god?",
+    "Answer": "Dionysus"
+  },
+  {
+    "Category": "History",
+    "Question": " What 2 countries fought the 'Hundred Years War'?",
+    "Answer": "France and England"
+  },
+  {
+    "Category": "History",
+    "Question": " Who was the first 'elected' President of Russia?",
+    "Answer": "Boris Yeltsin"
+  },
+  {
+    "Category": "History",
+    "Question": " In what year did Alaska become a state?",
+    "Answer": "1959"
+  },
+  {
+    "Category": "History",
+    "Question": " What year did women win the right to vote in national elections in the U.S.?",
+    "Answer": "1920"
+  },
+  {
+    "Category": "History",
+    "Question": " Who did the Roman Catholic Church admit was right 350 years ago to suggest Earth revolved around the sun?",
+    "Answer": "Galileo"
+  },
+  {
+    "Category": "History",
+    "Question": " Which president almost died during birth, when his mother was given an overdose of chloroform?",
+    "Answer": "Franklin D. Roosevelt"
+  },
+  {
+    "Category": "History",
+    "Question": " Who warned in 1917: 'This is only a preliminary step toward a similar revolution everywhere'?",
+    "Answer": "V.I. Lenin"
+  },
+  {
+    "Category": "History",
+    "Question": " What president was so unpopular that he almost didn't get his name on a dam?",
+    "Answer": "Herbert Hoover"
+  },
+  {
+    "Category": "History",
+    "Question": " In what year was the 'Magna Carta' signed?",
+    "Answer": "1215"
+  },
+  {
+    "Category": "History",
+    "Question": " In what city did Rosa Parks first take a stand against 'Jim Crow' laws by refusing to stand?",
+    "Answer": "Montgomery"
   },
   {
     "Category": "History",
@@ -1241,7 +1341,7 @@
   },
   {
     "Category": "History",
-    "Question": " Who is the only U.S. President who was never married?",
+    "Question": " What is the name of the only U.S. President who was never married?",
     "Answer": "James Buchanan"
   },
   {
@@ -1336,7 +1436,7 @@
   },
   {
     "Category": "History",
-    "Question": " Who is an american inventor and teacher of the deaf, most famous for his invention of the telephone?",
+    "Question": " What is the name of an american inventor and teacher of the deaf, most famous for his invention of the telephone?",
     "Answer": "Alexander Graham Bell"
   },
   {
@@ -1401,6 +1501,21 @@
   },
   {
     "Category": "History",
+    "Question": " What did Supreme Court nominee Douglas Ginsberg describe as a 'mistake' he made as a Harvard prof?",
+    "Answer": "Smoking marijuana"
+  },
+  {
+    "Category": "History",
+    "Question": " What assassin's low self-esteem is often attributed to his undiagnosed dyslexia?",
+    "Answer": "Lee Harvey Oswald"
+  },
+  {
+    "Category": "History",
+    "Question": " How many aircraft carriers were in Pearl Harbor when the Japanese attack occurred?",
+    "Answer": "0"
+  },
+  {
+    "Category": "History",
     "Question": " Who did Paris, the ruler of Troy, select as the most beautiful goddess?",
     "Answer": "Aphrodite"
   },
@@ -1456,6 +1571,36 @@
   },
   {
     "Category": "History",
+    "Question": " Who was the first living American to have his name appear on a postage stamp?",
+    "Answer": "Charles Lindbergh"
+  },
+  {
+    "Category": "History",
+    "Question": " What general's father was in charge of investigating the case of Charles Lindberg's kidnapped child?",
+    "Answer": "Norman Schwarzkopf"
+  },
+  {
+    "Category": "History",
+    "Question": " Who surrendered on April 9, 1865, without Jefferson Davis' approval?",
+    "Answer": "Robert E. Lee"
+  },
+  {
+    "Category": "History",
+    "Question": " What general's estate did a vengeful Congress confiscate as the site for a cemetery?",
+    "Answer": "Robert E. Lee"
+  },
+  {
+    "Category": "History",
+    "Question": " What woman did Hitler hire to glamorize scenes in films such as 'Triumph of the Will'?",
+    "Answer": "Leni Riefenstahl"
+  },
+  {
+    "Category": "History",
+    "Question": " What navigators might never have found the Pacific Ocean without the help of a Native American?",
+    "Answer": "Meriwether Lewis and William Clark"
+  },
+  {
+    "Category": "History",
     "Question": " What did Sir Galahad search for?",
     "Answer": "The Holy Grail"
   },
@@ -1483,6 +1628,21 @@
     "Category": "History",
     "Question": " What year did the Titanic sink?",
     "Answer": "1912"
+  },
+  {
+    "Category": "History",
+    "Question": " What war first gave Americans Uncle Sam on a poster, saying 'I Want You'?",
+    "Answer": "World War I"
+  },
+  {
+    "Category": "History",
+    "Question": " What member of Bill Clinton's administration first championed the information highway?",
+    "Answer": "Al Gore"
+  },
+  {
+    "Category": "History",
+    "Question": " Whose crew is blamed for introducing smallpox to America and syphilis to Europe?",
+    "Answer": "Christopher Columbus"
   },
   {
     "Category": "History",
@@ -1540,7 +1700,7 @@
     "Answer": "Diary of a Young Girl"
   },
   {
-    "Category": "Literature",
+    "Category": "Literatures",
     "Question": " What is the name of the 4 Horsemen of the Apocalypse.",
     "Answer": "War, Pestilence, Famine and Death"
   },
@@ -1773,6 +1933,11 @@
     "Category": "Literatures",
     "Question": " Who said: 'Fie Fi Fo Fum, I smell the blood of an Englishman'?",
     "Answer": "The giant in 'Jack In The Beanstalk'"
+  },
+  {
+    "Category": "Literatures",
+    "Question": " What is the name of the antagonist in Peter Pan?",
+    "Answer": "Captain Hook"
   },
   {
     "Category": "Movies",
@@ -2021,7 +2186,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'",
+    "Question": " Complete this quote: 'Enter freely, of your own will, and leave some of the...'.",
     "Answer": "Happiness you bring"
   },
   {
@@ -2066,7 +2231,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " Complete this quote: 'Soylent Green is...'",
+    "Question": " Complete this quote: 'Soylent Green is...'.",
     "Answer": "People"
   },
   {
@@ -2151,7 +2316,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'",
+    "Question": " Complete this quote from the monster in Frankenstein: 'Fire...'.",
     "Answer": "Bad!"
   },
   {
@@ -2181,7 +2346,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " In the 1986 remake of 'The Little Shop of Horrors', Who played the masochistic dental patient?",
+    "Question": " In the 1986 remake of 'The Little Shop of Horrors', who played the masochistic dental patient?",
     "Answer": "Bill Murray"
   },
   {
@@ -2211,7 +2376,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " In 'Beverly Hills Cop', when Axel Foley enters the hotel, for whom he claims to work ?",
+    "Question": " In 'Beverly Hills Cop', when Axel Foley enters the hotel, for whom he claims to work?",
     "Answer": "Rolling Stone"
   },
   {
@@ -2256,7 +2421,7 @@
   },
   {
     "Category": "Movies",
-    "Question": " Complete this quote: 'It's alive!...'",
+    "Question": " Complete this quote: 'It's alive! ______'.",
     "Answer": "It's alive"
   },
   {
@@ -2281,12 +2446,12 @@
   },
   {
     "Category": "Movies",
-    "Question": " 'Oliver's Story' was the sequel to which Erich Segal's best-seller? ",
+    "Question": " 'Oliver's Story' was the sequel to which Erich Segal's best-seller?",
     "Answer": "Love story"
   },
   {
     "Category": "Movies",
-    "Question": " 'Back in the Habit' is the sub-title to which film sequel",
+    "Question": " 'Back in the Habit' is the sub-title to which film sequel?",
     "Answer": "Sister act 2"
   },
   {
@@ -2305,13 +2470,23 @@
     "Answer": "MASH"
   },
   {
+    "Category": "Movies",
+    "Question": " What Disney animated feature required the drawing of 6,469,952 black spots?",
+    "Answer": "101 Dalmatians"
+  },
+  {
+    "Category": "Movies",
+    "Question": " What film puts an animated rodent to work, hauling buckets of water in his masters abode?",
+    "Answer": "Fantasia"
+  },
+  {
     "Category": "Musics",
     "Question": "To which female singer the number '39' is a reference?",
 	"Answer": "Miku Hatsune"
   },
   {
     "Category": "Musics",
-    "Question": " To which Dire Straits' music these lyrics came from: 'And the big wheel keep on turning neon burning up above'",
+    "Question": " To which Dire Straits' music these lyrics came from: 'And the big wheel keep on turning neon burning up above'?",
     "Answer": "Tunnel of love"
   },
   {
@@ -2328,6 +2503,16 @@
     "Category": "Musics",
     "Question": "Kiss on My List' was which duo's second number one hit?",
     "Answer": "Hall and Oates"
+  },
+  {
+    "Category": "Musics",
+    "Question": " What top-selling Christmas single of 1985 was not the least bit amusing to many senior citizens?",
+    "Answer": "Grandma Got Run Over by a Reindeer"
+  },
+  {
+    "Category": "Musics",
+    "Question": " What cult leader was rejected at an audition for The Monkees for just not being cute enough?",
+    "Answer": "Charles Manson"
   },
   {
     "Category": "Musics",
@@ -2351,6 +2536,16 @@
   },
   {
     "Category": "Musics",
+    "Question": " What child star was the first person signed by MGM without having to take a screen or sound test?",
+    "Answer": "Judy Garland"
+  },
+  {
+    "Category": "Musics",
+    "Question": " What was received on the second day of Christmas, according to the song?",
+    "Answer": "Two turtledoves"
+  },
+  {
+    "Category": "Musics",
     "Question": " Who were the guest artists in Nirvana's 'Unplugged in New York?",
     "Answer": "The Meat Puppets"
   },
@@ -2361,23 +2556,23 @@
   },
   {
     "Category": "Other",
-    "Question": " Who is friends of Nadekobot?",
+    "Question": " What is the name of the 2 friends of Nadekobot?",
     "Answer": "RoboNitori and Bakabot"
-  },
-  {
-    "Category": "Other",
-    "Question": " What does the acronym 'WYSIWYG' stand for?",
-    "Answer": "What you see is what you get"
-  },
-  {
-    "Category": "Other",
-    "Question": " A charge of DWAI is for what",
-    "Answer": "Driving While Ability Impaired"
   },
   {
     "Category": "Other",
     "Question": " What is a word formed from the initials of other words?",
     "Answer": "Acronym"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'WYSIWYG'?",
+    "Answer": "What you see is what you get"
+  },
+  {
+    "Category": "Other",
+    "Question": " What mean this acronym: 'DWAI'?",
+    "Answer": "Driving While Ability Impaired"
   },
   {
     "Category": "Other",
@@ -2976,6 +3171,21 @@
   },
   {
     "Category": "Other",
+    "Question": " How many cars does the average Kuwaiti driver have registered?",
+    "Answer": "3"
+  },
+  {
+    "Category": "Other",
+    "Question": " What do some stock market wizards call a '007'?",
+    "Answer": "A bond"
+  },
+  {
+    "Category": "Other",
+    "Question": " The 1st January of what year have marked the first day of the 21st century?",
+    "Answer": "2001"
+  },
+  {
+    "Category": "Other",
     "Question": " Which product is more money spent on per year, baby food or pet food?",
     "Answer": "Pet food"
   },
@@ -3070,7 +3280,7 @@
     "Answer": "Buffer zone"
   },
   {
-	"Category": "Other",
+    "Category": "Other",
     "Question": " How is called an underground layer of water filled rock?",
     "Answer": "Aquifer"
   },
@@ -3078,6 +3288,16 @@
     "Category": "Other",
     "Question": "How is called an advertising film which is informative and purportedly objective?",
     "Answer": "Infomercial"
+  },
+  {
+    "Category": "Other",
+    "Question": " What autonomous region would the Dalai Lama like to call home?",
+    "Answer": "Tibet"
+  },
+  {
+    "Category": "Other",
+    "Question": " What fixture in the White House was called a 'Quincy'?",
+    "Answer": "The toilet"
   },
   {
     "Category": "Other",
@@ -3101,7 +3321,7 @@
   },
   {
     "Category": "Science",
-    "Question": " A capital 'D' is the Roman numeral for which number",
+    "Question": " A capital 'D' is the Roman numeral for which number?",
     "Answer": "Five hundred"
   },
   {
@@ -3148,6 +3368,11 @@
     "Category": "Science",
     "Question": " How is commonly called phencyclidine hydrochloride?",
     "Answer": "Angel dust"
+  },
+  {
+    "Category": "Science",
+    "Question": " What letter does the first four notes of Beethoven's Fifth Symphony denote in Morse code?",
+    "Answer": "V"
   },
   {
     "Category": "Science",
@@ -3251,6 +3476,26 @@
   },
   {
     "Category": "Science",
+    "Question": " What oceanic climatic condition is named after the Spanish term for 'the Christ Child'?",
+    "Answer": "El Nino"
+  },
+  {
+    "Category": "Science",
+    "Question": " What's the most abundant element on earth?",
+    "Answer": "Oxygen"
+  },
+  {
+    "Category": "Science",
+    "Question": " What's the astronomical phenomenon where the moon partially covers the sun called?",
+    "Answer": "An eclipse"
+  },
+  {
+    "Category": "Science",
+    "Question": " How many natural satellites does Earth have?",
+    "Answer": "One"
+  },
+  {
+    "Category": "Science",
     "Question": " 'Dephlogisticated air' was the name given by Joseph Priestley to which gas?",
     "Answer": "Oxygen"
   },
@@ -3311,6 +3556,11 @@
   },
   {
     "Category": "Science",
+    "Question": " Who invented the computer mouse?",
+    "Answer": "Douglas C. Engelbart"
+  },
+  {
+    "Category": "Science",
     "Question": " How is called a group of stars?",
     "Answer": "Constellation"
   },
@@ -3328,5 +3578,25 @@
     "Category": "Sports",
     "Question": " How many gold medals did Jesse Owens win in the 1936 Berlin Olympics?",
     "Answer": "4"
+  },
+  {
+    "Category": "Sports",
+    "Question": " What kind of sportsman is endangered by 'nitrogen narcosis' at a depth of more than 130 feet?",
+    "Answer": "Scuba diver"
+  },
+  {
+    "Category": "Sports",
+    "Question": " Who fought in the boxing match called 'The Thrilla in Manila'?",
+    "Answer": "Muhammad Ali and Joe Frazier"
+  },
+  {
+    "Category": "Sports",
+    "Question": " What did Chicago Cubs owner Phil Wrigley say, in 1935, was 'just a fad, a passing fancy'?",
+    "Answer": "Night baseball"
+  },
+  {
+    "Category": "Sports",
+    "Question": " Whose 565-foot home run over the wall at Griffith Stadium gave birth to the term 'tape measure shot'?",
+    "Answer": "Mickey Mantle"
   },
 ]
