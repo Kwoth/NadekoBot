@@ -86,10 +86,10 @@ namespace NadekoBot.Modules.Searches.Commands
                           if (champ != null)
                           {
                               champ.ImageStream.Position = 0;
-                              await e.Channel.SendFile("champ.png", champ.ImageStream);
+                              await e.Channel.SendFile("champ.png", champ.ImageStream).ConfigureAwait(false);
                               return;
                           }
-                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}"));
+                          var allData = JArray.Parse(await Classes.SearchHelper.GetResponseStringAsync($"http://api.champion.gg/champion/{name}?api_key={NadekoBot.Creds.LOLAPIKey}").ConfigureAwait(false));
                           JToken data = null;
                           if (role != null)
                           {
@@ -103,7 +103,7 @@ namespace NadekoBot.Modules.Searches.Commands
                               }
                               if (data == null)
                               {
-                                  await e.Channel.SendMessage("💢 Data for that role does not exist.");
+                                  await e.Channel.SendMessage("💢 Data for that role does not exist.").ConfigureAwait(false);
                                   return;
                               }
                           }
@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Searches.Commands
                           {
                               Console.WriteLine("Sending lol image from cache.");
                               champ.ImageStream.Position = 0;
-                              await e.Channel.SendFile("champ.png", champ.ImageStream);
+                              await e.Channel.SendFile("champ.png", champ.ImageStream).ConfigureAwait(false);
                               return;
                           }
                           //name = data["title"].ToString();
@@ -134,7 +134,8 @@ namespace NadekoBot.Modules.Searches.Commands
                                   roles[i] = ">" + roles[i] + "<";
                           }
                           var general = JArray.Parse(await SearchHelper.GetResponseStringAsync($"http://api.champion.gg/stats/" +
-                                                                                               $"champs/{name}?api_key={NadekoBot.Creds.LOLAPIKey}"))
+                                                                                               $"champs/{name}?api_key={NadekoBot.Creds.LOLAPIKey}")
+                                                                                                .ConfigureAwait(false))
                                               .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
                           if (general == null)
                           {
@@ -189,30 +190,33 @@ namespace NadekoBot.Modules.Searches.Commands
                               //draw champ surname
 
                               //draw skill order
-                              float orderFormula = 120 / orderArr.Count;
-                              const float orderVerticalSpacing = 10;
-                              for (var i = 0; i < orderArr.Count; i++)
+                              if (orderArr.Count != 0)
                               {
-                                  var orderX = margin + margin + imageSize + orderFormula * i + i;
-                                  float orderY = margin + 35;
-                                  var spellName = orderArr[i].ToString().ToLowerInvariant();
-
-                                  switch (spellName)
+                                  float orderFormula = 120 / orderArr.Count;
+                                  const float orderVerticalSpacing = 10;
+                                  for (var i = 0; i < orderArr.Count; i++)
                                   {
-                                      case "w":
-                                          orderY += orderVerticalSpacing;
-                                          break;
-                                      case "e":
-                                          orderY += orderVerticalSpacing * 2;
-                                          break;
-                                      case "r":
-                                          orderY += orderVerticalSpacing * 3;
-                                          break;
-                                      default:
-                                          break;
-                                  }
+                                      var orderX = margin + margin + imageSize + orderFormula * i + i;
+                                      float orderY = margin + 35;
+                                      var spellName = orderArr[i].ToString().ToLowerInvariant();
 
-                                  g.DrawString(spellName.ToUpperInvariant(), new Font("Monaco", 7), Brushes.LimeGreen, orderX, orderY);
+                                      switch (spellName)
+                                      {
+                                          case "w":
+                                              orderY += orderVerticalSpacing;
+                                              break;
+                                          case "e":
+                                              orderY += orderVerticalSpacing * 2;
+                                              break;
+                                          case "r":
+                                              orderY += orderVerticalSpacing * 3;
+                                              break;
+                                          default:
+                                              break;
+                                      }
+
+                                      g.DrawString(spellName.ToUpperInvariant(), new Font("Monaco", 7), Brushes.LimeGreen, orderX, orderY);
+                                  }
                               }
                               //draw roles
                               g.DrawString("Roles: " + string.Join(", ", roles), normalFont, Brushes.WhiteSmoke, margin, margin + imageSize + margin);
@@ -267,12 +271,12 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                           }
                           var cachedChamp = new CachedChampion { AddedAt = DateTime.Now, ImageStream = img.ToStream(System.Drawing.Imaging.ImageFormat.Png), Name = name.ToLower() + "_" + resolvedRole };
                           CachedChampionImages.Add(cachedChamp.Name, cachedChamp);
-                          await e.Channel.SendFile(data["title"] + "_stats.png", cachedChamp.ImageStream);
+                          await e.Channel.SendFile(data["title"] + "_stats.png", cachedChamp.ImageStream).ConfigureAwait(false);
                       }
                       catch (Exception ex)
                       {
                           Console.WriteLine(ex);
-                          await e.Channel.SendMessage("💢 Failed retreiving data for that champion.");
+                          await e.Channel.SendMessage("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
                       }
                   });
 
@@ -290,7 +294,8 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                                   .SearchHelper
                                   .GetResponseStringAsync($"http://api.champion.gg/stats/champs/mostBanned?" +
                                                           $"api_key={NadekoBot.Creds.LOLAPIKey}&page=1&" +
-                                                          $"limit={showCount}"))["data"] as JArray;
+                                                          $"limit={showCount}")
+                                                          .ConfigureAwait(false))["data"] as JArray;
 
                           var sb = new StringBuilder();
                           sb.AppendLine($"**Showing {showCount} top banned champions.**");
@@ -303,11 +308,11 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                               //sb.AppendLine($" ({data[i]["general"]["banRate"]}%)");
                           }
 
-                          await e.Channel.SendMessage(sb.ToString());
+                          await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                       }
                       catch (Exception)
                       {
-                          await e.Channel.SendMessage($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.");
+                          await e.Channel.SendMessage($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
                       }
                   });
         }
