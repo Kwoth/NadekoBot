@@ -26,8 +26,8 @@ Command and aliases | Description | Usage
 `.scsc`  |  Starts an instance of cross server channel. You will get a token as a DMthat other people will use to tune in to the same instance
 `.jcsc`  |  Joins current channel to an instance of cross server channel using the token.
 `.lcsc`  |  Leaves Cross server channel instance from this channel
-`.asar`  |  Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. |  .asar Gamer
-`.rsar`  |  Removes a specified role from the list of self-assignable roles.
+`.asar`  |  Adds a role, or list of roles separated by whitespace(use quotations for multiword roles) to the list of self-assignable roles. |  .asar Gamer "Gamer Girl"
+`.rsar`  |  Removes a specified role from the list of self-assignable roles.  | .rsar role1 "role 2"
 `.lsar`  |  Lits all self-assignable roles.
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
@@ -55,11 +55,11 @@ Command and aliases | Description | Usage
 `.cid`, `.channelid`  |  Shows current channel ID.
 `.sid`, `.serverid`  |  Shows current server ID.
 `.stats`  |  Shows some basic stats for Nadeko.
-`.dysyd`  |  Shows some basic stats for Nadeko.
+`.dysyd`  |  Shows some basic stats for Nadeko. (Messed up version)
 `.heap`  |  Shows allocated memory - **Owner Only!**
 `.prune`  |  Prunes a number of messages from the current channel. |  .prune 5
 `.die`, `.graceful`  |  Shuts the bot down and notifies users about the restart. **Owner Only!**
-`.clr`  |  Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel (**Owner Only!**)  |  .clr @X
+`.clr`  |  Clears some of Nadeko's messages from the current channel. If given a user, will clear the user's messages from the current channel (**Owner Only!**)  |  .clr @User
 `.newname`, `.setname`  |  Give the bot a new name. **Owner Only!**
 `.newavatar`, `.setavatar`  |  Sets a new avatar image for the NadekoBot. **Owner Only!**
 `.setgame`  |  Sets the bots game. **Owner Only!**
@@ -136,10 +136,10 @@ Command and aliases | Description | Usage
 `@BotName cs`, `@BotName copystop`  |  Nadeko stops copying you
 `@BotName req`, `@BotName request`  |  Requests a feature for nadeko. |  @NadekoBot req new_feature
 `@BotName lr`  |  PMs the user all current nadeko requests.
-`@BotName dr`  |  Deletes a request. Only owner is able to do this.
-`@BotName rr`  |  Resolves a request. Only owner is able to do this.
+`@BotName dr`  |  Deletes a request. **BOT OWNER ONLY**
+`@BotName rr`  |  Resolves a request. **BOT OWNER ONLY**
 `@BotName uptime`  |  Shows how long Nadeko has been running for.
-`@BotName die`  |  Works only for the owner. Shuts the bot down.
+`@BotName die`  |  Shuts the bot down. **BOT OWNER ONLY**
 `@BotName do you love me`  |  Replies with positive answer only to the bot owner.
 `@BotName how are you`, `@BotName how are you?`  |  Replies positive only if bot owner is online.
 `@BotName insult`  |  Insults @X person. |  @NadekoBot insult @X.
