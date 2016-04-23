@@ -14,12 +14,13 @@ namespace NadekoBot.Modules.Games
 
         public GamesModule()
         {
-            commands.Add(new Trivia(this));
+            commands.Add(new TriviaCommand(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             commands.Add(new PlantPick(this));
             commands.Add(new Bomberman(this));
             commands.Add(new CardsAgainstHumanity(this));
+            commands.Add(new Leet(this));
             //commands.Add(new BetrayGame(this));
 
         }
