@@ -7,6 +7,7 @@ using NadekoBot.Classes.JSONModels;
 using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.ClashOfClans;
 using NadekoBot.Modules.Conversations;
+using NadekoBot.Modules.Feeds;
 using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
@@ -183,6 +184,7 @@ namespace NadekoBot
             modules.Add(new ClashOfClansModule(), "ClashOfClans", ModuleFilter.None);
             modules.Add(new PokemonModule(), "Pokegame", ModuleFilter.None);
             modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
+            modules.Add(new FeedModule(), "Feeds", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new TrelloModule(), "Trello", ModuleFilter.None);
 

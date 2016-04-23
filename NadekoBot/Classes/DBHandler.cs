@@ -26,12 +26,13 @@ namespace NadekoBot.Classes
                 conn.CreateTable<CurrencyState>();
                 conn.CreateTable<CurrencyTransaction>();
                 conn.CreateTable<Donator>();
-                conn.CreateTable<UserPokeTypes>();
+                conn.CreateTable<Feed>();
                 conn.CreateTable<UserQuote>();
                 conn.CreateTable<Reminder>();
                 conn.CreateTable<SongInfo>();
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
+                conn.CreateTable<PokemonSprite>();
                 conn.Execute(Queries.TransactionTriggerQuery);
             }
         }

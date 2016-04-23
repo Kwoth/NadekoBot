@@ -2,7 +2,7 @@
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
 #NadekoBot List Of Commands  
-Version: `NadekoBot v0.9.5950.11393`
+Version: `NadekoBot v0.9.5945.19933`
 ### Administration  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
@@ -32,9 +32,6 @@ Command and aliases | Description | Usage
 `.iam`  |  Adds a role to you that you choose. Role must be on a list of self-assignable roles. |  .iam Gamer
 `.iamn`, `.iamnot`  |  Removes a role to you that you choose. Role must be on a list of self-assignable roles. |  .iamn Gamer
 `.remind`  |  Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third argument is a (multiword)message.  |  `.remind me 1d5h Do something` or `.remind #general Start now!`
-`.sinfo`, `.serverinfo`  |  Shows info about the server the bot is on. If no channel is supplied, it defaults to current one. | .sinfo Some Server
-`.cinfo`, `.channelinfo`  |  Shows info about the channel. If no channel is supplied, it defaults to current one. | .cinfo #some-channel
-`.uinfo`, `.userinfo`  |  Shows info about the user. If no user is supplied, it defaults a user running the command. | .uinfo @SomeUser
 `.sr`, `.setrole`  |  Sets a role for a given user. |  .sr @User Guest
 `.rr`, `.removerole`  |  Removes a role from a given user. |  .rr @User Admin
 `.r`, `.role`, `.cr`  |  Creates a role with a given name. |  .r Awesome Role
@@ -152,6 +149,7 @@ Command and aliases | Description | Usage
 `@BotName draw`  |  Nadeko instructs you to type $draw. Gambling functions start with $
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  @NadekoBot fire [x]
 `@BotName rip`  |  Shows a grave image of someone with a start year |  @NadekoBot rip @Someone 2000
+`@BotName j`  |  Joins a server using a code.
 `@BotName slm`  |  Shows the message where you were last mentioned in this channel (checks last 10k messages)
 `@BotName bb`  |  Says bye to someone. |  @NadekoBot bb @X
 `@BotName call`  |  Useless. Writes calling @X to chat. |  @NadekoBot call @X 
@@ -160,6 +158,7 @@ Command and aliases | Description | Usage
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.**
 `@BotName ab`  |  Try to get 'abalabahaha'
 `@BotName av`, `@BotName avatar`  |  Shows a mentioned person's avatar. |  ~av @X
+`@BotName leet`  |  
 
 ### Gambling  
 Command and aliases | Description | Usage
@@ -170,8 +169,8 @@ Command and aliases | Description | Usage
 `$roll`  |  Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. |  $roll or $roll 7 or $roll 3d5
 `$nroll`  |  Rolls in a given range. |  `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$raffle`  |  Prints a name and ID of a random user from the online list from the (optional) role.
-`$$$`  |  Check how much NadekoFlowers you have.
-`$give`  |  Give someone a certain amount of NadekoFlowers
+`$$$`  |  Check how much Dragon Gems you have.
+`$give`  |  Give someone a certain amount of Dragon Gems
 `$award`  |  Gives someone a certain amount of flowers. **Owner only!**
 `$take`  |  Takes a certain amount of flowers from someone. **Owner only!**
 
@@ -188,7 +187,8 @@ Command and aliases | Description | Usage
 `>pollend`  |  Stops active poll on this server and prints the results in this channel.
 `>pick`  |  Picks a flower planted in this channel.
 `>plant`  |  Spend a flower to plant it in this channel. (If bot is restarted or crashes, flower will be lost)
-`>leet`  |  Converts a text to leetspeak with 6 (1-6) severity levels |  >leet 3 Hello
+`>cah`  |  Starts a game of cards against humanity, mention all players in this message
+`>cahq`  |  Quits current CAH game after current round
 `>choose`  |  Chooses a thing from a list of things |  >choose Get up;Sleep;Sleep more
 `>8ball`  |  Ask the 8ball a yes/no question.
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  >rps scissors
@@ -204,7 +204,7 @@ Command and aliases | Description | Usage
 `!m q`, `!m yq`  |  Queue a song using keywords or a link. Bot will join your voice channel.**You must be in a voice channel**. |  `!m q Dream Of Venice`
 `!m lq`, `!m ls`, `!m lp`  |  Lists up to 15 currently queued songs. |  `!m lq`
 `!m np`, `!m playing`  |  Shows the song currently playing. |  `!m np`
-`!m vol`  |  Sets the music volume 0-100% |  `!m vol 50`
+`!m vol`  |  Sets the music volume 0-150% |  `!m vol 50`
 `!m dv`, `!m defvol`  |  Sets the default music volume when music playback is started (0-100). Does not persist through restarts. |  `!m dv 80`
 `!m min`, `!m mute`  |  Sets the music volume to 0% |  `!m min`
 `!m max`  |  Sets the music volume to 100% (real max is actually 150%). |  `!m max`
@@ -221,7 +221,6 @@ Command and aliases | Description | Usage
 `!m rpl`, `!m repeatplaylist`  |  Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). |  `!m rpl`
 `!m save`  |  Saves a playlist under a certain name. Name must be no longer than 20 characters and mustn't contain dashes. |  `!m save classical1`
 `!m load`  |  Loads a playlist under a certain name.  |  `!m load classical-1`
-`!m goto`  |  Goes to a specific time in seconds in a song.
 
 ### Searches  
 Command and aliases | Description | Usage
@@ -253,7 +252,7 @@ Command and aliases | Description | Usage
 `~yomama`, `~ym`  |  Shows a random joke from <http://api.yomomma.info/>
 `~randjoke`, `~rj`  |  Shows a random joke from <http://tambal.azurewebsites.net/joke/random>
 `~chucknorris`, `~cn`  |  Shows a random chucknorris joke from <http://tambal.azurewebsites.net/joke/random>
-`~mi`, `~magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
+`~mi`, `magicitem`  |  Shows a random magicitem from <https://1d4chan.org/wiki/List_of_/tg/%27s_magic_items>
 `~revav`  |  Returns a google reverse image search for someone's avatar.
 
 ### NSFW  
@@ -283,23 +282,14 @@ Command and aliases | Description | Usage
 ### Pokegame  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
-`>attack`  |  Attacks a target with the given move
-`>ml`, `movelist`  |  Lists the moves you are able to use
-`>heal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | >revive @someone
-`>type`  |  Get the poketype of the target. |  >type @someone
-`>settype`  |  Set your poketype. Costs a NadekoFlower. |  >settype fire
+`pokeattack`  |  Attacks a target with the given move
+`pokeml`, `movelist`  |  Lists the moves you are able to use
+`pokeheal`  |  Heals someone. Revives those that fainted. Costs a NadekoFlower  | pokerevive @someone
+`poketype`  |  Get the poketype of the target. |  poketype @someone
+`pokesettype`  |  Set your poketype. Costs a Dragon Gem. |  pokesettype fire
 
 ### Translator  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `~trans`  |  Translates from>to text. From the given language to the destiation language.
 `~translangs`  |  List the valid languages for translation.
-
-### Trello  
-Command and aliases | Description | Usage
-----------------|--------------|-------
-`trello  join`, `trello  j`  |  Joins a server
-`trello  bind`  |  Bind a trello bot to a single channel. You will receive notifications from your board when something is added or edited. |  bind [board_id]
-`trello  unbind`  |  Unbinds a bot from the channel and board.
-`trello  lists`, `trello  list`  |  Lists all lists yo ;)
-`trello  cards`  |  Lists all cards from the supplied list. You can supply either a name or an index.

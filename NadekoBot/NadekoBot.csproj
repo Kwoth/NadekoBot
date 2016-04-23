@@ -123,14 +123,21 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Modules\Feeds\FeedModule.cs" />
+    <Compile Include="Modules\Pokemon\PokemonAttack.cs" />
+    <Compile Include="Modules\Pokemon\PokemonMain.cs" />
+    <Compile Include="Modules\Pokemon\TrainerStats.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
+    <Compile Include="_Models\DataModels\Feed.cs" />
+    <Compile Include="_Models\DataModels\PokemonSprite.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
     <Compile Include="_Models\JSONModels\LocalizedStrings.cs" />
     <Compile Include="_Models\JSONModels\MagicItem.cs" />
     <Compile Include="_Models\JSONModels\MangaResult.cs" />
+    <Compile Include="_Models\JSONModels\PokemonSpecies.cs" />
     <Compile Include="_Models\JSONModels\PokemonType.cs" />
     <Compile Include="_Models\JSONModels\_JSONModels.cs" />
     <Compile Include="Modules\Games\Commands\Leet.cs" />
@@ -152,7 +159,6 @@
     <Compile Include="_Models\DataModels\IDataModel.cs" />
     <Compile Include="_Models\DataModels\MusicPlaylist.cs" />
     <Compile Include="_Models\DataModels\PlaylistSongInfo.cs" />
-    <Compile Include="_Models\DataModels\PokeTypes.cs" />
     <Compile Include="_Models\DataModels\Reminder.cs" />
     <Compile Include="_Models\DataModels\RequestModel.cs" />
     <Compile Include="_Models\DataModels\SongInfo.cs" />
@@ -203,7 +209,6 @@
     <Compile Include="Modules\Permissions\PermissionsModule.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
-    <Compile Include="Modules\Pokemon\PokeStats.cs" />
     <Compile Include="Modules\Searches\SearchesModule.cs" />
     <Compile Include="Modules\Searches\Commands\ConverterCommand.cs" />
     <Compile Include="Modules\Searches\Commands\RedditCommand.cs" />
