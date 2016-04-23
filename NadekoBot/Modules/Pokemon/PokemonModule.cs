@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Pokemon
                 {
                     var target = e.Server.FindUsers(e.GetArg("target")).DefaultIfEmpty(null).FirstOrDefault() ?? e.User;
 
-                    await e.Channel.SendMessage($"**{target.Mention}**:\n{ActivePokemon(target).pokemonString()}");
+                    await e.Channel.SendMessage($"**{target.Mention}**:\n{ActivePokemon(target).PokemonString()}");
                     //foreach (var pkm in list)
                     //{
                     //    await e.Channel.SendMessage($"**{target.Mention}**:\n{pkm.pokemonString()}");
