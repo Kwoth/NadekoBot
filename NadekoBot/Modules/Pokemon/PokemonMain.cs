@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Pokemon.Extensions
             return PokemonMain.Instance.pokemonClasses.Where(x => x.number == pkm.SpeciesId).DefaultIfEmpty(null).First();
         }
 
-        public static string pokemonString(this PokemonSprite pkm)
+        public static string PokemonString(this PokemonSprite pkm)
         {
             var species = pkm.GetSpecies();
             var str = $"**Name**: {pkm.NickName}\n" +
@@ -83,7 +83,7 @@ namespace NadekoBot.Modules.Pokemon.Extensions
 
         public static int Reward(this PokemonSprite pkm, PokemonSprite defeated)
         {
-            var reward = calcXPReward(pkm, defeated);
+            var reward = CalcXPReward(pkm, defeated);
             pkm.XP += reward;
             if (pkm.XP > pkm.XPRequired())
             {
@@ -95,7 +95,7 @@ namespace NadekoBot.Modules.Pokemon.Extensions
 
         
 
-        private static int calcXPReward(PokemonSprite winner, PokemonSprite loser)
+        private static int CalcXPReward(PokemonSprite winner, PokemonSprite loser)
         {
             var a = 1;
             var b = loser.GetSpecies().baseExperience;
@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Pokemon.Extensions
             return list;
         }
 
-        public static PokemonType stringToPokemonType(this string s)
+        public static PokemonType StringToPokemonType(this string s)
         {
             var str = s.ToUpperInvariant();
             return NadekoBot.Config.PokemonTypes.Where(x => x.Name == str).DefaultIfEmpty(null).FirstOrDefault();
@@ -142,12 +142,12 @@ namespace NadekoBot.Modules.Pokemon.Extensions
 
             //Up them stats
             pkm.MaxHP = (int)Math.Ceiling((((baseStats["hp"] + rng.Next(0, 12)) + (Math.Sqrt((655535 / 100) * pkm.Level) / 4) * pkm.Level) / 100 + pkm.Level + 10));
-            pkm.Attack = calcStat(baseStats["attack"], pkm.Level);
-            pkm.Defense = calcStat(baseStats["defense"], pkm.Level);
-            pkm.SpecialAttack = calcStat(baseStats["special-attack"], pkm.Level);
-            pkm.SpecialDefense = calcStat(baseStats["special-defense"], pkm.Level);
+            pkm.Attack = CalcStat(baseStats["attack"], pkm.Level);
+            pkm.Defense = CalcStat(baseStats["defense"], pkm.Level);
+            pkm.SpecialAttack = CalcStat(baseStats["special-attack"], pkm.Level);
+            pkm.SpecialDefense = CalcStat(baseStats["special-defense"], pkm.Level);
             pkm.HP = pkm.MaxHP;
-            pkm.Speed = calcStat(baseStats["speed"], pkm.Level);
+            pkm.Speed = CalcStat(baseStats["speed"], pkm.Level);
 
             //Will it evolve!?
             var evolveLevel = species.evolveLevel;
@@ -165,7 +165,7 @@ namespace NadekoBot.Modules.Pokemon.Extensions
 
         }
 
-        private static int calcStat(int _base, int level)
+        private static int CalcStat(int _base, int level)
         {
             Random rng = new Random();
             var m = (((_base + rng.Next(0, 12)) * 2 + (Math.Sqrt((655535 / 100) * level) / 4)) * level / 100) + level + 5;
