@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NadekoBot</RootNamespace>
     <AssemblyName>NadekoBot</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -40,7 +40,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DEMO__,__DEMO_EXPERIMENTAL__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>true</Prefer32Bit>
@@ -120,103 +120,103 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCard.cs" />
-    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCard.cs" />
-    <Compile Include="Classes\CardsAgainstHumanity\CAHWhiteCardPool.cs" />
-    <Compile Include="Classes\CardsAgainstHumanity\CardsAgainstHumanityGame.cs" />
-    <Compile Include="Classes\CardsAgainstHumanity\CAHBlackCardPool.cs" />
-    <Compile Include="Classes\ClashOfClans\ClashOfClans.cs" />
+    <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
-    <Compile Include="Classes\IMDB\ImdbMovie.cs" />
-    <Compile Include="Classes\IMDB\ImdbScraper.cs" />
+    <Compile Include="Modules\Feeds\FeedModule.cs" />
+    <Compile Include="Modules\Pokemon\PokemonAttack.cs" />
+    <Compile Include="Modules\Pokemon\PokemonMain.cs" />
+    <Compile Include="Modules\Pokemon\TrainerStats.cs" />
+    <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
+    <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
-    <Compile Include="Classes\JSONModels\AnimeResult.cs" />
-    <Compile Include="Classes\JSONModels\Configuration.cs" />
-    <Compile Include="Classes\JSONModels\LocalizedStrings.cs" />
-    <Compile Include="Classes\JSONModels\MagicItem.cs" />
-    <Compile Include="Classes\JSONModels\MangaResult.cs" />
-    <Compile Include="Classes\JSONModels\PokemonType.cs" />
-    <Compile Include="Classes\JSONModels\_JSONModels.cs" />
-    <Compile Include="Classes\Leet.cs" />
-    <Compile Include="Classes\Music\MusicControls.cs" />
-    <Compile Include="Classes\Music\PoopyBuffer.cs" />
-    <Compile Include="Classes\Music\Song.cs" />
-    <Compile Include="Classes\Music\StreamRequest.cs" />
-    <Compile Include="Classes\Music\SoundCloud.cs" />
-    <Compile Include="Classes\Permissions\PermissionChecker.cs" />
-    <Compile Include="Classes\Permissions\PermissionHelper.cs" />
-    <Compile Include="Classes\Permissions\PermissionsHandler.cs" />
-    <Compile Include="Classes\Permissions\SimpleCheckers.cs" />
+    <Compile Include="_Models\DataModels\Feed.cs" />
+    <Compile Include="_Models\DataModels\PokemonSprite.cs" />
+    <Compile Include="_Models\JSONModels\AnimeResult.cs" />
+    <Compile Include="_Models\JSONModels\Configuration.cs" />
+    <Compile Include="_Models\JSONModels\LocalizedStrings.cs" />
+    <Compile Include="_Models\JSONModels\MagicItem.cs" />
+    <Compile Include="_Models\JSONModels\MangaResult.cs" />
+    <Compile Include="_Models\JSONModels\PokemonSpecies.cs" />
+    <Compile Include="_Models\JSONModels\PokemonType.cs" />
+    <Compile Include="_Models\JSONModels\_JSONModels.cs" />
+    <Compile Include="Modules\Games\Commands\Leet.cs" />
+    <Compile Include="Modules\Music\Classes\MusicControls.cs" />
+    <Compile Include="Modules\Music\Classes\PoopyBuffer.cs" />
+    <Compile Include="Modules\Music\Classes\Song.cs" />
+    <Compile Include="Modules\Music\Classes\SoundCloud.cs" />
+    <Compile Include="Modules\Permissions\Classes\PermissionChecker.cs" />
+    <Compile Include="Modules\Permissions\Classes\PermissionHelper.cs" />
+    <Compile Include="Modules\Permissions\Classes\PermissionsHandler.cs" />
+    <Compile Include="Modules\Permissions\Classes\SimpleCheckers.cs" />
     <Compile Include="Classes\SearchHelper.cs" />
     <Compile Include="Classes\ServerSpecificConfig.cs" />
-    <Compile Include="Classes\_DataModels\AnnouncementModel.cs" />
-    <Compile Include="Classes\_DataModels\CommandModel.cs" />
-    <Compile Include="Classes\_DataModels\CurrencyStateModel.cs" />
-    <Compile Include="Classes\_DataModels\CurrencyTransactionModel.cs" />
-    <Compile Include="Classes\_DataModels\Donator.cs" />
-    <Compile Include="Classes\_DataModels\IDataModel.cs" />
-    <Compile Include="Classes\_DataModels\MusicPlaylist.cs" />
-    <Compile Include="Classes\_DataModels\PlaylistSongInfo.cs" />
-    <Compile Include="Classes\_DataModels\PokeTypes.cs" />
-    <Compile Include="Classes\_DataModels\Reminder.cs" />
-    <Compile Include="Classes\_DataModels\RequestModel.cs" />
-    <Compile Include="Classes\_DataModels\SongInfo.cs" />
-    <Compile Include="Classes\_DataModels\StatsModel.cs" />
-    <Compile Include="Classes\_DataModels\TypingArticleModel.cs" />
-    <Compile Include="Classes\_DataModels\UserQuoteModel.cs" />
-    <Compile Include="Commands\BetrayGame.cs" />
-    <Compile Include="Commands\CardsAgainstHumanityCommand.cs" />
-    <Compile Include="Commands\PlantPick.cs" />
+    <Compile Include="_Models\DataModels\AnnouncementModel.cs" />
+    <Compile Include="_Models\DataModels\CommandModel.cs" />
+    <Compile Include="_Models\DataModels\CurrencyStateModel.cs" />
+    <Compile Include="_Models\DataModels\CurrencyTransactionModel.cs" />
+    <Compile Include="_Models\DataModels\Donator.cs" />
+    <Compile Include="_Models\DataModels\IDataModel.cs" />
+    <Compile Include="_Models\DataModels\MusicPlaylist.cs" />
+    <Compile Include="_Models\DataModels\PlaylistSongInfo.cs" />
+    <Compile Include="_Models\DataModels\Reminder.cs" />
+    <Compile Include="_Models\DataModels\RequestModel.cs" />
+    <Compile Include="_Models\DataModels\SongInfo.cs" />
+    <Compile Include="_Models\DataModels\StatsModel.cs" />
+    <Compile Include="_Models\DataModels\TypingArticleModel.cs" />
+    <Compile Include="_Models\DataModels\UserQuoteModel.cs" />
+    <Compile Include="Modules\Games\Commands\BetrayGame.cs" />
+    <Compile Include="Modules\DiscordCommand.cs" />
+    <Compile Include="Modules\Games\Commands\PlantPick.cs" />
     <Compile Include="Modules\Administration\Commands\CrossServerTextChannel.cs" />
+    <Compile Include="Modules\Administration\Commands\InfoCommands.cs" />
     <Compile Include="Modules\Administration\Commands\Remind.cs" />
     <Compile Include="Modules\Administration\Commands\SelfAssignedRolesCommand.cs" />
-    <Compile Include="Modules\ClashOfClans.cs" />
-    <Compile Include="Commands\FilterWordsCommand.cs" />
-    <Compile Include="Commands\FilterInvitesCommand.cs" />
+    <Compile Include="Modules\ClashOfClans\ClashOfClansModule.cs" />
+    <Compile Include="Modules\Permissions\Commands\FilterWordsCommand.cs" />
+    <Compile Include="Modules\Permissions\Commands\FilterInvitesCommand.cs" />
     <Compile Include="Modules\Administration\Commands\LogCommand.cs" />
-    <Compile Include="Commands\LoLCommands.cs" />
+    <Compile Include="Modules\Searches\Commands\LoLCommands.cs" />
     <Compile Include="Modules\Administration\Commands\MessageRepeater.cs" />
     <Compile Include="Modules\Administration\Commands\PlayingRotate.cs" />
-    <Compile Include="Commands\StreamNotifications.cs" />
-    <Compile Include="Commands\TriviaCommand.cs" />
-    <Compile Include="Classes\Trivia\TriviaGame.cs" />
-    <Compile Include="Classes\Trivia\TriviaQuestion.cs" />
-    <Compile Include="Classes\Trivia\TriviaQuestionPool.cs" />
-    <Compile Include="Commands\RequestsCommand.cs" />
+    <Compile Include="Modules\Searches\Commands\StreamNotifications.cs" />
+    <Compile Include="Modules\Games\Commands\TriviaCommand.cs" />
+    <Compile Include="Modules\Games\Commands\Trivia\TriviaGame.cs" />
+    <Compile Include="Modules\Games\Commands\Trivia\TriviaQuestion.cs" />
+    <Compile Include="Modules\Games\Commands\Trivia\TriviaQuestionPool.cs" />
+    <Compile Include="Modules\Conversations\Commands\RequestsCommand.cs" />
     <Compile Include="Modules\Administration\Commands\ServerGreetCommand.cs" />
-    <Compile Include="Commands\SpeedTyping.cs" />
+    <Compile Include="Modules\Games\Commands\SpeedTyping.cs" />
     <Compile Include="Modules\Gambling\Helpers\Cards.cs" />
     <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Commands\CopyCommand.cs" />
+    <Compile Include="Modules\Conversations\Commands\CopyCommand.cs" />
     <Compile Include="Modules\Gambling\DiceRollCommand.cs" />
-    <Compile Include="Commands\IDiscordCommand.cs" />
     <Compile Include="Modules\Gambling\DrawCommand.cs" />
     <Compile Include="Modules\Gambling\FlipCoinCommand.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Modules\Help\Commands\HelpCommand.cs" />
     <Compile Include="Modules\Administration\Commands\VoiceNotificationCommand.cs" />
     <Compile Include="Modules\Administration\Commands\VoicePlusTextCommand.cs" />
     <Compile Include="Modules\Administration\AdministrationModule.cs" />
-    <Compile Include="Modules\Conversations.cs" />
+    <Compile Include="Modules\Conversations\Conversations.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\Gambling\GamblingModule.cs" />
     <Compile Include="Modules\Games\Commands\Bomberman.cs" />
     <Compile Include="Modules\Games\GamesModule.cs" />
-    <Compile Include="Modules\Help.cs" />
-    <Compile Include="Modules\Music.cs" />
-    <Compile Include="Commands\PollCommand.cs" />
-    <Compile Include="Modules\NSFW.cs" />
-    <Compile Include="Modules\Permissions.cs" />
+    <Compile Include="Modules\Help\HelpModule.cs" />
+    <Compile Include="Modules\Music\MusicModule.cs" />
+    <Compile Include="Modules\Games\Commands\PollCommand.cs" />
+    <Compile Include="Modules\NSFW\NSFWModule.cs" />
+    <Compile Include="Modules\Permissions\PermissionsModule.cs" />
     <Compile Include="Modules\Administration\Commands\RatelimitCommand.cs" />
     <Compile Include="Modules\Pokemon\PokemonModule.cs" />
-    <Compile Include="Modules\Pokemon\PokeStats.cs" />
-    <Compile Include="Modules\Searches.cs" />
-    <Compile Include="Modules\Search\Commands\ConverterCommand.cs" />
+    <Compile Include="Modules\Searches\SearchesModule.cs" />
+    <Compile Include="Modules\Searches\Commands\ConverterCommand.cs" />
+    <Compile Include="Modules\Searches\Commands\RedditCommand.cs" />
     <Compile Include="Modules\Translator\Helpers\GoogleTranslator.cs" />
     <Compile Include="Modules\Translator\TranslateCommand.cs" />
     <Compile Include="Modules\Translator\TranslatorModule.cs" />
     <Compile Include="Modules\Translator\ValidLanguagesCommand.cs" />
-    <Compile Include="Modules\Trello.cs" />
+    <Compile Include="Modules\Trello\TrelloModule.cs" />
     <Compile Include="NadekoBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -476,7 +476,6 @@
   <ItemGroup>
     <Content Include="lib\ScaredFingers.UnitsConversion.dll" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
