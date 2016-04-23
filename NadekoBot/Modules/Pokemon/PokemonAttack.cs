@@ -21,8 +21,14 @@ namespace NadekoBot.Modules.Pokemon
         public int Damage { get; }
         public KeyValuePair<string, string> move { get; }
         Random rng { get; set; } = new Random();
-        public bool isCritical { get; set; } = false;
-        public double effectiveness { get; set; } = 1;
+        public bool IsCritical { get; set; } = false;
+        /// <summary>
+        /// How effective the move is;
+        /// 1: somewhat effective,
+        /// less than 1: not effective
+        /// more than 1: super effective
+        /// </summary>
+        public double Effectiveness { get; set; } = 1;
         public PokemonAttack(PokemonSprite attacker, PokemonSprite defender, KeyValuePair<string, string> move)
         {
             Attacker = attacker;
@@ -32,12 +38,12 @@ namespace NadekoBot.Modules.Pokemon
             AttackerTypes = AttackSpecies.GetPokemonTypes();
             DefenseTypes = DefendSpecies.GetPokemonTypes();
             this.move = move;
-            Damage = calculateDamage();
+            Damage = CalculateDamage();
             
         }
 
 
-        private int calculateDamage()
+        private int CalculateDamage()
         {
             //use formula in http://bulbapedia.bulbagarden.net/wiki/Damage
             double attack = Attacker.Attack;
@@ -45,21 +51,21 @@ namespace NadekoBot.Modules.Pokemon
 
             double basePower = rng.Next(40, 120);
             double toReturn = ((2 *(double) Attacker.Level + 10) / 250) * (attack / defense) * basePower + 2;
-            toReturn = toReturn * getModifier();
+            toReturn = toReturn * GetModifier();
             return (int)Math.Floor(toReturn);
         }
 
-        private double getModifier()
+        private double GetModifier()
         {
             var stablist = AttackerTypes.Where(x => x.Name == move.Value);
             double stab = 1;
             if (stablist.Any()) 
                 stab = 1.5;
-            var typeEffectiveness = getEffectiveness();
+            var typeEffectiveness = setEffectiveness();
             double critical = 1;
             if (rng.Next(0, 100) < 10)
             {
-                isCritical = true;
+                IsCritical = true;
                 critical = 2;
             }
             double other = /*rng.NextDouble() * 2*/1;
@@ -68,19 +74,19 @@ namespace NadekoBot.Modules.Pokemon
             return mod;
         }
 
-        private double getEffectiveness()
+        private double setEffectiveness()
         {
 
             
             var moveTypeString = move.Value.ToUpperInvariant();
-            var moveType = moveTypeString.stringToPokemonType();
+            var moveType = moveTypeString.StringToPokemonType();
             var dTypeStrings = DefenseTypes.Select(x => x.Name);
             var mpliers= moveType.Multipliers.Where(x => dTypeStrings.Contains(x.Type));
             foreach (var mplier in mpliers)
             {
-                effectiveness = effectiveness * mplier.Multiplication;
+                Effectiveness = Effectiveness * mplier.Multiplication;
             }
-            return effectiveness;
+            return Effectiveness;
         }
         
 
@@ -89,15 +95,15 @@ namespace NadekoBot.Modules.Pokemon
         {
             var str = $"**{Attacker.NickName}** attacked **{Defender.NickName}**\n" +
                 $"{Defender.NickName} received {Damage} damage!\n";
-            if (isCritical)
+            if (IsCritical)
             {
                 str += "It's a critical hit!\n";
             }
-            if (effectiveness > 1)
+            if (Effectiveness > 1)
             {
                 str += "It's super effective!\n";
             }
-            else if (effectiveness < 1)
+            else if (Effectiveness < 1)
             {
                 str += "It's ineffective...\n";
             }
