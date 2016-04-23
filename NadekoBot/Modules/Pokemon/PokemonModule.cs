@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Pokemon
                 {
                     var target = e.Server.FindUsers(e.GetArg("target")).DefaultIfEmpty(null).FirstOrDefault() ?? e.User;
 
-                    await e.Channel.SendMessage($"**{target.Mention}**:\n{activePokemon(target).pokemonString()}");
+                    await e.Channel.SendMessage($"**{target.Mention}**:\n{ActivePokemon(target).pokemonString()}");
                     //foreach (var pkm in list)
                     //{
                     //    await e.Channel.SendMessage($"**{target.Mention}**:\n{pkm.pokemonString()}");
@@ -45,7 +45,7 @@ namespace NadekoBot.Modules.Pokemon
                 .Parameter("name", ParameterType.Unparsed)
                 .Do(async e =>
                 {
-                    var list = getPokemons(e.User);
+                    var list = PokemonList(e.User);
                     var toSet = list.Where(x => x.NickName == e.GetArg("name").Trim()).DefaultIfEmpty(null).FirstOrDefault();
                     if (toSet == null)
                     {
@@ -58,7 +58,7 @@ namespace NadekoBot.Modules.Pokemon
                         await e.Channel.SendMessage($"{e.User.Mention} can't move!");
                         return;
                     }
-                    if (Switch(e.User, toSet))
+                    if (SwitchPokemon(e.User, toSet))
                     {
                         trainerStats.MovesMade++;
                         UserStats.AddOrUpdate(e.User.Id, trainerStats, (s, t) => trainerStats);
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Pokemon
                 .Description("Gets a list of your pokemons (6) (active pokemon underlined)")
                 .Do(async e =>
                 {
-                    var list = getPokemons(e.User);
+                    var list = PokemonList(e.User);
                     string str = $"{e.User.Mention}'s pokemon are:\n";
                     foreach (var pkm in list)
                     {
@@ -101,7 +101,7 @@ namespace NadekoBot.Modules.Pokemon
                     if (target == e.User)
                     {
 
-                        var toHeal = getPokemons(target).Where(x => x.NickName == args.Trim()).DefaultIfEmpty(null).FirstOrDefault();
+                        var toHeal = PokemonList(target).Where(x => x.NickName == args.Trim()).DefaultIfEmpty(null).FirstOrDefault();
                         if (toHeal == null)
                         {
                             await e.Channel.SendMessage($"Could not find pokemon with name \"{e.GetArg("args").Trim()}\"");
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Pokemon
                         }
                         return;
                     }
-                    var toHealn = activePokemon(target);
+                    var toHealn = ActivePokemon(target);
                     if (toHealn == null)
                     {
                         await e.Channel.SendMessage($"Could not get pokemon from {target.Name} correctly");
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Pokemon
                         await e.Channel.SendMessage("Name required");
                         return;
                     }
-                    var activePkm = activePokemon(e.User);
+                    var activePkm = ActivePokemon(e.User);
                     activePkm.NickName = newName;
                     DbHandler.Instance.Save(activePkm);
                     await e.Channel.SendMessage($"Renamed active pokemon to {newName}");
@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Pokemon
                         return;
                     }
                     var moveString = args.Replace(m.Value, string.Empty).Replace("\"", "").Trim();
-                    var attackerPokemon = activePokemon(e.User);
+                    var attackerPokemon = ActivePokemon(e.User);
                     var species = attackerPokemon.GetSpecies();
                     if (!species.moves.Keys.Contains(moveString))
                     {
@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Pokemon
                         return;
                     }
                     KeyValuePair<string, string> move = new KeyValuePair<string, string>(moveString, species.moves[moveString]);
-                    var defenderPokemon = activePokemon(target);
+                    var defenderPokemon = ActivePokemon(target);
                     PokemonAttack attack = new PokemonAttack(attackerPokemon, defenderPokemon, move);
                     var msg = attack.AttackString();
                     defenderPokemon.HP -= attack.Damage;
@@ -244,11 +244,11 @@ namespace NadekoBot.Modules.Pokemon
                             str += $"**{attackerPokemon.NickName}** leveled up!\n**{attackerPokemon.NickName}** is now level **{attackerPokemon.Level}**";
                             //Check evostatus
                         }
-                        var list = getPokemons(target).Where(s => (s.HP > 0 && s != defenderPokemon));
+                        var list = PokemonList(target).Where(s => (s.HP > 0 && s != defenderPokemon));
                         if (list.Any())
                         {
                             var toSet = list.FirstOrDefault();
-                            Switch(target, toSet);
+                            SwitchPokemon(target, toSet);
                             str += $"\n{target.Mention}'s active pokemon set to **{toSet.NickName}**";
                         }
                         else
@@ -281,9 +281,9 @@ namespace NadekoBot.Modules.Pokemon
         /// <param name="u"></param>
         /// <param name="newActive"></param>
         /// <returns></returns>
-        bool Switch(User u, PokemonSprite newActive)
+        bool SwitchPokemon(User u, PokemonSprite newActive)
         {
-            var toUnset = getPokemons(u).Where(x => x.IsActive).FirstOrDefault();
+            var toUnset = PokemonList(u).Where(x => x.IsActive).FirstOrDefault();
             if (toUnset == null)
             {
                 return false;
@@ -301,13 +301,13 @@ namespace NadekoBot.Modules.Pokemon
             return true;
         }
 
-        PokemonSprite activePokemon(User u)
+        PokemonSprite ActivePokemon(User u)
         {
-            var list = getPokemons(u);
+            var list = PokemonList(u);
             return list.Where(x => x.IsActive).FirstOrDefault();
         }
 
-        List<PokemonSprite> getPokemons(User u)
+        List<PokemonSprite> PokemonList(User u)
         {
             var db = DbHandler.Instance.GetAllRows<PokemonSprite>();
             var row = db.Where(x => x.OwnerId == (long)u.Id);
@@ -321,7 +321,7 @@ namespace NadekoBot.Modules.Pokemon
                 var list = new List<PokemonSprite>();
                 while (list.Count < 6)
                 {
-                    var pkm = generatePokemon(u);
+                    var pkm = GeneratePokemon(u);
                     if (!list.Where(x=>x.IsActive).Any())
                     {
                         pkm.IsActive = true;
@@ -336,7 +336,7 @@ namespace NadekoBot.Modules.Pokemon
             }
         }
 
-        private PokemonSprite generatePokemon(User u)
+        private PokemonSprite GeneratePokemon(User u)
         {
             Random rng = new Random();
             var list = PokemonMain.Instance.pokemonClasses.Where(x => x.evolveLevel != -1).ToList();
