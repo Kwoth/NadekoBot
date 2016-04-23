@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Games
             manager.CreateCommands("", cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 
