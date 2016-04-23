@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 
