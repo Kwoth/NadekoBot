@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.Games
 
         public GamesModule()
         {
-            commands.Add(new TriviaCommand(this));
+            commands.Add(new TriviaCommands(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             commands.Add(new PlantPick(this));
