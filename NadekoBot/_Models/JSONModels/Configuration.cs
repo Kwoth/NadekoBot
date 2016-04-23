@@ -101,6 +101,7 @@ namespace NadekoBot.Classes.JSONModels
         public string Permissions { get; set; } = ";";
         public string Programming { get; set; } = "%";
         public string Pokemon { get; set; } = ">";
+        public string Feeds { get; set; } = "!f";
     }
 
     public static class ConfigHandler
