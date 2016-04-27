@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace NadekoBot.Classes
 {
@@ -263,9 +263,15 @@ namespace NadekoBot.Classes
         {
             try
             {
-                XDocument doc = await Task.Run(() => XDocument.Load(" http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1"));
-                int id = Convert.ToInt32(doc.Root.Element("post").Element("id").Value);
-                return (doc.Root.Element("post").Element("file_url").Value);
+                string url = "http://e621.net/post/index.xml?tags=" + Uri.EscapeUriString(tags) + "%20order:random&limit=1";
+                WebClient client = new WebClient();
+                client.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1";
+                client.Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+                string data = client.DownloadString(url);
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(data);
+                XmlNodeList elemList = doc.GetElementsByTagName("file_url");
+                return elemList[0].InnerXml;
             }
             catch (Exception)
             {
