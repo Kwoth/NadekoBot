@@ -26,6 +26,11 @@
   },
   {
     "Category": "Arts",
+    "Question": " What Spaniard designed the five-story horse in Chicago's Daley Plaza?",
+    "Answer": "Pablo Picasso"
+  },
+  {
+    "Category": "Arts",
     "Question": " What late female painter's art, drawn from desert scenes fueled calendar sales?",
     "Answer": "Georgia O'Keeffe"
   },
@@ -586,13 +591,13 @@
   },
   {
     "Category": "Games",
-    "Question": " In the game 'Cluedo', what is the name of the only woman suspect who isn't married?",
-    "Answer": "Miss Scarlett"
+    "Question": "In the game 'Embodiment of Scarlet Devil(Touhou Project)', what is the name of Remilia Scarlet's young sister?",
+	"Answer": "Flandre Scarlet"
   },
   {
     "Category": "Games",
-    "Question": "In the game 'Embodiment of Scarlet Devil(Touhou Project)', what is the name of Remilia Scarlet's young sister?",
-	"Answer": "Flandre Scarlet"
+    "Question": " In the game 'Cluedo', what is the name of the only woman suspect who isn't married?",
+    "Answer": "Miss Scarlett"
   },
   {
     "Category": "Games",
@@ -1451,6 +1456,26 @@
   },
   {
     "Category": "History",
+    "Question": " How did Rasputin die, after being poisoned, shot, beaten, bound and thrown in the Neva River?",
+    "Answer": "Drown"
+  },
+  {
+    "Category": "History",
+    "Question": " Who opined: 'Everybody has a right to pronounce foreign names as he chooses'?",
+    "Answer": "Winston Churchill"
+  },
+  {
+    "Category": "History",
+    "Question": " Which military man was nicknamed 'The Little Corporal'?",
+    "Answer": "Napoleon"
+  },
+  {
+    "Category": "History",
+    "Question": " What 15th-century prince is thought to have been the inspiration for the classic 'Dracula'?",
+    "Answer": "Vlad the Impaler"
+  },
+  {
+    "Category": "History",
     "Question": " What British political party made Margaret Thatcher its first female leader?",
     "Answer": "The Conservative (Tory) Party"
   },
@@ -1596,6 +1621,36 @@
   },
   {
     "Category": "History",
+    "Question": " Whose 1923 death prompted Henry Cabot Lodge to gush: 'My God! That means Coolidge is president'?",
+    "Answer": "Warren G. Harding's"
+  },
+  {
+    "Category": "History",
+    "Question": " What section of Los Angeles did these National Guardsmen patrol during this 1965 riot?",
+    "Answer": "Watts"
+  },
+  {
+    "Category": "History",
+    "Question": " What commodity did Jay Gould and James Fisk corner here in 1869, sparking 'Black Friday'?",
+    "Answer": "Gold"
+  },
+  {
+    "Category": "History",
+    "Question": " What Native American currency was the first market commodity to be 'cornered,' in 1666?",
+    "Answer": "Wampum"
+  },
+  {
+    "Category": "History",
+    "Question": " What ship had lifeboat space for half of its passengers when it rammed an iceberg in 1912?",
+    "Answer": "The 'Titanic'"
+  },
+  {
+    "Category": "History",
+    "Question": " What did Nikita Khrushchev call the rocket NASA tried to launch two months after 'Sputnik' made history?",
+    "Answer": "Kaputnik"
+  },
+  {
+    "Category": "History",
     "Question": " What navigators might never have found the Pacific Ocean without the help of a Native American?",
     "Answer": "Meriwether Lewis and William Clark"
   },
@@ -1633,6 +1688,96 @@
     "Category": "History",
     "Question": " What war first gave Americans Uncle Sam on a poster, saying 'I Want You'?",
     "Answer": "World War I"
+  },
+  {
+    "Category": "History",
+    "Question": " What feisty feminist claimed at a 1992 rally that she was 'the mother of you all'?",
+    "Answer": "Betty Friedan"
+  },
+  {
+    "Category": "History",
+    "Question": " What future president saw 22 of his slaves join British forces in the American Revolution?",
+    "Answer": "Thomas Jefferson"
+  },
+  {
+    "Category": "History",
+    "Question": " Who noted: 'It will make a big bang - a very big bang - but it is not a weapon which is useful in war'?",
+    "Answer": "J. Robert Oppenheimer"
+  },
+  {
+    "Category": "History",
+    "Question": " What future South Dakota senator piloted a B-24 in 355 combat missions during World War II?",
+    "Answer": "George McGovern"
+  },
+  {
+    "Category": "History",
+    "Question": " What stoic British statesman smoked an estimated 300,000 stogies?",
+    "Answer": "Winston Churchill"
+  },
+  {
+    "Category": "History",
+    "Question": " What Soviet rose to power after V.I. Lenin's death in 1924?",
+    "Answer": "Joseph Stalin"
+  },
+  {
+    "Category": "History",
+    "Question": " What Texas governor was wounded by a shot from the gun that killed John F. Kennedy?",
+    "Answer": "John Connally"
+  },
+  {
+    "Category": "History",
+    "Question": " What lawyer defended John Scopes, teacher of Charles Darwin's theory of evolution, in 1925?",
+    "Answer": "Clarence Darrow"
+  },
+  {
+    "Category": "History",
+    "Question": " What Shoshone woman was traded to a member of this expedition by her Mandan captors?",
+    "Answer": "Sacajawea"
+  },
+  {
+    "Category": "History",
+    "Question": " Who'd just stuck his neck into a gillotine when he yelled: 'May my blood cement the happiness of France'?",
+    "Answer": "Louis XVI"
+  },
+  {
+    "Category": "History",
+    "Question": " Whose last words while facing a firing squad on April 28, 1945, were: 'No ... No!'?",
+    "Answer": "Benito Mussolini"
+  },
+  {
+    "Category": "History",
+    "Question": " What U.S. Chief Justice chaired the commission to investigate John F. Kennedy's assassination?",
+    "Answer": "Earl Warren"
+  },
+  {
+    "Category": "History",
+    "Question": " What ship made the first navigational use of the new S.O.S. signal, on April 14, 1912?",
+    "Answer": "Titanic"
+  },
+  {
+    "Category": "History",
+    "Question": " What was the target of the worst terrorist attack on U.S. soil, in 1993?",
+    "Answer": "The World Trade Center"
+  },
+  {
+    "Category": "History",
+    "Question": " What was Billy the Kid's original first name?",
+    "Answer": "Henry"
+  },
+  {
+    "Category": "History",
+    "Question": " What boat gave its name to the 100 Guineas Cup after winning it in 1851?",
+    "Answer": "America"
+  },
+  {
+    "Category": "History",
+    "Question": " What city hosted the 1967 World's Fair that featured a geodesic dome?",
+    "Answer": "Montreal"
+  },
+  {
+    "Category": "History",
+    "Question": " What ancient Greek philosopher bit the dust after downing a drink infused with hemlock?",
+    "Answer": "Socrates"
   },
   {
     "Category": "History",
@@ -2553,6 +2698,11 @@
     "Category": "Musics",
     "Question": " Which east L.A kid had a memorable top ten hit about his girlfriend Donna?",
     "Answer": "Richie Valens"
+  },
+  {
+    "Category": "Musics",
+    "Question": " What English-language song is the most frequently sung?",
+    "Answer": "Happy Birthday to You"
   },
   {
     "Category": "Other",
@@ -3598,5 +3748,20 @@
     "Category": "Sports",
     "Question": " Whose 565-foot home run over the wall at Griffith Stadium gave birth to the term 'tape measure shot'?",
     "Answer": "Mickey Mantle"
+  },
+  {
+    "Category": "Sports",
+    "Question": " What U.S. president asked for rules changes after 18 players died during the 1905 football season?",
+    "Answer": "Theodore Roosevelt"
+  },
+  {
+    "Category": "Sports",
+    "Question": " What Olympic skater worked off her community service sentence serving meals to Oregon's elderly?",
+    "Answer": "Tonya Harding"
+  },
+  {
+    "Category": "Sports",
+    "Question": " What did the press call Wilt Chamberlain, although he preferred to be called 'The Big Dipper'?",
+    "Answer": "Wilt the Stilt"
   },
 ]
