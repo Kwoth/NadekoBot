@@ -1,14 +1,15 @@
-using Discord.Commands;
-using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.DataModels;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Discord.Modules;
+using NadekoBot.Modules.Permissions.Classes;
+using Discord.Commands;
+using NadekoBot.DataModels;
+using Discord;
+using NadekoBot.Classes;
+using NadekoBot.Modules.Pokemon.Extensions;
+using System.Text.RegularExpressions;
+using System.Collections.Concurrent;
 
 namespace NadekoBot.Modules.Pokemon
 {
@@ -16,60 +17,7 @@ namespace NadekoBot.Modules.Pokemon
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Pokemon;
 
-        private ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
-
-        public PokemonModule()
-        {
-
-        }
-
-        private int GetDamage(PokemonType usertype, PokemonType targetType)
-        {
-            var rng = new Random();
-            int damage = rng.Next(40, 60);
-            foreach (PokemonMultiplier Multiplier in usertype.Multipliers)
-            {
-                if (Multiplier.Type == targetType.Name)
-                {
-                    var multiplier = Multiplier.Multiplication;
-                    damage = (int)(damage * multiplier);
-                }
-            }
-
-            return damage;
-        }
-
-        private PokemonType GetPokeType(ulong id)
-        {
-
-            var db = DbHandler.Instance.GetAllRows<UserPokeTypes>();
-            Dictionary<long, string> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
-            if (setTypes.ContainsKey((long)id))
-            {
-                return stringToPokemonType(setTypes[(long)id]);
-            }
-            int count = NadekoBot.Config.PokemonTypes.Count;
-
-            int remainder = Math.Abs((int)(id % (ulong)count));
-
-            return NadekoBot.Config.PokemonTypes[remainder];
-        }
-
-
-
-        private PokemonType stringToPokemonType(string v)
-        {
-            var str = v.ToUpperInvariant();
-            var list = NadekoBot.Config.PokemonTypes;
-            foreach (PokemonType p in list)
-            {
-                if (str == p.Name)
-                {
-                    return p;
-                }
-            }
-            return null;
-        }
+        public ConcurrentDictionary<ulong, TrainerStats> UserStats = new ConcurrentDictionary<ulong, TrainerStats>();
 
         public override void Install(ModuleManager manager)
         {
@@ -77,263 +25,348 @@ namespace NadekoBot.Modules.Pokemon
             {
                 cgb.AddCheck(PermissionChecker.Instance);
 
-                commands.ForEach(cmd => cmd.Init(cgb));
+                cgb.CreateCommand(Prefix + "active")
+                .Description("Get the pokemon of someone|yourself")
+                .Parameter("target", ParameterType.Optional)
+                .Do(async e =>
+                {
+                    var target = e.Server.FindUsers(e.GetArg("target")).DefaultIfEmpty(null).FirstOrDefault() ?? e.User;
 
-                cgb.CreateCommand(Prefix + "attack")
-                    .Description("Attacks a target with the given move")
-                    .Parameter("move", ParameterType.Required)
-                    .Parameter("target", ParameterType.Unparsed)
-                    .Do(async e =>
+                    await e.Channel.SendMessage($"**{target.Mention}**:\n{ActivePokemon(target).PokemonString()}");
+                    //foreach (var pkm in list)
+                    //{
+                    //    await e.Channel.SendMessage($"**{target.Mention}**:\n{pkm.pokemonString()}");
+                    //}
+
+                });
+
+                cgb.CreateCommand(Prefix + "switch")
+                .Description("Set your active pokemon uding the nickname")
+                .Parameter("name", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var list = PokemonList(e.User);
+                    var toSet = list.Where(x => x.NickName == e.GetArg("name").Trim()).DefaultIfEmpty(null).FirstOrDefault();
+                    if (toSet == null)
                     {
-                        var move = e.GetArg("move");
-                        var targetStr = e.GetArg("target")?.Trim();
-                        if (string.IsNullOrWhiteSpace(targetStr))
-                            return;
-                        var target = e.Server.FindUsers(targetStr).FirstOrDefault();
-                        if (target == null)
-                        {
-                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
-                            return;
-                        }
-                        else if (target == e.User)
-                        {
-                            await e.Channel.SendMessage("You can't attack yourself.").ConfigureAwait(false);
-                            return;
-                        }
-                        // Checking stats first, then move
-                        //Set up the userstats
-                        PokeStats userStats;
-                        userStats = Stats.GetOrAdd(e.User.Id, new PokeStats());
-
-                        //Check if able to move
-                        //User not able if HP < 0, has made more than 4 attacks
-                        if (userStats.Hp < 0)
-                        {
-                            await e.Channel.SendMessage($"{e.User.Mention} has fainted and was not able to move!").ConfigureAwait(false);
-                            return;
-                        }
-                        if (userStats.MovesMade >= 5)
-                        {
-                            await e.Channel.SendMessage($"{e.User.Mention} has used too many moves in a row and was not able to move!").ConfigureAwait(false);
-                            return;
-                        }
-                        if (userStats.LastAttacked.Contains(target.Id))
-                        {
-                            await e.Channel.SendMessage($"{e.User.Mention} can't attack again without retaliation!").ConfigureAwait(false);
-                            return;
-                        }
-                        //get target stats
-                        PokeStats targetStats;
-                        targetStats = Stats.GetOrAdd(target.Id, new PokeStats());
-
-                        //If target's HP is below 0, no use attacking
-                        if (targetStats.Hp <= 0)
-                        {
-                            await e.Channel.SendMessage($"{target.Mention} has already fainted!").ConfigureAwait(false);
-                            return;
-                        }
-
-                        //Check whether move can be used
-                        PokemonType userType = GetPokeType(e.User.Id);
-
-                        var enabledMoves = userType.Moves;
-                        if (!enabledMoves.Contains(move.ToLowerInvariant()))
-                        {
-                            await e.Channel.SendMessage($"{e.User.Mention} was not able to use **{move}**, use `{Prefix}ml` to see moves you can use").ConfigureAwait(false);
-                            return;
-                        }
-
-                        //get target type
-                        PokemonType targetType = GetPokeType(target.Id);
-                        //generate damage
-                        int damage = GetDamage(userType, targetType);
-                        //apply damage to target
-                        targetStats.Hp -= damage;
-
-                        var response = $"{e.User.Mention} used **{move}**{userType.Icon} on {target.Mention}{targetType.Icon} for **{damage}** damage";
-
-                        //Damage type
-                        if (damage < 40)
-                        {
-                            response += "\nIt's not effective..";
-                        }
-                        else if (damage > 60)
-                        {
-                            response += "\nIt's super effective!";
-                        }
-                        else
-                        {
-                            response += "\nIt's somewhat effective";
-                        }
-
-                        //check fainted
-
-                        if (targetStats.Hp <= 0)
-                        {
-                            response += $"\n**{target.Name}** has fainted!";
-                        }
-                        else
-                        {
-                            response += $"\n**{target.Name}** has {targetStats.Hp} HP remaining";
-                        }
-
-                        //update other stats
-                        userStats.LastAttacked.Add(target.Id);
-                        userStats.MovesMade++;
-                        targetStats.MovesMade = 0;
-                        if (targetStats.LastAttacked.Contains(e.User.Id))
-                        {
-                            targetStats.LastAttacked.Remove(e.User.Id);
-                        }
-
-                        //update dictionary
-                        //This can stay the same right?
-                        Stats[e.User.Id] = userStats;
-                        Stats[target.Id] = targetStats;
-
-                        await e.Channel.SendMessage(response).ConfigureAwait(false);
-                    });
-
-                cgb.CreateCommand(Prefix + "ml")
-                    .Alias("movelist")
-                    .Description("Lists the moves you are able to use")
-                    .Do(async e =>
+                        await e.Channel.SendMessage($"Could not find pokemon with name \"{e.GetArg("name").Trim()}\"");
+                        return;
+                    }
+                    var trainerStats = UserStats.GetOrAdd(e.User.Id, new TrainerStats());
+                    if (trainerStats.MovesMade > TrainerStats.MaxMoves)
                     {
-                        var userType = GetPokeType(e.User.Id);
-                        var movesList = userType.Moves;
-                        var str = $"**Moves for `{userType.Name}` type.**";
-                        foreach (string m in movesList)
+                        await e.Channel.SendMessage($"{e.User.Mention} can't move!");
+                        return;
+                    }
+                    if (SwitchPokemon(e.User, toSet))
+                    {
+                        trainerStats.MovesMade++;
+                        UserStats.AddOrUpdate(e.User.Id, trainerStats, (s, t) => trainerStats);
+                        await e.Channel.SendMessage($"Set active pokemon of {e.User.Mention} to {toSet.NickName} ");
+                    } else
+                    {
+                        await e.Channel.SendMessage($"The pokemon to swtich to must have HP!");
+                    }
+
+                });
+
+                cgb.CreateCommand(Prefix + "list")
+                .Description("Gets a list of your pokemons (6) (active pokemon underlined)")
+                .Do(async e =>
+                {
+                    var list = PokemonList(e.User);
+                    string str = $"{e.User.Mention}'s pokemon are:\n";
+                    foreach (var pkm in list)
+                    {
+                        if (pkm.IsActive)
                         {
-                            str += $"\n{userType.Icon}{m}";
+                            str += $"__**{pkm.NickName}** : *{pkm.GetSpecies().name}*__\n";
+                        } else
+                        {
+                            str += $"**{pkm.NickName}** : *{pkm.GetSpecies().name}*\n";
                         }
-                        await e.Channel.SendMessage(str).ConfigureAwait(false);
-                    });
+
+                    }
+                    await e.Channel.SendMessage(str);
+                });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those that fainted. Costs a {NadekoBot.Config.CurrencyName} \n**Usage**:{Prefix}revive @someone")
-                    .Parameter("target", ParameterType.Unparsed)
-                    .Do(async e =>
+                .Description($"Heal your given pokemon (by nickname) or the given target's active pokemon")
+                .Parameter("args", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var args = e.GetArg("args");
+                    var target = e.Server.FindUsers(args).DefaultIfEmpty(null).FirstOrDefault() ?? e.User;
+
+                    if (target == e.User)
                     {
-                        var targetStr = e.GetArg("target")?.Trim();
-                        if (string.IsNullOrWhiteSpace(targetStr))
-                            return;
-                        var usr = e.Server.FindUsers(targetStr).FirstOrDefault();
-                        if (usr == null)
+
+                        var toHeal = PokemonList(target).Where(x => x.NickName == args.Trim()).DefaultIfEmpty(null).FirstOrDefault();
+                        if (toHeal == null)
                         {
-                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
+                            await e.Channel.SendMessage($"Could not find pokemon with name \"{e.GetArg("args").Trim()}\"");
                             return;
                         }
-                        if (Stats.ContainsKey(usr.Id))
-                        {
 
-                            var targetStats = Stats[usr.Id];
-                            int HP = targetStats.Hp;
-                            if (targetStats.Hp == targetStats.MaxHp)
-                            {
-                                await e.Channel.SendMessage($"{usr.Name} already has full HP!").ConfigureAwait(false);
-                                return;
-                            }
-                            //Payment~
-                            var amount = 1;
-                            var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
-                            if (pts < amount)
-                            {
-                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
-                                return;
-                            }
-                            var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
-                            FlowersHandler.RemoveFlowers(e.User, $"Poke-Heal {target}", amount);
-                            //healing
-                            targetStats.Hp = targetStats.MaxHp;
-                            if (HP < 0)
-                            {
-                                //Could heal only for half HP?
-                                Stats[usr.Id].Hp = (targetStats.MaxHp / 2);
-                                await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
-                                return;
-                            }
-                            var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
-                            return;
+                        if (FlowersHandler.RemoveFlowers(target, "Healed pokemon", 1))
+                        {
+                            var hp = toHeal.HP;
+                            toHeal.HP = toHeal.MaxHP;
+                            await e.Channel.SendMessage($"{target.Mention} successfully healed {toHeal.NickName} for {toHeal.HP - hp} HP for a {NadekoBot.Config.CurrencySign}");
+                            DbHandler.Instance.Save(toHeal);
+                            //Heal your own userstats as well?
+
+
                         }
                         else
                         {
-                            await e.Channel.SendMessage($"{usr.Name} already has full HP!").ConfigureAwait(false);
+                            await e.Channel.SendMessage($"Could not pay {NadekoBot.Config.CurrencySign}, you're **{NadekoBot.Config.CurrencyName}**-less");
                         }
-                    });
-
-                cgb.CreateCommand(Prefix + "type")
-                    .Description($"Get the poketype of the target.\n**Usage**: {Prefix}type @someone")
-                    .Parameter("target", ParameterType.Unparsed)
-                    .Do(async e =>
+                        return;
+                    }
+                    var toHealn = ActivePokemon(target);
+                    if (toHealn == null)
                     {
-                        var usrStr = e.GetArg("target")?.Trim();
-                        if (string.IsNullOrWhiteSpace(usrStr))
-                            return;
-                        var usr = e.Server.FindUsers(usrStr).FirstOrDefault();
-                        if (usr == null)
-                        {
-                            await e.Channel.SendMessage("No such person.").ConfigureAwait(false);
-                            return;
-                        }
-                        var pType = GetPokeType(usr.Id);
-                        await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
-
-                    });
-
-                cgb.CreateCommand(Prefix + "settype")
-                    .Description($"Set your poketype. Costs a {NadekoBot.Config.CurrencyName}.\n**Usage**: {Prefix}settype fire")
-                    .Parameter("targetType", ParameterType.Unparsed)
-                    .Do(async e =>
+                        await e.Channel.SendMessage($"Could not get pokemon from {target.Name} correctly");
+                        return;
+                    }
+                    if (FlowersHandler.RemoveFlowers(target, "Healed pokemon", 1))
                     {
-                        var targetTypeStr = e.GetArg("targetType")?.ToUpperInvariant();
-                        if (string.IsNullOrWhiteSpace(targetTypeStr))
-                            return;
-                        var targetType = stringToPokemonType(targetTypeStr);
-                        if (targetType == null)
-                        {
-                            await e.Channel.SendMessage("Invalid type specified. Type must be one of:\nNORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL").ConfigureAwait(false);
-                            return;
-                        }
-                        if (targetType == GetPokeType(e.User.Id))
-                        {
-                            await e.Channel.SendMessage($"Your type is already {targetType.Name.ToLowerInvariant()}{targetType.Icon}").ConfigureAwait(false);
-                            return;
-                        }
+                        var hp = toHealn.HP;
+                        toHealn.HP = toHealn.MaxHP;
+                        await e.Channel.SendMessage($"{target.Mention} successfully healed {toHealn.NickName} for {toHealn.HP - hp} HP for a {NadekoBot.Config.CurrencySign}");
+                        DbHandler.Instance.Save(toHealn);
+                    }
+                    else
+                    {
+                        await e.Channel.SendMessage($"Could not pay {NadekoBot.Config.CurrencySign}, you're **{NadekoBot.Config.CurrencyName}**-less");
+                    }
+                    return;
 
-                        //Payment~
-                        var amount = 1;
-                        var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
-                        if (pts < amount)
+                });
+
+                cgb.CreateCommand(Prefix + "rename")
+                .Alias(Prefix + "rn")
+                .Description($"Rename your active pokemon")
+                .Parameter("name", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var newName = e.GetArg("name");
+                    if (string.IsNullOrWhiteSpace(newName))
+                    {
+                        await e.Channel.SendMessage("Name required");
+                        return;
+                    }
+                    var activePkm = ActivePokemon(e.User);
+                    activePkm.NickName = newName;
+                    DbHandler.Instance.Save(activePkm);
+                    await e.Channel.SendMessage($"Renamed active pokemon to {newName}");
+                });
+
+
+                cgb.CreateCommand(Prefix + "reset")
+                .Description($"Resets your pokemon. CANNOT BE UNDONE\n**Usage**:{Prefix}reset true")
+                .Parameter("true", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    bool willReset;
+                    if (bool.TryParse(e.GetArg("true"), out willReset))
+                    {
+                        var db = DbHandler.Instance.GetAllRows<PokemonSprite>();
+                        var row = db.Where(x => x.OwnerId == (long)e.User.Id);
+                        //var toDelete = DbHandler.Instance.FindAll<PokemonSprite>(s => s.OwnerId == (long)e.User.Id);
+                        foreach (var todel in row)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
-                            return;
+                            DbHandler.Instance.Delete<PokemonSprite>(todel.Id.Value);
                         }
-                        FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
-                        //Actually changing the type here
-                        var preTypes = DbHandler.Instance.GetAllRows<UserPokeTypes>();
-                        Dictionary<long, int> Dict = preTypes.ToDictionary(x => x.UserId, y => y.Id.Value);
-                        if (Dict.ContainsKey((long)e.User.Id))
+                        await e.Channel.SendMessage("Your pokemon have been deleted.\n\nCruel.\n\n\nI have no words for this.");
+                    } else
+                    {
+                        await e.Channel.SendMessage($"Use `{Prefix}reset true` to really kill all your pokemon :knife:");
+                    }
+                });
+
+                cgb.CreateCommand(Prefix + "attack")
+                .Description("Attacks given target with given move")
+                .Parameter("args", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    Regex regex = new Regex(@"<@(?<id>\d+)>");
+                    var args = e.GetArg("args");
+                    if (!regex.IsMatch(args))
+                    {
+                        await e.Channel.SendMessage("Please specify target");
+                        return;
+                    }
+                    Match m = regex.Match(args);
+                    var id = ulong.Parse(m.Groups["id"].Value);
+                    var target = e.Server.GetUser(id);
+                    if (target == null)
+                    {
+                        await e.Channel.SendMessage("Please specify target");
+                        return;
+                    }
+                    var moveString = args.Replace(m.Value, string.Empty).Replace("\"", "").Trim();
+                    var attackerPokemon = ActivePokemon(e.User);
+                    var species = attackerPokemon.GetSpecies();
+                    if (!species.moves.Keys.Contains(moveString))
+                    {
+                        await e.Channel.SendMessage($"Cannot use \"{moveString}\", see `{Prefix}ML` for moves");
+                        return;
+                    }
+                    var attackerStats = UserStats.GetOrAdd(e.User.Id, new TrainerStats());
+                    var defenderStats = UserStats.GetOrAdd(target.Id, new TrainerStats());
+                    if (attackerStats.MovesMade > TrainerStats.MaxMoves || attackerStats.LastAttacked.Contains(target.Id))
+                    {
+                        await e.Channel.SendMessage($"{e.User.Mention} can't move!");
+                        return;
+                    }
+                    KeyValuePair<string, string> move = new KeyValuePair<string, string>(moveString, species.moves[moveString]);
+                    var defenderPokemon = ActivePokemon(target);
+                    PokemonAttack attack = new PokemonAttack(attackerPokemon, defenderPokemon, move);
+                    var msg = attack.AttackString();
+                    defenderPokemon.HP -= attack.Damage;
+
+                    var HP = (defenderPokemon.HP < 0) ? 0 : defenderPokemon.HP;
+                    msg += $"{defenderPokemon.NickName} has {HP} HP left!";
+                    await e.Channel.SendMessage(msg);
+
+                    if (defenderPokemon.HP <= 0)
+                    {
+                        defenderPokemon.HP = 0;
+                        var str = $"{defenderPokemon.NickName} fainted!\n{attackerPokemon.NickName}'s owner {e.User.Mention} receives 1 {NadekoBot.Config.CurrencySign}\n";
+                        var lvl = attackerPokemon.Level;
+                        var extraXP = attackerPokemon.Reward(defenderPokemon);
+                       
+                        str += $"{attackerPokemon.NickName} gained {extraXP} from the battle\n";
+                        if (attackerPokemon.Level > lvl) //levled up
                         {
-                            //delete previous type
-                            DbHandler.Instance.Delete<UserPokeTypes>(Dict[(long)e.User.Id]);
+                            str += $"**{attackerPokemon.NickName}** leveled up!\n**{attackerPokemon.NickName}** is now level **{attackerPokemon.Level}**";
+                            //Check evostatus
                         }
-
-                        DbHandler.Instance.InsertData(new UserPokeTypes
+                        var list = PokemonList(target).Where(s => (s.HP > 0 && s != defenderPokemon));
+                        if (list.Any())
                         {
-                            UserId = (long)e.User.Id,
-                            type = targetType.Name
-                        });
-
-                        //Now for the response
-
-                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
-                    });
+                            var toSet = list.FirstOrDefault();
+                            SwitchPokemon(target, toSet);
+                            str += $"\n{target.Mention}'s active pokemon set to **{toSet.NickName}**";
+                        }
+                        else
+                        {
+                            str += $"\n{target.Mention} has no pokemon left!";
+                            //do something?
+                        }
+                        await e.Channel.SendMessage(str);
+                        await FlowersHandler.AddFlowersAsync(e.User, "Victorious in pokemon", 1);
+                    }
+                    //Update stats, you shall
+                    attackerStats.LastAttacked.Add(target.Id);
+                    attackerStats.MovesMade++;
+                    defenderStats.LastAttacked = new List<ulong>();
+                    defenderStats.MovesMade = 0;
+                    UserStats.AddOrUpdate(e.User.Id, x => attackerStats, (s, t) => attackerStats);
+                    UserStats.AddOrUpdate(target.Id, x => defenderStats, (s, t) => defenderStats);
+                
+                    DbHandler.Instance.Save(defenderPokemon);
+                    DbHandler.Instance.Save(attackerPokemon);
+                });
+                
             });
+
+        }
+
+        /// <summary>
+        /// Sets the active pokemon of the given user to the given Sprite
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="newActive"></param>
+        /// <returns></returns>
+        bool SwitchPokemon(User u, PokemonSprite newActive)
+        {
+            var toUnset = PokemonList(u).Where(x => x.IsActive).FirstOrDefault();
+            if (toUnset == null)
+            {
+                return false;
+            }
+            if (newActive.HP <= 0)
+            {
+                return false;
+            }
+            toUnset.IsActive = false;
+            newActive.IsActive = true;
+
+            DbHandler.Instance.Save(toUnset);
+            DbHandler.Instance.Save(newActive);
+
+            return true;
+        }
+
+        PokemonSprite ActivePokemon(User u)
+        {
+            var list = PokemonList(u);
+            return list.Where(x => x.IsActive).FirstOrDefault();
+        }
+
+        List<PokemonSprite> PokemonList(User u)
+        {
+            var db = DbHandler.Instance.GetAllRows<PokemonSprite>();
+            var row = db.Where(x => x.OwnerId == (long)u.Id);
+            if (row.Count() >= 6)
+            {
+                return row.ToList();
+            }
+            else
+            {
+               
+                var list = new List<PokemonSprite>();
+                while (list.Count < 6)
+                {
+                    var pkm = GeneratePokemon(u);
+                    if (!list.Where(x=>x.IsActive).Any())
+                    {
+                        pkm.IsActive = true;
+                    }
+
+                    list.Add(pkm);
+                    DbHandler.Instance.Save(pkm);
+                }
+                //Set an active pokemon
+                
+                return list;
+            }
+        }
+
+        private PokemonSprite GeneratePokemon(User u)
+        {
+            Random rng = new Random();
+            var list = PokemonMain.Instance.pokemonClasses.Where(x => x.evolveLevel != -1).ToList();
+            var speciesIndex = rng.Next(0,list.Count() - 1);
+            
+            var species = list[speciesIndex];
+            
+            PokemonSprite sprite = new PokemonSprite
+            {
+                SpeciesId = species.number,
+                HP = species.baseStats["hp"],
+                Level = 1,
+                NickName = species.name,
+                OwnerId = (long) u.Id,
+                XP = 0,
+                Attack = species.baseStats["attack"],
+                Defense = species.baseStats["defense"],
+                SpecialAttack = species.baseStats["special-attack"],
+                SpecialDefense = species.baseStats["special-defense"],
+                Speed = species.baseStats["speed"],
+                MaxHP = species.baseStats["hp"]
+            };
+
+            while (sprite.Level < 4)
+            {
+                sprite.LevelUp();
+            }
+            sprite.XP = sprite.XPRequired();
+            sprite.LevelUp();
+            return sprite;
         }
     }
 }
-
-
-
-
