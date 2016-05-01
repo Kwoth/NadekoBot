@@ -32,7 +32,9 @@ namespace NadekoBot.Classes
                 conn.CreateTable<SongInfo>();
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
+                conn.CreateTable<Feed>();
                 conn.Execute(Queries.TransactionTriggerQuery);
+                
             }
         }
 

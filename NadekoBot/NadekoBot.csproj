@@ -123,9 +123,11 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Modules\Feeds\FeedModule.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbScraper.cs" />
     <Compile Include="Classes\IncidentsHandler.cs" />
+    <Compile Include="_Models\DataModels\Feed.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
     <Compile Include="_Models\JSONModels\LocalizedStrings.cs" />
