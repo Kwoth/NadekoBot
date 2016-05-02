@@ -188,6 +188,8 @@ namespace NadekoBot
             modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
             modules.Add(new FeedModule(), "Feeds", ModuleFilter.None);
             modules.Add(new CustomReactionsModule(), "Customreactions", ModuleFilter.None);
+            //modules.Add(new ProgrammingModule(), "Programming", ModuleFilter.None);
+
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new TrelloModule(), "Trello", ModuleFilter.None);
             
@@ -203,7 +205,6 @@ namespace NadekoBot
                         await Client.Connect(Creds.Token).ConfigureAwait(false);
                         IsBot = true;
                     }
-                    Console.WriteLine(NadekoBot.Client.CurrentUser.Id);
                 }
                 catch (Exception ex)
                 {
@@ -216,7 +217,7 @@ namespace NadekoBot
                     return;
                 }
 
-                //await Task.Delay(90000).ConfigureAwait(false);
+                await Task.Delay(2000).ConfigureAwait(false);
                 Console.WriteLine("-----------------");
                 Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
                 Console.WriteLine("-----------------");
