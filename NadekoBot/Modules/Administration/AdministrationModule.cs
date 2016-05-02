@@ -77,7 +77,7 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             await usr.AddRoles(role).ConfigureAwait(false);
-                            await e.Channel.SendMessage($"Successfully added role **{role.Name}** to user **{usr.Name}**").ConfigureAwait(false);
+                            await e.Channel.SendMessage(string.Format("Successfully added role **{0}** to user **{usr.Name}**",role.Name)).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             await usr.RemoveRoles(role).ConfigureAwait(false);
-                            await e.Channel.SendMessage($"Successfully removed role **{role.Name}** from user **{usr.Name}**").ConfigureAwait(false);
+                            await e.Channel.SendMessage(string.Format("Successfully removed role **{0}** from user **{usr.Name}**",role.Name)).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             var r = await e.Server.CreateRole(e.GetArg("role_name")).ConfigureAwait(false);
-                            await e.Channel.SendMessage($"Successfully created role **{r.Name}**.").ConfigureAwait(false);
+                            await e.Channel.SendMessage(string.Format("Successfully created role **{0}**.",r.Name)).ConfigureAwait(false);
                         }
                         catch (Exception)
                         {
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Administration
                             var blue = Convert.ToByte(rgb ? int.Parse(e.Args[3]) : Convert.ToInt32(e.Args[1].Substring(4, 2), 16));
 
                             await role.Edit(color: new Color(red, green, blue)).ConfigureAwait(false);
-                            await e.Channel.SendMessage($"Role {role.Name}'s color has been changed.").ConfigureAwait(false);
+                            await e.Channel.SendMessage(string.Format("Role {0}'s color has been changed.",role.Name)).ConfigureAwait(false);
                         }
                         catch (Exception)
                         {
@@ -198,7 +198,7 @@ namespace NadekoBot.Modules.Administration
                           var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
                           if (usr == null) return;
 
-                          await e.Channel.SendMessage($"`List of roles for **{usr.Name}**:` \n• " + string.Join("\n• ", usr.Roles)).ConfigureAwait(false);
+                          await e.Channel.SendMessage(string.Format("`List of roles for **{0}**:` \n• ",usr.Name) + string.Join("\n• ", usr.Roles)).ConfigureAwait(false);
                           return;
                       }
                       await e.Channel.SendMessage("`List of roles:` \n• " + string.Join("\n• ", e.Server.Roles)).ConfigureAwait(false);
@@ -222,8 +222,8 @@ namespace NadekoBot.Modules.Administration
                                 }
                                 if (!string.IsNullOrWhiteSpace(msg))
                                 {
-                                    await usr.SendMessage($"**You have been BANNED from `{e.Server.Name}` server.**\n" +
-                                                          $"Reason: {msg}").ConfigureAwait(false);
+                                    await usr.SendMessage(string.Format("**You have been BANNED from `{0}` server.**\n",e.Server.Name) +
+                                                          string.Format("Reason: {0}",msg)).ConfigureAwait(false);
                                     await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
                                 }
                                 try
@@ -257,8 +257,8 @@ namespace NadekoBot.Modules.Administration
                             }
                             if (!string.IsNullOrWhiteSpace(msg))
                             {
-                                await usr.SendMessage($"**You have been KICKED from `{e.Server.Name}` server.**\n" +
-                                                      $"Reason: {msg}").ConfigureAwait(false);
+                                await usr.SendMessage(string.Format("**You have been KICKED from `{0}` server.**\n",e.Server.Name) +
+                                                      string.Format("Reason: {0}",msg)).ConfigureAwait(false);
                                 await Task.Delay(2000).ConfigureAwait(false); // temp solution; give time for a message to be send, fu volt
                             }
                             try
@@ -391,7 +391,7 @@ namespace NadekoBot.Modules.Administration
                                 if (ch == null)
                                     return;
                                 await ch.Delete().ConfigureAwait(false);
-                                await e.Channel.SendMessage($"Removed channel **{e.GetArg("channel_name")}**.").ConfigureAwait(false);
+                                await e.Channel.SendMessage(string.Format("Removed channel **{0}**.",e.GetArg("channel_name"))).ConfigureAwait(false);
                             }
                         }
                         catch
@@ -410,7 +410,7 @@ namespace NadekoBot.Modules.Administration
                             if (e.User.ServerPermissions.ManageChannels)
                             {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Voice).ConfigureAwait(false);
-                                await e.Channel.SendMessage($"Created voice channel **{e.GetArg("channel_name")}**.").ConfigureAwait(false);
+                                await e.Channel.SendMessage(string.Format("Created voice channel **{0}**.",e.GetArg("channel_name"))).ConfigureAwait(false);
                             }
                         }
                         catch
@@ -431,7 +431,7 @@ namespace NadekoBot.Modules.Administration
                                 var channel = e.Server.FindChannels(e.GetArg("channel_name"), ChannelType.Text).FirstOrDefault();
                                 if (channel == null) return;
                                 await channel.Delete().ConfigureAwait(false);
-                                await e.Channel.SendMessage($"Removed text channel **{e.GetArg("channel_name")}**.").ConfigureAwait(false);
+                                await e.Channel.SendMessage(string.Format("Removed text channel **{0}**.",e.GetArg("channel_name"))).ConfigureAwait(false);
                             }
                         }
                         catch
@@ -450,7 +450,7 @@ namespace NadekoBot.Modules.Administration
                             if (e.User.ServerPermissions.ManageChannels)
                             {
                                 await e.Server.CreateChannel(e.GetArg("channel_name"), ChannelType.Text).ConfigureAwait(false);
-                                await e.Channel.SendMessage($"Added text channel **{e.GetArg("channel_name")}**.").ConfigureAwait(false);
+                                await e.Channel.SendMessage(string.Format("Added text channel **{0}**.",e.GetArg("channel_name"))).ConfigureAwait(false);
                             }
                         }
                         catch
@@ -482,7 +482,7 @@ namespace NadekoBot.Modules.Administration
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user"))) usr = e.Channel.FindUsers(e.GetArg("user")).FirstOrDefault();
                         if (usr == null)
                             return;
-                        await e.Channel.SendMessage($"Id of the user { usr.Name } is { usr.Id }").ConfigureAwait(false);
+                        await e.Channel.SendMessage(string.Format("Id of the user {0} is { usr.Id }", usr.Name )).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "cid").Alias(Prefix + "channelid")
@@ -513,7 +513,7 @@ namespace NadekoBot.Modules.Administration
                   .Do(async e =>
                   {
                       var heap = await Task.Run(() => NadekoStats.Instance.Heap()).ConfigureAwait(false);
-                      await e.Channel.SendMessage($"`Heap Size:` {heap}").ConfigureAwait(false);
+                      await e.Channel.SendMessage(string.Format("`Heap Size:` {0}",heap)).ConfigureAwait(false);
                   });
                 cgb.CreateCommand(Prefix + "prune")
                     .Parameter("num", ParameterType.Required)
@@ -699,12 +699,12 @@ namespace NadekoBot.Modules.Administration
                         {
                             if (!e.User.ServerPermissions.MentionEveryone) return;
                             var arg = e.GetArg("roles").Split(',').Select(r => r.Trim());
-                            string send = $"--{e.User.Mention} has invoked a mention on the following roles--";
+                            string send = string.Format("--{0} has invoked a mention on the following roles--",e.User.Mention);
                             foreach (var roleStr in arg.Where(str => !string.IsNullOrWhiteSpace(str)))
                             {
                                 var role = e.Server.FindRoles(roleStr).FirstOrDefault();
                                 if (role == null) continue;
-                                send += $"\n`{role.Name}`\n";
+                                send += string.Format("\n`{0}`\n",role.Name);
                                 send += string.Join(", ", role.Members.Select(r => r.Mention));
                             }
 

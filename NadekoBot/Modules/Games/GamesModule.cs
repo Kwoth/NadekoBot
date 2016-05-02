@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Games.Commands;
+using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 
@@ -14,12 +14,12 @@ namespace NadekoBot.Modules.Games
 
         public GamesModule()
         {
-            commands.Add(new Trivia(this));
+            commands.Add(new TriviaCommands(this));
             commands.Add(new SpeedTyping(this));
             commands.Add(new PollCommand(this));
             commands.Add(new PlantPick(this));
             commands.Add(new Bomberman(this));
-            commands.Add(new CardsAgainstHumanity(this));
+            //commands.Add(new CardsAgainstHumanity(this));
             //commands.Add(new BetrayGame(this));
 
         }
@@ -31,7 +31,7 @@ namespace NadekoBot.Modules.Games
             manager.CreateCommands("", cgb =>
             {
 
-                cgb.AddCheck(Classes.Permissions.PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
 

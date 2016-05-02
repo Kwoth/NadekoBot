@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NadekoBot.DataModels
+﻿namespace NadekoBot.DataModels
 {
     class PokemonSprite : IDataModel
     {
         public long OwnerId { get; set; }
-        public string NickName { get; set; }
+        public string NickName { get; set; } 
+        public bool IsShiny { get; set; } = false;
         public int HP { get; set; }
         public long XP { get; set; }
         public int Level { get; set; }

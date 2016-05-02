@@ -123,8 +123,10 @@
     <Compile Include="Modules\ClashOfClans\ClashOfClans.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\FlowersHandler.cs" />
+    <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
     <Compile Include="Modules\Feeds\FeedModule.cs" />
     <Compile Include="Modules\Pokemon\PokemonAttack.cs" />
+    <Compile Include="Modules\Pokemon\PokemonChallenge.cs" />
     <Compile Include="Modules\Pokemon\PokemonMain.cs" />
     <Compile Include="Modules\Pokemon\TrainerStats.cs" />
     <Compile Include="Modules\Searches\Commands\IMDB\ImdbMovie.cs" />

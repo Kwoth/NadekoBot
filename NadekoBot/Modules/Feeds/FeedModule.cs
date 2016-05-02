@@ -22,14 +22,7 @@ namespace NadekoBot.Modules.Feeds
         public FeedModule() { }
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Feeds;
         private bool isRunning;
-        /// <summary>
-        /// This shall become a datamodel in the future
-        /// Dictionary where:
-        /// ulong = server id
-        /// List of feeds corresponding to that server
-        /// 
-        /// </summary>
-        //public ConcurrentDictionary<ulong, List<AllFeed>> feedSettings = new ConcurrentDictionary<ulong, List<AllFeed>>();
+
 
 
         public override void Install(ModuleManager manager)
@@ -82,7 +75,7 @@ namespace NadekoBot.Modules.Feeds
                         await e.Channel.SendMessage($"Channel already has feed from {url} set up");
                         return;
                     }
-                string feedName = await getFeedName(url);
+                    string feedName = await GetFeedName(url);
                     if (feedName != null)
                     {
                         DbHandler.Instance.InsertData(new Feed()
@@ -99,11 +92,11 @@ namespace NadekoBot.Modules.Feeds
                         await e.Channel.SendMessage("Unkown feed type");
                     }
 
-               
+
                 });
 
                 cgb.CreateCommand("remove")
-                .Description("remove the feed with the corresponding url")
+                .Description($"remove the feed with the corresponding url \n**Usage**: {Prefix} remove <feed link>")
                 .Parameter("url", ParameterType.Required)
                 .Do(async e =>
                 {
@@ -122,7 +115,7 @@ namespace NadekoBot.Modules.Feeds
                         await e.Channel.SendMessage($"Channel does not have feed from {url} set up");
                         return;
                     }
-                    
+
                 });
 
                 NadekoBot.Client.Ready += (s, e) =>
@@ -142,10 +135,10 @@ namespace NadekoBot.Modules.Feeds
         /// <param name="url"></param>
         /// <param name="feedName"></param>
         /// <returns></returns>
-        private async Task<string> getFeedName(string url)
+        private async Task<string> GetFeedName(string url)
         {
-           
-            var content = await getContent(HttpMethod.Get, url);
+
+            var content = await GetContent(HttpMethod.Get, url);
             var doc = XDocument.Load(await content.ReadAsStreamAsync());
             var rssNode = doc.Element("rss");
             var atomNode = doc.Element("{http://www.w3.org/2005/Atom}feed");
@@ -175,7 +168,7 @@ namespace NadekoBot.Modules.Feeds
             else return null;
         }
 
-       
+
 
         public async Task Run()
         {
@@ -196,7 +189,7 @@ namespace NadekoBot.Modules.Feeds
                                 var channel = NadekoBot.Client.GetChannel((ulong)feed.ChannelId);
                                 if (channel != null && channel.Server.CurrentUser.GetPermissions(channel).SendMessages)
                                 {
-                                    var content = await getContent(HttpMethod.Get, feed.Link);
+                                    var content = await GetContent(HttpMethod.Get, feed.Link);
                                     var doc = XDocument.Load(await content.ReadAsStreamAsync());
                                     var rssNode = doc.Element("rss");
                                     var atomNode = doc.Element("{http://www.w3.org/2005/Atom}feed");
@@ -241,7 +234,7 @@ namespace NadekoBot.Modules.Feeds
                                         {
                                             try
                                             {
-                                                string str = $"Feed update from {Format.Escape(feed.Link)}:\n" +
+                                                string str = $"Feed update from {Format.Escape(feed.Name)}:\n" +
                                                     $"Title: {Format.Bold(article.Title)}\n" +
                                                     $"link: {Format.Escape(article.Link)}\n" +
                                                     $"Content: {article.Description}";
@@ -277,7 +270,7 @@ namespace NadekoBot.Modules.Feeds
         }
 
         static HttpClient httpClient = null;
-        private static void initClient()
+        private static void InitClient()
         {
             httpClient = new HttpClient(new HttpClientHandler
             {
@@ -290,11 +283,11 @@ namespace NadekoBot.Modules.Feeds
             //httpClient.DefaultRequestHeaders.Add("user-agent", NadekoBot.Client.Config.UserAgent);
         }
 
-        private async Task<HttpContent> getContent(HttpMethod method, string url)
+        private async Task<HttpContent> GetContent(HttpMethod method, string url)
         {
             if (httpClient == null)
             {
-                initClient();
+                InitClient();
             }
             HttpRequestMessage msg = new HttpRequestMessage(method, url);
             //RogueException's version is so unclear in its function here
