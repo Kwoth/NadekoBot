@@ -123,8 +123,34 @@ namespace NadekoBot.Modules.Administration
                         }
                     });
 
+                cgb.CreateCommand(Prefix + "rar").Alias(Prefix + "removeallroles")
+                    .Description("Removes all roles from a mentioned user.\n**Usage**: .rar @User")
+                    .Parameter("user_name", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.CanManageRoles)
+                    .Do(async e =>
+                    {
+                        var userName = e.GetArg("user_name");
+
+                        var usr = e.Server.FindUsers(userName).FirstOrDefault();
+                        if (usr == null)
+                        {
+                            await e.Channel.SendMessage("You failed to supply a valid username").ConfigureAwait(false);
+                            return;
+                        }
+
+                        try
+                        {
+                            await usr.RemoveRoles(usr.Roles.ToArray()).ConfigureAwait(false);
+                            await e.Channel.SendMessage($"Successfully removed **all** roles from user **{usr.Name}**").ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            await e.Channel.SendMessage("Failed to remove roles. Most likely reason: Insufficient permissions.").ConfigureAwait(false);
+                        }
+                    });
+
                 cgb.CreateCommand(Prefix + "r").Alias(Prefix + "role").Alias(Prefix + "cr")
-                    .Description("Creates a role with a given name.**Usage**: .r Awesome Role")
+                    .Description("Creates a role with a given name.**Usage**: `.r Awesome Role`")
                     .Parameter("role_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.CanManageRoles)
                     .Do(async e =>
@@ -147,7 +173,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("r", ParameterType.Optional)
                     .Parameter("g", ParameterType.Optional)
                     .Parameter("b", ParameterType.Optional)
-                    .Description("Set a role's color to the hex or 0-255 rgb color value provided.\n**Usage**: .color Admin 255 200 100 or .color Admin ffba55")
+                    .Description("Set a role's color to the hex or 0-255 rgb color value provided.\n**Usage**: `.color Admin 255 200 100` or `.color Admin ffba55`")
                     .Do(async e =>
                     {
                         if (!e.User.ServerPermissions.ManageRoles)
@@ -174,10 +200,11 @@ namespace NadekoBot.Modules.Administration
                         try
                         {
                             var rgb = args.Count() == 4;
+                            var arg1 = e.Args[1].Replace("#", "");
 
-                            var red = Convert.ToByte(rgb ? int.Parse(e.Args[1]) : Convert.ToInt32(e.Args[1].Substring(0, 2), 16));
-                            var green = Convert.ToByte(rgb ? int.Parse(e.Args[2]) : Convert.ToInt32(e.Args[1].Substring(2, 2), 16));
-                            var blue = Convert.ToByte(rgb ? int.Parse(e.Args[3]) : Convert.ToInt32(e.Args[1].Substring(4, 2), 16));
+                            var red = Convert.ToByte(rgb ? int.Parse(arg1) : Convert.ToInt32(arg1.Substring(0, 2), 16));
+                            var green = Convert.ToByte(rgb ? int.Parse(e.Args[2]) : Convert.ToInt32(arg1.Substring(2, 2), 16));
+                            var blue = Convert.ToByte(rgb ? int.Parse(e.Args[3]) : Convert.ToInt32(arg1.Substring(4, 2), 16));
 
                             await role.Edit(color: new Color(red, green, blue)).ConfigureAwait(false);
                             await e.Channel.SendMessage(string.Format("Role {0}'s color has been changed.",role.Name)).ConfigureAwait(false);
@@ -810,6 +837,20 @@ namespace NadekoBot.Modules.Administration
                           Console.WriteLine(ex);
                       }
                   });
+
+                cgb.CreateCommand(Prefix + "announce")
+                    .Description($"Sends a message to all servers' general channel bot is connected to.**Owner Only!**\n**Usage**: {Prefix}announce Useless spam")
+                    .Parameter("msg", ParameterType.Unparsed)
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        foreach (var ch in NadekoBot.Client.Servers.Select(s => s.DefaultChannel))
+                        {
+                            await ch.SendMessage(e.GetArg("msg"));
+                        }
+
+                        await e.Channel.SendMessage(":ok:");
+                    });
             });
         }
 

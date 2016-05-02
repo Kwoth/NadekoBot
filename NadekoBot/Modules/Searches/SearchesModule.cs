@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Searches
                 commands.ForEach(cmd => cmd.Init(cgb));
 
                 cgb.CreateCommand(Prefix + "we")
-                    .Description("Shows weather data for a specified city and a country BOTH ARE REQUIRED. Weather api is very random if you make a mistake.")
+                    .Description($"Shows weather data for a specified city and a country. BOTH ARE REQUIRED. Use country abbrevations.\n**Usage**: {Prefix}we Moscow RF")
                     .Parameter("city", ParameterType.Required)
                     .Parameter("country", ParameterType.Required)
                     .Do(async e =>
@@ -159,16 +159,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
-                            {
-                                if (exception.Message.Contains ("403 (Forbidden)"))
-                                {
-                                    await e.Channel.SendMessage ("Daily limit reached!");
-                                }
-                                else
-                                {
-                                    await e.Channel.SendMessage ("Something went wrong.");
-                                }
-                            }
+                           {
+                               if (exception.Message.Contains("403 (Forbidden)"))
+                               {
+                                   await e.Channel.SendMessage("Daily limit reached!");
+                               }
+                               else
+                               {
+                                   await e.Channel.SendMessage("Something went wrong.");
+                               }
+                           }
                        });
 
                 cgb.CreateCommand(Prefix + "ir")
@@ -185,16 +185,16 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                                await e.Channel.SendMessage(obj["items"][0]["link"].ToString()).ConfigureAwait(false);
                            }
                            catch (HttpRequestException exception)
-                            {
-                                if (exception.Message.Contains ("403 (Forbidden)"))
-                                {
-                                    await e.Channel.SendMessage ("Daily limit reached!");
-                                }
-                                else
-                                {
-                                    await e.Channel.SendMessage ("Something went wrong.");
-                                }
-                            }
+                           {
+                               if (exception.Message.Contains("403 (Forbidden)"))
+                               {
+                                   await e.Channel.SendMessage("Daily limit reached!");
+                               }
+                               else
+                               {
+                                   await e.Channel.SendMessage("Something went wrong.");
+                               }
+                           }
                        });
                 cgb.CreateCommand(Prefix + "lmgtfy")
                     .Description("Google something for an idiot.")
@@ -408,6 +408,18 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         if (usr == null || string.IsNullOrWhiteSpace(usr.AvatarUrl))
                             return;
                         await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={usr.AvatarUrl}").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "revimg")
+                    .Description("Returns a google reverse image search for an image from a link.")
+                    .Parameter("image", ParameterType.Unparsed)
+                    .Do(async e =>
+                    {
+                        var imgLink = e.GetArg("image")?.Trim();
+
+                        if (string.IsNullOrWhiteSpace(imgLink))
+                            return;
+                        await e.Channel.SendMessage($"https://images.google.com/searchbyimage?image_url={imgLink}").ConfigureAwait(false);
                     });
             });
         }
