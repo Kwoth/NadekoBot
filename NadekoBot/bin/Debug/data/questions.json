@@ -1,18 +1,23 @@
 [
   {
     "Category": "Anime",
-    "Question": "In 'Shingetsutan Tsukihime', how many beast Nrvnqsr(Nero) Chaos's body contain?",
+    "Question": " In the anime 'Shingetsutan Tsukihime', how many beast Nrvnqsr(Nero) Chaos's body contain?",
     "Answer": "666"
   },
   {
     "Category": "Anime",
-    "Question": "In 'Rozen Maiden', Souseiseki (Twin sister of Suiseiseki) have minnow eyes, one green and one red. Which eye is red?",
+    "Question": " In the anime 'Rozen Maiden', Souseiseki (Twin sister of Suiseiseki) have minnow eyes, one green and one red. Which eye is red?",
     "Answer": "Left"
   },
   {
     "Category": "Anime",
-    "Question": " What is the name of the male protagonist in 'Vision of Escaflowne'?",
+    "Question": " In the anime 'Vision of Escaflowne', what is the name of the male protagonist?",
     "Answer": "Van Fanel"
+  },
+  {
+    "Category": "Anime",
+    "Question": " In the anime 'Kyoukai no Kanata', what is the name of the main character?",
+	"Answer": "Akihito Kanbara"
   },
   {
     "Category": "Anime",
@@ -576,7 +581,7 @@
   },
   {
     "Category": "Games",
-    "Question": "In the game 'Moutain of Faith' (Touhou Project), what is the name of the boss of stage 3?",
+    "Question": "In the game 'Moutain of Faith(Touhou Project)', what is the name of the boss of stage 3?",
     "Answer": "Nitori Kawashiro"
   },
   {
@@ -593,6 +598,16 @@
     "Category": "Games",
     "Question": "In the game 'Embodiment of Scarlet Devil(Touhou Project)', what is the name of Remilia Scarlet's young sister?",
 	"Answer": "Flandre Scarlet"
+  },
+  {
+    "Category": "Games",
+    "Question": " In the game 'Touhou Project', on what animals Suwako and Kanako are respectively based?",
+	"Answer": "Frog and snake"
+  },
+  {
+    "Category": "Games",
+    "Question": "In the game 'Phoenix Wright: Ace Attorney', what is the original name of Phoenix Wright?",
+	"Answer": "Ryuuichi Naruhodou"
   },
   {
     "Category": "Games",
