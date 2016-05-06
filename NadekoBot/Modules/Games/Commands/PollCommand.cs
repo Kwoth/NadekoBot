@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace Uni.Modules.Games.Commands
 {
     internal class PollCommand : DiscordCommand
     {
@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Games.Commands
         public async Task StartPoll()
         {
             started = DateTime.Now;
-            NadekoBot.Client.MessageReceived += Vote;
+            Uni.Client.MessageReceived += Vote;
             var msgToSend =
                     $"📃**{e.User.Name}** from **{e.Server.Name}** server has created a poll which requires your attention:\n\n" +
                     $"**{question}**\n";
@@ -93,7 +93,7 @@ namespace NadekoBot.Modules.Games.Commands
 
         public async Task StopPoll(Channel ch)
         {
-            NadekoBot.Client.MessageReceived -= Vote;
+            Uni.Client.MessageReceived -= Vote;
             Poll throwaway;
             PollCommand.ActivePolls.TryRemove(e.Server, out throwaway);
             try

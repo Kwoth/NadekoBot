@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace Uni.Modules.Games.Commands
 {
     class BetrayGame : DiscordCommand
     {

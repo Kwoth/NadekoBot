@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Timers;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     class MessageRepeater : DiscordCommand
     {

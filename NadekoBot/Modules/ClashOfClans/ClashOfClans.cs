@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.ClashOfClans
+namespace Uni.Classes.ClashOfClans
 {
     internal class Caller
     {

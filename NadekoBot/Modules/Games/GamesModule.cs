@@ -1,12 +1,12 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Games.Commands;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Extensions;
+using Uni.Modules.Games.Commands;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 
-namespace NadekoBot.Modules.Games
+namespace Uni.Modules.Games
 {
     internal class GamesModule : DiscordModule
     {
@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Games
 
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Games;
 
         public override void Install(ModuleManager manager)
         {
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Games
                         try
                         {
                             await e.Channel.SendMessage(
-                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{NadekoBot.Config._8BallResponses[rng.Next(0, NadekoBot.Config._8BallResponses.Length)]}`")
+                                $":question: **Question**: `{question}` \n🎱 **8Ball Answers**: `{Uni.Config._8BallResponses[rng.Next(0, Uni.Config._8BallResponses.Length)]}`")
                                     .ConfigureAwait(false);
                         }
                         catch { }
@@ -99,7 +99,7 @@ namespace NadekoBot.Modules.Games
                         else if ((pick == 0 && nadekoPick == 1) ||
                                  (pick == 1 && nadekoPick == 2) ||
                                  (pick == 2 && nadekoPick == 0))
-                            msg = $"{NadekoBot.BotMention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
+                            msg = $"{Uni.BotMention} won! :{GetRPSPick(nadekoPick)}: beats :{GetRPSPick(pick)}:";
                         else
                             msg = $"{e.User.Mention} won! :{GetRPSPick(pick)}: beats :{GetRPSPick(nadekoPick)}:";
 

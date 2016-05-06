@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace NadekoBot.Classes {
+namespace Uni.Classes {
     internal static class IncidentsHandler {
         public static void Add(ulong serverId, string text) {
             Directory.CreateDirectory("data/incidents");

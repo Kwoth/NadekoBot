@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Games.Commands.Trivia;
+using Uni.Classes;
+using Uni.Modules.Games.Commands.Trivia;
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace Uni.Modules.Games.Commands
 {
     internal class TriviaCommands : DiscordCommand
     {

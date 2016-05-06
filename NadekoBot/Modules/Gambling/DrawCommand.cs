@@ -1,14 +1,14 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Gambling.Helpers;
+using Uni.Classes;
+using Uni.Extensions;
+using Uni.Modules.Gambling.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Gambling
+namespace Uni.Modules.Gambling
 {
     internal class DrawCommand : DiscordCommand
     {

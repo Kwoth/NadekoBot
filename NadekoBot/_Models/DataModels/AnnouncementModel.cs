@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NadekoBot.DataModels
+namespace Uni.DataModels
 {
     internal class Announcement : IDataModel
     {

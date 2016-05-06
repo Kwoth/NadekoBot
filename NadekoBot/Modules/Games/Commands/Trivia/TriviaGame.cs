@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
+using Uni.Classes;
+using Uni.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands.Trivia
+namespace Uni.Modules.Games.Commands.Trivia
 {
     internal class TriviaGame
     {
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 await channel.SendMessage($":question: **{CurrentQuestion.Question}**").ConfigureAwait(false);
 
                 //receive messages
-                NadekoBot.Client.MessageReceived += PotentialGuess;
+                Uni.Client.MessageReceived += PotentialGuess;
 
                 //allow people to guess
                 GameActive = true;
@@ -85,7 +85,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
                 GameActive = false;
                 if (!triviaCancelSource.IsCancellationRequested)
                     await channel.Send($":clock2: :question: **Time's up!** The correct answer was **{CurrentQuestion.Answer}**").ConfigureAwait(false);
-                NadekoBot.Client.MessageReceived -= PotentialGuess;
+                Uni.Client.MessageReceived -= PotentialGuess;
                 // load next question if game is still running
                 await Task.Delay(2000).ConfigureAwait(false);
             }
@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
             {
                 if (e.Channel.IsPrivate) return;
                 if (e.Server != server) return;
-                if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+                if (e.User.Id == Uni.Client.CurrentUser.Id) return;
 
                 var guess = false;
                 lock (_guessLock)

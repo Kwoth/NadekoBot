@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.DataModels;
-using NadekoBot.Extensions;
+using Uni.Classes;
+using Uni.DataModels;
+using Uni.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace Uni.Modules.Games.Commands
 {
 
     public static class SentencesProvider
@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Games.Commands
         internal async Task<bool> Stop()
         {
             if (!IsActive) return false;
-            NadekoBot.Client.MessageReceived -= AnswerReceived;
+            Uni.Client.MessageReceived -= AnswerReceived;
             finishedUserIds.Clear();
             IsActive = false;
             sw.Stop();
@@ -95,14 +95,14 @@ namespace NadekoBot.Modules.Games.Commands
 
         private void HandleAnswers()
         {
-            NadekoBot.Client.MessageReceived += AnswerReceived;
+            Uni.Client.MessageReceived += AnswerReceived;
         }
 
         private async void AnswerReceived(object sender, MessageEventArgs e)
         {
             try
             {
-                if (e.Channel == null || e.Channel.Id != channel.Id || e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+                if (e.Channel == null || e.Channel.Id != channel.Id || e.User.Id == Uni.Client.CurrentUser.Id) return;
 
                 var guess = e.Message.RawText;
 
@@ -180,7 +180,7 @@ namespace NadekoBot.Modules.Games.Commands
                 .Parameter("text", ParameterType.Unparsed)
                 .Do(async e =>
                 {
-                    if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
+                    if (!Uni.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("text"))) return;
 
                     DbHandler.Instance.InsertData(new TypingArticle
                     {

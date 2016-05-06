@@ -1,6 +1,6 @@
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
+using Uni.Classes;
+using Uni.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Gambling
+namespace Uni.Modules.Gambling
 {
     internal class DiceRollCommand : DiscordCommand
     {

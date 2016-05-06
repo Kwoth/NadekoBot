@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.Classes.JSONModels
+﻿namespace Uni.Classes.JSONModels
 {
     public class AnimeResult
     {

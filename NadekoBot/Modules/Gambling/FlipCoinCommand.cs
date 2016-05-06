@@ -1,11 +1,11 @@
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
+using Uni.Classes;
+using Uni.Extensions;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Gambling
+namespace Uni.Modules.Gambling
 {
     internal class FlipCoinCommand : DiscordCommand
     {

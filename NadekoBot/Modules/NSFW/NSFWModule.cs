@@ -1,18 +1,18 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace NadekoBot.Modules.NSFW
+namespace Uni.Modules.NSFW
 {
     internal class NSFWModule : DiscordModule
     {
 
         private readonly Random rng = new Random();
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.NSFW;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.NSFW;
 
         public override void Install(ModuleManager manager)
         {
@@ -35,7 +35,11 @@ namespace NadekoBot.Modules.NSFW
                         if (dan != null)
                             await e.Channel.SendMessage(":heart: Danbooru: " + dan)
                                            .ConfigureAwait(false);
-                        if (dan == null && gel == null)
+                        var atf = await SearchHelper.GetAtfbooruImageLink("rating%3Aexplicit+" + tag).ConfigureAwait(false);
+                        if (atf != null)
+                            await e.Channel.SendMessage(":heart: ATFbooru: " + atf)
+                                           .ConfigureAwait(false);
+                        if (dan == null && gel == null && atf == null)
                             await e.Channel.SendMessage("`No results.`");
                     });
                 cgb.CreateCommand(Prefix + "danbooru")
@@ -50,6 +54,18 @@ namespace NadekoBot.Modules.NSFW
                         else
                             await e.Channel.SendMessage(link).ConfigureAwait(false);
                     });
+                cgb.CreateCommand(Prefix + "atfbooru")
+    .Description("Shows a random hentai image from atfbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~danbooru yuri+kissing")
+    .Parameter("tag", ParameterType.Unparsed)
+    .Do(async e =>
+    {
+        var tag = e.GetArg("tag")?.Trim() ?? "";
+        var link = await SearchHelper.GetAtfbooruImageLink(tag).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(link))
+            await e.Channel.SendMessage("Search yielded no results ;(");
+        else
+            await e.Channel.SendMessage(link).ConfigureAwait(false);
+    });
                 cgb.CreateCommand(Prefix + "gelbooru")
                     .Description("Shows a random hentai image from gelbooru with a given tag. Tag is optional but preffered. (multiple tags are appended with +)\n**Usage**: ~gelbooru yuri+kissing")
                     .Parameter("tag", ParameterType.Unparsed)

@@ -1,20 +1,20 @@
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.DataModels;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Classes.JSONModels;
+using Uni.DataModels;
+using Uni.Extensions;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NadekoBot.Modules.Pokemon
+namespace Uni.Modules.Pokemon
 {
     class PokemonModule : DiscordModule
     {
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Pokemon;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Pokemon;
 
         private ConcurrentDictionary<ulong, PokeStats> Stats = new ConcurrentDictionary<ulong, PokeStats>();
 
@@ -48,11 +48,11 @@ namespace NadekoBot.Modules.Pokemon
             {
                 return stringToPokemonType(setTypes[(long)id]);
             }
-            int count = NadekoBot.Config.PokemonTypes.Count;
+            int count = Uni.Config.PokemonTypes.Count;
 
             int remainder = Math.Abs((int)(id % (ulong)count));
 
-            return NadekoBot.Config.PokemonTypes[remainder];
+            return Uni.Config.PokemonTypes[remainder];
         }
 
 
@@ -60,7 +60,7 @@ namespace NadekoBot.Modules.Pokemon
         private PokemonType stringToPokemonType(string v)
         {
             var str = v.ToUpperInvariant();
-            var list = NadekoBot.Config.PokemonTypes;
+            var list = Uni.Config.PokemonTypes;
             foreach (PokemonType p in list)
             {
                 if (str == p.Name)
@@ -210,7 +210,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "heal")
-                    .Description($"Heals someone. Revives those that fainted. Costs a {NadekoBot.Config.CurrencyName} \n**Usage**:{Prefix}revive @someone")
+                    .Description($"Heals someone. Revives those that fainted. Costs a {Uni.Config.CurrencyName} \n**Usage**:{Prefix}revive @someone")
                     .Parameter("target", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -238,7 +238,7 @@ namespace NadekoBot.Modules.Pokemon
                             var pts = Classes.DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                             if (pts < amount)
                             {
-                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
+                                await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {Uni.Config.CurrencyName}s! \nYou still need {amount - pts} {Uni.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
                                 return;
                             }
                             var target = (usr.Id == e.User.Id) ? "yourself" : usr.Name;
@@ -249,11 +249,11 @@ namespace NadekoBot.Modules.Pokemon
                             {
                                 //Could heal only for half HP?
                                 Stats[usr.Id].Hp = (targetStats.MaxHp / 2);
-                                await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
+                                await e.Channel.SendMessage($"{e.User.Name} revived {usr.Name} with one {Uni.Config.CurrencySign}").ConfigureAwait(false);
                                 return;
                             }
-                            var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
+                            var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Uni.Config.CurrencyName[0]);
+                            await e.Channel.SendMessage($"{e.User.Name} healed {usr.Name} for {targetStats.MaxHp - HP} HP with {(vowelFirst ? "an" : "a")} {Uni.Config.CurrencySign}").ConfigureAwait(false);
                             return;
                         }
                         else
@@ -282,7 +282,7 @@ namespace NadekoBot.Modules.Pokemon
                     });
 
                 cgb.CreateCommand(Prefix + "settype")
-                    .Description($"Set your poketype. Costs a {NadekoBot.Config.CurrencyName}.\n**Usage**: {Prefix}settype fire")
+                    .Description($"Set your poketype. Costs a {Uni.Config.CurrencyName}.\n**Usage**: {Prefix}settype fire")
                     .Parameter("targetType", ParameterType.Unparsed)
                     .Do(async e =>
                     {
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Pokemon
                         var pts = DbHandler.Instance.GetStateByUserId((long)e.User.Id)?.Value ?? 0;
                         if (pts < amount)
                         {
-                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {NadekoBot.Config.CurrencyName}s! \nYou still need {amount - pts} {NadekoBot.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
+                            await e.Channel.SendMessage($"{e.User.Mention} you don't have enough {Uni.Config.CurrencyName}s! \nYou still need {amount - pts} {Uni.Config.CurrencySign} to be able to do this!").ConfigureAwait(false);
                             return;
                         }
                         FlowersHandler.RemoveFlowers(e.User, $"set usertype to {targetTypeStr}", amount);
@@ -327,7 +327,7 @@ namespace NadekoBot.Modules.Pokemon
 
                         //Now for the response
 
-                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
+                        await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {Uni.Config.CurrencySign}").ConfigureAwait(false);
                     });
             });
         }

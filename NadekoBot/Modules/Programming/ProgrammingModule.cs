@@ -1,13 +1,13 @@
 using Discord.Modules;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
-using NadekoBot.Modules.Programming.Commands;
+using Uni.Extensions;
+using Uni.Modules.Permissions.Classes;
+using Uni.Modules.Programming.Commands;
 
-namespace NadekoBot.Modules.Programming
+namespace Uni.Modules.Programming
 {
     class ProgrammingModule : DiscordModule
     {
-        public override string Prefix => NadekoBot.Config.CommandPrefixes.Programming;
+        public override string Prefix => Uni.Config.CommandPrefixes.Programming;
 
         public ProgrammingModule()
         {

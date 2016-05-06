@@ -1,13 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Games.Commands
+namespace Uni.Modules.Games.Commands
 {
     /// <summary>
     /// Flower picking/planting idea is given to me by its
@@ -42,7 +42,7 @@ namespace NadekoBot.Modules.Games.Commands
 
                     await msg.Delete().ConfigureAwait(false);
                     await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
-                    msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {NadekoBot.Config.CurrencyName}!").ConfigureAwait(false);
+                    msg = await e.Channel.SendMessage($"**{e.User.Name}** picked a {Uni.Config.CurrencyName}!").ConfigureAwait(false);
                     await Task.Delay(10000).ConfigureAwait(false);
                     await msg.Delete().ConfigureAwait(false);
                 });
@@ -55,13 +55,13 @@ namespace NadekoBot.Modules.Games.Commands
                     {
                         if (plantedFlowerChannels.ContainsKey(e.Channel.Id))
                         {
-                            e.Channel.SendMessage($"There is already a {NadekoBot.Config.CurrencyName} in this channel.");
+                            e.Channel.SendMessage($"There is already a {Uni.Config.CurrencyName} in this channel.");
                             return;
                         }
                         var removed = FlowersHandler.RemoveFlowers(e.User, "Planted a flower.", 1);
                         if (!removed)
                         {
-                            e.Channel.SendMessage($"You don't have any {NadekoBot.Config.CurrencyName}s.").Wait();
+                            e.Channel.SendMessage($"You don't have any {Uni.Config.CurrencyName}s.").Wait();
                             return;
                         }
 
@@ -70,13 +70,13 @@ namespace NadekoBot.Modules.Games.Commands
                         Message msg;
                         //todo send message after, not in lock
                         if (file == null)
-                            msg = e.Channel.SendMessage(NadekoBot.Config.CurrencySign).GetAwaiter().GetResult();
+                            msg = e.Channel.SendMessage(Uni.Config.CurrencySign).GetAwaiter().GetResult();
                         else
                             msg = e.Channel.SendFile(file).GetAwaiter().GetResult();
                         plantedFlowerChannels.TryAdd(e.Channel.Id, msg);
                     }
-                    var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(NadekoBot.Config.CurrencyName[0]);
-                    var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick");
+                    var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Uni.Config.CurrencyName[0]);
+                    var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {Uni.Config.CurrencyName}. Pick it using {Module.Prefix}pick");
                     await Task.Delay(20000).ConfigureAwait(false);
                     await msg2.Delete().ConfigureAwait(false);
                 });

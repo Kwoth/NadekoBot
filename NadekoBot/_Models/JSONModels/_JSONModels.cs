@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 
-namespace NadekoBot.Classes.JSONModels
+namespace Uni.Classes.JSONModels
 {
     public class Credentials
     {

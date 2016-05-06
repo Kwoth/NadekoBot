@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NadekoBot.Classes
+namespace Uni.Classes
 {
     internal static class FlowersHandler
     {
@@ -24,7 +24,7 @@ namespace NadekoBot.Classes
             var flows = "";
             for (var i = 0; i < amount; i++)
             {
-                flows += NadekoBot.Config.CurrencySign;
+                flows += Uni.Config.CurrencySign;
             }
             await u.SendMessage("👑Congratulations!👑\nYou received: " + flows).ConfigureAwait(false);
         }

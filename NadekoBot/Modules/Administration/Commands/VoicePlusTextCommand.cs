@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Extensions;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ChPermOverride = Discord.ChannelPermissionOverrides;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     internal class VoicePlusTextCommand : DiscordCommand
     {
@@ -16,7 +16,7 @@ namespace NadekoBot.Modules.Administration.Commands
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
-            NadekoBot.Client.UserUpdated += async (sender, e) =>
+            Uni.Client.UserUpdated += async (sender, e) =>
             {
                 try
                 {
@@ -26,7 +26,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
                     if (!config.VoicePlusTextEnabled)
                         return;
-                    var serverPerms = e.Server.GetUser(NadekoBot.Client.CurrentUser.Id)?.ServerPermissions;
+                    var serverPerms = e.Server.GetUser(Uni.Client.CurrentUser.Id)?.ServerPermissions;
                     if (serverPerms == null)
                         return;
                     if (!serverPerms.Value.ManageChannels || !serverPerms.Value.ManageRoles)

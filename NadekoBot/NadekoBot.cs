@@ -2,23 +2,23 @@
 using Discord.Audio;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes.Help.Commands;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.Modules.Administration;
-using NadekoBot.Modules.ClashOfClans;
-using NadekoBot.Modules.Conversations;
-using NadekoBot.Modules.Gambling;
-using NadekoBot.Modules.Games;
-using NadekoBot.Modules.Games.Commands;
-using NadekoBot.Modules.Help;
-using NadekoBot.Modules.Music;
-using NadekoBot.Modules.NSFW;
-using NadekoBot.Modules.Permissions;
-using NadekoBot.Modules.Permissions.Classes;
-using NadekoBot.Modules.Pokemon;
-using NadekoBot.Modules.Searches;
-using NadekoBot.Modules.Translator;
-using NadekoBot.Modules.Trello;
+using Uni.Classes.Help.Commands;
+using Uni.Classes.JSONModels;
+using Uni.Modules.Administration;
+using Uni.Modules.ClashOfClans;
+using Uni.Modules.Conversations;
+using Uni.Modules.Gambling;
+using Uni.Modules.Games;
+using Uni.Modules.Games.Commands;
+using Uni.Modules.Help;
+using Uni.Modules.Music;
+using Uni.Modules.NSFW;
+using Uni.Modules.Permissions;
+using Uni.Modules.Permissions.Classes;
+using Uni.Modules.Pokemon;
+using Uni.Modules.Searches;
+using Uni.Modules.Translator;
+using Uni.Modules.Trello;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,9 +27,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot
+namespace Uni
 {
-    public class NadekoBot
+    public class Uni
     {
         public static DiscordClient Client { get; private set; }
         public static Credentials Creds { get; set; }
@@ -235,7 +235,7 @@ namespace NadekoBot
                         e.Cancel = true;
                 };
                 PermissionsHandler.Initialize();
-                NadekoBot.Ready = true;
+                Uni.Ready = true;
             });
             Console.WriteLine("Exiting...");
             Console.ReadKey();
@@ -259,7 +259,7 @@ namespace NadekoBot
                 if (ConfigHandler.IsBlackListed(e))
                     return;
 
-                if (!NadekoBot.Config.DontJoinServers && !IsBot)
+                if (!Uni.Config.DontJoinServers && !IsBot)
                 {
                     try
                     {
@@ -277,7 +277,7 @@ namespace NadekoBot
                     }
                 }
 
-                if (Config.ForwardMessages && !NadekoBot.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannel != null)
+                if (Config.ForwardMessages && !Uni.Creds.OwnerIds.Contains(e.User.Id) && OwnerPrivateChannel != null)
                     await OwnerPrivateChannel.SendMessage(e.User + ": ```\n" + e.Message.Text + "\n```").ConfigureAwait(false);
 
                 if (repliedRecently) return;

@@ -1,19 +1,19 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Linq;
 
-namespace NadekoBot.Modules.Permissions.Commands
+namespace Uni.Modules.Permissions.Commands
 {
     internal class FilterWords : DiscordCommand
     {
         public FilterWords(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += async (sender, args) =>
+            Uni.Client.MessageReceived += async (sender, args) =>
             {
-                if (args.Channel.IsPrivate || args.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+                if (args.Channel.IsPrivate || args.User.Id == Uni.Client.CurrentUser.Id) return;
                 try
                 {
                     Classes.ServerPermissions serverPerms;

@@ -1,5 +1,5 @@
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.Extensions;
+using Uni.Classes.JSONModels;
+using Uni.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NadekoBot.Classes
+namespace Uni.Classes
 {
     public enum RequestHttpMethod
     {
@@ -141,7 +141,7 @@ namespace NadekoBot.Classes
 
         public static async Task<string> FindYoutubeUrlByKeywords(string keywords)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(Uni.Creds.GoogleAPIKey))
                 throw new InvalidCredentialException("Google API Key is missing.");
             if (string.IsNullOrWhiteSpace(keywords))
                 throw new ArgumentNullException(nameof(keywords), "Query not specified.");
@@ -158,7 +158,7 @@ namespace NadekoBot.Classes
                                     $"https://www.googleapis.com/youtube/v3/search?" +
                                     $"part=snippet&maxResults=1" +
                                     $"&q={Uri.EscapeDataString(keywords)}" +
-                                    $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
+                                    $"&key={Uni.Creds.GoogleAPIKey}").ConfigureAwait(false);
             JObject obj = JObject.Parse(response);
 
             var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
@@ -174,13 +174,13 @@ namespace NadekoBot.Classes
 
         public static async Task<string> GetPlaylistIdByKeyword(string query)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(Uni.Creds.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
 
             var link = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
                         "&maxResults=1&type=playlist" +
                        $"&q={Uri.EscapeDataString(query)}" +
-                       $"&key={NadekoBot.Creds.GoogleAPIKey}";
+                       $"&key={Uni.Creds.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link).ConfigureAwait(false);
             var data = JsonConvert.DeserializeObject<YoutubePlaylistSearch>(response);
@@ -191,7 +191,7 @@ namespace NadekoBot.Classes
 
         public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 50)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
+            if (string.IsNullOrWhiteSpace(Uni.Creds.GoogleAPIKey))
             {
                 throw new ArgumentNullException(nameof(playlist));
             }
@@ -201,7 +201,7 @@ namespace NadekoBot.Classes
                 $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
                 $"&maxResults={number}" +
                 $"&playlistId={playlist}" +
-                $"&key={NadekoBot.Creds.GoogleAPIKey}";
+                $"&key={Uni.Creds.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link).ConfigureAwait(false);
             var obj = await Task.Run(() => JObject.Parse(response)).ConfigureAwait(false);
@@ -230,7 +230,23 @@ namespace NadekoBot.Classes
             return $"http://danbooru.donmai.us" +
                    $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
         }
+        public static async Task<string> GetAtfbooruImageLink(string tag)
+        {
+            var rng = new Random();
 
+            var link = $"http://atfbooru.ninja/posts?" +
+                        $"page={rng.Next(0, 15)}";
+            if (!string.IsNullOrWhiteSpace(tag))
+                link += $"&tags={tag.Replace(" ", "_")}";
+
+            var webpage = await GetResponseStringAsync(link).ConfigureAwait(false);
+            var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
+
+            if (matches.Count == 0)
+                return null;
+            return $"http://atfbooru.ninja" +
+                   $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
+        }
         public static async Task<string> GetGelbooruImageLink(string tag)
         {
             var url =
@@ -294,12 +310,12 @@ namespace NadekoBot.Classes
 
         public static async Task<string> ShortenUrl(string url)
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey)) return url;
+            if (string.IsNullOrWhiteSpace(Uni.Creds.GoogleAPIKey)) return url;
             try
             {
                 var httpWebRequest =
                     (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/urlshortener/v1/url?key=" +
-                                                       NadekoBot.Creds.GoogleAPIKey);
+                                                       Uni.Creds.GoogleAPIKey);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Extensions;
+using Uni.Classes;
+using Uni.Extensions;
 using System;
 using System.Linq;
 using System.Text;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     class InfoCommands : DiscordCommand
     {
@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     var servText = e.GetArg("server")?.Trim();
                     var server = string.IsNullOrWhiteSpace(servText)
                              ? e.Server
-                             : NadekoBot.Client.FindServers(servText).FirstOrDefault();
+                             : Uni.Client.FindServers(servText).FirstOrDefault();
                     if (server == null)
                         return;
                     var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(server.Id >> 22);

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace NadekoBot.Modules.Translator.Helpers
+namespace Uni.Modules.Translator.Helpers
 {
     /// <summary>
     /// Translates text using Google's online language tools.

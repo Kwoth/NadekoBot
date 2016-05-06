@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Music.Classes
+namespace Uni.Modules.Music.Classes
 {
 
     /// <summary>

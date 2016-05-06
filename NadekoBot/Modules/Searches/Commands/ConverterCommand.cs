@@ -1,5 +1,5 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using ScaredFingers.UnitsConversion;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Searches.Commands
+namespace Uni.Modules.Searches.Commands
 {
     class ConverterCommand : DiscordCommand
     {

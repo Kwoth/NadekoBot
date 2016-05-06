@@ -1,14 +1,14 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.DataModels;
+using Uni.Classes;
+using Uni.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Timers;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     class Remind : DiscordCommand
     {
@@ -43,12 +43,12 @@ namespace NadekoBot.Modules.Administration.Commands
                     Channel ch;
                     if (r.IsPrivate)
                     {
-                        ch = NadekoBot.Client.PrivateChannels.FirstOrDefault(c => (long)c.Id == r.ChannelId);
+                        ch = Uni.Client.PrivateChannels.FirstOrDefault(c => (long)c.Id == r.ChannelId);
                         if (ch == null)
-                            ch = await NadekoBot.Client.CreatePrivateChannel((ulong)r.ChannelId).ConfigureAwait(false);
+                            ch = await Uni.Client.CreatePrivateChannel((ulong)r.ChannelId).ConfigureAwait(false);
                     }
                     else
-                        ch = NadekoBot.Client.GetServer((ulong)r.ServerId)?.GetChannel((ulong)r.ChannelId);
+                        ch = Uni.Client.GetServer((ulong)r.ServerId)?.GetChannel((ulong)r.ChannelId);
 
                     if (ch == null)
                         return;

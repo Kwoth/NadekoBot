@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 * Last Updated: Feb, 2016
 *******************************************************************************/
 
-namespace NadekoBot.Modules.Searches.Commands.IMDB
+namespace Uni.Modules.Searches.Commands.IMDB
 {
     public static class ImdbScraper
     {

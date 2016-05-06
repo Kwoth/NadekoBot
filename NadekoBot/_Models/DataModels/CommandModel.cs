@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.DataModels {
+﻿namespace Uni.DataModels {
     internal class Command : IDataModel {
         public long UserId { get; set; }
         public string UserName { get; set; }

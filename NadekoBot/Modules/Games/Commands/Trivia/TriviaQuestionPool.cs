@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace NadekoBot.Modules.Games.Commands.Trivia
+namespace Uni.Modules.Games.Commands.Trivia
 {
     public class TriviaQuestionPool
     {

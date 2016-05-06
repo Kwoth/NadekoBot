@@ -1,11 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.DataModels;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Music.Classes;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.DataModels;
+using Uni.Extensions;
+using Uni.Modules.Music.Classes;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Music
+namespace Uni.Modules.Music
 {
     internal class MusicModule : DiscordModule
     {
@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Music
         public MusicModule()
         {
             // ready for 1.0
-            //NadekoBot.Client.UserUpdated += (s, e) =>
+            //Uni.Client.UserUpdated += (s, e) =>
             //{
             //    try
             //    {
@@ -41,11 +41,11 @@ namespace NadekoBot.Modules.Music
 
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Music;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Music;
 
         public override void Install(ModuleManager manager)
         {
-            var client = NadekoBot.Client;
+            var client = Uni.Client;
 
             manager.CreateCommands(Prefix, cgb =>
             {

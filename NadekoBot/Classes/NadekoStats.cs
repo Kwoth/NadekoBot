@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Administration.Commands;
-using NadekoBot.Modules.Music;
+using Uni.Extensions;
+using Uni.Modules.Administration.Commands;
+using Uni.Modules.Music;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace NadekoBot
+namespace Uni
 {
     public class NadekoStats
     {
@@ -35,7 +35,7 @@ namespace NadekoBot
 
         private NadekoStats()
         {
-            var commandService = NadekoBot.Client.GetService<CommandService>();
+            var commandService = Uni.Client.GetService<CommandService>();
 
             statsStopwatch.Start();
             commandService.CommandExecuted += StatsCollector_RanCommand;
@@ -44,13 +44,13 @@ namespace NadekoBot
 
             commandLogTimer.Start();
 
-            ServerCount = NadekoBot.Client.Servers.Count();
-            var channels = NadekoBot.Client.Servers.SelectMany(s => s.AllChannels);
+            ServerCount = Uni.Client.Servers.Count();
+            var channels = Uni.Client.Servers.SelectMany(s => s.AllChannels);
             var channelsArray = channels as Channel[] ?? channels.ToArray();
             TextChannelsCount = channelsArray.Count(c => c.Type == ChannelType.Text);
             VoiceChannelsCount = channelsArray.Count() - TextChannelsCount;
 
-            NadekoBot.Client.JoinedServer += (s, e) =>
+            Uni.Client.JoinedServer += (s, e) =>
             {
                 try
                 {
@@ -61,7 +61,7 @@ namespace NadekoBot
                 }
                 catch { }
             };
-            NadekoBot.Client.LeftServer += (s, e) =>
+            Uni.Client.LeftServer += (s, e) =>
             {
                 try
                 {
@@ -72,7 +72,7 @@ namespace NadekoBot
                 }
                 catch { }
             };
-            NadekoBot.Client.ChannelCreated += (s, e) =>
+            Uni.Client.ChannelCreated += (s, e) =>
             {
                 try
                 {
@@ -85,7 +85,7 @@ namespace NadekoBot
                 }
                 catch { }
             };
-            NadekoBot.Client.ChannelDestroyed += (s, e) =>
+            Uni.Client.ChannelDestroyed += (s, e) =>
             {
                 try
                 {
@@ -104,13 +104,13 @@ namespace NadekoBot
         HttpClient carbonClient = new HttpClient();
         private async Task SendUpdateToCarbon()
         {
-            if (string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
+            if (string.IsNullOrWhiteSpace(Uni.Creds.CarbonKey))
                 return;
             try
             {
                 using (var content = new FormUrlEncodedContent(new Dictionary<string, string> {
-                                { "servercount", NadekoBot.Client.Servers.Count().ToString() },
-                                { "key", NadekoBot.Creds.CarbonKey }
+                                { "servercount", Uni.Client.Servers.Count().ToString() },
+                                { "key", Uni.Creds.CarbonKey }
                     }))
                 {
                     content.Headers.Clear();
@@ -142,15 +142,15 @@ namespace NadekoBot
                 var sb = new System.Text.StringBuilder();
                 sb.AppendLine("`Author: Kwoth` `Library: Discord.Net`");
                 sb.AppendLine($"`Bot Version: {BotVersion}`");
-                sb.AppendLine($"`Bot id: {NadekoBot.Client.CurrentUser.Id}`");
+                sb.AppendLine($"`Bot id: {Uni.Client.CurrentUser.Id}`");
                 sb.Append("`Owners' Ids:` ");
-                sb.AppendLine("`" + String.Join(", ", NadekoBot.Creds.OwnerIds) + "`");
+                sb.AppendLine("`" + String.Join(", ", Uni.Creds.OwnerIds) + "`");
                 sb.AppendLine($"`Uptime: {GetUptimeString()}`");
                 sb.Append($"`Servers: {ServerCount}");
                 sb.Append($" | TextChannels: {TextChannelsCount}");
                 sb.AppendLine($" | VoiceChannels: {VoiceChannelsCount}`");
                 sb.AppendLine($"`Commands Ran this session: {commandsRan}`");
-                sb.AppendLine($"`Message queue size: {NadekoBot.Client.MessageQueue.Count}`");
+                sb.AppendLine($"`Message queue size: {Uni.Client.MessageQueue.Count}`");
                 sb.Append($"`Greeted {ServerGreetCommand.Greeted} times.`");
                 sb.AppendLine($" `| Playing {songs} songs, ".SnPl(songs) +
                               $"{MusicModule.MusicPlayers.Sum(kvp => kvp.Value.Playlist.Count)} queued.`");
@@ -176,11 +176,11 @@ namespace NadekoBot
                 await Task.Delay(new TimeSpan(0, 30, 0)).ConfigureAwait(false);
                 try
                 {
-                    var onlineUsers = await Task.Run(() => NadekoBot.Client.Servers.Sum(x => x.Users.Count())).ConfigureAwait(false);
-                    var realOnlineUsers = await Task.Run(() => NadekoBot.Client.Servers
+                    var onlineUsers = await Task.Run(() => Uni.Client.Servers.Sum(x => x.Users.Count())).ConfigureAwait(false);
+                    var realOnlineUsers = await Task.Run(() => Uni.Client.Servers
                                                                         .Sum(x => x.Users.Count(u => u.Status == UserStatus.Online)))
                                                                         .ConfigureAwait(false);
-                    var connectedServers = NadekoBot.Client.Servers.Count();
+                    var connectedServers = Uni.Client.Servers.Count();
 
                     Classes.DbHandler.Instance.InsertData(new DataModels.Stats
                     {

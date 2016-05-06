@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NadekoBot.DataModels
+namespace Uni.DataModels
 {
     class Reminder : IDataModel
     {

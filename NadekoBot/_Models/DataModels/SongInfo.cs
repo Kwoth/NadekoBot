@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace NadekoBot.DataModels
+namespace Uni.DataModels
 {
     internal class SongInfo : IDataModel
     {

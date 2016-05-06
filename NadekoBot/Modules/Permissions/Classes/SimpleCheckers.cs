@@ -3,14 +3,14 @@ using Discord.Commands;
 using Discord.Commands.Permissions;
 using System;
 
-namespace NadekoBot.Modules.Permissions.Classes
+namespace Uni.Modules.Permissions.Classes
 {
     public static class SimpleCheckers
     {
         public static ManageRoles CanManageRoles { get; } = new ManageRoles();
 
         public static Func<Command, User, Channel, bool> OwnerOnly() =>
-            (com, user, ch) => NadekoBot.IsOwner(user.Id);
+            (com, user, ch) => Uni.IsOwner(user.Id);
 
         public static Func<Command, User, Channel, bool> ManageMessages() =>
             (com, user, ch) => user.ServerPermissions.ManageMessages;

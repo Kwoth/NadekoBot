@@ -1,13 +1,13 @@
 ﻿using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Modules;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Extensions;
+using Uni.Modules;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Help.Commands
+namespace Uni.Classes.Help.Commands
 {
     internal class HelpCommand : DiscordCommand
     {
@@ -21,36 +21,36 @@ namespace NadekoBot.Classes.Help.Commands
             }
             await Task.Run(async () =>
             {
-                var com = NadekoBot.Client.GetService<CommandService>().AllCommands
+                var com = Uni.Client.GetService<CommandService>().AllCommands
                     .FirstOrDefault(c => c.Text.ToLowerInvariant().Equals(comToFind) ||
                                         c.Aliases.Select(a => a.ToLowerInvariant()).Contains(comToFind));
                 if (com != null)
                     await e.Channel.SendMessage($"`Help for '{com.Text}':` {com.Description}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
-        public static string HelpString => (NadekoBot.IsBot
+        public static string HelpString => (Uni.IsBot
                                            ? $"To add me to your server, use this link** -> <https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303>\n"
                                            : $"To invite me to your server, just send me an invite link here.") +
-                                           $"You can use `{NadekoBot.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
-                                           $"You can use `{NadekoBot.Config.CommandPrefixes.Help}commands ModuleName`" +
-                                           $" (for example `{NadekoBot.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
-                                           $"For a specific command help, use `{NadekoBot.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
-                                           "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>";
+                                           $"You can use `{Uni.Config.CommandPrefixes.Help}modules` command to see a list of all modules.\n" +
+                                           $"You can use `{Uni.Config.CommandPrefixes.Help}commands ModuleName`" +
+                                           $" (for example `{Uni.Config.CommandPrefixes.Help}commands Administration`) to see a list of all of the commands in that module.\n" +
+                                           $"For a specific command help, use `{Uni.Config.CommandPrefixes.Help}h \"Command name\"` (for example `-h \"!m q\"`)\n" +
+                                           "**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n\n <https://github.com/Kwoth/Uni/blob/master/commandlist.md>";
 
-        public static string DMHelpString => NadekoBot.Config.DMHelpString;
+        public static string DMHelpString => Uni.Config.DMHelpString;
 
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
             string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
+$@"######For more information and how to setup your own Uni, go to: **http://github.com/Kwoth/Uni/**
 ######You can donate on paypal: `nadekodiscordbot@gmail.com` or Bitcoin `17MZz1JAqME39akMLrVT4XBPffQJ2n1EPa`
 
-#NadekoBot List Of Commands  
+#Uni List Of Commands  
 Version: `{NadekoStats.Instance.BotVersion}`";
 
 
             string lastCategory = "";
-            foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
+            foreach (var com in Uni.Client.GetService<CommandService>().AllCommands)
             {
                 if (com.Category != lastCategory)
                 {
@@ -61,7 +61,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 }
                 helpstr += PrintCommandHelp(com);
             }
-            helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
+            helpstr = helpstr.Replace(Uni.BotMention, "@BotName");
             helpstr = helpstr.Replace("\n**Usage**:", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
             File.WriteAllText("../../../commandlist.md", helpstr);
@@ -73,7 +73,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "h")
-                .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
+                .Alias(Module.Prefix + "help", Uni.BotMention + " help", Uni.BotMention + " h", "~h")
                 .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified.\n**Usage**: '-h !m q' or just '-h' ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
@@ -86,11 +86,11 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                 .Description("Sends a readme and a guide links to the channel.")
                 .Do(async e =>
                     await e.Channel.SendMessage(
-@"**FULL README**: <https://github.com/Kwoth/NadekoBot/blob/master/README.md>
+@"**FULL README**: <https://github.com/Kwoth/Uni/blob/master/README.md>
 
-**GUIDE ONLY**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
+**GUIDE ONLY**: <https://github.com/Kwoth/Uni/blob/master/ComprehensiveGuide.md>
 
-**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>").ConfigureAwait(false));
+**LIST OF COMMANDS**: <https://github.com/Kwoth/Uni/blob/master/commandlist.md>").ConfigureAwait(false));
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
@@ -100,7 +100,7 @@ Version: `{NadekoStats.Instance.BotVersion}`";
                     await e.Channel.SendMessage(
 $@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
 Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
+You can join Uni server by typing {Module.Prefix}h and you will get an invite in a private message.
 
 *If you want to support in some other way or on a different platform, please message me*"
                     ).ConfigureAwait(false);

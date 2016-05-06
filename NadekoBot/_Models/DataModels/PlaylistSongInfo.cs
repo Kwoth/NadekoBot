@@ -1,4 +1,4 @@
-namespace NadekoBot.DataModels
+namespace Uni.DataModels
 {
     internal class PlaylistSongInfo : IDataModel
     {

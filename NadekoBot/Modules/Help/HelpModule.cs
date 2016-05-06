@@ -1,11 +1,11 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes.Help.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes.Help.Commands;
+using Uni.Extensions;
+using Uni.Modules.Permissions.Classes;
 using System.Linq;
 
-namespace NadekoBot.Modules.Help
+namespace Uni.Modules.Help
 {
     internal class HelpModule : DiscordModule
     {
@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Help
             commands.Add(new HelpCommand(this));
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Help;
 
         public override void Install(ModuleManager manager)
         {
@@ -29,7 +29,7 @@ namespace NadekoBot.Modules.Help
                     .Description("List all bot modules.")
                     .Do(async e =>
                     {
-                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", NadekoBot.Client.GetService<ModuleService>().Modules.Select(m => m.Name)))
+                        await e.Channel.SendMessage("`List of modules:` \n• " + string.Join("\n• ", Uni.Client.GetService<ModuleService>().Modules.Select(m => m.Name)))
                                        .ConfigureAwait(false);
                     });
 
@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Help
                     .Parameter("module", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
+                        var cmds = Uni.Client.GetService<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == e.GetArg("module").Trim().ToLower());
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())

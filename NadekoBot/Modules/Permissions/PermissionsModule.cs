@@ -1,19 +1,19 @@
 ﻿using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes.JSONModels;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Games.Commands;
-using NadekoBot.Modules.Permissions.Classes;
-using NadekoBot.Modules.Permissions.Commands;
+using Uni.Classes.JSONModels;
+using Uni.Extensions;
+using Uni.Modules.Games.Commands;
+using Uni.Modules.Permissions.Classes;
+using Uni.Modules.Permissions.Commands;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Permissions
+namespace Uni.Modules.Permissions
 {
     internal class PermissionModule : DiscordModule
     {
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Permissions;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Permissions;
 
         public PermissionModule()
         {
@@ -417,7 +417,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
 
-                            foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
+                            foreach (var module in Uni.Client.GetService<ModuleService>().Modules)
                             {
                                 PermissionsHandler.SetServerModulePermission(e.Server, module.Name, state);
                             }
@@ -444,7 +444,7 @@ namespace NadekoBot.Modules.Permissions
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
 
-                            foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                            foreach (var command in Uni.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
                                 PermissionsHandler.SetServerCommandPermission(e.Server, command.Text, state);
                             }
@@ -470,7 +470,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
-                            foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
+                            foreach (var module in Uni.Client.GetService<ModuleService>().Modules)
                             {
                                 PermissionsHandler.SetChannelModulePermission(channel, module.Name, state);
                             }
@@ -499,7 +499,7 @@ namespace NadekoBot.Modules.Permissions
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             var channel = PermissionHelper.ValidateChannel(e.Server, e.GetArg("channel"));
-                            foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                            foreach (var command in Uni.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
                                 PermissionsHandler.SetChannelCommandPermission(channel, command.Text, state);
                             }
@@ -525,7 +525,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("role"));
-                            foreach (var module in NadekoBot.Client.GetService<ModuleService>().Modules)
+                            foreach (var module in Uni.Client.GetService<ModuleService>().Modules)
                             {
                                 PermissionsHandler.SetRoleModulePermission(role, module.Name, state);
                             }
@@ -554,7 +554,7 @@ namespace NadekoBot.Modules.Permissions
                             var state = PermissionHelper.ValidateBool(e.GetArg("bool"));
                             var module = PermissionHelper.ValidateModule(e.GetArg("module"));
                             var role = PermissionHelper.ValidateRole(e.Server, e.GetArg("channel"));
-                            foreach (var command in NadekoBot.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
+                            foreach (var command in Uni.Client.GetService<CommandService>().AllCommands.Where(c => c.Category == module))
                             {
                                 PermissionsHandler.SetRoleCommandPermission(role, command.Text, state);
                             }
@@ -580,7 +580,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedUsers.Any()) return;
                             var usr = e.Message.MentionedUsers.First();
-                            NadekoBot.Config.UserBlacklist.Add(usr.Id);
+                            Uni.Config.UserBlacklist.Add(usr.Id);
                             ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted user {usr.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
@@ -596,9 +596,9 @@ namespace NadekoBot.Modules.Permissions
                        {
                            if (!e.Message.MentionedUsers.Any()) return;
                            var usr = e.Message.MentionedUsers.First();
-                           if (NadekoBot.Config.UserBlacklist.Contains(usr.Id))
+                           if (Uni.Config.UserBlacklist.Contains(usr.Id))
                            {
-                               NadekoBot.Config.UserBlacklist.Remove(usr.Id);
+                               Uni.Config.UserBlacklist.Remove(usr.Id);
                                ConfigHandler.SaveConfig();
                                await e.Channel.SendMessage($"`Sucessfully unblacklisted user {usr.Name}`").ConfigureAwait(false);
                            }
@@ -618,7 +618,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Add(ch.Id);
+                            Uni.Config.UserBlacklist.Add(ch.Id);
                             ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
@@ -633,7 +633,7 @@ namespace NadekoBot.Modules.Permissions
                         {
                             if (!e.Message.MentionedChannels.Any()) return;
                             var ch = e.Message.MentionedChannels.First();
-                            NadekoBot.Config.UserBlacklist.Remove(ch.Id);
+                            Uni.Config.UserBlacklist.Remove(ch.Id);
                             ConfigHandler.SaveConfig();
                             await e.Channel.SendMessage($"`Sucessfully blacklisted channel {ch.Name}`").ConfigureAwait(false);
                         }).ConfigureAwait(false);
@@ -650,15 +650,15 @@ namespace NadekoBot.Modules.Permissions
                             var arg = e.GetArg("server")?.Trim();
                             if (string.IsNullOrWhiteSpace(arg))
                                 return;
-                            var server = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
-                                         NadekoBot.Client.FindServers(arg.Trim()).FirstOrDefault();
+                            var server = Uni.Client.Servers.FirstOrDefault(s => s.Id.ToString() == arg) ??
+                                         Uni.Client.FindServers(arg.Trim()).FirstOrDefault();
                             if (server == null)
                             {
                                 await e.Channel.SendMessage("Cannot find that server").ConfigureAwait(false);
                                 return;
                             }
                             var serverId = server.Id;
-                            NadekoBot.Config.ServerBlacklist.Add(serverId);
+                            Uni.Config.ServerBlacklist.Add(serverId);
                             ConfigHandler.SaveConfig();
                             //cleanup trivias and typeracing
                             Modules.Games.Commands.Trivia.TriviaGame trivia;

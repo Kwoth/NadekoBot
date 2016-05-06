@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     internal class VoiceNotificationCommand : DiscordCommand
     {

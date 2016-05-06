@@ -1,11 +1,11 @@
 ﻿using Discord.Commands;
-using NadekoBot.Extensions;
-using NadekoBot.Modules;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Extensions;
+using Uni.Modules;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Conversations.Commands
+namespace Uni.Classes.Conversations.Commands
 {
     internal class RequestsCommand : DiscordCommand
     {
@@ -26,13 +26,13 @@ namespace NadekoBot.Classes.Conversations.Commands
         {
             var task = DbHandler.Instance.GetAllRows<DataModels.Request>();
 
-            var str = "Here are all current requests for NadekoBot:\n\n";
+            var str = "Here are all current requests for Uni:\n\n";
             foreach (var reqObj in task)
             {
                 str += $"{reqObj.Id}. by **{reqObj.UserName}** from **{reqObj.ServerName}** at {reqObj.DateAdded.ToLocalTime()}\n" +
                        $"**{reqObj.RequestText}**\n----------\n";
             }
-            return str + "\n__Type [@NadekoBot clr] to clear all of my messages.__";
+            return str + "\n__Type [@Uni clr] to clear all of my messages.__";
         }
 
         public bool DeleteRequest(int requestNumber) =>
@@ -50,7 +50,7 @@ namespace NadekoBot.Classes.Conversations.Commands
 
             cgb.CreateCommand("req")
                 .Alias("request")
-                .Description("Requests a feature for nadeko.\n**Usage**: @NadekoBot req new_feature")
+                .Description("Requests a feature for nadeko.\n**Usage**: @Uni req new_feature")
                 .Parameter("all", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -114,7 +114,7 @@ namespace NadekoBot.Classes.Conversations.Commands
                         if (sc != null)
                         {
                             await e.Channel.SendMessage(e.User.Mention + " Request resolved, notice sent.").ConfigureAwait(false);
-                            await NadekoBot.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText).ConfigureAwait(false);
+                            await Uni.Client.GetServer((ulong)sc.ServerId).GetUser((ulong)sc.UserId).Send("**This request of yours has been resolved:**\n" + sc.RequestText).ConfigureAwait(false);
                         }
                         else
                         {

@@ -1,13 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.Modules.Permissions.Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration.Commands
+namespace Uni.Modules.Administration.Commands
 {
     internal class LogCommand : DiscordCommand
     {
@@ -18,16 +18,16 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public LogCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += MsgRecivd;
-            NadekoBot.Client.MessageDeleted += MsgDltd;
-            NadekoBot.Client.MessageUpdated += MsgUpdtd;
-            NadekoBot.Client.UserUpdated += UsrUpdtd;
-            NadekoBot.Client.UserBanned += UsrBanned;
+            Uni.Client.MessageReceived += MsgRecivd;
+            Uni.Client.MessageDeleted += MsgDltd;
+            Uni.Client.MessageUpdated += MsgUpdtd;
+            Uni.Client.UserUpdated += UsrUpdtd;
+            Uni.Client.UserBanned += UsrBanned;
 
 
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            Uni.Client.MessageReceived += async (s, e) =>
             {
-                if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
+                if (e.Channel.IsPrivate || e.User.Id == Uni.Client.CurrentUser.Id)
                     return;
                 if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
                 try
@@ -74,7 +74,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User.Id == Uni.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == Uni.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)
@@ -100,7 +100,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             try
             {
-                if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == NadekoBot.Client.CurrentUser.Id)
+                if (e.Server == null || e.Channel.IsPrivate || e.User?.Id == Uni.Client.CurrentUser.Id)
                     return;
                 Channel ch;
                 if (!logs.TryGetValue(e.Server, out ch) || e.Channel == ch)

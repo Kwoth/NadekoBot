@@ -1,18 +1,18 @@
 using Discord;
 using Discord.Commands;
 using Discord.Modules;
-using NadekoBot.Classes;
-using NadekoBot.DataModels;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Administration.Commands;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Classes;
+using Uni.DataModels;
+using Uni.Extensions;
+using Uni.Modules.Administration.Commands;
+using Uni.Modules.Permissions.Classes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Administration
+namespace Uni.Modules.Administration
 {
     internal class AdministrationModule : DiscordModule
     {
@@ -30,7 +30,7 @@ namespace NadekoBot.Modules.Administration
             commands.Add(new InfoCommands(this));
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Administration;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Administration;
 
         public override void Install(ModuleManager manager)
         {
@@ -575,7 +575,7 @@ namespace NadekoBot.Modules.Administration
                     .Description("Shuts the bot down and notifies users about the restart. **Owner Only!**")
                     .Do(async e =>
                     {
-                        if (NadekoBot.IsOwner(e.User.Id))
+                        if (Uni.IsOwner(e.User.Id))
                         {
                             await e.Channel.SendMessage("`Shutting down.`").ConfigureAwait(false);
                             await Task.Delay(2000).ConfigureAwait(false);
@@ -588,7 +588,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        var usrId = NadekoBot.Client.CurrentUser.Id;
+                        var usrId = Uni.Client.CurrentUser.Id;
                         if (!string.IsNullOrWhiteSpace(e.GetArg("user")) && e.User.ServerPermissions.ManageMessages)
                         {
                             var usr = e.Server.FindUsers(e.GetArg("user")).FirstOrDefault();
@@ -617,18 +617,18 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("new_name", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id) || e.GetArg("new_name") == null) return;
+                        if (!Uni.IsOwner(e.User.Id) || e.GetArg("new_name") == null) return;
 
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, e.GetArg("new_name")).ConfigureAwait(false);
+                        await client.CurrentUser.Edit(Uni.Creds.Password, e.GetArg("new_name")).ConfigureAwait(false);
                     });
 
                 cgb.CreateCommand(Prefix + "newavatar")
                     .Alias(Prefix + "setavatar")
-                    .Description("Sets a new avatar image for the NadekoBot. **Owner Only!**")
+                    .Description("Sets a new avatar image for the Uni. **Owner Only!**")
                     .Parameter("img", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("img")))
+                        if (!Uni.IsOwner(e.User.Id) || string.IsNullOrWhiteSpace(e.GetArg("img")))
                             return;
                         // Gather user provided URL.
                         var avatarAddress = e.GetArg("img");
@@ -636,7 +636,7 @@ namespace NadekoBot.Modules.Administration
                         var image = System.Drawing.Image.FromStream(imageStream);
                         // Save the image to disk.
                         image.Save("data/avatar.png", System.Drawing.Imaging.ImageFormat.Png);
-                        await client.CurrentUser.Edit(NadekoBot.Creds.Password, avatar: image.ToStream()).ConfigureAwait(false);
+                        await client.CurrentUser.Edit(Uni.Creds.Password, avatar: image.ToStream()).ConfigureAwait(false);
                         // Send confirm.
                         await e.Channel.SendMessage("New avatar set.").ConfigureAwait(false);
                     });
@@ -646,7 +646,7 @@ namespace NadekoBot.Modules.Administration
                   .Parameter("set_game", ParameterType.Unparsed)
                   .Do(e =>
                   {
-                      if (!NadekoBot.IsOwner(e.User.Id) || e.GetArg("set_game") == null) return;
+                      if (!Uni.IsOwner(e.User.Id) || e.GetArg("set_game") == null) return;
 
                       client.SetGame(e.GetArg("set_game"));
                   });
@@ -673,7 +673,7 @@ namespace NadekoBot.Modules.Administration
                             .Parameter("name", ParameterType.Unparsed)
                             .Do(async e =>
                             {
-                                if (!NadekoBot.IsOwner(e.User.Id)) return;
+                                if (!Uni.IsOwner(e.User.Id)) return;
                                 commsUser = commsServer?.FindUsers(e.GetArg("name")).FirstOrDefault();
                                 if (commsUser != null)
                                 {
@@ -689,7 +689,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("server", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
+                        if (!Uni.IsOwner(e.User.Id)) return;
                         commsServer = client.FindServers(e.GetArg("server")).FirstOrDefault();
                         if (commsServer != null)
                             await e.Channel.SendMessage("Server for comms set.").ConfigureAwait(false);
@@ -702,7 +702,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("ch", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
+                        if (!Uni.IsOwner(e.User.Id)) return;
                         commsChannel = commsServer?.FindChannels(e.GetArg("ch"), ChannelType.Text).FirstOrDefault();
                         if (commsChannel != null)
                         {
@@ -718,7 +718,7 @@ namespace NadekoBot.Modules.Administration
                     .Parameter("msg", ParameterType.Unparsed)
                     .Do(async e =>
                     {
-                        if (!NadekoBot.IsOwner(e.User.Id)) return;
+                        if (!Uni.IsOwner(e.User.Id)) return;
                         if (commsUser != null)
                             await commsUser.SendMessage(e.GetArg("msg")).ConfigureAwait(false);
                         else if (commsChannel != null)
@@ -763,7 +763,7 @@ namespace NadekoBot.Modules.Administration
                   .Description("Loads exported parsedata from /data/parsedata/ into sqlite database.")
                   .Do(async e =>
                   {
-                      if (!NadekoBot.IsOwner(e.User.Id))
+                      if (!Uni.IsOwner(e.User.Id))
                           return;
                       await Task.Run(() =>
                       {
@@ -780,7 +780,7 @@ namespace NadekoBot.Modules.Administration
                   .AddCheck(SimpleCheckers.OwnerOnly())
                   .Do(e =>
                   {
-                      NadekoBot.Client.MessageQueue.Clear();
+                      Uni.Client.MessageQueue.Clear();
                   });
 
                 cgb.CreateCommand(Prefix + "donators")
@@ -808,7 +808,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         await Task.Run(() =>
                         {
-                            if (!NadekoBot.IsOwner(e.User.Id))
+                            if (!Uni.IsOwner(e.User.Id))
                                 return;
                             var donator = e.Server.FindUsers(e.GetArg("donator")).FirstOrDefault();
                             var amount = int.Parse(e.GetArg("amount"));
@@ -855,7 +855,7 @@ namespace NadekoBot.Modules.Administration
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
                     {
-                        foreach (var ch in NadekoBot.Client.Servers.Select(s => s.DefaultChannel))
+                        foreach (var ch in Uni.Client.Servers.Select(s => s.DefaultChannel))
                         {
                             await ch.SendMessage(e.GetArg("msg"));
                         }

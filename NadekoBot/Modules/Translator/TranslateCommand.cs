@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
-using NadekoBot.Classes;
-using NadekoBot.Modules.Translator.Helpers;
+using Uni.Classes;
+using Uni.Modules.Translator.Helpers;
 using System;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Translator
+namespace Uni.Modules.Translator
 {
     class TranslateCommand : DiscordCommand
     {

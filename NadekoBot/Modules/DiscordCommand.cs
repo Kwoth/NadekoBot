@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
-using NadekoBot.Modules;
+using Uni.Modules;
 
-namespace NadekoBot.Classes
+namespace Uni.Classes
 {
     /// <summary>
     /// Base DiscordCommand Class.

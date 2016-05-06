@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
-using NadekoBot.Modules;
+using Uni.Modules;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.Conversations.Commands
+namespace Uni.Classes.Conversations.Commands
 {
     internal class CopyCommand : DiscordCommand
     {
@@ -12,12 +12,12 @@ namespace NadekoBot.Classes.Conversations.Commands
 
         public CopyCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += Client_MessageReceived;
+            Uni.Client.MessageReceived += Client_MessageReceived;
         }
 
         private async void Client_MessageReceived(object sender, Discord.MessageEventArgs e)
         {
-            if (e.User.Id == NadekoBot.Client.CurrentUser.Id) return;
+            if (e.User.Id == Uni.Client.CurrentUser.Id) return;
             try
             {
                 if (string.IsNullOrWhiteSpace(e.Message.Text))

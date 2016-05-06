@@ -1,4 +1,4 @@
-﻿namespace NadekoBot.DataModels {
+﻿namespace Uni.DataModels {
     internal class CurrencyState : IDataModel {
         public long Value { get; set; }
         [SQLite.Unique]

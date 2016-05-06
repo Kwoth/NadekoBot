@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Classes.JSONModels
+namespace Uni.Classes.JSONModels
 {
     class MagicItem
     {

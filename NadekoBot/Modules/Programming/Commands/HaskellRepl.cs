@@ -1,6 +1,6 @@
 using Discord;
 using Discord.Commands;
-using NadekoBot.Classes;
+using Uni.Classes;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// I have no idea what am i doing
 /// </summary>
-namespace NadekoBot.Modules.Programming.Commands
+namespace Uni.Modules.Programming.Commands
 {
     class HaskellRepl : DiscordCommand
     {

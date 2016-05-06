@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NadekoBot.Modules.Permissions.Classes
+namespace Uni.Modules.Permissions.Classes
 {
     public static class PermissionsHandler
     {

@@ -1,8 +1,8 @@
 ﻿using Discord.Modules;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
+using Uni.Extensions;
+using Uni.Modules.Permissions.Classes;
 
-namespace NadekoBot.Modules.Translator
+namespace Uni.Modules.Translator
 {
     internal class TranslatorModule : DiscordModule
     {
@@ -12,7 +12,7 @@ namespace NadekoBot.Modules.Translator
             commands.Add(new ValidLanguagesCommand(this));
         }
 
-        public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Searches;
+        public override string Prefix { get; } = Uni.Config.CommandPrefixes.Searches;
 
         public override void Install(ModuleManager manager)
         {

@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace NadekoBot.Classes
+namespace Uni.Classes
 {
     internal class SpecificConfigurations
     {
