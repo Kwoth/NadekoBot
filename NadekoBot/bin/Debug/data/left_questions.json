@@ -10,17 +10,17 @@
     "Answer": "potentate"
   },
   {
-	"Category": "Science"
+	"Category": "Science",
     "Question": "Workshop for casting metal",
     "Answer": "Foundry"
   },
   {
-	"Category": "Biology"
+	"Category": "Biology",
     "Question": "What wreath of flowers is used as a decoration?",
     "Answer": "Garland"
   },
   {
-	"Category": "Movies"
+	"Category": "Movies",
     "Question": "Wwhat is the name of Mulder and Scully's supervisor on the X-files?",
     "Answer": "Walter Skinner"
   },
@@ -19108,5 +19108,5 @@
   {
     "Question": "Woollen covering for head and neck",
     "Answer": "balaclava helmet"
-  },
+  }
 ]
