@@ -235,11 +235,11 @@ namespace NadekoBot.Classes
         {
             var rng = new Random();
 
-            if (tag == "loli") //loli doesn't work for some reason atm
+            if (tag == "loli") //loli doesn't work due to the way this system works, to create a work around you'll have to use the json or xml api build into danbooru. another work around is adding an API-key to the url to force a login, requires danbooru gold(+)
                 tag = "flat_chest";
 
-            var link = $"http://danbooru.donmai.us/posts?" +
-                        $"page={rng.Next(0, 15)}";
+            var link = $"http://danbooru.donmai.us/posts?" + 
+                        $"tags=order:random+";//"page={rng.Next(0, 15)}"; //randomly selecting a page from a set number is bad practice and will give a lot of empty responses when a search has less than 15 pages.
             if (!string.IsNullOrWhiteSpace(tag))
                 link += $"&tags={tag.Replace(" ", "_")}";
 
