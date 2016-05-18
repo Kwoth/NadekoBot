@@ -25,13 +25,17 @@ namespace NadekoBot.Classes
     {
         private static DateTime lastRefreshed = DateTime.MinValue;
         private static string token { get; set; } = "";
+        private static readonly HttpClient httpClient = new HttpClient();
 
         public static async Task<Stream> GetResponseStreamAsync(string url,
             IEnumerable<KeyValuePair<string, string>> headers = null, RequestHttpMethod method = RequestHttpMethod.Get)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
-            var httpClient = new HttpClient();
+            //if its a post or there are no headers, use static httpclient
+            // if there are headers and it's get, it's not threadsafe
+            var cl = headers == null || method == RequestHttpMethod.Post ? httpClient : new HttpClient();
+            cl.DefaultRequestHeaders.Clear();
             switch (method)
             {
                 case RequestHttpMethod.Get:
@@ -39,17 +43,17 @@ namespace NadekoBot.Classes
                     {
                         foreach (var header in headers)
                         {
-                            httpClient.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                            cl.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
                         }
                     }
-                    return await httpClient.GetStreamAsync(url).ConfigureAwait(false);
+                    return await cl.GetStreamAsync(url).ConfigureAwait(false);
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
                     {
                         formContent = new FormUrlEncodedContent(headers);
                     }
-                    var message = await httpClient.PostAsync(url, formContent).ConfigureAwait(false);
+                    var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
                     return await message.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
@@ -152,51 +156,78 @@ namespace NadekoBot.Classes
             var match = new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
             if (match.Length > 1)
             {
-                return $"http://www.youtube.com?v={match.Groups["id"].Value}";
+                return $"https://www.youtube.com/watch?v={match.Groups["id"].Value}";
             }
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +
                                     $"part=snippet&maxResults=1" +
                                     $"&q={Uri.EscapeDataString(keywords)}" +
                                     $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
-            dynamic obj = JObject.Parse(response);
-            return "http://www.youtube.com/watch?v=" + obj.items[0].id.videoId.ToString();
+            JObject obj = JObject.Parse(response);
+
+            var data = JsonConvert.DeserializeObject<YoutubeVideoSearch>(response);
+
+            if (data.items.Length > 0)
+            {
+                var toReturn = "http://www.youtube.com/watch?v=" + data.items[0].id.videoId.ToString();
+                return toReturn;
+            }
+            else
+                return null;
         }
 
         public static async Task<string> GetPlaylistIdByKeyword(string query)
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
                 throw new ArgumentNullException(nameof(query));
-
+            var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(query);
+            if (match.Length > 1)
+            {
+                return match.Groups["id"].Value.ToString();
+            }
             var link = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
                         "&maxResults=1&type=playlist" +
                        $"&q={Uri.EscapeDataString(query)}" +
                        $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
             var response = await GetResponseStringAsync(link).ConfigureAwait(false);
-            dynamic obj = JObject.Parse(response);
+            var data = JsonConvert.DeserializeObject<YoutubePlaylistSearch>(response);
+            JObject obj = JObject.Parse(response);
 
-            return obj.items[0].id.playlistId.ToString();
+            return data.items.Length > 0 ? data.items[0].id.playlistId.ToString() : null;
         }
 
-        public static async Task<IEnumerable<string>> GetVideoIDs(string playlist, int number = 50)
+        public static async Task<IList<string>> GetVideoIDs(string playlist, int number = 50)
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.GoogleAPIKey))
             {
                 throw new ArgumentNullException(nameof(playlist));
             }
-            if (number < 1 || number > 100)
+            if (number < 1)
                 throw new ArgumentOutOfRangeException();
-            var link =
-                $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
-                $"&maxResults={number}" +
-                $"&playlistId={playlist}" +
-                $"&key={NadekoBot.Creds.GoogleAPIKey}";
 
-            var response = await GetResponseStringAsync(link).ConfigureAwait(false);
-            var obj = await Task.Run(() => JObject.Parse(response)).ConfigureAwait(false);
+            string nextPageToken = null;
 
-            return obj["items"].Select(item => "http://www.youtube.com/watch?v=" + item["contentDetails"]["videoId"]);
+            List<string> toReturn = new List<string>();
+
+            do
+            {
+                var toGet = number > 50 ? 50 : number;
+                number -= toGet;
+                var link =
+                    $"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails" +
+                    $"&maxResults={toGet}" +
+                    $"&playlistId={playlist}" +
+                    $"&key={NadekoBot.Creds.GoogleAPIKey}";
+                if (!string.IsNullOrWhiteSpace(nextPageToken))
+                    link += $"&pageToken={nextPageToken}";
+                var response = await GetResponseStringAsync(link).ConfigureAwait(false);
+                var data = await Task.Run(() => JsonConvert.DeserializeObject<PlaylistItemsSearch>(response)).ConfigureAwait(false);
+                nextPageToken = data.nextPageToken;
+                toReturn.AddRange(data.items.Select(i => i.contentDetails.videoId));
+            } while (number > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
+
+            return toReturn;
         }
 
 
@@ -215,18 +246,24 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(link).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "data-large-file-url=\"(?<id>.*?)\"");
 
+            if (matches.Count == 0)
+                return null;
             return $"http://danbooru.donmai.us" +
                    $"{matches[rng.Next(0, matches.Count)].Groups["id"].Value}";
         }
 
         public static async Task<string> GetGelbooruImageLink(string tag)
         {
+            var headers = new Dictionary<string, string>() {
+                {"User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"},
+                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
+            };
             var url =
-            $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
-            var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
+                $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag.Replace(" ", "_")}";
+            var webpage = await GetResponseStringAsync(url, headers).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var rng = new Random();
             var match = matches[rng.Next(0, matches.Count)];
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
@@ -240,7 +277,7 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var match = matches[rng.Next(0, matches.Count)];
             return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
@@ -253,7 +290,7 @@ namespace NadekoBot.Classes
             var webpage = await GetResponseStringAsync(url).ConfigureAwait(false);
             var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
             if (matches.Count == 0)
-                throw new FileNotFoundException();
+                return null;
             var match = matches[rng.Next(0, matches.Count)];
             return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }

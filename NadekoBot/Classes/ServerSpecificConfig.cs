@@ -96,6 +96,17 @@ namespace NadekoBot.Classes
         }
 
         [JsonIgnore]
+        private ulong autoAssignedRole = 0;
+        public ulong AutoAssignedRole {
+            get { return autoAssignedRole; }
+            set {
+                autoAssignedRole = value;
+                if (!SpecificConfigurations.Instantiated) return;
+                OnPropertyChanged();
+            }
+        }
+
+        [JsonIgnore]
         private ObservableCollection<StreamNotificationConfig> observingStreams;
         public ObservableCollection<StreamNotificationConfig> ObservingStreams {
             get { return observingStreams; }
@@ -120,7 +131,6 @@ namespace NadekoBot.Classes
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Console.WriteLine("property changed");
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
