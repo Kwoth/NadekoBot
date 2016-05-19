@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -166,7 +167,18 @@ namespace NadekoBot.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="action"></param>
-        public static async Task<string> ShortenUrl(this string str) => await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
+        public static async Task<string> ShortenUrl(this string str)
+        {
+            try
+            {
+                var result = await SearchHelper.ShortenUrl(str).ConfigureAwait(false);
+                return result;
+            }
+            catch (WebException ex)
+            {
+                throw new InvalidOperationException("You must enable URL shortner in google developers console.", ex);
+            }
+        }
 
         /// <summary>
         /// Gets the program runtime
@@ -291,5 +303,7 @@ namespace NadekoBot.Extensions
         /// <returns>Merged bitmap</returns>
         public static async Task<Bitmap> MergeAsync(this IEnumerable<Image> images, int reverseScaleFactor = 1) =>
             await Task.Run(() => images.Merge(reverseScaleFactor)).ConfigureAwait(false);
+
+        public static string Unmention(this string str) => str.Replace("@", "ම");
     }
 }
