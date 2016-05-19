@@ -8,6 +8,7 @@ using NadekoBot.Modules.Administration;
 using NadekoBot.Modules.ClashOfClans;
 using NadekoBot.Modules.Conversations;
 using NadekoBot.Modules.CustomReactions;
+using NadekoBot.Modules.Feeds;
 using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
@@ -76,9 +77,10 @@ namespace NadekoBot
 
             try
             {
-                Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
+                               Config = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText("data/config.json"));
                 Config.Quotes = JsonConvert.DeserializeObject<List<Quote>>(File.ReadAllText("data/quotes.json"));
                 Config.PokemonTypes = JsonConvert.DeserializeObject<List<PokemonType>>(File.ReadAllText("data/PokemonTypes.json"));
+                
             }
             catch (Exception ex)
             {
@@ -158,19 +160,19 @@ namespace NadekoBot
             Client.MessageReceived += Client_MessageReceived;
 
             //add command service
-            Client.AddService<CommandService>(commandService);
+            Client.AddService(commandService);
 
             //create module service
-            var modules = Client.AddService<ModuleService>(new ModuleService());
+            var modules = Client.AddService(new ModuleService());
 
             //add audio service
-            Client.AddService<AudioService>(new AudioService(new AudioServiceConfigBuilder()
+            Client.AddService(new AudioService(new AudioServiceConfigBuilder()
             {
                 Channels = 2,
                 EnableEncryption = false,
                 Bitrate = 128,
             }));
-
+            //File.WriteAllText("gamesModule.json", JsonConvert.SerializeObject(new GamesModule()));
             //install modules
             modules.Add(new AdministrationModule(), "Administration", ModuleFilter.None);
             modules.Add(new HelpModule(), "Help", ModuleFilter.None);
@@ -184,10 +186,13 @@ namespace NadekoBot
             modules.Add(new ClashOfClansModule(), "ClashOfClans", ModuleFilter.None);
             modules.Add(new PokemonModule(), "Pokegame", ModuleFilter.None);
             modules.Add(new TranslatorModule(), "Translator", ModuleFilter.None);
+            modules.Add(new FeedModule(), "Feeds", ModuleFilter.None);
             modules.Add(new CustomReactionsModule(), "Customreactions", ModuleFilter.None);
+            //modules.Add(new ProgrammingModule(), "Programming", ModuleFilter.None);
+
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new TrelloModule(), "Trello", ModuleFilter.None);
-
+            
             //run the bot
             Client.ExecuteAndWait(async () =>
             {

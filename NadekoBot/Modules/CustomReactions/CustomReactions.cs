@@ -1,10 +1,12 @@
-using Discord.Commands;
-using Discord.Modules;
-using NadekoBot.Extensions;
-using NadekoBot.Modules.Permissions.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Discord.Modules;
+using Discord.Commands;
+using NadekoBot.Modules.Permissions.Classes;
+using Discord;
 
 namespace NadekoBot.Modules.CustomReactions
 {
@@ -12,47 +14,57 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public override string Prefix { get; } = "";
 
-        Random rng = new Random();
-
-        private Dictionary<string, Func<CommandEventArgs, string>> commandFuncs;
-
-        public CustomReactionsModule()
-        {
-            commandFuncs = new Dictionary<string, Func<CommandEventArgs, string>>
-                 {
-                    {"%rng%", (e) =>  rng.Next().ToString()},
-                    {"%mention%", (e) => NadekoBot.BotMention },
-                    {"%user%", e => e.User.Mention },
-                    {"%target%", e => e.GetArg("args")?.Trim() ?? "" },
-                 };
-        }
-
         public override void Install(ModuleManager manager)
         {
 
-            manager.CreateCommands("", cgb =>
-             {
+            manager.CreateCommands("",cgb =>
+            {
 
-                 cgb.AddCheck(PermissionChecker.Instance);
+                cgb.AddCheck(PermissionChecker.Instance);
 
-                 foreach (var command in NadekoBot.Config.CustomReactions)
-                 {
-                     var commandName = command.Key.Replace("%mention%", NadekoBot.BotMention);
+                foreach (var command in NadekoBot.Config.CustomReactions)
+                {
+                    var commandName = command.Key.Replace("%mention%", NadekoBot.BotMention);
 
-                     var c = cgb.CreateCommand(commandName);
-                     if (commandName.Contains(NadekoBot.BotMention))
-                         c.Alias(commandName.Replace("<@", "<@!"));
-                     c.Description($"Custom reaction.\n**Usage**:{command.Key}")
-                         .Parameter("args", ParameterType.Unparsed)
-                         .Do(async e =>
-                          {
-                              string str = command.Value[rng.Next(0, command.Value.Count())];
-                              commandFuncs.Keys.ForEach(k => str = str.Replace(k, commandFuncs[k](e)));
-                              await e.Channel.SendMessage(str).ConfigureAwait(false);
-                          });
-                 }
+                    var c = cgb.CreateCommand(commandName);
+                    c.Description($"Custom reaction.\n**Usage**:{command.Key}");
+                    c.Parameter("args", ParameterType.Unparsed);
+                    c.Do(async e =>
+                    {
+                        Random range = new Random();
+                        var ownerMentioned = e.Message.MentionedUsers.Where(x =>/* x != e.User &&*/ NadekoBot.IsOwner(x.Id));
+                        var ownerReactions = command.Value.Where(x => x.Contains("%owner%")).ToList();
+                        string str;
 
-             });
+                        if (ownerMentioned.Any() && ownerReactions.Any())
+                        {
+                            str = ownerReactions[range.Next(0, ownerReactions.Count)];
+                            str = str.Replace("%owner%", ownerMentioned.FirstOrDefault().Mention);
+                        }
+                        else if (ownerReactions.Any())
+                        {
+                            var others = command.Value.Except(ownerReactions).ToList();
+                            str = others[range.Next(0, others.Count())];
+                        }
+                        else
+                        {
+                            str = command.Value[range.Next(0, command.Value.Count())];
+                        }
+
+                        str = str.Replace("%user%", e.User.Mention);
+                        str = str.Replace("%rng%", "" + range.Next());
+                        if (str.Contains("%target%"))
+                        {
+                            var args = e.GetArg("args");
+                            if (string.IsNullOrWhiteSpace(args)) args = string.Empty;
+                            str = str.Replace("%target%", e.GetArg("args"));
+                        }
+
+                        await e.Channel.SendMessage(str).ConfigureAwait(false);
+                    });
+                }
+               
+            });
         }
     }
 }

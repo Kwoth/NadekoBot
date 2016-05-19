@@ -7,18 +7,36 @@ namespace NadekoBot.Classes.JSONModels
 {
     public class Configuration
     {
+        /// <summary>
+        /// Whether the bot should join servers automatically when given invite
+        /// Default if false
+        /// </summary>
         public bool DontJoinServers { get; set; } = false;
+        /// <summary>
+        /// Whether the bot should format Direct Messages sent to the bot to the owner
+        /// Default is true
+        /// </summary>
         public bool ForwardMessages { get; set; } = true;
+        /// <summary>
+        /// Whether the bot is rotating it's "Playing ..." statuses.
+        /// Default is false
+        /// </summary>
         public bool IsRotatingStatus { get; set; } = false;
 
+        /// <summary>
+        /// Quotes -loaded from quotes.json
+        /// </summary>
         [JsonIgnore]
         public List<Quote> Quotes { get; set; } = new List<Quote>();
-
+        /// <summary>
+        /// The types a Pokemon can be
+        /// </summary>
         [JsonIgnore]
         public List<PokemonType> PokemonTypes { get; set; } = new List<PokemonType>();
 
-        public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
-
+        /// <summary>
+        /// Custom reactions for in conversations
+        /// </summary>
         public Dictionary<string, List<string>> CustomReactions { get; set; } = new Dictionary<string, List<string>>()
         {
             {@"\o\", new List<string>()
@@ -33,12 +51,14 @@ namespace NadekoBot.Classes.JSONModels
                 "%user% did it 😒 🔫",
                 "%target% did it 😒 🔫" } },
             {"%mention% insult", new List<string>() {
+                "I would never insult %owner%, my beloved master.",
                 "%target% You are a poop.",
                 "%target% You're a jerk.",
                 "%target% I will eat you when I get my powers back."
                  } },
             {"%mention% praise", new List<string>()
             {
+                "I don't need your permission to praise %owner%, my beloved master",
                 "%target% You are cool.",
                 "%target% You are nice!",
                 "%target% You did a good job.",
@@ -83,10 +103,10 @@ namespace NadekoBot.Classes.JSONModels
                 "Calling %target%"
             } },
             {"%mention% disguise", new List<string>() {
-                "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
-                "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
-                "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
-                "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721710458994690/Cc5mixjUYAADgBs.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
+			    "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
 
             } }
         };
@@ -102,7 +122,9 @@ namespace NadekoBot.Classes.JSONModels
             143515953525817344
         };
 
-
+        /// <summary>
+        /// Responses to the 8Ball questions
+        /// </summary>
         public string[] _8BallResponses { get; set; } =
             {
                 "Most definitely yes",
@@ -128,6 +150,9 @@ namespace NadekoBot.Classes.JSONModels
                 "NO - It may cause disease contraction"
             };
 
+
+
+
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
         public string DMHelpString { get; set; } = "Type `-h` for help.";
@@ -148,6 +173,7 @@ namespace NadekoBot.Classes.JSONModels
         public string Permissions { get; set; } = ";";
         public string Programming { get; set; } = "%";
         public string Pokemon { get; set; } = ">";
+        public string Feeds { get; set; } = "!f";
     }
 
     public static class ConfigHandler
