@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -28,6 +29,24 @@ namespace NadekoBot.Modules.Gambling
                 .Description("Rolls in a given range.\n**Usage**: `$nroll 5` (rolls 0-5) or `$nroll 5-15`")
                 .Parameter("range", ParameterType.Required)
                 .Do(NRollFunc());
+        }
+
+        private static double Evaluate(string expression)
+        {
+            var loDataTable = new DataTable();
+            var loDataColumn = new DataColumn("Eval", typeof(double), expression);
+            loDataTable.Columns.Add(loDataColumn);
+            loDataTable.Rows.Add(0);
+            return (double)(loDataTable.Rows[0]["Eval"]);
+        }
+        private static string GetListItems<T>(List<T> searchList)
+        {
+            string itemsInList = "";
+            foreach(var i in searchList)
+            {
+                itemsInList += i + ", ";
+            }
+            return itemsInList;
         }
 
         private Image GetDice(int num) => num != 10
@@ -58,6 +77,58 @@ namespace NadekoBot.Modules.Gambling
                     await e.Channel.SendFile("dice.png", imageStream).ConfigureAwait(false);
                     return;
                 }
+
+                //New dice roll.
+
+                var dndDice = arg.IndexOf('d');
+                string foundIndicies = "";
+                var flaggedIndicies = new List<string>();
+                if(dndDice != -1 && dndDice != 0)
+                {
+                    /*for (int i = arg.IndexOf('d'); i > -1; i = arg.IndexOf('d', i + 1))
+                    {
+                        if (!evaluateFlag(flaggedIndicies, new int[]{ i - 1, i, i + 1}))
+                        {
+                            await e.Channel.SendMessage("Found a duplicate flag. Can't parse.");
+                            return;
+                        }
+                    }*/
+                    string rollInfo = "";
+                    int prevSubstring = 0;
+                    foreach(Match match in dndRegex.Matches(arg))
+                    {
+                        int newSubstring = arg.IndexOf(match.ToString());
+                        string preInfo = arg.Substring(prevSubstring, newSubstring);
+                        prevSubstring = match.ToString().Length + newSubstring;
+
+                        int n1 = 0;
+                        int n2 = 0;
+                        int computedRolls = 0;
+                        if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                            int.TryParse(match.Groups["n2"].ToString(), out n2) &&
+                            n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
+                        {
+                            computedRolls = 0;
+                            for (int i = 0; i < n1; i++)
+                            {
+                                computedRolls += r.Next(1, n2 + 1);
+                            }
+                        }
+                        rollInfo += preInfo + computedRolls;
+                    }
+
+
+
+
+                    await e.Channel.SendMessage("Found " + rollInfo).ConfigureAwait(false);
+                    return;
+                }
+
+                /*
+                *   Do work here.
+                *
+                */
+                /*
                 Match m;
                 if ((m = dndRegex.Match(arg)).Length != 0)
                 {
@@ -77,6 +148,7 @@ namespace NadekoBot.Modules.Gambling
                     }
                     return;
                 }
+                */
                 try
                 {
                     var num = int.Parse(e.Args[0]);
