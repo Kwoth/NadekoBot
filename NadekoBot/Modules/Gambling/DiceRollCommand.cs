@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -28,6 +29,20 @@ namespace NadekoBot.Modules.Gambling
                 .Description("Rolls in a given range.\n**Usage**: `$nroll 5` (rolls 0-5) or `$nroll 5-15`")
                 .Parameter("range", ParameterType.Required)
                 .Do(NRollFunc());
+        }
+
+        /// <summary>
+        /// An easy way to evaluate a string as a mathmatical operation without an API
+        /// </summary>
+        /// <param name="expression">The expresion to evaluate</param>
+        /// <returns>the evaluated answer in a double</returns>
+        private static double Evaluate(string expression)
+        {
+            var loDataTable = new DataTable();
+            var loDataColumn = new DataColumn("Eval", typeof(double), expression);
+            loDataTable.Columns.Add(loDataColumn);
+            loDataTable.Rows.Add(0);
+            return (double)loDataTable.Rows[0]["Eval"];
         }
 
         private Image GetDice(int num) => num != 10
@@ -58,23 +73,37 @@ namespace NadekoBot.Modules.Gambling
                     await e.Channel.SendFile("dice.png", imageStream).ConfigureAwait(false);
                     return;
                 }
-                Match m;
-                if ((m = dndRegex.Match(arg)).Length != 0)
+
+
+                if(arg.IndexOf('d') != -1 && arg.IndexOf('d') != 0)
                 {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(m.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(m.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
+                    string rollInfo = "";
+                    int prevSubstring = 0;
+                    foreach(Match match in dndRegex.Matches(arg))
                     {
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
+                        int newSubstring = arg.IndexOf(match.ToString(), StringComparison.Ordinal);
+                        string preInfo = arg.Substring(prevSubstring, newSubstring - prevSubstring);
+                        prevSubstring = match.ToString().Length + newSubstring;
+
+                        int n1 = 0;
+                        int n2 = 0;
+                        int computedRolls = 0;
+                        if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                            int.TryParse(match.Groups["n2"].ToString(), out n2) &&
+                            n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                         {
-                            arr[i] = r.Next(1, n2 + 1);
+                            computedRolls = 0;
+                            for (int i = 0; i < n1; i++)
+                            {
+                                computedRolls += r.Next(1, n2 + 1);
+                            }
                         }
-                        var elemCnt = 0;
-                        await e.Channel.SendMessage($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", arr.OrderBy(x => x).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        rollInfo += preInfo + computedRolls;
                     }
+                    rollInfo += arg.Substring(prevSubstring, arg.Length - prevSubstring);
+                    rollInfo = rollInfo.Replace(" ", string.Empty);
+                    var answer = Evaluate(rollInfo);
+                    await e.Channel.SendMessage("`Found `\n`" + rollInfo + "`\n`Result: `\n`" + answer + "`").ConfigureAwait(false);
                     return;
                 }
                 try
