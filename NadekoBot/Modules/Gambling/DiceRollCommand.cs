@@ -31,22 +31,18 @@ namespace NadekoBot.Modules.Gambling
                 .Do(NRollFunc());
         }
 
+        /// <summary>
+        /// An easy way to evaluate a string as a mathmatical operation without an API
+        /// </summary>
+        /// <param name="expression">The expresion to evaluate</param>
+        /// <returns>the evaluated answer in a double</returns>
         private static double Evaluate(string expression)
         {
             var loDataTable = new DataTable();
             var loDataColumn = new DataColumn("Eval", typeof(double), expression);
             loDataTable.Columns.Add(loDataColumn);
             loDataTable.Rows.Add(0);
-            return (double)(loDataTable.Rows[0]["Eval"]);
-        }
-        private static string GetListItems<T>(List<T> searchList)
-        {
-            string itemsInList = "";
-            foreach(var i in searchList)
-            {
-                itemsInList += i + ", ";
-            }
-            return itemsInList;
+            return (double)loDataTable.Rows[0]["Eval"];
         }
 
         private Image GetDice(int num) => num != 10
@@ -78,27 +74,15 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
 
-                //New dice roll.
 
-                var dndDice = arg.IndexOf('d');
-                string foundIndicies = "";
-                var flaggedIndicies = new List<string>();
-                if(dndDice != -1 && dndDice != 0)
+                if(arg.IndexOf('d') != -1 && arg.IndexOf('d') != 0)
                 {
-                    /*for (int i = arg.IndexOf('d'); i > -1; i = arg.IndexOf('d', i + 1))
-                    {
-                        if (!evaluateFlag(flaggedIndicies, new int[]{ i - 1, i, i + 1}))
-                        {
-                            await e.Channel.SendMessage("Found a duplicate flag. Can't parse.");
-                            return;
-                        }
-                    }*/
                     string rollInfo = "";
                     int prevSubstring = 0;
                     foreach(Match match in dndRegex.Matches(arg))
                     {
-                        int newSubstring = arg.IndexOf(match.ToString());
-                        string preInfo = arg.Substring(prevSubstring, newSubstring);
+                        int newSubstring = arg.IndexOf(match.ToString(), StringComparison.Ordinal);
+                        string preInfo = arg.Substring(prevSubstring, newSubstring - prevSubstring);
                         prevSubstring = match.ToString().Length + newSubstring;
 
                         int n1 = 0;
@@ -116,39 +100,12 @@ namespace NadekoBot.Modules.Gambling
                         }
                         rollInfo += preInfo + computedRolls;
                     }
-
-
-
-
-                    await e.Channel.SendMessage("Found " + rollInfo).ConfigureAwait(false);
+                    rollInfo += arg.Substring(prevSubstring, arg.Length - prevSubstring);
+                    rollInfo = rollInfo.Replace(" ", string.Empty);
+                    var answer = Evaluate(rollInfo);
+                    await e.Channel.SendMessage("`Found `\n`" + rollInfo + "`\n`Result: `\n`" + answer + "`").ConfigureAwait(false);
                     return;
                 }
-
-                /*
-                *   Do work here.
-                *
-                */
-                /*
-                Match m;
-                if ((m = dndRegex.Match(arg)).Length != 0)
-                {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(m.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(m.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
-                    {
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
-                        {
-                            arr[i] = r.Next(1, n2 + 1);
-                        }
-                        var elemCnt = 0;
-                        await e.Channel.SendMessage($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", arr.OrderBy(x => x).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
-                    }
-                    return;
-                }
-                */
                 try
                 {
                     var num = int.Parse(e.Args[0]);
