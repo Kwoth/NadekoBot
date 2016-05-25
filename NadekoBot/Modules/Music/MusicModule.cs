@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
@@ -498,30 +498,21 @@ namespace NadekoBot.Modules.Music
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 
                     });
-                
+
+
                 cgb.CreateCommand("delete")
-                .Description("Delete given playlist. Either give id (certain) or given name.\n**Usage:**!m delete charles")
+                .Description("Delete given playlist.\n**Usage**: !m delete anime-8")
                 .Parameter("arg", ParameterType.Required)
                 .Do(async e =>
                 {
-                    var nameOrId = e.GetArg("arg")?.Trim().ToLowerInvariant();
+                    var n = e.GetArg("arg").Split('-');
+                    if (n.Length < 2) return;
+                    var idString = n[1];
                     int id;
-                    MusicPlaylist selectedPlaylist;
-                    if (int.TryParse(nameOrId, out id))
+                    MusicPlaylist selectedPlaylist = null;
+                    if (int.TryParse(idString, out id))
                     {
                         selectedPlaylist = DbHandler.Instance.FindOne<MusicPlaylist>(x => x.Id == id);
-                     
-                    } else
-                    {
-                        if (string.IsNullOrWhiteSpace(nameOrId) ||
-                          nameOrId.Length > 20 ||
-                          nameOrId.Contains("-"))
-                        {
-                            await e.Channel.SendMessage("Must be valid name");
-                            return;
-                        }
-                        selectedPlaylist = DbHandler.Instance.FindOne<MusicPlaylist>(x => x.Name == nameOrId);
-
                     }
                     if (selectedPlaylist == null)
                     {
@@ -537,7 +528,6 @@ namespace NadekoBot.Modules.Music
                         await e.Channel.SendMessage("Only bot owner or playlist creator is allowed to do this");
                     }
                 });
-    
 
                 cgb.CreateCommand("load")
                     .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
