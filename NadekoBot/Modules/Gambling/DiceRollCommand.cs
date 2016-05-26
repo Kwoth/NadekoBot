@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -28,6 +29,15 @@ namespace NadekoBot.Modules.Gambling
                 .Description("Rolls in a given range.\n**Usage**: `$nroll 5` (rolls 0-5) or `$nroll 5-15`")
                 .Parameter("range", ParameterType.Required)
                 .Do(NRollFunc());
+        }
+
+        private static double Evaluate(string expression)
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn column = new DataColumn("Eval", typeof(double), expression);
+            dataTable.Columns.Add(column);
+            dataTable.Rows.Add(new object[1] { (object)0 });
+            return (double)dataTable.Rows[0]["Eval"];
         }
 
         private Image GetDice(int num) => num != 10
@@ -59,22 +69,36 @@ namespace NadekoBot.Modules.Gambling
                     return;
                 }
                 Match m;
-                if ((m = dndRegex.Match(arg)).Length != 0)
+                if (arg.IndexOf('d') != -1 && arg.IndexOf('d') != 0)
                 {
-                    int n1;
-                    int n2;
-                    if (int.TryParse(m.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(m.Groups["n2"].ToString(), out n2) &&
-                        n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
+                    string rollExpression = "";
+                    int prevSubstring = 0;
+                    foreach (Match match in dndRegex.Matches(arg))
                     {
-                        var arr = new int[n1];
-                        for (int i = 0; i < n1; i++)
+                        int newSubstring = arg.IndexOf(match.ToString(), StringComparison.Ordinal);
+                        string preInfo = arg.Substring(prevSubstring, newSubstring - prevSubstring);
+                        prevSubstring = match.ToString().Length + newSubstring;
+                        int n1 = 0;
+                        int n2 = 0;
+                        string computedRolls = "";
+                        if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
+                            int.TryParse(match.Groups["n2"].ToString(), out n2) &&
+                            n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                         {
-                            arr[i] = r.Next(1, n2 + 1);
+                            var arr = new int[n1];
+                            for (int i = 0; i < n1; i++)
+                            {
+                                arr[i] += r.Next(1, n2 + 1);
+                            }
+                            int elemCnt = 0;
+                            computedRolls = "(" +string.Join("+", arr.OrderBy(x => x).Select(x => elemCnt++ % 2 == 0 ? $"{x}" : x.ToString())) + ")";
                         }
-                        var elemCnt = 0;
-                        await e.Channel.SendMessage($"`Rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", arr.OrderBy(x => x).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        rollExpression += preInfo + computedRolls;
                     }
+                    rollExpression += arg.Substring(prevSubstring, arg.Length - prevSubstring);
+                    rollExpression = rollExpression.Replace(" ", string.Empty);
+                    double answer = Evaluate(rollExpression);
+                    await e.Channel.SendMessage($"`Rolled {rollExpression}`\n`Result:` {answer}" ).ConfigureAwait(false);
                     return;
                 }
                 try
