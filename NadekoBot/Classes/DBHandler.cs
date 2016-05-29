@@ -210,10 +210,10 @@ END
 ";
     public static string PlaylistSongDataQuery = @"
 CREATE TRIGGER IF NOT EXISTS delete_plsi  
-BEFORE DELETE ON MusicPlaylist
+AFTER DELETE ON MusicPlaylist
 FOR EACH ROW 
 BEGIN
-DELETE FROM PlaylistSongInfo WHERE OLD.Id = PlaylistSongInfo.PlaylistId;
+DELETE FROM PlaylistSongInfo WHERE OLD.Id = PlaylistId;
 END;
 ";
 }
