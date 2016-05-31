@@ -1,4 +1,4 @@
-﻿using NadekoBot.DataModels;
+using NadekoBot.DataModels;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,7 @@ namespace NadekoBot.Classes
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
                 conn.Execute(Queries.TransactionTriggerQuery);
+                conn.Execute(Queries.PlaylistSongDataQuery);
             }
         }
 
@@ -85,7 +86,6 @@ namespace NadekoBot.Classes
                 conn.InsertAll(objects);
             }
         }
-
         internal void UpdateData<T>(T o) where T : IDataModel
         {
             using (var conn = new SQLiteConnection(FilePath))
@@ -207,5 +207,13 @@ INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded)
             COALESCE((SELECT Value+New.Value FROM CurrencyState Where UserId = NEW.UserId),NEW.Value),  
             NEW.DateAdded);
 END
+";
+    public static string PlaylistSongDataQuery = @"
+CREATE TRIGGER IF NOT EXISTS delete_plsi  
+AFTER DELETE ON MusicPlaylist
+FOR EACH ROW 
+BEGIN
+DELETE FROM PlaylistSongInfo WHERE OLD.Id = PlaylistId;
+END;
 ";
 }
