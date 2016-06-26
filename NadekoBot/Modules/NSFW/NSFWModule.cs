@@ -73,7 +73,10 @@ namespace NadekoBot.Modules.NSFW
                         if (string.IsNullOrWhiteSpace(link))
                             await e.Channel.SendMessage("Search yielded no results ;(");
                         else
-                            await e.Channel.SendMessage(link).ConfigureAwait(false);
+                            if (link.Contains(".webm"))
+                                await e.Channel.SendMessage("Search yielded Video :sob:");
+                            else
+                                await e.Channel.SendMessage(":heart: " + link).ConfigureAwait(false);
                     });
                 cgb.CreateCommand(Prefix + "e621")
                     .Description("Shows a random hentai image from e621.net with a given tag. Tag is optional but preffered. Use spaces for multiple tags.\n**Usage**: ~e621 yuri kissing")
