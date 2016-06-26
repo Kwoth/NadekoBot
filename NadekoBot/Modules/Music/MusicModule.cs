@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using NadekoBot.Classes;
@@ -537,6 +537,36 @@ namespace NadekoBot.Modules.Music
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
 
                     });
+
+
+                cgb.CreateCommand("delete")
+                .Description("Delete given playlist.\n**Usage**: !m delete anime-8")
+                .Parameter("arg", ParameterType.Required)
+                .Do(async e =>
+                {
+                    var n = e.GetArg("arg").Split('-');
+                    if (n.Length < 2) return;
+                    var idString = n[1];
+                    int id;
+                    MusicPlaylist selectedPlaylist = null;
+                    if (int.TryParse(idString, out id))
+                    {
+                        selectedPlaylist = DbHandler.Instance.FindOne<MusicPlaylist>(x => x.Id == id);
+                    }
+                    if (selectedPlaylist == null)
+                    {
+                        await e.Channel.SendMessage("Could not find playlist");
+                        return;
+                    }
+                    if (NadekoBot.IsOwner(e.User.Id) || selectedPlaylist.CreatorId == (long) e.User.Id)
+                    {
+                        DbHandler.Instance.Delete<MusicPlaylist>(selectedPlaylist.Id.Value);
+                        await e.Channel.SendMessage($"Succesfully deleted playlist  {selectedPlaylist.Name}-{selectedPlaylist.Id}");
+                    } else
+                    {
+                        await e.Channel.SendMessage("Only bot owner or playlist creator is allowed to do this");
+                    }
+                });
 
                 cgb.CreateCommand("load")
                     .Description("Loads a playlist under a certain name. \n**Usage**: `!m load classical-1`")
