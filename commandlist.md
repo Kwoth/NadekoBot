@@ -320,7 +320,7 @@ Command and aliases | Description | Usage
 `~translate`, `~trans`  |  Translates from>to text. From the given language to the destiation language. |  ~trans en>fr Hello
 `~translangs`  |  List the valid languages for translation.
 
-### Customreactions  
+### Custom reactions  
 Command and aliases | Description | Usage
 ----------------|--------------|-------
 `\o\`  |  Custom reaction. | \o\
