@@ -638,15 +638,7 @@ namespace NadekoBot.Modules.Administration
                             await Task.Run(async () =>
                             {
                                 var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == e.Server.CurrentUser.Id);
-                                foreach (var m in msgs)
-                                {
-                                    try
-                                    {
-                                        await m.Delete().ConfigureAwait(false);
-                                    }
-                                    catch { }
-                                    await Task.Delay(100).ConfigureAwait(false);
-                                }
+                                await e.Channel.DeleteMessages(msgs as Message[] ?? msgs.ToArray()).ConfigureAwait(false);
 
                             }).ConfigureAwait(false);
                             return;
@@ -665,11 +657,8 @@ namespace NadekoBot.Modules.Administration
                             if (val <= 0)
                                 return;
                             val++;
-                            foreach (var msg in await e.Channel.DownloadMessages(val).ConfigureAwait(false))
-                            {
-                                await msg.Delete().ConfigureAwait(false);
-                                await Task.Delay(100).ConfigureAwait(false);
-                            }
+                            var msgs = await e.Channel.DownloadMessages(val).ConfigureAwait(false);
+                            await e.Channel.DeleteMessages(msgs as Message[] ?? msgs.ToArray()).ConfigureAwait(false);
                             return;
                         }
                         //else if first argument is user
@@ -682,15 +671,7 @@ namespace NadekoBot.Modules.Administration
                         await Task.Run(async () =>
                         {
                             var msgs = (await e.Channel.DownloadMessages(100).ConfigureAwait(false)).Where(m => m.User.Id == usr.Id).Take(val);
-                            foreach (var m in msgs)
-                            {
-                                try
-                                {
-                                    await m.Delete().ConfigureAwait(false);
-                                }
-                                catch { }
-                                await Task.Delay(100).ConfigureAwait(false);
-                            }
+                            await e.Channel.DeleteMessages(msgs as Message[] ?? msgs.ToArray()).ConfigureAwait(false);
 
                         }).ConfigureAwait(false);
                     });
