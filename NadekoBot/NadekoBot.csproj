@@ -188,6 +188,7 @@
     <Compile Include="Modules\Conversations\Commands\RipCommand.cs" />
     <Compile Include="Modules\CustomReactions\CustomReactions.cs" />
     <Compile Include="Modules\Music\Classes\PlaylistFullException.cs" />
+    <Compile Include="Modules\Music\Commands\PlaylistCommands.cs" />
     <Compile Include="Modules\Programming\Commands\HaskellRepl.cs" />
     <Compile Include="Modules\Programming\ProgrammingModule.cs" />
     <Compile Include="Modules\Searches\Commands\EvalCommand.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Modules\Searches\Commands\PokemonSearchCommands.cs" />
     <Compile Include="Modules\Utility\UtilityModule.cs" />
     <Compile Include="_Models\DataModels\Incident.cs" />
+    <Compile Include="_Models\DataModels\PlaylistSong.cs" />
     <Compile Include="_Models\JSONModels\AnimeResult.cs" />
     <Compile Include="_Models\JSONModels\Configuration.cs" />
     <Compile Include="Modules\Searches\Commands\WowJokes.cs" />

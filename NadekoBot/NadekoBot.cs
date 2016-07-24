@@ -44,10 +44,10 @@ namespace NadekoBot
         public static Action OnReady { get; set; } = delegate { };
 
         private static List<Channel> OwnerPrivateChannels { get; set; }
-
+        [System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.Demand)]
         private static void Main()
         {
-            Console.OutputEncoding = Encoding.Unicode;
+            
 
             try
             {

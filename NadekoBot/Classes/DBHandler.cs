@@ -33,6 +33,7 @@ namespace NadekoBot.Classes
                 conn.CreateTable<PlaylistSongInfo>();
                 conn.CreateTable<MusicPlaylist>();
                 conn.CreateTable<Incident>();
+                conn.CreateTable<PlaylistSong>();
                 conn.Execute(Queries.TransactionTriggerQuery);
                 try
                 {
@@ -184,7 +185,7 @@ namespace NadekoBot.Classes
             {
                 return conn.Query<PlaylistData>(
 @"SELECT mp.Name as 'Name',mp.Id as 'Id', mp.CreatorName as 'Creator', Count(*) as 'SongCnt' FROM MusicPlaylist as mp
-INNER JOIN PlaylistSongInfo as psi
+INNER JOIN PlaylistSong as psi
 ON mp.Id = psi.PlaylistId
 Group BY mp.Name
 Order By mp.DateAdded desc
@@ -228,6 +229,6 @@ CREATE TRIGGER IF NOT EXISTS music_playlist
 AFTER DELETE ON MusicPlaylist
 FOR EACH ROW
 BEGIN
-    DELETE FROM PlaylistSongInfo WHERE PlaylistId = OLD.Id;
+    DELETE FROM PlaylistSong WHERE PlaylistId = OLD.Id;
 END";
 }
