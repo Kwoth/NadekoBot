@@ -157,6 +157,52 @@ namespace NadekoBot.Modules.Music
                     }
                 });
 
+            cgb.CreateCommand(Prefix + "port")
+                .Description($"TEMPORARY COMMAND TO PORT OVER PLAYLISTS FROM OLDER VERSIONS.\n `{Prefix}port animu-5`")
+                .Parameter("name", ParameterType.Unparsed)
+                .Do(async e =>
+                {
+                    var name = e.GetArg("pl")?.Trim().ToLowerInvariant();
+
+                    if (string.IsNullOrWhiteSpace(name))
+                        return;
+                    var idMatch = Regex.Match(name, @"([^-]{1,20}-)?(?<id>\d+)");
+                    if (!idMatch.Success)
+                    {
+                        await e.Channel.SendMessage("could not find id in message");
+                        return;
+                    }
+                    int id = int.Parse(idMatch.Groups["id"].Value);
+                    var playlist = DbHandler.Instance.FindOne<MusicPlaylist>(x => x.Id == id);
+                    if (playlist == null)
+                    {
+                        await e.Channel.SendMessage("Could not find playlist");
+                        return;
+                    }
+                    var psis = DbHandler.Instance.FindAll<PlaylistSongInfo>(x => x.PlaylistId == id);
+                    if (psis.Count == 0)
+                    {
+                        await e.Channel.SendMessage("Already ported likely");
+                        return;
+                    }
+                    List<PlaylistSong> list = new List<PlaylistSong>();
+                    foreach (var psi in psis)
+                    {
+                        var songInfo = DbHandler.Instance.FindOne<DataModels.SongInfo>(si => si.Id == psi.SongInfoId);
+                        list.Add(new PlaylistSong()
+                        {
+                            PlaylistId = id,
+                            Provider = songInfo.Provider,
+                            ProviderType = songInfo.ProviderType,
+                            Query = songInfo.Query,
+                            Title = songInfo.Title,
+                            Uri = songInfo.Uri
+                        });
+                    }
+                    DbHandler.Instance.SaveAll(list);
+                    await e.Channel.SendMessage("OK 👌");
+                });
+
             cgb.CreateCommand(Prefix + "deleteplaylist")
                 .Alias(Prefix + "delpls")
                 .Description($"Deletes a saved playlist. Only if you made it or if you are the bot owner. | `{Prefix}delpls animu-5`")
