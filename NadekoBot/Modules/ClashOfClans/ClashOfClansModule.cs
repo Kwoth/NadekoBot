@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Modules.Permissions.Classes;
 using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.ClashOfClans
 {
@@ -15,7 +17,7 @@ namespace NadekoBot.Modules.ClashOfClans
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.ClashOfClans;
 
-        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
+        public static ConcurrentDictionary<ulong, List<ClashWar>> ClashWars { get; set; } = new ConcurrentDictionary<ulong, List<ClashWar>>();
 
         private readonly object writeLock = new object();
 
@@ -23,28 +25,78 @@ namespace NadekoBot.Modules.ClashOfClans
         {
             NadekoBot.OnReady += () => Task.Run(async () =>
             {
+                if (File.Exists("data/clashofclans/wars.json"))
+                {
+                    try
+                    {
+                        var content = File.ReadAllText("data/clashofclans/wars.json");
+                       
+                        var dict = JsonConvert.DeserializeObject<Dictionary<ulong, List<ClashWar>>>(content);
+
+                        foreach (var cw in dict)
+                        {
+                            cw.Value.ForEach(war =>
+                            {
+                                war.Channel = NadekoBot.Client.GetServer(war.ServerId)?.GetChannel(war.ChannelId);
+                                if (war.Channel == null)
+                                {
+                                    cw.Value.Remove(war);
+                                }
+                            }
+                            );
+                        }
+                        //urgh
+                        ClashWars = new ConcurrentDictionary<ulong, List<ClashWar>>(dict);
+                    }
+                   catch (Exception e)
+                    {
+                        Console.WriteLine("Could not load coc wars: " + e.Message);
+                    }
+                    
+                    
+                }
+                //Can't this be disabled if the modules is disabled too :)
                 var callExpire = new TimeSpan(2, 0, 0);
                 var warExpire = new TimeSpan(23, 0, 0);
                 while (true) {
                     try
                     {
+                        var hash = ClashWars.GetHashCode();
                         foreach (var cw in ClashWars)
                         {
                             foreach (var war in cw.Value)
                             {
-                                var Bases = war.Bases;
-                                for (var i = 0; i < Bases.Length; i++)
+                                await CheckWar(callExpire, war);
+                            }
+                            List<ClashWar> newVal = new List<ClashWar>();
+                            foreach (var w in cw.Value)
+                            {
+                                if (!w.Ended)
                                 {
-                                    if (Bases[i] == null) continue;
-                                    if (!Bases[i].BaseDestroyed && DateTime.Now - Bases[i].TimeAdded >= callExpire)
+                                    if (DateTime.Now - w.StartedAt <= warExpire)
                                     {
-                                        await war.Channel.SendMessage($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
-                                        Bases[i] = null;
+                                        newVal.Add(w);
                                     }
                                 }
                             }
-                            cw.Value.Where(w => !(w.Ended || DateTime.Now - w.StartedAt >= warExpire)).ToList();
+                            //var newVal = cw.Value.Where(w => !(w.Ended || DateTime.Now - w.StartedAt >= warExpire)).ToList();
+                            foreach (var exWar in cw.Value.Except(newVal))
+                            {
+                                await exWar.Channel.SendMessage($"War has ended");
+                            }
+                            ClashWars.AddOrUpdate(cw.Key, newVal, (x,s)=> newVal);
+                            if (cw.Value.Count == 0)
+                            {
+                                List<ClashWar> obj;
+                                ClashWars.TryRemove(cw.Key, out obj);
+                            }
                         }
+                        if (hash != ClashWars.GetHashCode()) //something changed 
+                        {
+                            Save();
+                        }
+                       
+
                     }
                     catch { }
                     await Task.Delay(5000);
@@ -52,6 +104,39 @@ namespace NadekoBot.Modules.ClashOfClans
             });
         }
 
+        private static void Save()
+        {
+            try
+            {
+                Directory.CreateDirectory("data/clashofclans");
+                File.WriteAllText("data/clashofclans/wars.json", JsonConvert.SerializeObject(ClashWars, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private static async Task CheckWar(TimeSpan callExpire, ClashWar war)
+        {
+            var Bases = war.Bases;
+            for (var i = 0; i < Bases.Length; i++)
+            {
+                if (Bases[i] == null) continue;
+                if (!Bases[i].BaseDestroyed && DateTime.Now - Bases[i].TimeAdded >= callExpire)
+                {
+                    await war.Channel.SendMessage($"❗🔰**Claim from @{Bases[i].CallUser} for a war against {war.ShortPrint()} has expired.**").ConfigureAwait(false);
+                    Bases[i] = null;
+                }
+            }
+        }
+
+
+
+
+
+
+        #region commands
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>
@@ -68,13 +153,6 @@ namespace NadekoBot.Modules.ClashOfClans
                     {
                         if (!e.User.ServerPermissions.ManageChannels)
                             return;
-                        List<ClashWar> wars;
-                        if (!ClashWars.TryGetValue(e.Server.Id, out wars))
-                        {
-                            wars = new List<ClashWar>();
-                            if (!ClashWars.TryAdd(e.Server.Id, wars))
-                                return;
-                        }
                         var enemyClan = e.GetArg("enemy_clan");
                         if (string.IsNullOrWhiteSpace(enemyClan))
                         {
@@ -86,9 +164,21 @@ namespace NadekoBot.Modules.ClashOfClans
                             await e.Channel.SendMessage("💢🔰 Not a Valid war size").ConfigureAwait(false);
                             return;
                         }
+                        List<ClashWar> wars;
+                        if (!ClashWars.TryGetValue(e.Server.Id, out wars))
+                        {
+                            wars = new List<ClashWar>();
+                            if (!ClashWars.TryAdd(e.Server.Id, wars))
+                                return;
+                        }
+                        
+                      
                         var cw = new ClashWar(enemyClan, size, e.Server.Id, e.Channel.Id);
+                        //cw.Start();
+
                         wars.Add(cw);
                         await e.Channel.SendMessage($"❗🔰**CREATED CLAN WAR AGAINST {cw.ShortPrint()}**").ConfigureAwait(false);
+                        Save();
                         //war with the index X started.
                     });
 
@@ -112,7 +202,7 @@ namespace NadekoBot.Modules.ClashOfClans
                         }
                         catch
                         {
-                            await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} IS ALREADY STARTED**").ConfigureAwait(false);
+                            await e.Channel.SendMessage($"🔰**WAR AGAINST {war.ShortPrint()} HAS ALREADY STARTED**").ConfigureAwait(false);
                         }
                     });
 
@@ -219,7 +309,7 @@ namespace NadekoBot.Modules.ClashOfClans
                 cgb.CreateCommand(Prefix + "unclaim")
                     .Alias(Prefix + "uncall")
                     .Alias(Prefix + "uc")
-                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whos place to unclaim | {Prefix}uc [war_number] [optional_other_name]")
+                    .Description($"Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim | {Prefix}uc [war_number] [optional_other_name]")
                     .Parameter("number", ParameterType.Required)
                     .Parameter("other_name", ParameterType.Unparsed)
                     .Do(async e =>
@@ -265,7 +355,10 @@ namespace NadekoBot.Modules.ClashOfClans
                         warsInfo.Item1.RemoveAt(warsInfo.Item2);
                     });
             });
+            
         }
+        #endregion
+
 
         private async Task FinishClaim(CommandEventArgs e, int stars = 3)
         {

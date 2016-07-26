@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Manatee.Json.Serialization;
+using Newtonsoft.Json;
+//using Manatee.Json.Serialization;
 
 namespace NadekoBot.Classes.ClashOfClans
 {
@@ -53,13 +54,18 @@ namespace NadekoBot.Classes.ClashOfClans
         public Caller[] Bases { get; }
         public bool Started { get; set; } = false;
         public DateTime StartedAt { get; private set; }
-        public bool Ended { get; private set; }
+        public bool Ended { get; private set; } = false;
 
         public ulong ServerId { get; set; }
         public ulong ChannelId { get; set; }
-
+        
         [JsonIgnore]
         public Discord.Channel Channel { get; internal set; }
+
+        /// <summary>
+        /// This init is purely for the deserialization
+        /// </summary>
+        public ClashWar() { }
 
         public ClashWar(string enemyClan, int size, ulong serverId, ulong channelId)
         {
@@ -85,7 +91,7 @@ namespace NadekoBot.Classes.ClashOfClans
             for (var i = 0; i < Bases.Length; i++)
             {
                 if (Bases[i]?.BaseDestroyed == false && Bases[i]?.CallUser == u)
-                    throw new ArgumentException($"@{u} You already claimed a base #{i + 1}. You can't claim a new one.");
+                    throw new ArgumentException($"@{u} You already claimed base #{i + 1}. You can't claim a new one.");
             }
 
             Bases[baseNumber] = new Caller(u.Trim(), DateTime.Now, false);
