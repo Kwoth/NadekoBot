@@ -59,7 +59,6 @@ namespace NadekoBot.Modules.ClashOfClans
                 var callExpire = new TimeSpan(2, 0, 0);
                 var warExpire = new TimeSpan(23, 0, 0);
                 bool changed = false;
-
                 while (true)
                 {
                     try
@@ -192,7 +191,7 @@ namespace NadekoBot.Modules.ClashOfClans
 
                 cgb.CreateCommand(Prefix + "startwar")
                     .Alias(Prefix + "sw")
-                    .Description($"Starts a war with a given number. | `{Prefix}sw 1`")
+                    .Description("Starts a war with a given number.")
                     .Parameter("number", ParameterType.Required)
                     .Do(async e =>
                     {

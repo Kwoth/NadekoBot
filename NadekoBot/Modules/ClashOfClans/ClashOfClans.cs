@@ -68,17 +68,6 @@ namespace NadekoBot.Classes.ClashOfClans
         [JsonIgnore]
         public Discord.Channel Channel { get; internal set; }
 
-        public Caller[] Bases { get; }
-        //public bool Started { get; set; } = false;
-        public DateTime StartedAt { get; private set; }
-        //public bool Ended { get; private set; } = false;
-
-        public ulong ServerId { get; set; }
-        public ulong ChannelId { get; set; }
-
-        [JsonIgnore]
-        public Discord.Channel Channel { get; internal set; }
-
         /// <summary>
         /// This init is purely for the deserialization
         /// </summary>
@@ -91,8 +80,7 @@ namespace NadekoBot.Classes.ClashOfClans
             this.Bases = new Caller[size];
             this.ServerId = serverId;
             this.ChannelId = channelId;
-
-            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s => s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
+            this.Channel = NadekoBot.Client.Servers.FirstOrDefault(s=>s.Id == serverId)?.TextChannels.FirstOrDefault(c => c.Id == channelId);
         }
 
         internal void End()
@@ -124,7 +112,6 @@ namespace NadekoBot.Classes.ClashOfClans
             //    throw new InvalidOperationException();
             //Started = true;
             WarState = WarState.Started;
-
             StartedAt = DateTime.Now;
             foreach (var b in Bases.Where(b => b != null))
             {
@@ -169,7 +156,6 @@ namespace NadekoBot.Classes.ClashOfClans
                     else
                     {
                         var left =(WarState == WarState.Started) ? callExpire - (DateTime.Now - Bases[i].TimeAdded) : callExpire;
-
                         sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
                 }
