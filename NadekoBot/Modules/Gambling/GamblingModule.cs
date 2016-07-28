@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Gambling
 
                 cgb.CreateCommand(Prefix + "betroll")
                     .Alias(Prefix + "br")
-                    .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | {Prefix}br 5")
+                    .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `{Prefix}br 5`")
                     .Parameter("amount",ParameterType.Required)
                     .Do(async e =>
                     {

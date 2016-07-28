@@ -86,7 +86,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 cgb.CreateCommand(Prefix + "ani")
                     .Alias(Prefix + "anime", Prefix + "aq")
                     .Parameter("query", ParameterType.Unparsed)
-                    .Description("Queries anilist for an anime and shows the first result.")
+                    .Description($"Queries anilist for an anime and shows the first result. | `{Prefix}aq bleach`")
                     .Do(async e =>
                     {
                         if (!(await SearchHelper.ValidateQuery(e.Channel, e.GetArg("query")).ConfigureAwait(false))) return;
@@ -389,7 +389,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     });
 
                 cgb.CreateCommand(Prefix + "revav")
-                    .Description($"Returns a google reverse image search for someone's avatar. | `{Prefix}revav \"@SomeGuy\"")
+                    .Description($"Returns a google reverse image search for someone's avatar. | `{Prefix}revav \"@SomeGuy\"`")
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async e =>
                     {

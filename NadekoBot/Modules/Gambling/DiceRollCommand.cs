@@ -21,13 +21,13 @@ namespace NadekoBot.Modules.Gambling
         {
             cgb.CreateCommand(Module.Prefix + "roll")
                 .Description("Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice." +
-                             " If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | $roll or $roll 7 or $roll 3d5")
+                             " If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5")
                 .Parameter("num", ParameterType.Optional)
                 .Do(RollFunc());
 
             cgb.CreateCommand(Module.Prefix + "rolluo")
                 .Description("Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered)." +
-                             " If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | $roll or $roll 7 or $roll 3d5")
+                             " If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`")
                 .Parameter("num", ParameterType.Optional)
                 .Do(RollFunc(false));
 

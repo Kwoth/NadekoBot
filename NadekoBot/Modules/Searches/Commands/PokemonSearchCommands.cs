@@ -22,7 +22,7 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             cgb.CreateCommand(Prefix + "pokemon")
                 .Alias(Prefix + "poke")
-                .Description("Searches for a pokemon.")
+                .Description($"Searches for a pokemon. | `{Prefix}poke blastoise`")
                 .Parameter("pokemon", ParameterType.Unparsed)
                 .Do(async e =>
                 {
@@ -43,7 +43,7 @@ namespace NadekoBot.Modules.Searches.Commands
 
             cgb.CreateCommand(Prefix + "pokemonability")
                 .Alias(Prefix + "pokeab")
-                .Description("Searches for a pokemon ability.")
+                .Description($"Searches for a pokemon ability. | `{Prefix}pokeab`")
                 .Parameter("abil", ParameterType.Unparsed)
                 .Do(async e =>
                 {

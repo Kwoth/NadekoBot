@@ -87,14 +87,14 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "rotateplaying")
                 .Alias(Module.Prefix + "ropl")
-                .Description("Toggles rotation of playing status of the dynamic strings you specified earlier.")
+                .Description($"Toggles rotation of playing status of the dynamic strings you specified earlier.| `{Module.Prefix}ropl`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoFunc());
 
             cgb.CreateCommand(Module.Prefix + "addplaying")
                 .Alias(Module.Prefix + "adpl")
                 .Description("Adds a specified string to the list of playing strings to rotate. " +
-                             "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys))
+                             "Supported placeholders: " + string.Join(", ", PlayingPlaceholders.Keys)+ $"| `{Module.Prefix}adpl`")
                 .Parameter("text", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
@@ -112,7 +112,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "listplaying")
                 .Alias(Module.Prefix + "lipl")
-                .Description("Lists all playing statuses with their corresponding number.")
+                .Description($"Lists all playing statuses with their corresponding number.| `{Module.Prefix}lipl`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>
                 {
@@ -129,7 +129,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Module.Prefix + "removeplaying")
                 .Alias(Module.Prefix + "repl", Module.Prefix + "rmpl")
-                .Description("Removes a playing string on a given number.")
+                .Description($"Removes a playing string on a given number.| `{Module.Prefix}repl`")
                 .Parameter("number", ParameterType.Required)
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(async e =>

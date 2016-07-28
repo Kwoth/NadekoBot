@@ -75,7 +75,8 @@ namespace NadekoBot.Modules.Searches.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "lolchamp")
-                  .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role. |~lolchamp Riven or ~lolchamp Annie sup")
+                  .Description("Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role."+
+                  $" |`{Module.Prefix}lolchamp Riven` or `{Module.Prefix}lolchamp Annie sup`")
                   .Parameter("champ", ParameterType.Required)
                   .Parameter("position", ParameterType.Unparsed)
                   .Do(async e =>
@@ -289,7 +290,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                   });
 
             cgb.CreateCommand(Module.Prefix + "lolban")
-                  .Description("Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time.")
+                  .Description($"Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time. | `{Prefix}lolban`")
                   .Do(async e =>
                   {
 

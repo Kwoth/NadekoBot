@@ -150,7 +150,7 @@ namespace NadekoBot.Modules.Conversations
                     });
 
                 cgb.CreateCommand("fire")
-                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | @NadekoBot fire [x]")
+                    .Description("Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. | `@NadekoBot fire [x]`")
                     .Parameter("times", ParameterType.Optional)
                     .Do(async e =>
                     {

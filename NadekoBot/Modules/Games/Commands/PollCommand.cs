@@ -23,7 +23,7 @@ namespace NadekoBot.Modules.Games.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "poll")
-                  .Description("Creates a poll, only person who has manage server permission can do it. | >poll Question?;Answer1;Answ 2;A_3")
+                  .Description($"Creates a poll, only person who has manage server permission can do it. | `{Module.Prefix}poll Question?;Answer1;Answ 2;A_3`")
                   .Parameter("allargs", ParameterType.Unparsed)
                   .Do(async e =>
                   {
