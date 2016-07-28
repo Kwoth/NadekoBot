@@ -23,6 +23,9 @@ namespace NadekoBot.Modules.Music.Classes
         public string Query { get; internal set; }
         public string Title { get; internal set; }
         public string Uri { get; internal set; }
+        public bool Cached { get; internal set; } = false;
+        public bool CanBeCached { get; internal set; } = false;
+        public string Id { get; internal set; } = "";
     }
     public class Song
     {
@@ -73,16 +76,24 @@ namespace NadekoBot.Modules.Music.Classes
             return this;
         }
 
-        private Task BufferSong(string filename, CancellationToken cancelToken) =>
+        private Task BufferSong(string filename, CancellationToken cancelToken, string cache = "none") =>
             Task.Factory.StartNew(async () =>
             {
                 Process p = null;
+                double timestamp = DateTime.Now.UnixTimestamp();
                 try
                 {
+                    string cacheParam = "";
+                    if (cache != "none" && !SongInfo.Cached)
+                    {
+                        cache = cache.Replace('/', Path.DirectorySeparatorChar);
+                        cache = cache.Replace('\\', Path.DirectorySeparatorChar);
+                        cacheParam = "-f opus -y " + cache + "." + timestamp + ".tmp";
+                    }
                     p = Process.Start(new ProcessStartInfo
                     {
                         FileName = "ffmpeg",
-                        Arguments = $"-ss {skipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -ac 2 pipe:1 -loglevel quiet",
+                        Arguments = $" -loglevel quiet -i {SongInfo.Uri} {cacheParam} -f s16le -ss {skipTo} -ar 48000 -ac 2  pipe:1",
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardError = false,
@@ -95,6 +106,7 @@ namespace NadekoBot.Modules.Music.Classes
                         int bytesRead;
                         while ((bytesRead = await p.StandardOutput.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false)) != 0)
                         {
+  
                             await outStream.WriteAsync(buffer, 0, bytesRead, cancelToken).ConfigureAwait(false);
                             while ((ulong)outStream.Length - bytesSent > prebufferSize)
                                 await Task.Delay(100, cancelToken);
@@ -124,11 +136,31 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                     {
                         try
                         {
+
                             p.Kill();
                         }
                         catch { }
                         p.Dispose();
                     }
+                    if (NadekoBot.Config.MusicCache.Enabled)
+                    {
+                        if (!SongInfo.Cached && NadekoBot.Config.MusicCache.Enabled && !bufferingCompleted) //Corrupted cache
+                        {
+                            DeleteFile(cache + "." + timestamp + ".tmp");
+                        }
+                        else
+                        {
+                            if (File.Exists(cache + ".ogg"))
+                            {
+                                DeleteFile(cache + "." + timestamp + ".tmp");
+                            }
+                            else
+                            {
+                                File.Move(cache + "." + timestamp + ".tmp", cache + ".ogg");
+                            }
+                        }
+                    }
+
                 }
             }, TaskCreationOptions.LongRunning);
 
@@ -136,12 +168,37 @@ Check the guides for your platform on how to setup ffmpeg correctly:
         {
             var filename = Path.Combine(MusicModule.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
-            var bufferTask = BufferSong(filename, cancelToken).ConfigureAwait(false);
+            bool cacheAudio = false;
+            if (NadekoBot.Config.MusicCache.Enabled)
+            {
+                if (NadekoBot.Config.MusicCache.Size > 0)
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(NadekoBot.Config.MusicCache.Location);
+                    if (NadekoBot.Config.MusicCache.Size > Helper.DirSize(directoryInfo))
+                    {
+                        cacheAudio = true;
+                    }
+                }
+                else
+                {
+                    cacheAudio = true;
+                }
+            }
+            System.Runtime.CompilerServices.ConfiguredTaskAwaitable bufferTask;
+            if (cacheAudio) {
+                if(SongInfo.CanBeCached)
+                    bufferTask = BufferSong(filename, cancelToken, NadekoBot.Config.MusicCache.Location + "/"+ SongInfo.Provider +"/" +  SongInfo.Id).ConfigureAwait(false);
+                else
+                    bufferTask = BufferSong(filename, cancelToken).ConfigureAwait(false);
+            }
+            else {
+                bufferTask = BufferSong(filename, cancelToken).ConfigureAwait(false);
+            }
+
 
             var inStream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
 
             bytesSent = 0;
-
             try
             {
                 var prebufferingTask = CheckPrebufferingAsync(inStream, cancelToken);
@@ -182,10 +239,11 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                         else
                             await Task.Delay(100, cancelToken).ConfigureAwait(false);
                     else
-                        attempt = 0;
+                        attempt = 0;               
 
                     while (this.MusicPlayer.Paused)
                         await Task.Delay(200, cancelToken).ConfigureAwait(false);
+                    
 
                     buffer = AdjustVolume(buffer, MusicPlayer.Volume);
                     voiceClient.Send(buffer, 0, read);
@@ -196,8 +254,17 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 await bufferTask;
                 await Task.Run(() => voiceClient.Clear());
                 inStream.Dispose();
-                try { File.Delete(filename); } catch { }
+                /*
+                if (!SongInfo.Cached && NadekoBot.Config.MusicCache.Enabled && cancelToken.IsCancellationRequested) //Corrupted cache
+                   DeleteFile(NadekoBot.Config.MusicCache.Location + MakeValidFileName(SongInfo.Query));
+                   */
+                DeleteFile(filename);
             }
+        }
+
+        private void DeleteFile(string filename)
+        {
+            try { File.Delete(filename); } catch (Exception e) { Console.WriteLine("Cannot delete " + filename + " : " + e.Message); }
         }
 
         private async Task CheckPrebufferingAsync(Stream inStream, CancellationToken cancelToken)
@@ -277,6 +344,8 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
             try
             {
+                var cached = false;
+                var cacheLocation = "";
                 switch (musicType)
                 {
                     case MusicType.Local:
@@ -301,26 +370,46 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 if (SoundCloud.Default.IsSoundCloudLink(query))
                 {
                     var svideo = await SoundCloud.Default.ResolveVideoAsync(query).ConfigureAwait(false);
+                    cacheLocation = NadekoBot.Config.MusicCache.Location + "/SoundCloud/" + svideo.Id + ".ogg";
+                    cacheLocation = cacheLocation.Replace('/', Path.DirectorySeparatorChar);  //FMPEG
+                    cacheLocation = cacheLocation.Replace('\\', Path.DirectorySeparatorChar);
+                    if (NadekoBot.Config.MusicCache.Enabled && File.Exists(cacheLocation))
+                    {
+                        cached = true;
+                    }
                     return new Song(new SongInfo
                     {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
-                        Uri = svideo.StreamLink,
+                        Uri = cached ? cacheLocation : svideo.StreamLink,
                         ProviderType = musicType,
                         Query = svideo.TrackLink,
+                        Id = svideo.Id.ToString(),
+                        CanBeCached = true,
+                        Cached = cached,
                     });
                 }
 
                 if (musicType == MusicType.Soundcloud)
                 {
                     var svideo = await SoundCloud.Default.GetVideoByQueryAsync(query).ConfigureAwait(false);
+                    cacheLocation = NadekoBot.Config.MusicCache.Location + "/SoundCloud/" + svideo.Id + ".ogg";
+                    cacheLocation = cacheLocation.Replace('/', Path.DirectorySeparatorChar);  //FMPEG
+                    cacheLocation = cacheLocation.Replace('\\', Path.DirectorySeparatorChar);
+                    if (NadekoBot.Config.MusicCache.Enabled && File.Exists(cacheLocation))
+                    {
+                        cached = true;
+                    }
                     return new Song(new SongInfo
                     {
                         Title = svideo.FullName,
                         Provider = "SoundCloud",
-                        Uri = svideo.StreamLink,
+                        Uri = cached ? cacheLocation : svideo.StreamLink,
                         ProviderType = MusicType.Normal,
                         Query = svideo.TrackLink,
+                        Id = svideo.Id.ToString(),
+                        CanBeCached = true,
+                        Cached = cached,
                     });
                 }
 
@@ -340,13 +429,28 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 int gotoTime = 0;
                 if (m.Captures.Count > 0)
                     int.TryParse(m.Groups["t"].ToString(), out gotoTime);
+
+                var uri = video.Uri;
+
+                string videoId = ExtractYoutubeId(link);
+                cacheLocation = NadekoBot.Config.MusicCache.Location + "/YouTube/" + videoId + ".ogg";
+                cacheLocation = cacheLocation.Replace('/', Path.DirectorySeparatorChar);  //FMPEG
+                cacheLocation = cacheLocation.Replace('\\', Path.DirectorySeparatorChar);
+                if (NadekoBot.Config.MusicCache.Enabled && File.Exists(cacheLocation))
+                {
+                    cached = true;
+                }
+
                 var song = new Song(new SongInfo
                 {
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
-                    Uri = video.Uri,
+                    Uri = cached ? cacheLocation : uri,
                     Query = link,
                     ProviderType = musicType,
+                    Id = videoId,
+                    Cached = cached,
+                    CanBeCached = true,
                 });
                 song.SkipTo = gotoTime;
                 return song;
@@ -442,6 +546,11 @@ Check the guides for your platform on how to setup ffmpeg correctly:
             }
 
             return query;
+        }
+
+        private static string ExtractYoutubeId(string query)
+        {
+            return new Regex("(?:youtu\\.be\\/|v=)(?<id>[\\da-zA-Z\\-_]*)").Match(query).Groups[1].Value;
         }
 
         private static bool IsRadioLink(string query) =>
