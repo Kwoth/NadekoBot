@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Modules;
+using NadekoBot.Classes;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Conversations.Commands;
@@ -108,6 +109,7 @@ namespace NadekoBot.Modules.Conversations
                         {
                             await e.Channel.SendMessage(e.User.Mention + ", Yes, my love.").ConfigureAwait(false);
                             await Task.Delay(5000).ConfigureAwait(false);
+                            DbHandler.Instance.Stop();
                             Environment.Exit(0);
                         }
                         else

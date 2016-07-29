@@ -680,6 +680,7 @@ namespace NadekoBot.Modules.Administration
                     {
                         await e.Channel.SendMessage("`Shutting down.`").ConfigureAwait(false);
                         await Task.Delay(2000).ConfigureAwait(false);
+                        DbHandler.Instance.Stop();
                         Environment.Exit(0);
                     });
 
