@@ -7,11 +7,15 @@
 *.userosscache
 *.sln.docstates
 *.pfx
+*.tmp
+*.TMP
+
 obj/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 **/Bin/Release/
 **/Bin/PRIVATE/
+**/Bin/Debug/cache/
 !**/Bin/Debug/opus.dll
 !**/Bin/Debug/libsodium.dll
 !**/Bin/Debug/Nito.AsyncEx.Enlightenment.dll

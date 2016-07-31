@@ -195,6 +195,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Helper.cs" />
     <Compile Include="Classes\ObservableConcurrentDictionary.cs" />
     <Compile Include="Modules\Administration\Commands\AutoAssignRole.cs" />
     <Compile Include="Modules\Administration\Commands\CustomReactionsCommands.cs" />

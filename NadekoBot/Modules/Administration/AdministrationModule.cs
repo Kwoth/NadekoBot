@@ -5,10 +5,12 @@ using NadekoBot.Classes;
 using NadekoBot.DataModels;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Commands;
+using NadekoBot.Modules.Music.Classes;
 using NadekoBot.Modules.Permissions.Classes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -893,6 +895,37 @@ namespace NadekoBot.Modules.Administration
                             cnt -= 100;
                         }
                         await e.User.SendFile($"Chatlog-{e.Server.Name}/#{e.Channel.Name}-{DateTime.Now}.txt", JsonConvert.SerializeObject(new { Messages = msgs.Select(s => s.ToString()) }, Formatting.Indented).ToStream()).ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "clearcache")
+                    .Description("Clear the audio cache")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        DirectoryInfo di = new DirectoryInfo(NadekoBot.Config.MusicCache.Location + "/YouTube/");
+
+                        foreach (FileInfo file in di.GetFiles())
+                        {
+                            file.Delete();
+                        }
+
+                        di = new DirectoryInfo(NadekoBot.Config.MusicCache.Location + "/SoundCloud/");
+
+                        foreach (FileInfo file in di.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        await e.Channel.SendMessage("Master, I cleaned the cache folder for you:heart_exclamation: ").ConfigureAwait(false);
+                    });
+
+                cgb.CreateCommand(Prefix + "cachesize")
+                    .Description("Display the currect audio cache size")
+                    .AddCheck(SimpleCheckers.OwnerOnly())
+                    .Do(async e =>
+                    {
+                        DirectoryInfo di = new DirectoryInfo(NadekoBot.Config.MusicCache.Location);
+                        long size  = Helper.DirSize(di);
+                        await e.Channel.SendMessage("Master, my audio cache size is " +  Helper.BytesSizeToHumanReadable(size)).ConfigureAwait(false);
                     });
 
             });

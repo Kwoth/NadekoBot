@@ -89,6 +89,7 @@ namespace NadekoBot.Classes.JSONModels
         public bool ForwardToAllOwners { get; set; } = false;
         public bool IsRotatingStatus { get; set; } = false;
         public int BufferSize { get; set; } = 4.MiB();
+        public MusicCacheModel MusicCache { get; set; } = new MusicCacheModel();
 
         public string[] RaceAnimals { get; internal set; } = {
                 "🐼",
@@ -129,6 +130,9 @@ namespace NadekoBot.Classes.JSONModels
             {
                 CustomReactions = DefaultCustomReactions;
             }
+            Directory.CreateDirectory(MusicCache.Location); //Make sure that all the directories exist
+            Directory.CreateDirectory(MusicCache.Location + "/YouTube/");
+            Directory.CreateDirectory(MusicCache.Location + "/SoundCloud/");
         }
         [OnSerializing]
         internal void OnSerializing(StreamingContext context)
@@ -196,6 +200,13 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
         public string Programming { get; set; } = "%";
         public string Pokemon { get; set; } = ">";
         public string Utility { get; set; } = ".";
+    }
+    
+    public class MusicCacheModel
+    {
+        public bool Enabled { get; set; } = true;
+        public long Size { get; set; } = 250.MiB();
+        public string Location { get; set; } = "cache/audio/";
     }
 
     public static class ConfigHandler

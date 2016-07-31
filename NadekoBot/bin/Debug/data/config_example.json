@@ -4,6 +4,11 @@
   "ForwardToAllOwners": false,
   "IsRotatingStatus": false,
   "BufferSize": 4194304,
+  "MusicCache": {
+    "Enabled": true,
+    "Size": 262144000,
+    "Location": "cache/audio/"
+  },
   "RaceAnimals": [
     "🐼",
     "🐻",
@@ -134,5 +139,5 @@
   "CurrencySign": "🌸",
   "CurrencyName": "NadekoFlower",
   "DMHelpString": "Type `-h` for help.",
-  "HelpString": "You can use `{0}modules` command to see a list of all modules.\r\nYou can use `{0}commands ModuleName`\r\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\r\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\r\n\r\n\r\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\r\n<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>\r\n\r\n\r\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
+  "HelpString": "You can use `{0}modules` command to see a list of all modules.\nYou can use `{0}commands ModuleName`\n(for example `{0}commands Administration`) to see a list of all of the commands in that module.\nFor a specific command help, use `{0}h \"Command name\"` (for example `-h \"!m q\"`)\n\n\n**LIST OF COMMANDS CAN BE FOUND ON THIS LINK**\n<https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>\n\n\nNadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>"
 }
