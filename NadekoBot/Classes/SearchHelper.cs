@@ -175,6 +175,7 @@ namespace NadekoBot.Classes
                 return null;
         }
 
+        static Random rng = new Random();
         public static async Task<string> GetRelatedVideoId(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -186,7 +187,7 @@ namespace NadekoBot.Classes
             }
             var response = await GetResponseStringAsync(
                                     $"https://www.googleapis.com/youtube/v3/search?" +
-                                    $"part=snippet&maxResults=1&type=video" +
+                                    $"part=snippet&maxResults=5&type=video" +
                                     $"&relatedToVideoId={id}" +
                                     $"&key={NadekoBot.Creds.GoogleAPIKey}").ConfigureAwait(false);
             JObject obj = JObject.Parse(response);
@@ -195,7 +196,7 @@ namespace NadekoBot.Classes
 
             if (data.items.Length > 0)
             {
-                var toReturn = "http://www.youtube.com/watch?v=" + data.items[0].id.videoId.ToString();
+                var toReturn = "http://www.youtube.com/watch?v=" + data.items[rng.Next(0, data.items.Length)].id.videoId.ToString();
                 return toReturn;
             }
             else
