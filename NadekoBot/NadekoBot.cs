@@ -30,6 +30,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NadekoBot.Modules.LastFm;
 
 namespace NadekoBot
 {
@@ -181,6 +182,8 @@ namespace NadekoBot
             modules.Add(new CustomReactionsModule(), "Customreactions", ModuleFilter.None);
             if (!string.IsNullOrWhiteSpace(Creds.TrelloAppKey))
                 modules.Add(new TrelloModule(), "Trello", ModuleFilter.None);
+			if (!string.IsNullOrEmpty(Creds.LastFmApiKey) && !string.IsNullOrEmpty(Creds.LastFmApiSecret))
+				modules.Add(new LastFmModule(), "LastFm", ModuleFilter.None);
 
             //run the bot
             Client.ExecuteAndWait(async () =>

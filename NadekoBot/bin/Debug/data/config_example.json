@@ -99,7 +99,8 @@
     "Permissions": ";",
     "Programming": "%",
     "Pokemon": ">",
-    "Utility": "."
+    "Utility": ".",
+    "LastFm": "^"
   },
   "ServerBlacklist": [],
   "ChannelBlacklist": [],
