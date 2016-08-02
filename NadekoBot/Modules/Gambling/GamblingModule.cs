@@ -215,18 +215,12 @@ namespace NadekoBot.Modules.Gambling
 ┃{(e.Server.Users.Where(u => u.Id == (ulong)cs.UserId).FirstOrDefault()?.Name.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Value,5} ┃")
                                     ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
                     });
-
             });
         }
         
 
         public static long GetUserFlowers(ulong userId) =>
             Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
-
-
-
-
-        
 
     }
 }
