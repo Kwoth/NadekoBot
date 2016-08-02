@@ -205,8 +205,25 @@ namespace NadekoBot.Modules.Gambling
 ┃{(e.Server.Users.Where(u => u.Id == (ulong)cs.UserId).FirstOrDefault()?.Name.TrimTo(18, true) ?? cs.UserId.ToString()),-20} ┃ {cs.Value,5} ┃")
                                     ).ToString() + "┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━┛```").ConfigureAwait(false);
                     });
+                cgb.CreateCommand(Prefix + "reset")
+                   .Alias(Prefix + "rt")
+                   .Description($"Deletes all flowers from a user. | {Prefix}reset id")
+                   .AddCheck(SimpleCheckers.OwnerOnly())
+                   .Parameter("poorperson", ParameterType.Unparsed)
+                   .Do(async e =>
+                        {
+                            var user = e.GetArg("poorperson");
+                            ulong u = Convert.ToUInt64(user);
+                            int pts = (int)GetUserFlowers(u);
+                            
+
+
+                            await FlowersHandler.RemoveFlowersfromID(u, "Flower reset", pts);
+                            await e.Channel.SendMessage($"Flower Reset for {user} :sob: ");
+                        });
             });
         }
+        
 
         public static long GetUserFlowers(ulong userId) =>
             Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
