@@ -207,7 +207,7 @@ namespace NadekoBot.Modules.Gambling
                     });
                 cgb.CreateCommand(Prefix + "reset")
                    .Alias(Prefix + "rt")
-                   .Description($"Deletes all flowers from a user. | {Prefix}reset id")
+                   .Description($"Deletes all flowers from a user. | `{Prefix}reset id`")
                    .AddCheck(SimpleCheckers.OwnerOnly())
                    .Parameter("poorperson", ParameterType.Unparsed)
                    .Do(async e =>
