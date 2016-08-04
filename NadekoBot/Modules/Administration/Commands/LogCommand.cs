@@ -19,36 +19,39 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public LogCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += MsgRecivd;
-            NadekoBot.Client.MessageDeleted += MsgDltd;
-            NadekoBot.Client.MessageUpdated += MsgUpdtd;
-            NadekoBot.Client.UserUpdated += UsrUpdtd;
-            NadekoBot.Client.UserBanned += UsrBanned;
-            NadekoBot.Client.UserLeft += UsrLeft;
-            NadekoBot.Client.UserJoined += UsrJoined;
-            NadekoBot.Client.UserUnbanned += UsrUnbanned;
-            NadekoBot.Client.ChannelCreated += ChannelCreated;
-            NadekoBot.Client.ChannelDestroyed += ChannelDestroyed;
-            NadekoBot.Client.ChannelUpdated += ChannelUpdated;
-
-
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            NadekoBot.OnReady += () =>
             {
-                if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
-                    return;
-                if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
-                try
+                NadekoBot.Client.MessageReceived += MsgRecivd;
+                NadekoBot.Client.MessageDeleted += MsgDltd;
+                NadekoBot.Client.MessageUpdated += MsgUpdtd;
+                NadekoBot.Client.UserUpdated += UsrUpdtd;
+                NadekoBot.Client.UserBanned += UsrBanned;
+                NadekoBot.Client.UserLeft += UsrLeft;
+                NadekoBot.Client.UserJoined += UsrJoined;
+                NadekoBot.Client.UserUnbanned += UsrUnbanned;
+                NadekoBot.Client.ChannelCreated += ChannelCreated;
+                NadekoBot.Client.ChannelDestroyed += ChannelDestroyed;
+                NadekoBot.Client.ChannelUpdated += ChannelUpdated;
+
+
+                NadekoBot.Client.MessageReceived += async (s, e) =>
                 {
-                    var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
-                    if (usr?.Status != UserStatus.Offline)
+                    if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                         return;
-                    await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
-                    await usr.SendMessage(
-                        $"User `{e.User.Name}` mentioned you on " +
-                        $"`{e.Server.Name}` server while you were offline.\n" +
-                        $"`Message:` {e.Message.Text}").ConfigureAwait(false);
-                }
-                catch { }
+                    if (!SpecificConfigurations.Default.Of(e.Server.Id).SendPrivateMessageOnMention) return;
+                    try
+                    {
+                        var usr = e.Message.MentionedUsers.FirstOrDefault(u => u != e.User);
+                        if (usr?.Status != UserStatus.Offline)
+                            return;
+                        await e.Channel.SendMessage($"User `{usr.Name}` is offline. PM sent.").ConfigureAwait(false);
+                        await usr.SendMessage(
+                            $"User `{e.User.Name}` mentioned you on " +
+                            $"`{e.Server.Name}` server while you were offline.\n" +
+                            $"`Message:` {e.Message.Text}").ConfigureAwait(false);
+                    }
+                    catch { }
+                };
             };
 
             // start the userpresence queue
@@ -375,7 +378,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
 
             cgb.CreateCommand(Module.Prefix + "spmom")
-                .Description($"Toggles whether mentions of other offline users on your server will send a pm to them. | `{Prefix}spmom`")
+                .Description($"Toggles whether mentions of other offline users on your server will send a pm to them. **Needs Manage Server Permissions.**| `{Prefix}spmom`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
                 {
@@ -413,7 +416,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
 
             cgb.CreateCommand(Prefix + "logignore")
-                .Description($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. | `{Prefix}logignore`")
+                .Description($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Bot Owner Only!**| `{Prefix}logignore`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
@@ -431,7 +434,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
 
             cgb.CreateCommand(Module.Prefix + "userpresence")
-                  .Description($"Starts logging to this channel when someone from the server goes online/offline/idle. | `{Prefix}userpresence`")
+                  .Description($"Starts logging to this channel when someone from the server goes online/offline/idle. **Needs Manage Server Permissions.**| `{Prefix}userpresence`")
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
@@ -447,7 +450,7 @@ namespace NadekoBot.Modules.Administration.Commands
                   });
 
             cgb.CreateCommand(Module.Prefix + "voicepresence")
-                  .Description("Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. | `{Prefix}voicerpresence`")
+                  .Description($"Toggles logging to this channel whenever someone joins or leaves a voice channel you are in right now. **Needs Manage Server Permissions.**| `{Prefix}voicerpresence`")
                   .Parameter("all", ParameterType.Optional)
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>

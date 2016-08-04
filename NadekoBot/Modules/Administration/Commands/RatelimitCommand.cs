@@ -15,7 +15,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
         public RatelimitCommand(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.MessageReceived += async (s, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.MessageReceived += async (s, e) =>
             {
                 if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
                     return;
@@ -41,7 +41,7 @@ namespace NadekoBot.Modules.Administration.Commands
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "slowmode")
-                .Description($"Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds. | `{Prefix}slowmode`")
+                .Description($"Toggles slow mode. When ON, users will be able to send only 1 message every 5 seconds. **Needs Manage Messages Permissions.**| `{Prefix}slowmode`")
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Do(async e =>
                 {
