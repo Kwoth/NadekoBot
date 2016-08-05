@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NadekoBot.Modules.Programming.Commands
 {
-    class HaskellRepl : DiscordCommand
+    internal class HaskellRepl : DiscordCommand
     {
-        ConcurrentQueue<KeyValuePair<string, Channel>> commandQueue = new ConcurrentQueue<KeyValuePair<string, Channel>>();
+        private ConcurrentQueue<KeyValuePair<string, Channel>> commandQueue = new ConcurrentQueue<KeyValuePair<string, Channel>>();
 
-        Thread haskellThread;
+        private Thread haskellThread;
 
         public HaskellRepl(DiscordModule module) : base(module)
         {
@@ -67,10 +67,8 @@ namespace NadekoBot.Modules.Programming.Commands
                         await com.Value.SendMessage($"```hs\nPrelude> {com.Key}\n" + outStr + "\n```");
                     }
                 });
-
             }));
             haskellThread.Start();
-
         }
 
         internal override void Init(CommandGroupBuilder cgb)

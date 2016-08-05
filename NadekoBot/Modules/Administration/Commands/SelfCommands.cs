@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class SelfCommands : DiscordCommand
+    internal class SelfCommands : DiscordCommand
     {
         public SelfCommands(DiscordModule module) : base(module)
         {

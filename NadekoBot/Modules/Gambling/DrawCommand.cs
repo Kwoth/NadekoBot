@@ -12,7 +12,9 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class DrawCommand : DiscordCommand
     {
-        public DrawCommand(DiscordModule module) : base(module) { }
+        public DrawCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {

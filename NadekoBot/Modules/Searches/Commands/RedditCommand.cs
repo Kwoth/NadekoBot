@@ -3,7 +3,7 @@ using NadekoBot.Classes;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class RedditCommand : DiscordCommand
+    internal class RedditCommand : DiscordCommand
     {
         public RedditCommand(DiscordModule module) : base(module)
         {

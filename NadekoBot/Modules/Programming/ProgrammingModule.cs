@@ -5,7 +5,7 @@ using NadekoBot.Modules.Programming.Commands;
 
 namespace NadekoBot.Modules.Programming
 {
-    class ProgrammingModule : DiscordModule
+    internal class ProgrammingModule : DiscordModule
     {
         public override string Prefix => NadekoBot.Config.CommandPrefixes.Programming;
 

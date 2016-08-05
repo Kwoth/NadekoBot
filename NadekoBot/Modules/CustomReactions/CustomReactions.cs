@@ -33,7 +33,6 @@ namespace NadekoBot.Modules.CustomReactions
                     {new Regex("%mention%"), (e,m) => NadekoBot.BotMention },
                     {new Regex("%user%"), (e,m) => e.User.Mention },
                     {new Regex("%target%"), (e,m) => e.GetArg("args")?.Trim() ?? "" },
-
                  };
         }
 
@@ -56,7 +55,6 @@ namespace NadekoBot.Modules.CustomReactions
                           {
                               string str = command.Value[rng.Next(0, command.Value.Count())];
                               commandFuncs.Keys.ForEach(key => str = key.Replace(str, m => commandFuncs[key](e, m)));
-
 
                               await e.Channel.SendMessage(str).ConfigureAwait(false);
                           });

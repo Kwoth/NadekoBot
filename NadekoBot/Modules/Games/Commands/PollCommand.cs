@@ -12,7 +12,6 @@ namespace NadekoBot.Modules.Games.Commands
 {
     internal class PollCommand : DiscordCommand
     {
-
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -54,7 +53,9 @@ namespace NadekoBot.Modules.Games.Commands
                   });
         }
 
-        public PollCommand(DiscordModule module) : base(module) { }
+        public PollCommand(DiscordModule module) : base(module)
+        {
+        }
     }
 
     internal class Poll

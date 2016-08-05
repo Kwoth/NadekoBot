@@ -3,7 +3,7 @@ using NadekoBot.Classes;
 using NadekoBot.Extensions;
 using System.Text;
 
-//taken from 
+//taken from
 //http://www.codeproject.com/Tips/207582/L-t-Tr-nsl-t-r-Leet-Translator (thanks)
 // because i don't want to waste my time on this cancerous command
 namespace NadekoBot.Modules.Games.Commands
@@ -41,6 +41,7 @@ namespace NadekoBot.Modules.Games.Commands
             foreach (char c in text)
             {
                 #region Degree 1
+
                 if (degree == 1)
                 {
                     switch (c)
@@ -56,8 +57,11 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 1
+
                 #region Degree 2
+
                 else if (degree == 2)
                 {
                     switch (c)
@@ -85,8 +89,11 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 2
+
                 #region Degree 3
+
                 else if (degree == 3)
                 {
                     switch (c)
@@ -124,8 +131,11 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 3
+
                 #region Degree 4
+
                 else if (degree == 4)
                 {
                     switch (c)
@@ -173,8 +183,11 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 4
+
                 #region Degree 5
+
                 else if (degree == 5)
                 {
                     switch (c)
@@ -230,8 +243,11 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 5
+
                 #region Degree 6
+
                 else if (degree == 6)
                 {
                     switch (c)
@@ -290,7 +306,8 @@ namespace NadekoBot.Modules.Games.Commands
                         default: sb.Append(c); break;
                     }
                 }
-                #endregion
+
+                #endregion Degree 6
             }
             return sb.ToString().TrimTo(1995); // Return result.
         }

@@ -4,13 +4,11 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Music.Classes
 {
-
     /// <summary>
     /// 💩
     /// </summary>
     public class PoopyBuffer
     {
-
         private readonly byte[] ringBuffer;
 
         public int WritePosition { get; private set; } = 0;
@@ -82,7 +80,6 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 finally { readWriteLock.Release(); }
             });
-
         }
 
         public async Task WriteAsync(byte[] buffer, int count, CancellationToken cancelToken)

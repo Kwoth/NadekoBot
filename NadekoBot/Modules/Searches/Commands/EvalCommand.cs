@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class CalcCommand : DiscordCommand
+    internal class CalcCommand : DiscordCommand
     {
         public CalcCommand(DiscordModule module) : base(module)
         {
@@ -22,8 +22,8 @@ namespace NadekoBot.Modules.Searches.Commands
                 .Do(EvalFunc());
         }
 
-
         private CustomParser parser = new CustomParser();
+
         private Func<CommandEventArgs, Task> EvalFunc() => async e =>
         {
             string expression = e.GetArg("expression")?.Trim();
@@ -59,9 +59,7 @@ namespace NadekoBot.Modules.Searches.Commands
             }
         }
 
-
-
-        class CustomParser : MathParser
+        private class CustomParser : MathParser
         {
             public CustomParser() : base()
             {
@@ -69,7 +67,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 OperatorAction.Add("!", (x, y) => Factorial(x));
             }
 
-            static decimal Factorial(decimal x)
+            private static decimal Factorial(decimal x)
             {
                 decimal y = x - 1;
                 while (y > 0)
@@ -79,7 +77,5 @@ namespace NadekoBot.Modules.Searches.Commands
                 return x;
             }
         }
-
-
     }
 }

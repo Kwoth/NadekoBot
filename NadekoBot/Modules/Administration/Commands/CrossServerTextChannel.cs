@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class CrossServerTextChannel : DiscordCommand
+    internal class CrossServerTextChannel : DiscordCommand
     {
         public CrossServerTextChannel(DiscordModule module) : base(module)
         {
@@ -52,7 +52,6 @@ namespace NadekoBot.Modules.Administration.Commands
                                     await msg.Edit(GetText(e.Server, e.Channel, e.User, e.After)).ConfigureAwait(false);
                             }
                         }
-
                     }
                     catch { }
                 };

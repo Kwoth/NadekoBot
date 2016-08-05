@@ -100,7 +100,6 @@ namespace NadekoBot.Modules.Permissions.Commands
                            return;
                        await PermissionsHandler.AddFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
                        await e.Channel.SendMessage($"Successfully added new filtered word.").ConfigureAwait(false);
-
                    }
                    catch (Exception ex)
                    {
@@ -122,7 +121,6 @@ namespace NadekoBot.Modules.Permissions.Commands
                            return;
                        await PermissionsHandler.RemoveFilteredWord(e.Server, word.ToLowerInvariant().Trim()).ConfigureAwait(false);
                        await e.Channel.SendMessage($"Successfully removed filtered word.").ConfigureAwait(false);
-
                    }
                    catch (Exception ex)
                    {
@@ -162,7 +160,6 @@ namespace NadekoBot.Modules.Permissions.Commands
                         await PermissionsHandler.SetServerWordPermission(e.Server, state).ConfigureAwait(false);
                         await e.Channel.SendMessage($"Word filtering has been **{(state ? "enabled" : "disabled")}** on this server.")
                                        .ConfigureAwait(false);
-
                     }
                     catch (Exception ex)
                     {

@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 namespace NadekoBot.Modules.Music.Classes
 {
-
     public enum MusicType
     {
         Radio,
@@ -42,6 +42,7 @@ namespace NadekoBot.Modules.Music.Classes
         public float Volume { get; private set; }
 
         public event EventHandler<Song> OnCompleted = delegate { };
+
         public event EventHandler<Song> OnStarted = delegate { };
 
         public Channel PlaybackVoiceChannel { get; private set; }
@@ -113,7 +114,6 @@ namespace NadekoBot.Modules.Music.Classes
                             if (CurrentSong == null)
                                 continue;
 
-                            
                             OnStarted(this, CurrentSong);
                             await CurrentSong.Play(audioClient, cancelToken);
 
@@ -124,7 +124,6 @@ namespace NadekoBot.Modules.Music.Classes
 
                             if (RepeatSong)
                                 AddSong(CurrentSong, 0);
-                            
                         }
                         finally
                         {
@@ -139,7 +138,8 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                     }
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Console.WriteLine("Music thread crashed.");
                     Console.WriteLine(ex);
                 }

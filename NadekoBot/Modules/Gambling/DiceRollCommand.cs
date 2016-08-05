@@ -13,9 +13,9 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class DiceRollCommand : DiscordCommand
     {
-
-        public DiceRollCommand(DiscordModule module) : base(module) { }
-
+        public DiceRollCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -45,8 +45,8 @@ namespace NadekoBot.Modules.Gambling
                                               (Properties.Resources.ResourceManager.GetObject("_" + 0) as Image),
                                             }.Merge();
 
+        private Regex dndRegex = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
 
-        Regex dndRegex = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
         private Func<CommandEventArgs, Task> RollFunc(bool ordered = true)
         {
             var r = new Random();
@@ -113,7 +113,8 @@ namespace NadekoBot.Modules.Gambling
                                     }
                                 }
                         }
-                        else {
+                        else
+                        {
                             toInsert = dices.Count;
                         }
                         dices.Insert(toInsert, GetDice(randomNumber));
@@ -130,7 +131,6 @@ namespace NadekoBot.Modules.Gambling
                 }
             };
         }
-
 
         private Func<CommandEventArgs, Task> NRollFunc() =>
             async e =>

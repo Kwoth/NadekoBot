@@ -22,6 +22,5 @@ namespace NadekoBot.Modules.Translator
                 commands.ForEach(cmd => cmd.Init(cgb));
             });
         }
-
     }
 }

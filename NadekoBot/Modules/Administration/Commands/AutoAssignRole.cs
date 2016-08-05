@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class AutoAssignRole : DiscordCommand
+    internal class AutoAssignRole : DiscordCommand
     {
         public AutoAssignRole(DiscordModule module) : base(module)
         {
@@ -65,7 +65,6 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     config.AutoAssignedRole = role.Id;
                     await e.Channel.SendMessage("`Auto assigned role is set.`").ConfigureAwait(false);
-
                 });
         }
     }

@@ -209,14 +209,18 @@ namespace NadekoBot.Modules.Searches.Commands
                 case "std":
                 case "standard":
                     return 0;
+
                 case "taiko":
                     return 1;
+
                 case "ctb":
                 case "catchthebeat":
                     return 2;
+
                 case "mania":
                 case "osu!mania":
                     return 3;
+
                 default:
                     return 0;
             }
@@ -263,6 +267,5 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             return (mods & (1 << pos)) != 0;
         }
-
     }
 }

@@ -38,7 +38,6 @@ namespace NadekoBot.Modules.Music
 
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -497,7 +496,6 @@ namespace NadekoBot.Modules.Music
                         playlist.RemoveAt(nn1);
 
                         await e.Channel.SendMessage($"🎵`Moved` {s.PrettyName} `from #{n1} to #{n2}`").ConfigureAwait(false);
-
                     });
 
                 cgb.CreateCommand(Prefix + "setmaxqueue")
@@ -596,7 +594,6 @@ namespace NadekoBot.Modules.Music
                         if (!currentPlaylist.Any())
                             return;
 
-
                         var songInfos = currentPlaylist.Select(s => new DataModels.SongInfo
                         {
                             Provider = s.SongInfo.Provider,
@@ -621,7 +618,6 @@ namespace NadekoBot.Modules.Music
                         }), typeof(PlaylistSongInfo));
 
                         await e.Channel.SendMessage($"🎵 `Saved playlist as {name}-{playlist.Id}`").ConfigureAwait(false);
-
                     });
 
                 cgb.CreateCommand(Prefix + "load")
@@ -767,12 +763,10 @@ namespace NadekoBot.Modules.Music
                         string arg = e.GetArg("index")?.Trim();
                         if (!string.IsNullOrEmpty(arg) && int.TryParse(arg, out index))
                         {
-
                             var selSong = musicPlayer.Playlist.DefaultIfEmpty(null).ElementAtOrDefault(index - 1);
                             if (selSong == null)
                             {
                                 await e.Channel.SendMessage("Could not select song, likely wrong index");
-
                             }
                             else
                             {
@@ -786,7 +780,6 @@ namespace NadekoBot.Modules.Music
                                 return;
                             await e.Channel.SendMessage($"🎶`Current song:` <{curSong.SongInfo.Query}>").ConfigureAwait(false);
                         }
-
                     });
 
                 cgb.CreateCommand(Prefix + "autoplay")
@@ -794,7 +787,6 @@ namespace NadekoBot.Modules.Music
                     .Description($"Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty) | `{Prefix}ap`")
                     .Do(async e =>
                     {
-
                         MusicPlayer musicPlayer;
                         if (!MusicPlayers.TryGetValue(e.Server, out musicPlayer))
                             return;
@@ -822,7 +814,6 @@ namespace NadekoBot.Modules.Music
             {
                 float vol = SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
                 var mp = new MusicPlayer(voiceCh, vol);
-
 
                 Message playingMessage = null;
                 Message lastFinishedMessage = null;
@@ -858,7 +849,6 @@ namespace NadekoBot.Modules.Music
 
                         try
                         {
-
                             var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
                             playingMessage = await textCh.SendMessage(msgTxt).ConfigureAwait(false);
                         }
