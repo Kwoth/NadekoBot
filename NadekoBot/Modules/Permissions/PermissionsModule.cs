@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "permrole")
                     .Alias(Prefix + "pr")
-                    .Description("Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'.")
+                    .Description($"Sets a role which can change permissions. Or supply no parameters to find out the current one. Default one is 'Nadeko'. | `{Prefix}pr role`")
                     .Parameter("role", ParameterType.Unparsed)
                      .Do(async e =>
                      {
@@ -158,7 +158,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "srvrperms")
                     .Alias(Prefix + "sp")
-                    .Description("Shows banned permissions for this server.")
+                    .Description($"Shows banned permissions for this server. | `{Prefix}sp`")
                     .Do(async e =>
                     {
                         var perms = PermissionsHandler.GetServerPermissions(e.Server);
@@ -679,7 +679,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "ubl")
-                    .Description($"Blacklists a mentioned user. | `{Prefix}ubl [user_mention]`")
+                    .Description($"Blacklists a mentioned user. **Bot Owner Only!**| `{Prefix}ubl [user_mention]`")
                     .Parameter("user", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -695,7 +695,7 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "uubl")
-                   .Description($"Unblacklists a mentioned user. | `{Prefix}uubl [user_mention]`")
+                   .Description($"Unblacklists a mentioned user. **Bot Owner Only!** | `{Prefix}uubl [user_mention]`")
                    .Parameter("user", ParameterType.Unparsed)
                    .AddCheck(SimpleCheckers.OwnerOnly())
                    .Do(async e =>
@@ -780,7 +780,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "cmdcooldown")
                     .Alias(Prefix+ "cmdcd")
-                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. | `{Prefix}cmdcd \"some cmd\" 5`")
+                    .Description($"Sets a cooldown per user for a command. Set 0 to clear. **Needs Manager Messages Permissions**| `{Prefix}cmdcd \"some cmd\" 5`")
                     .Parameter("command", ParameterType.Required)
                     .Parameter("secs",ParameterType.Required)
                     .AddCheck(SimpleCheckers.ManageMessages())
@@ -813,7 +813,7 @@ namespace NadekoBot.Modules.Permissions
 
                 cgb.CreateCommand(Prefix + "allcmdcooldowns")
                     .Alias(Prefix + "acmdcds")
-                    .Description("Shows a list of all commands and their respective cooldowns.")
+                    .Description($"Shows a list of all commands and their respective cooldowns. | `{Prefix}acmdcds`")
                     .Do(async e =>
                     {
                         ServerPermissions perms;

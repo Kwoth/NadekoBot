@@ -1,10 +1,37 @@
-﻿using Discord.Commands;
+﻿//
+//                       _oo0oo_
+//                      o8888888o
+//                      88" . "88
+//                      (| -_- |)
+//                      0\  =  /0
+//                    ___/`---'\___
+//                  .' \\|     |// '.
+//                 / \\|||  :  |||// \
+//                / _||||| -:- |||||- \
+//               |   | \\\  -  /// |   |
+//               | \_|  ''\---/''  |_/ |
+//               \  .-\__  '-'  ___/-. /
+//             ___'. .'  /--.--\  `. .'___
+//          ."" '<  `.___\_<|>_/___.' >' "".
+//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+//         \  \ `_.   \_ __\ /__ _/   .-` /  /
+//     =====`-.____`.___ \_____/___.-`___.-'=====
+//                       `=---='
+//
+//
+//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+//               佛祖保佑         永无BUG
+//
+//
+using Discord.Commands;
 using NadekoBot.Extensions;
 using NadekoBot.Modules;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -31,7 +58,7 @@ namespace NadekoBot.Classes.Help.Commands
                 if (alias != null)
                     str = $" / `{ com.Aliases.FirstOrDefault()}`";
                 if (com != null)
-                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**",1)}").ConfigureAwait(false);
+                    await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
         public static string HelpString {
@@ -47,32 +74,25 @@ namespace NadekoBot.Classes.Help.Commands
 
         public Action<CommandEventArgs> DoGitFunc() => e =>
         {
-            string helpstr =
-$@"######For more information and how to setup your own NadekoBot, go to: **http://github.com/Kwoth/NadekoBot/**
-######You can donate on paypal: `nadekodiscordbot@gmail.com`
+            var helpstr = new StringBuilder();
 
-#NadekoBot List Of Commands  
-Version: `{NadekoStats.Instance.BotVersion}`";
-
-
-            string lastCategory = "";
+            var lastCategory = "";
             foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
             {
                 if (com.Category != lastCategory)
                 {
-                    helpstr += "\n### " + com.Category + "  \n";
-                    helpstr += "Command and aliases | Description | Usage\n";
-                    helpstr += "----------------|--------------|-------\n";
+                    helpstr.AppendLine("\n### " + com.Category + "  ");
+                    helpstr.AppendLine("Command and aliases | Description | Usage");
+                    helpstr.AppendLine("----------------|--------------|-------");
                     lastCategory = com.Category;
                 }
-                helpstr += PrintCommandHelp(com);
+                helpstr.AppendLine($"`{com.Text}`{string.Concat(com.Aliases.Select(a => $", `{a}`"))} | {com.Description}");
             }
             helpstr = helpstr.Replace(NadekoBot.BotMention, "@BotName");
-            helpstr = helpstr.Replace(" |", " | ").Replace("**Usage**:", " | ").Replace("**Description:**", " | ").Replace("\n|", " |  \n");
 #if DEBUG
-            File.WriteAllText("../../../commandlist.md", helpstr);
+            File.WriteAllText("../../../docs/Commands List.md", helpstr.ToString());
 #else
-            File.WriteAllText("commandlist.md", helpstr);
+            File.WriteAllText("commandlist.md", helpstr.ToString());
 #endif
         };
 
@@ -80,38 +100,32 @@ Version: `{NadekoStats.Instance.BotVersion}`";
         {
             cgb.CreateCommand(Module.Prefix + "h")
                 .Alias(Module.Prefix + "help", NadekoBot.BotMention + " help", NadekoBot.BotMention + " h", "~h")
-                .Description("Either shows a help for a single command, or PMs you help link if no arguments are specified. | '-h !m q' or just '-h' ")
+                .Description($"Either shows a help for a single command, or PMs you help link if no arguments are specified. | `{Prefix}h !m q` or just `{Prefix}h` ")
                 .Parameter("command", ParameterType.Unparsed)
                 .Do(HelpFunc());
             cgb.CreateCommand(Module.Prefix + "hgit")
-                .Description("Generates the commandlist.md file. **Bot Owner Only!**")
+                .Description($"Generates the commandlist.md file. **Bot Owner Only!** | `{Prefix}hgit`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Do(DoGitFunc());
             cgb.CreateCommand(Module.Prefix + "readme")
                 .Alias(Module.Prefix + "guide")
-                .Description("Sends a readme and a guide links to the channel.")
+                .Description($"Sends a readme and a guide links to the channel. | `{Prefix}readme` or `{Prefix}guide`")
                 .Do(async e =>
                     await e.Channel.SendMessage(
-@"**Wiki with all info**: <https://github.com/Kwoth/NadekoBot/wiki>
-
-**WINDOWS SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/ComprehensiveGuide.md>
-
-**LINUX SETUP GUIDE**: <https://github.com/Kwoth/NadekoBot/blob/master/LinuxSetup.md>
-
-**LIST OF COMMANDS**: <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>").ConfigureAwait(false));
+@"**LIST OF COMMANDS**: <http://nadekobot.readthedocs.io/en/latest/Commands%20List/>
+**Hosting Guides and docs can be found here**: <http://nadekobot.rtfd.io>").ConfigureAwait(false));
 
             cgb.CreateCommand(Module.Prefix + "donate")
                 .Alias("~donate")
-                .Description("Instructions for helping the project!")
+                .Description($"Instructions for helping the project! | `{Prefix}donate` or `~donate`")
                 .Do(async e =>
                 {
                     await e.Channel.SendMessage(
-$@"I've created a **paypal** email for nadeko, so if you wish to support the project, you can send your donations to `nadekodiscordbot@gmail.com`
-Don't forget to leave your discord name or id in the message, so that I can reward people who help out.
-You can join nadekobot server by typing {Module.Prefix}h and you will get an invite in a private message.
+$@"You can support the project on patreon. <https://patreon.com/nadekobot> or
+You can send donations to `nadekodiscordbot@gmail.com`
+Don't forget to leave your discord name or id in the message.
 
-*If you want to support in some other way or on a different platform, please message me*"
-                    ).ConfigureAwait(false);
+**Thank you** ♥️").ConfigureAwait(false);
                 });
         }
 

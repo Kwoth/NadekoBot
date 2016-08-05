@@ -7,70 +7,83 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
     internal class StreamNotifications : DiscordCommand
     {
-
-        private readonly Timer checkTimer = new Timer
-        {
-            Interval = new TimeSpan(0, 0, 15).TotalMilliseconds,
-        };
-
         private ConcurrentDictionary<string, Tuple<bool, string>> cachedStatuses = new ConcurrentDictionary<string, Tuple<bool, string>>();
+        private bool FirstPass { get; set; } = true;
 
         public StreamNotifications(DiscordModule module) : base(module)
         {
-
-            checkTimer.Elapsed += async (s, e) =>
+            //start checking only after ready, because we need all servers to be initialized
+            NadekoBot.OnReady += () => Task.Run(async () =>
             {
-                cachedStatuses.Clear();
-                try
+                while (true)
                 {
-                    var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
-                    if (!streams.Any()) return;
-
-                    foreach (var stream in streams)
+                    cachedStatuses.Clear();
+                    try
                     {
-                        Tuple<bool, string> data;
-                        try
+                        var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
+                        if (!streams.Any()) return;
+#if NADEKO_RELEASE
+                        var clr = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($"Getting {streams.Count()} streams.");
+                        Console.ForegroundColor = clr;
+#endif
+                        foreach (var stream in streams)
                         {
-                            data = await GetStreamStatus(stream).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            continue;
-                        }
-
-                        if (data.Item1 != stream.LastStatus)
-                        {
-                            stream.LastStatus = data.Item1;
-                            var server = NadekoBot.Client.GetServer(stream.ServerId);
-                            var channel = server?.GetChannel(stream.ChannelId);
-                            if (channel == null)
+                            Tuple<bool, string> data;
+                            try
+                            {
+                                data = await GetStreamStatus(stream).ConfigureAwait(false);
+                            }
+                            catch
+                            {
                                 continue;
-                            var msg = $"`{stream.Username}`'s stream is now " +
-                                      $"**{(data.Item1 ? "ONLINE" : "OFFLINE")}** with " +
-                                      $"**{data.Item2}** viewers.";
-                            if (stream.LastStatus)
-                                if (stream.Type == StreamNotificationConfig.StreamType.Hitbox)
-                                    msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
-                                else if (stream.Type == StreamNotificationConfig.StreamType.Twitch)
-                                    msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
-                                else if (stream.Type == StreamNotificationConfig.StreamType.Beam)
-                                    msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
-                                else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
-                                    msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
-                            await channel.SendMessage(msg).ConfigureAwait(false);
+                            }
+
+                            if (data.Item1 != stream.LastStatus)
+                            {
+                                stream.LastStatus = data.Item1;
+                                if (FirstPass)
+                                    continue;
+                                var server = NadekoBot.Client.GetServer(stream.ServerId);
+                                var channel = server?.GetChannel(stream.ChannelId);
+                                if (channel == null)
+                                    continue;
+                                var msg = $"`{stream.Username}`'s stream is now " +
+                                          $"**{(data.Item1 ? "ONLINE" : "OFFLINE")}** with " +
+                                          $"**{data.Item2}** viewers.";
+                                if (stream.LastStatus)
+                                    if (stream.Type == StreamNotificationConfig.StreamType.Hitbox)
+                                        msg += $"\n`Here is the Link:`【 http://www.hitbox.tv/{stream.Username}/ 】";
+                                    else if (stream.Type == StreamNotificationConfig.StreamType.Twitch)
+                                        msg += $"\n`Here is the Link:`【 http://www.twitch.tv/{stream.Username}/ 】";
+                                    else if (stream.Type == StreamNotificationConfig.StreamType.Beam)
+                                        msg += $"\n`Here is the Link:`【 http://www.beam.pro/{stream.Username}/ 】";
+                                    else if (stream.Type == StreamNotificationConfig.StreamType.YoutubeGaming)
+                                        msg += $"\n`Here is the Link:`【 not implemented yet - {stream.Username} 】";
+                                await channel.SendMessage(msg).ConfigureAwait(false);
+                            }
                         }
+                        FirstPass = false;
+#if NADEKO_RELEASE
+                        clr = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($"Done getting streams.");
+                        Console.ForegroundColor = clr;
+#endif
+                    }
+                    catch { }
+                    finally
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(15));
                     }
                 }
-                catch { }
-                await ConfigHandler.SaveConfig().ConfigureAwait(false);
-            };
-            checkTimer.Start();
+            });
         }
 
         private async Task<Tuple<bool, string>> GetStreamStatus(StreamNotificationConfig stream, bool checkCache = true)
@@ -122,7 +135,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "hitbox")
                 .Alias(Module.Prefix + "hb")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             " | ~hitbox SomeStreamer")
+                             $" | `{Prefix}hitbox SomeStreamer`")
                 .Parameter("username", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Hitbox));
@@ -130,7 +143,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "twitch")
                 .Alias(Module.Prefix + "tw")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             " | ~twitch SomeStreamer")
+                             $" | `{Prefix}twitch SomeStreamer`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Twitch));
@@ -138,7 +151,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "beam")
                 .Alias(Module.Prefix + "bm")
                 .Description("Notifies this channel when a certain user starts streaming." +
-                             " | ~beam SomeStreamer")
+                             $" | `{Prefix}beam SomeStreamer`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(TrackStream(StreamNotificationConfig.StreamType.Beam));
@@ -146,7 +159,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checkhitbox")
                 .Alias(Module.Prefix + "chhb")
                 .Description("Checks if a certain user is streaming on the hitbox platform." +
-                             " | ~chhb SomeStreamer")
+                             $" | `{Prefix}chhb SomeStreamer`")
                 .Parameter("username", ParameterType.Unparsed)
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Do(async e =>
@@ -175,7 +188,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checktwitch")
                 .Alias(Module.Prefix + "chtw")
                 .Description("Checks if a certain user is streaming on the twitch platform." +
-                             " | ~chtw SomeStreamer")
+                             $" | `{Prefix}chtw SomeStreamer`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -204,7 +217,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "checkbeam")
                 .Alias(Module.Prefix + "chbm")
                 .Description("Checks if a certain user is streaming on the beam platform." +
-                             " | ~chbm SomeStreamer")
+                             $" | `{Prefix}chbm SomeStreamer`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -233,7 +246,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "removestream")
                 .Alias(Module.Prefix + "rms")
                 .Description("Removes notifications of a certain streamer on this channel." +
-                             " | ~rms SomeGuy")
+                             $" | `{Prefix}rms SomeGuy`")
                 .AddCheck(SimpleCheckers.ManageServer())
                 .Parameter("username", ParameterType.Unparsed)
                 .Do(async e =>
@@ -261,7 +274,7 @@ namespace NadekoBot.Modules.Searches.Commands
             cgb.CreateCommand(Module.Prefix + "liststreams")
                 .Alias(Module.Prefix + "ls")
                 .Description("Lists all streams you are following on this server." +
-                             " | ~ls")
+                             $" | `{Prefix}ls`")
                 .Do(async e =>
                 {
 
