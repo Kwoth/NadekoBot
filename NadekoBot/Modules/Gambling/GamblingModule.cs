@@ -7,6 +7,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Gambling.Commands;
 using NadekoBot.Modules.Permissions.Classes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -117,25 +118,34 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "take")
-                    .Description($"Takes a certain amount of flowers from someone. **Bot Owner Only!** | `{Prefix}take 1 \"@someguy\"`")
+                    .Description($"Takes a certain amount of flowers from someone. **Bot Owner Only!** | `{Prefix}take 1 \"@someguy\" or ID`")
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("rektperson", ParameterType.Unparsed)
                     .Do(async e =>
                     {
+                       
+                        
                         var amountStr = e.GetArg("amount")?.Trim();
                         long amount;
                         if (!long.TryParse(amountStr, out amount) || amount < 0)
                             return;
-
-                        var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
-                                                            u.Id != NadekoBot.Client.CurrentUser.Id);
-                        if (mentionedUser == null)
-                            return;
-
-                        await FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount).ConfigureAwait(false);
-
-                        await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
+                        
+                        if (e.Message.MentionedUsers.Any() == false )
+                        {
+                            var user = e.GetArg("rektperson");
+                            ulong ul = Convert.ToUInt64(user);
+                            await FlowersHandler.RemoveFlowersfromID(ul, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount);
+                            await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {user}!").ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var mentionedUser = e.Message.MentionedUsers.FirstOrDefault(u =>
+                                                                                        u.Id != NadekoBot.Client.CurrentUser.Id);
+                            await FlowersHandler.RemoveFlowers(mentionedUser, $"Taken by bot owner.({e.User.Name}/{e.User.Id})", (int)amount).ConfigureAwait(false);
+                            await e.Channel.SendMessage($"{e.User.Mention} successfully took {amount} {NadekoBot.Config.CurrencyName}s from {mentionedUser.Mention}!").ConfigureAwait(false);
+                        }
+                        
                     });
 
                 cgb.CreateCommand(Prefix + "betroll")
@@ -207,8 +217,10 @@ namespace NadekoBot.Modules.Gambling
                     });
             });
         }
+        
 
         public static long GetUserFlowers(ulong userId) =>
             Classes.DbHandler.Instance.GetStateByUserId((long)userId)?.Value ?? 0;
+
     }
 }
