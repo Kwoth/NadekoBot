@@ -49,5 +49,23 @@ namespace NadekoBot.Classes
             await u.SendMessage(string.Format(message,amount,NadekoBot.Config.CurrencySign)).ConfigureAwait(false);
             return true;
         }
+        public static async Task<bool> RemoveFlowersfromID(ulong u, string reason, int amount)
+        {
+            if (amount <= 0)
+                return false;
+            var uid = (long)u;
+            var state = DbHandler.Instance.FindOne<DataModels.CurrencyState>(cs => cs.UserId == uid);
+            if (state.Value < amount)
+                return false;
+
+            DbHandler.Instance.Connection.Insert(new DataModels.CurrencyTransaction
+            {
+                Reason = reason,
+                UserId = (long)u,
+                Value = -amount,
+            });
+            return true;
+
+        }
     }
 }
