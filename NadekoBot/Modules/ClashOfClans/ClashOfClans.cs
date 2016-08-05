@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Text;
+
 //using Manatee.Json.Serialization;
 
 namespace NadekoBot.Classes.ClashOfClans
@@ -10,10 +11,12 @@ namespace NadekoBot.Classes.ClashOfClans
     {
         One, Two, Three
     }
+
     public enum WarState
     {
         Started, Ended, Created
     }
+
     [System.Serializable]
     internal class Caller
     {
@@ -25,7 +28,9 @@ namespace NadekoBot.Classes.ClashOfClans
 
         public int Stars { get; set; } = 3;
 
-        public Caller() { }
+        public Caller()
+        {
+        }
 
         public Caller(string callUser, DateTime timeAdded, bool baseDestroyed)
         {
@@ -54,8 +59,10 @@ namespace NadekoBot.Classes.ClashOfClans
 
         public Caller[] Bases { get; set; }
         public WarState WarState { get; set; } = WarState.Created;
+
         //public bool Started { get; set; } = false;
         public DateTime StartedAt { get; set; }
+
         //public bool Ended { get; private set; } = false;
 
         public ulong ServerId { get; set; }
@@ -155,7 +162,6 @@ namespace NadekoBot.Classes.ClashOfClans
                         sb.AppendLine($"`{i + 1}.` ✅ `{Bases[i].CallUser}` {left.Hours}h {left.Minutes}m {left.Seconds}s left");
                     }
                 }
-
             }
             return sb.ToString();
         }

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands
 {
-
     public static class SentencesProvider
     {
         internal static string GetRandomSentence()
@@ -70,7 +69,6 @@ namespace NadekoBot.Modules.Games.Commands
                 var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
                 await channel.SendMessage($":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
 
-
                 var msg = await channel.SendMessage("Starting new typing contest in **3**...").ConfigureAwait(false);
                 await Task.Delay(1000).ConfigureAwait(false);
                 await msg.Edit("Starting new typing contest in **2**...").ConfigureAwait(false);
@@ -122,12 +120,10 @@ namespace NadekoBot.Modules.Games.Commands
         }
 
         private bool Judge(int errors, int textLength) => errors <= textLength / 25;
-
     }
 
     internal class SpeedTyping : DiscordCommand
     {
-
         public static ConcurrentDictionary<ulong, TypingGame> RunningContests;
 
         public SpeedTyping(DiscordModule module) : base(module)

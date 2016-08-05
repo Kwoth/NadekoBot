@@ -8,7 +8,7 @@ using System.Text;
 
 namespace NadekoBot.Modules.Utility.Commands
 {
-    class InfoCommands : DiscordCommand
+    internal class InfoCommands : DiscordCommand
     {
         public InfoCommands(DiscordModule module) : base(module)
         {

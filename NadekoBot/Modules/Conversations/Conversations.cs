@@ -16,6 +16,7 @@ namespace NadekoBot.Modules.Conversations
     internal class Conversations : DiscordModule
     {
         private const string firestr = "🔥 ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้ 🔥";
+
         public Conversations()
         {
             commands.Add(new RipCommand(this));
@@ -212,11 +213,8 @@ namespace NadekoBot.Modules.Conversations
                         }
                         await e.Channel.SendMessage(construct).ConfigureAwait(false);
                     });
-
             });
         }
-
-
 
         private static Func<CommandEventArgs, Task> SayYes()
             => async e => await e.Channel.SendMessage("Yes. :)").ConfigureAwait(false);

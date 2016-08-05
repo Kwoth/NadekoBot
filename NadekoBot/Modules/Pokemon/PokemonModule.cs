@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Pokemon
 {
-    class PokemonModule : DiscordModule
+    internal class PokemonModule : DiscordModule
     {
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Pokemon;
 
@@ -20,7 +20,6 @@ namespace NadekoBot.Modules.Pokemon
 
         public PokemonModule()
         {
-
         }
 
         private int GetDamage(PokemonType usertype, PokemonType targetType)
@@ -41,7 +40,6 @@ namespace NadekoBot.Modules.Pokemon
 
         private PokemonType GetPokeType(ulong id)
         {
-
             var db = DbHandler.Instance.GetAllRows<UserPokeTypes>();
             Dictionary<long, string> setTypes = db.ToDictionary(x => x.UserId, y => y.type);
             if (setTypes.ContainsKey((long)id))
@@ -54,8 +52,6 @@ namespace NadekoBot.Modules.Pokemon
 
             return NadekoBot.Config.PokemonTypes[remainder];
         }
-
-
 
         private PokemonType stringToPokemonType(string v)
         {
@@ -225,7 +221,6 @@ namespace NadekoBot.Modules.Pokemon
                         }
                         if (Stats.ContainsKey(usr.Id))
                         {
-
                             var targetStats = Stats[usr.Id];
                             int HP = targetStats.Hp;
                             if (targetStats.Hp == targetStats.MaxHp)
@@ -278,7 +273,6 @@ namespace NadekoBot.Modules.Pokemon
                         }
                         var pType = GetPokeType(usr.Id);
                         await e.Channel.SendMessage($"Type of {usr.Name} is **{pType.Name.ToLowerInvariant()}**{pType.Icon}").ConfigureAwait(false);
-
                     });
 
                 cgb.CreateCommand(Prefix + "settype")
@@ -333,7 +327,3 @@ namespace NadekoBot.Modules.Pokemon
         }
     }
 }
-
-
-
-

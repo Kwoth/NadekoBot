@@ -15,6 +15,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
             new Tuple<int, int>(19, 2),
             new Tuple<int, int>(22, 3),
         };
+
         public static int maxStringLength = 22;
 
         public string Category;

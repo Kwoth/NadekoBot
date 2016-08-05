@@ -2,7 +2,7 @@
 
 namespace NadekoBot.DataModels
 {
-    class Reminder : IDataModel
+    internal class Reminder : IDataModel
     {
         public DateTime When { get; set; }
         public long ChannelId { get; set; }

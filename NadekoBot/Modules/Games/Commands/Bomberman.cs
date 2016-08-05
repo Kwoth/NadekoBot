@@ -7,7 +7,7 @@ using static NadekoBot.Modules.Games.Commands.Bomberman;
 
 namespace NadekoBot.Modules.Games.Commands
 {
-    class Bomberman : DiscordCommand
+    internal class Bomberman : DiscordCommand
     {
         public Field[,] board = new Field[15, 15];
 
@@ -19,7 +19,6 @@ namespace NadekoBot.Modules.Games.Commands
 
         public int curI = 5;
         public int curJ = 5;
-
 
         public Bomberman(DiscordModule module) : base(module)
         {
@@ -78,11 +77,9 @@ namespace NadekoBot.Modules.Games.Commands
                 }
                 if (godMsg.Id != 0)
                     await godMsg.Edit(boardStr.ToString()).ConfigureAwait(false);
-
             };
             t.Interval = 1000;
             t.Start();
-
         }
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -111,7 +108,6 @@ namespace NadekoBot.Modules.Games.Commands
 
             internal void MoveLeft()
             {
-
             }
         }
     }

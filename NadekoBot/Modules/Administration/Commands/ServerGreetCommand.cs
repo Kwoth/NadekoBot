@@ -6,15 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 
 /* Voltana's legacy
-public class AsyncLazy<T> : Lazy<Task<T>> 
-{ 
-    public AsyncLazy(Func<T> valueFactory) : 
+public class AsyncLazy<T> : Lazy<Task<T>>
+{
+    public AsyncLazy(Func<T> valueFactory) :
         base(() => Task.Factory.StartNew(valueFactory)) { }
 
-    public AsyncLazy(Func<Task<T>> taskFactory) : 
-        base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap()) { } 
+    public AsyncLazy(Func<Task<T>> taskFactory) :
+        base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap()) { }
 
-    public TaskAwaiter<T> GetAwaiter() { return Value.GetAwaiter(); } 
+    public TaskAwaiter<T> GetAwaiter() { return Value.GetAwaiter(); }
 }
 */
 
@@ -22,7 +22,6 @@ namespace NadekoBot.Modules.Administration.Commands
 {
     internal class ServerGreetCommand : DiscordCommand
     {
-
         public static ConcurrentDictionary<ulong, AnnounceControls> AnnouncementsDictionary;
 
         public static long Greeted = 0;
@@ -64,7 +63,6 @@ namespace NadekoBot.Modules.Administration.Commands
                     try
                     {
                         await e.User.SendMessage($"`Farewell Message From {e.Server?.Name}`\n" + msg).ConfigureAwait(false);
-
                     }
                     catch { }
                 }
@@ -120,55 +118,68 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             private DataModels.Announcement _model { get; }
 
-            public bool Greet {
+            public bool Greet
+            {
                 get { return _model.Greet; }
                 set { _model.Greet = value; Save(); }
             }
 
-            public ulong GreetChannel {
+            public ulong GreetChannel
+            {
                 get { return (ulong)_model.GreetChannelId; }
                 set { _model.GreetChannelId = (long)value; Save(); }
             }
 
-            public bool GreetPM {
+            public bool GreetPM
+            {
                 get { return _model.GreetPM; }
                 set { _model.GreetPM = value; Save(); }
             }
 
-            public bool ByePM {
+            public bool ByePM
+            {
                 get { return _model.ByePM; }
                 set { _model.ByePM = value; Save(); }
             }
 
-            public string GreetText {
+            public string GreetText
+            {
                 get { return _model.GreetText; }
                 set { _model.GreetText = value; Save(); }
             }
 
-            public bool Bye {
+            public bool Bye
+            {
                 get { return _model.Bye; }
                 set { _model.Bye = value; Save(); }
             }
-            public ulong ByeChannel {
+
+            public ulong ByeChannel
+            {
                 get { return (ulong)_model.ByeChannelId; }
                 set { _model.ByeChannelId = (long)value; Save(); }
             }
 
-            public string ByeText {
+            public string ByeText
+            {
                 get { return _model.ByeText; }
                 set { _model.ByeText = value; Save(); }
             }
 
-            public ulong ServerId {
+            public ulong ServerId
+            {
                 get { return (ulong)_model.ServerId; }
                 set { _model.ServerId = (long)value; }
             }
 
-            public bool DeleteGreetMessages {
-                get {
+            public bool DeleteGreetMessages
+            {
+                get
+                {
                     return _model.DeleteGreetMessages;
                 }
-                set {
+                set
+                {
                     _model.DeleteGreetMessages = value; Save();
                 }
             }
@@ -211,7 +222,9 @@ namespace NadekoBot.Modules.Administration.Commands
             }
 
             internal bool ToggleDelete() => DeleteGreetMessages = !DeleteGreetMessages;
+
             internal bool ToggleGreetPM() => GreetPM = !GreetPM;
+
             internal bool ToggleByePM() => ByePM = !ByePM;
 
             private void Save()
@@ -261,7 +274,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     }
 
-
                     ann.GreetText = e.GetArg("msg");
                     await e.Channel.SendMessage("New greet message set.").ConfigureAwait(false);
                     if (!ann.Greet)
@@ -306,7 +318,6 @@ namespace NadekoBot.Modules.Administration.Commands
                 {
                     if (!e.User.ServerPermissions.ManageServer) return;
                     var ann = AnnouncementsDictionary.GetOrAdd(e.Server.Id, new AnnounceControls(e.Server.Id));
-
 
                     if (ann.ToggleByePM())
                         await e.Channel.SendMessage("Bye messages will be sent in a PM from now on.\n ⚠ Keep in mind this might fail if the user and the bot have no common servers after the user leaves.").ConfigureAwait(false);

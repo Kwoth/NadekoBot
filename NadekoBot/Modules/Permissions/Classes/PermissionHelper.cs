@@ -24,6 +24,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 case "allow":
                 case "unban":
                     return true;
+
                 case "0":
                 case "f":
                 case "false":
@@ -32,6 +33,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 case "disallow":
                 case "ban":
                     return false;
+
                 default:
                     throw new ArgumentException("Did not receive a valid boolean value");
             }
@@ -59,7 +61,7 @@ namespace NadekoBot.Modules.Permissions.Classes
 
             foreach (var com in NadekoBot.Client.GetService<CommandService>().AllCommands)
             {
-                if (com.Text.ToUpperInvariant().Equals(normalizedCmdTxt) || com.Aliases.Select(c=>c.ToUpperInvariant()).Contains(normalizedCmdTxt))
+                if (com.Text.ToUpperInvariant().Equals(normalizedCmdTxt) || com.Aliases.Select(c => c.ToUpperInvariant()).Contains(normalizedCmdTxt))
                     return com.Text;
             }
             throw new NullReferenceException("That command does not exist.");

@@ -15,6 +15,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
         public string Plot { get; set; }
         public string Poster { get; set; }
         public List<string> Genres { get; set; }
+
         //public ArrayList Directors { get; set; }
         //public ArrayList Writers { get; set; }
         //public ArrayList Cast { get; set; }

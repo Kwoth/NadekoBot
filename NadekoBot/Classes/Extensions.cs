@@ -19,7 +19,6 @@ namespace NadekoBot.Extensions
 
         public static string Scramble(this string word)
         {
-
             var letters = word.ToArray();
             var count = 0;
             for (var i = 0; i < letters.Length; i++)
@@ -39,6 +38,7 @@ namespace NadekoBot.Extensions
             }
             return "`" + string.Join(" ", letters) + "`";
         }
+
         public static string TrimTo(this string str, int num, bool hideDots = false)
         {
             if (num < 0)
@@ -51,6 +51,7 @@ namespace NadekoBot.Extensions
                 return str;
             return string.Concat(str.Take(num - 3)) + (hideDots ? "" : "...");
         }
+
         /// <summary>
         /// Removes trailing S or ES (if specified) on the given string if the num is 1
         /// </summary>
@@ -140,7 +141,6 @@ namespace NadekoBot.Extensions
         /// <param name="list"></param>
         public static IList<T> Shuffle<T>(this IList<T> list)
         {
-
             // Thanks to @Joe4Evr for finding a bug in the old version of the shuffle
             var provider = new RNGCryptoServiceProvider();
             var n = list.Count;
@@ -206,7 +206,6 @@ namespace NadekoBot.Extensions
                         else
                             sb.AppendLine("  `└" + i++ + "─`" + Format.Bold(value));
                     }
-
                 }
             }
             else if (itemsDS != null)
@@ -216,7 +215,6 @@ namespace NadekoBot.Extensions
                     sb.Append($"{ Format.Code(item.Key)}\n");
                     sb.AppendLine("  `└─`" + Format.Bold(item.Value));
                 }
-
             }
             else
             {
@@ -228,6 +226,7 @@ namespace NadekoBot.Extensions
 
             return sb.ToString();
         }
+
         /// <summary>
         /// Gets the program runtime
         /// </summary>
@@ -239,6 +238,7 @@ namespace NadekoBot.Extensions
         public static string Matrix(this string s)
             =>
                 string.Concat(s.Select(c => c.ToString() + " ̵̢̬̜͉̞̭̖̰͋̉̎ͬ̔̇̌̀".TrimTo(rng.Next(0, 12), true)));
+
         //.Replace("`", "");
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
@@ -296,21 +296,27 @@ namespace NadekoBot.Extensions
         }
 
         public static int KiB(this int value) => value * 1024;
+
         public static int KB(this int value) => value * 1000;
 
         public static int MiB(this int value) => value.KiB() * 1024;
+
         public static int MB(this int value) => value.KB() * 1000;
 
         public static int GiB(this int value) => value.MiB() * 1024;
+
         public static int GB(this int value) => value.MB() * 1000;
 
         public static ulong KiB(this ulong value) => value * 1024;
+
         public static ulong KB(this ulong value) => value * 1000;
 
         public static ulong MiB(this ulong value) => value.KiB() * 1024;
+
         public static ulong MB(this ulong value) => value.KB() * 1000;
 
         public static ulong GiB(this ulong value) => value.MiB() * 1024;
+
         public static ulong GB(this ulong value) => value.MB() * 1000;
 
         public static Stream ToStream(this Image img, System.Drawing.Imaging.ImageFormat format = null)
@@ -373,6 +379,5 @@ namespace NadekoBot.Extensions
         }
 
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-
     }
 }

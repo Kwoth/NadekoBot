@@ -18,7 +18,6 @@ namespace NadekoBot.Modules.Trello
 
         public override void Install(ModuleManager manager)
         {
-
             var client = manager.Client;
 
             var serializer = new ManateeSerializer();
@@ -65,7 +64,6 @@ namespace NadekoBot.Modules.Trello
 
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand(Prefix + "bind")
@@ -101,7 +99,6 @@ namespace NadekoBot.Modules.Trello
                         bound = null;
                         board = null;
                         await e.Channel.SendMessage("Successfully unbound trello from this channel.").ConfigureAwait(false);
-
                     });
 
                 cgb.CreateCommand(Prefix + "lists")
@@ -130,7 +127,6 @@ namespace NadekoBot.Modules.Trello
                             list = board.Lists[num - 1];
                         else
                             list = board.Lists.FirstOrDefault(l => l.Name == e.GetArg("list_name"));
-
 
                         if (list != null)
                             await e.Channel.SendMessage("There are " + list.Cards.Count() + " cards in a **" + list.Name + "** list\n" + string.Join("\n", list.Cards.Select(c => "**• " + c.ToString() + "**")))

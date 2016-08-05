@@ -9,7 +9,6 @@ namespace NadekoBot.Classes
     /// </summary>
     public abstract class DiscordCommand
     {
-
         /// <summary>
         /// Parent module
         /// </summary>

@@ -24,8 +24,10 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
     {
         //Search Engine URLs
         private static string GoogleSearch = "https://www.google.com/search?q=imdb+";
+
         private static string BingSearch = "http://www.bing.com/search?q=imdb+";
         private static string AskSearch = "http://www.ask.com/web?q=imdb+";
+
         //Constructor
         public static ImdbMovie ImdbScrape(string MovieName, bool GetExtraInfo = true)
         {
@@ -54,6 +56,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             string imdbUrl = GetIMDbUrl(System.Uri.EscapeUriString(MovieName));
             return match(@"http://www.imdb.com/title/(tt\d{7})", imdbUrl);
         }
+
         //Get IMDb URL from search results
         private static string GetIMDbUrl(string MovieName, string searchEngine = "google")
         {
@@ -71,6 +74,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             else //search fails
                 return string.Empty;
         }
+
         //Parse IMDb page data
         private static void ParseIMDbPage(string imdbUrl, bool GetExtraInfo, ImdbMovie mov)
         {
@@ -129,6 +133,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
                 }
             }
         }
+
         //Get all release dates and aka-s
         private static void GetReleaseDatesAndAka(ImdbMovie mov)
         {
@@ -149,10 +154,8 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
                 aka[StripHTML(rd.Groups[1].Value.Trim())] = StripHTML(rd.Groups[2].Value.Trim());
             }
             mov.Aka = aka;
-
-
-
         }
+
         //Get all media images
         private static ArrayList GetMediaImages(ImdbMovie mov)
         {
@@ -171,6 +174,7 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             }
             return list;
         }
+
         //Get Recommended Titles
         private static ArrayList GetRecommendedTitles(ImdbMovie mov)
         {
@@ -182,12 +186,15 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
             foreach (String rec in list) set.Add(rec);
             return new ArrayList(set.ToList());
         }
+
         /*******************************[ Helper Methods ]********************************/
+
         //Match single instance
         private static string match(string regex, string html, int i = 1)
         {
             return new Regex(regex, RegexOptions.Multiline).Match(html).Groups[i].Value.Trim();
         }
+
         //Match all instances and return as ArrayList
         private static ArrayList MatchAll(string regex, string html, int i = 1)
         {
@@ -196,11 +203,13 @@ namespace NadekoBot.Modules.Searches.Commands.IMDB
                 list.Add(m.Groups[i].Value.Trim());
             return list;
         }
+
         //Strip HTML Tags
         private static string StripHTML(string inputString)
         {
             return Regex.Replace(inputString, @"<.*?>", string.Empty);
         }
+
         //Get URL Data
         private static string GetUrlData(string url)
         {

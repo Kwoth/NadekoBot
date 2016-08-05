@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class ConverterCommand : DiscordCommand
+    internal class ConverterCommand : DiscordCommand
     {
-
         public ConverterCommand(DiscordModule module) : base(module)
         {
             if (unitTables == null)
@@ -25,9 +24,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 unitTables.Add(UnitTable.WeightTable);
                 reInitCurrencyConverterTable();
             }
-
         }
-
 
         internal override void Init(CommandGroupBuilder cgb)
         {

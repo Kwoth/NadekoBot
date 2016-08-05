@@ -21,8 +21,8 @@ namespace NadekoBot.Modules.Gambling.Helpers
         { 12, "Queen" },
         { 13, "King" }
     };
-        private static Dictionary<string, Func<List<Card>, bool>> handValues;
 
+        private static Dictionary<string, Func<List<Card>, bool>> handValues;
 
         public enum CardSuit
         {
@@ -47,7 +47,8 @@ namespace NadekoBot.Modules.Gambling.Helpers
                     {
                         str += "_" + Number;
                     }
-                    else {
+                    else
+                    {
                         str += GetName().ToLower();
                     }
                     return str + "_of_" + Suit.ToString().ToLower();
@@ -73,6 +74,7 @@ namespace NadekoBot.Modules.Gambling.Helpers
         }
 
         private List<Card> cardPool;
+
         public List<Card> CardPool
         {
             get { return cardPool; }
@@ -88,6 +90,7 @@ namespace NadekoBot.Modules.Gambling.Helpers
             RefillPool();
             InitHandValues();
         }
+
         /// <summary>
         /// Restart the game of blackjack. It will only refill the pool for now. Probably wont be used, unless you want to have only 1 bjg running at one time,
         /// then you will restart the same game every time.
@@ -114,7 +117,9 @@ namespace NadekoBot.Modules.Gambling.Helpers
                 }
             }
         }
+
         private Random r = new Random();
+
         /// <summary>
         /// Take a card from the pool, you either take it from the top if the deck is shuffled, or from a random place if the deck is in the default order.
         /// </summary>
@@ -137,6 +142,7 @@ namespace NadekoBot.Modules.Gambling.Helpers
             return c;
             */
         }
+
         /// <summary>
         /// Shuffles the deck. Use this if you want to take cards from the top of the deck, instead of randomly. See DrawACard method.
         /// </summary>
@@ -146,6 +152,7 @@ namespace NadekoBot.Modules.Gambling.Helpers
             var orderedPool = cardPool.OrderBy(x => r.Next());
             cardPool = cardPool as List<Card> ?? orderedPool.ToList();
         }
+
         public override string ToString() => string.Concat(cardPool.Select(c => c.ToString())) + Environment.NewLine;
 
         private static void InitHandValues()

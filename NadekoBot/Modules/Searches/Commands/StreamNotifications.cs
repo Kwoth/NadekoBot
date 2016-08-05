@@ -104,6 +104,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     result = new Tuple<bool, string>(isLive, data["media_views"].ToString());
                     cachedStatuses.TryAdd(hitboxUrl, result);
                     return result;
+
                 case StreamNotificationConfig.StreamType.Twitch:
                     var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username)}";
                     if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
@@ -114,6 +115,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     result = new Tuple<bool, string>(isLive, isLive ? data["stream"]["viewers"].ToString() : "0");
                     cachedStatuses.TryAdd(twitchUrl, result);
                     return result;
+
                 case StreamNotificationConfig.StreamType.Beam:
                     var beamUrl = $"https://beam.pro/api/v1/channels/{stream.Username}";
                     if (checkCache && cachedStatuses.TryGetValue(beamUrl, out result))
@@ -124,6 +126,7 @@ namespace NadekoBot.Modules.Searches.Commands
                     result = new Tuple<bool, string>(isLive, data["viewersCurrent"].ToString());
                     cachedStatuses.TryAdd(beamUrl, result);
                     return result;
+
                 default:
                     break;
             }
@@ -277,7 +280,6 @@ namespace NadekoBot.Modules.Searches.Commands
                              $" | `{Prefix}ls`")
                 .Do(async e =>
                 {
-
                     var config = SpecificConfigurations.Default.Of(e.Server.Id);
 
                     var streams = config.ObservingStreams.Where(snc =>

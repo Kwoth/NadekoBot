@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Translator
 {
-    class ValidLanguagesCommand : DiscordCommand
+    internal class ValidLanguagesCommand : DiscordCommand
     {
-        public ValidLanguagesCommand(DiscordModule module) : base(module) { }
+        public ValidLanguagesCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -17,6 +19,7 @@ namespace NadekoBot.Modules.Translator
                 .Parameter("search", ParameterType.Optional)
                 .Do(ListLanguagesFunc());
         }
+
         private Func<CommandEventArgs, Task> ListLanguagesFunc() => async e =>
         {
             try
@@ -44,7 +47,6 @@ namespace NadekoBot.Modules.Translator
             {
                 await e.Channel.SendMessage("Bad input format, or sth went wrong...").ConfigureAwait(false);
             }
-
         };
     }
 }

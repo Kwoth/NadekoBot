@@ -11,7 +11,6 @@ namespace NadekoBot.Modules.NSFW
 {
     internal class NSFWModule : DiscordModule
     {
-
         private readonly Random rng = new Random();
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.NSFW;
@@ -20,7 +19,6 @@ namespace NadekoBot.Modules.NSFW
         {
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand(Prefix + "hentai")

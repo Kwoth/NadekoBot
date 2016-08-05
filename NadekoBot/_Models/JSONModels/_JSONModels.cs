@@ -18,45 +18,54 @@ namespace NadekoBot.Classes.JSONModels
         public string CarbonKey { get; set; } = "";
         public string OsuAPIKey { get; set; } = "";
     }
+
     [DebuggerDisplay("{items[0].id.playlistId}")]
     public class YoutubePlaylistSearch
     {
         public YtPlaylistItem[] items { get; set; }
     }
+
     public class YtPlaylistItem
     {
         public YtPlaylistId id { get; set; }
     }
+
     public class YtPlaylistId
     {
         public string kind { get; set; }
         public string playlistId { get; set; }
     }
+
     [DebuggerDisplay("{items[0].id.videoId}")]
     public class YoutubeVideoSearch
     {
         public YtVideoItem[] items { get; set; }
     }
+
     public class YtVideoItem
     {
         public YtVideoId id { get; set; }
     }
+
     public class YtVideoId
     {
         public string kind { get; set; }
         public string videoId { get; set; }
     }
+
     public class PlaylistItemsSearch
     {
         public string nextPageToken { get; set; }
         public PlaylistItem[] items { get; set; }
     }
+
     public class PlaylistItem
     {
         public YtVideoId contentDetails { get; set; }
     }
 
     #region wikpedia example
+
     //    {
     //    "batchcomplete": true,
     //    "query": {
@@ -82,7 +91,8 @@ namespace NadekoBot.Classes.JSONModels
     //        ]
     //    }
     //}
-    #endregion
+
+    #endregion wikpedia example
 
     public class WikipediaApiModel
     {
@@ -104,6 +114,7 @@ namespace NadekoBot.Classes.JSONModels
     {
         public string Question { get; set; }
         public string Answer { get; set; }
+
         public override string ToString() => $"`{Question}`\n\n**{Answer}**";
     }
 }

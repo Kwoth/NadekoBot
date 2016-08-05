@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions.Classes
 {
-
     internal class PermissionChecker : IPermissionChecker
     {
         public static PermissionChecker Instance { get; } = new PermissionChecker();
@@ -17,9 +16,13 @@ namespace NadekoBot.Modules.Permissions.Classes
         //key - sid:command
         //value - userid
         private ConcurrentDictionary<string, ulong> commandCooldowns = new ConcurrentDictionary<string, ulong>();
+
         private HashSet<ulong> timeBlackList { get; } = new HashSet<ulong>();
 
-        static PermissionChecker() { }
+        static PermissionChecker()
+        {
+        }
+
         private PermissionChecker()
         {
             Task.Run(async () =>
@@ -101,30 +104,39 @@ namespace NadekoBot.Modules.Permissions.Classes
                     {
                         case PermissionsHandler.PermissionBanType.None:
                             return true;
+
                         case PermissionsHandler.PermissionBanType.ServerBanCommand:
                             msg = $"**{command.Text}** command has been banned from use on this **server**.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.ServerBanModule:
                             msg = $"**{command.Category}** module has been banned from use on this **server**.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.ChannelBanCommand:
                             msg = $"**{command.Text}** command has been banned from use on this **channel**.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.ChannelBanModule:
                             msg = $"**{command.Category}** module has been banned from use on this **channel**.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.RoleBanCommand:
                             msg = $"You do not have a **role** which permits you the usage of **{command.Text}** command.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.RoleBanModule:
                             msg = $"You do not have a **role** which permits you the usage of **{command.Category}** module.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.UserBanCommand:
                             msg = $"{user.Mention}, You have been banned from using **{command.Text}** command.";
                             break;
+
                         case PermissionsHandler.PermissionBanType.UserBanModule:
                             msg = $"{user.Mention}, You have been banned from using **{command.Category}** module.";
                             break;
+
                         default:
                             return true;
                     }
@@ -168,7 +180,6 @@ namespace NadekoBot.Modules.Permissions.Classes
                     ulong throwaway;
                     commandCooldowns.TryRemove(tosave, out throwaway);
                 }
-
             });
         }
     }

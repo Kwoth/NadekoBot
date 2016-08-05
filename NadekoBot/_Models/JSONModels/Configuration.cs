@@ -80,7 +80,6 @@ namespace NadekoBot.Classes.JSONModels
                 "https://cdn.discordapp.com/attachments/140007341880901632/156721715831898113/hqdefault.jpg",
                 "https://cdn.discordapp.com/attachments/140007341880901632/156721724430352385/okawari_01_haruka_weird_mask.jpg",
                 "https://cdn.discordapp.com/attachments/140007341880901632/156721728763068417/mustache-best-girl.png"
-
             } },
             {"%mention% inv", new List<string>() {
                 "To invite your bot, click on this link -> <https://discordapp.com/oauth2/authorize?client_id=%target%&scope=bot&permissions=66186303>"
@@ -139,6 +138,7 @@ namespace NadekoBot.Classes.JSONModels
                 CustomReactions = DefaultCustomReactions;
             }
         }
+
         [OnSerializing]
         internal void OnSerializing(StreamingContext context)
         {
@@ -176,15 +176,14 @@ namespace NadekoBot.Classes.JSONModels
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "NadekoFlower";
         public string DMHelpString { get; set; } = "Type `-h` for help.";
+
         public string HelpString { get; set; } = @"You can use `{0}modules` command to see a list of all modules.
 You can use `{0}commands ModuleName`
 (for example `{0}commands Administration`) to see a list of all of the commands in that module.
 For a specific command help, use `{0}h ""Command name""` (for example `-h ""!m q""`)
 
-
 **LIST OF COMMANDS CAN BE FOUND ON THIS LINK**
 <https://github.com/Kwoth/NadekoBot/blob/master/commandlist.md>
-
 
 Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
     }
@@ -210,6 +209,7 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
     public static class ConfigHandler
     {
         private static readonly SemaphoreSlim configLock = new SemaphoreSlim(1, 1);
+
         public static async Task SaveConfig()
         {
             await configLock.WaitAsync();
@@ -242,5 +242,4 @@ Nadeko Support Server: <https://discord.gg/0ehQwTK2RBjAxzEY>";
         public override string ToString() =>
             $"{Text}\n\t*-{Author}*";
     }
-
 }

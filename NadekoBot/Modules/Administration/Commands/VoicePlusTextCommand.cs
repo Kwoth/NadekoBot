@@ -13,7 +13,8 @@ namespace NadekoBot.Modules.Administration.Commands
 {
     internal class VoicePlusTextCommand : DiscordCommand
     {
-        Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+        private Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
@@ -32,7 +33,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!serverPerms.Value.ManageChannels || !serverPerms.Value.ManageRoles)
                     {
-
                         try
                         {
                             await e.Server.Owner.SendMessage(
@@ -43,7 +43,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         config.VoicePlusTextEnabled = false;
                         return;
                     }
-
 
                     var beforeVch = e.Before.VoiceChannel;
                     if (beforeVch != null)
@@ -152,7 +151,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage("Successfuly enabled voice + text feature. " +
                                                     "**Make sure the bot has manage roles and manage channels permissions**")
                                                     .ConfigureAwait(false);
-
                     }
                     catch (Exception ex)
                     {
