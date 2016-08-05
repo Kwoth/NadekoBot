@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Utility.Commands
 
                     if (ch == null)
                     {
-                        await e.Channel.SendMessage($"{e.User.Mention} Something went wrong (channel cannot be found) ;(").ConfigureAwait(false);
+                        await e.Channel.SendMessage($"{e.User.Mention} Something went wrong (channel cannot be found)").ConfigureAwait(false);
                         return;
                     }
 
