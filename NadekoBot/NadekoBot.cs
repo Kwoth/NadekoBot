@@ -26,8 +26,10 @@ using NadekoBot.Modules.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,7 +50,7 @@ namespace NadekoBot
         private static void Main()
         {
             Console.OutputEncoding = Encoding.Unicode;
-
+            Console.Title = $"{Assembly.GetExecutingAssembly().GetName().Name} v{Assembly.GetExecutingAssembly().GetName().Version}";
             try
             {
                 File.WriteAllText("data/config_example.json", JsonConvert.SerializeObject(new Configuration(), Formatting.Indented));
@@ -70,11 +72,18 @@ namespace NadekoBot
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Failed loading configuration.");
                 Console.WriteLine(ex);
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo assemblyversion = FileVersionInfo.GetVersionInfo(assembly.Location);
+            Task mem = new Task(() => CurrentMemory(Assembly.GetExecutingAssembly().GetName().Name, assemblyversion.FileVersion));
+            mem.Start();
 
             try
             {
@@ -83,7 +92,9 @@ namespace NadekoBot
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
@@ -91,7 +102,9 @@ namespace NadekoBot
             //if password is not entered, prompt for password
             if (string.IsNullOrWhiteSpace(Creds.Token))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Token blank. Please enter your bot's token:\n");
+                Console.ResetColor();
                 Creds.Token = Console.ReadLine();
             }
 
@@ -114,16 +127,18 @@ namespace NadekoBot
             BotMention = $"<@{Creds.BotId}>";
 
             //create new discord client and log
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
                 ConnectionTimeout = 180000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
-                    Console.WriteLine($"Severity: {e.Severity}" +
-                                      $"ExceptionMessage: {e.Exception?.Message ?? "-"}" +
-                                      $"Message: {e.Message}"),
+                        Console.WriteLine($"Severity: {e.Severity}" +
+                                          $"ExceptionMessage: {e.Exception?.Message ?? "-"}" +
+                                          $"Message: {e.Message}"),
             });
+            Console.ResetColor();
 
             //create a command service
             var commandService = new CommandService(new CommandServiceConfigBuilder
@@ -139,7 +154,9 @@ namespace NadekoBot
                         return;
                     try
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         await e.Channel.SendMessage(e.Exception.Message).ConfigureAwait(false);
+                        Console.ResetColor();
                     }
                     catch { }
                 }
@@ -191,8 +208,10 @@ namespace NadekoBot
                 }
                 catch (Exception ex)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Token is wrong. Don't set a token if you don't have an official BOT account.");
                     Console.WriteLine(ex);
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -216,14 +235,15 @@ namespace NadekoBot
                     }
                     catch
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Failed creating private channel with the owner {id} listed in credentials.json");
+                        Console.ResetColor();
                     }
                 }
                 Client.ClientAPI.SendingRequest += (s, e) =>
                 {
                     var request = e.Request as Discord.API.Client.Rest.SendMessageRequest;
                     if (request == null) return;
-                    // meew0 is magic
                     request.Content = request.Content?.Replace("@everyone", "@everyοne").Replace("@here", "@һere") ?? "_error_";
                     if (string.IsNullOrWhiteSpace(request.Content))
                         e.Cancel = true;
@@ -237,6 +257,15 @@ namespace NadekoBot
         }
 
         public static bool IsOwner(ulong id) => Creds.OwnerIds.Contains(id);
+
+        public static async void CurrentMemory(string name, string version)
+        {
+            while (true)
+            {
+                Console.Title = $"{name} v{version} - Current memory: {GC.GetTotalMemory(true) / (1024)}KB";
+                await Task.Delay(1000);
+            }
+        }
 
         public static async Task SendMessageToOwner(string message)
         {

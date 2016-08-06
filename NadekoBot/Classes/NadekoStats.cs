@@ -205,10 +205,9 @@ namespace NadekoBot
                     });
 
                     statsSw.Stop();
-                    var clr = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($"--------------\nCollecting stats finished in {statsSw.Elapsed.TotalSeconds}s\n-------------");
-                    Console.ForegroundColor = clr;
+                    Console.ResetColor();
                     statsSw.Reset();
                 }
                 catch
