@@ -39,6 +39,7 @@ namespace NadekoBot.Classes.JSONModels {
         //    } catch (Exception ex) {
         //        Console.ForegroundColor = ConsoleColor.Red;
         //        Console.WriteLine(ex);
+        //        Console.ResetColor();
         //        Console.ReadKey();
         //        return;
         //    }
