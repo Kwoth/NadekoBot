@@ -66,7 +66,9 @@ namespace NadekoBot
             }
             catch
             {
-                WriteInColor("Failed writing credentials_example.json or data/config_example.json", ConsoleColor.Red);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed writing credentials_example.json or data/config_example.json");
+                Console.ResetColor();
             }
 
             try
@@ -77,8 +79,10 @@ namespace NadekoBot
             }
             catch (Exception ex)
             {
-                WriteInColor("Failed loading configuration.", ConsoleColor.Red);
-                WriteInColor(ex.ToString(), ConsoleColor.Red);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Failed loading configuration.");
+                Console.WriteLine(ex);
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
@@ -90,14 +94,19 @@ namespace NadekoBot
             }
             catch (Exception ex)
             {
-                WriteInColor($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}", ConsoleColor.Red);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Failed to load stuff from credentials.json, RTFM\n{ex.Message}");
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
+
             //if password is not entered, prompt for password
             if (string.IsNullOrWhiteSpace(Creds.Token))
             {
-                WriteInColor("Token blank. Please enter your bot's token:\n", ConsoleColor.Red);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Token blank. Please enter your bot's token:\n");
+                Console.ResetColor();
                 Creds.Token = Console.ReadLine();
             }
 
@@ -204,8 +213,10 @@ namespace NadekoBot
                 }
                 catch (Exception ex)
                 {
-                    WriteInColor($"Token is wrong. Don't set a token if you don't have an official BOT account.", ConsoleColor.Red);
-                    WriteInColor(ex.ToString(), ConsoleColor.Red);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Token is wrong. Don't set a token if you don't have an official BOT account.");
+                    Console.WriteLine(ex);
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -229,7 +240,9 @@ namespace NadekoBot
                     }
                     catch
                     {
-                        WriteInColor($"Failed creating private channel with the owner {id} listed in credentials.json", ConsoleColor.Red);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Failed creating private channel with the owner {id} listed in credentials.json");
+                        Console.ResetColor();
                     }
                 }
                 Client.ClientAPI.SendingRequest += (s, e) =>
@@ -251,7 +264,9 @@ namespace NadekoBot
                 NadekoBot.Ready = true;
                 NadekoBot.OnReady();
             });
-            WriteInColor("Exiting...", ConsoleColor.Magenta);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Exiting...");
+            Console.ResetColor();
             Console.ReadKey();
         }
 
@@ -283,23 +298,6 @@ namespace NadekoBot
         }
 
         private static bool repliedRecently = false;
-
-        /// <summary>
-        /// Writes message in given color
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="color"></param>
-        public static string WriteInColor(string message, ConsoleColor color)
-        {
-            if (!String.IsNullOrWhiteSpace(message))
-            {
-                Console.ForegroundColor = color;
-                Console.WriteLine($"{message}");
-                Console.ResetColor();
-            }
-            return String.Empty;
-        }
-
         private static async void Client_MessageReceived(object sender, MessageEventArgs e)
         {
             try
