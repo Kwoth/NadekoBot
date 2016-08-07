@@ -207,7 +207,7 @@ namespace NadekoBot
                     });
 
                     statsSw.Stop();
-                    NadekoBot.WriteInColor($"--------------\nCollecting stats finished in {statsSw.Elapsed.TotalSeconds}s\n-------------", ConsoleColor.Magenta);
+                    NadekoBot.WriteInColor($"-============-\nCollecting stats finished in {statsSw.Elapsed.TotalSeconds}s\n-============-", ConsoleColor.Magenta);
                     statsSw.Reset();
                 }
                 catch
