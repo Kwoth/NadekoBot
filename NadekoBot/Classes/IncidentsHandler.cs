@@ -7,10 +7,7 @@ namespace NadekoBot.Classes
     {
         public static void Add(ulong serverId, ulong channelId, string text)
         {
-            var def = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"INCIDENT: {text}");
-            Console.ForegroundColor = def;
+            NadekoBot.WriteInColor($"INCIDENT: {text}", ConsoleColor.Red);
             var incident = new Incident
             {
                 ChannelId = (long)channelId,

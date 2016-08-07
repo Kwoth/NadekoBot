@@ -36,7 +36,7 @@ namespace NadekoBot.Modules.Translator
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 await e.Channel.SendMessage("Bad input format, or something went wrong...").ConfigureAwait(false);
             }
 

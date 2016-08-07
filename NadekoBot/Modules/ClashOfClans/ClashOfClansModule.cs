@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.ClashOfClans
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Could not load coc wars: " + e.Message);
+                        NadekoBot.WriteInColor("Could not load coc wars: " + e.Message, ConsoleColor.Red);
                     }
 
 
@@ -120,7 +120,7 @@ namespace NadekoBot.Modules.ClashOfClans
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                NadekoBot.WriteInColor(e.Message, ConsoleColor.Red);
             }
         }
 

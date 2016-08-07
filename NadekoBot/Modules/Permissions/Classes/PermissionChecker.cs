@@ -134,7 +134,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in canrun: {ex}");
+                NadekoBot.WriteInColor($"Exception in canrun: {ex}", ConsoleColor.Yellow);
                 try
                 {
                     if (perms != null && perms.Verbose)
@@ -143,7 +143,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 }
                 catch (Exception ex2)
                 {
-                    Console.WriteLine($"SERIOUS PERMISSION ERROR {ex2}\n\nUser:{user} Server: {user?.Server?.Name}/{user?.Server?.Id}");
+                    NadekoBot.WriteInColor($"SERIOUS PERMISSION ERROR {ex2}\n\nUser:{user} Server: {user?.Server?.Name}/{user?.Server?.Id}", ConsoleColor.Red);
                 }
                 return false;
             }

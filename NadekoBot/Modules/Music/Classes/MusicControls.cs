@@ -88,8 +88,8 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Action queue crashed");
-                    Console.WriteLine(ex);
+                    NadekoBot.WriteInColor("Action queue crashed", ConsoleColor.Red);
+                    NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 }
             }).ConfigureAwait(false);
 
@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Music.Classes
                             if (CurrentSong == null)
                                 continue;
 
-                            
+
                             OnStarted(this, CurrentSong);
                             await CurrentSong.Play(audioClient, cancelToken);
 
@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Music.Classes
 
                             if (RepeatSong)
                                 AddSong(CurrentSong, 0);
-                            
+
                         }
                         finally
                         {
@@ -139,9 +139,10 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                     }
                 }
-                catch (Exception ex) {
-                    Console.WriteLine("Music thread crashed.");
-                    Console.WriteLine(ex);
+                catch (Exception ex)
+                {
+                    NadekoBot.WriteInColor("Music thread crashed.", ConsoleColor.Red);
+                    NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 }
             }));
 

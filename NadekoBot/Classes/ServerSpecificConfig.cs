@@ -42,7 +42,7 @@ namespace NadekoBot.Classes
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Deserialization failing: {ex}");
+                    NadekoBot.WriteInColor($"Deserialization failing: {ex}", ConsoleColor.Red);
                 }
             }
             if (configs == null)

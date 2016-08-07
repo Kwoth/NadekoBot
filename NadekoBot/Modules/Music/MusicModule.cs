@@ -678,7 +678,7 @@ namespace NadekoBot.Modules.Music
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Failed QueueSong in load playlist. {ex}");
+                                NadekoBot.WriteInColor($"Failed QueueSong in load playlist. {ex}", ConsoleColor.Red);
                             }
                         }
                     });
@@ -844,7 +844,7 @@ namespace NadekoBot.Modules.Music
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine(e);
+                            NadekoBot.WriteInColor(e.ToString(), ConsoleColor.Red);
                         }
                     }
                 };

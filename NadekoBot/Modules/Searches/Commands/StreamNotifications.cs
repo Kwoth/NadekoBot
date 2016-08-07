@@ -28,10 +28,9 @@ namespace NadekoBot.Modules.Searches.Commands
                         var streams = SpecificConfigurations.Default.AllConfigs.SelectMany(c => c.ObservingStreams);
                         if (!streams.Any()) return;
 #if NADEKO_RELEASE
-                        var clr = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Getting {streams.Count()} streams.");
-                        Console.ForegroundColor = clr;
+                        Console.ResetColor();
 #endif
                         foreach (var stream in streams)
                         {
@@ -71,10 +70,9 @@ namespace NadekoBot.Modules.Searches.Commands
                         }
                         FirstPass = false;
 #if NADEKO_RELEASE
-                        clr = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Done getting streams.");
-                        Console.ForegroundColor = clr;
+                        Console.ResetColor();
 #endif
                     }
                     catch { }
