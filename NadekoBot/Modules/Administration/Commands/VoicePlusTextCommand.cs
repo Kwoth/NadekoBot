@@ -76,7 +76,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 }
             };
         }

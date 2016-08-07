@@ -119,7 +119,7 @@ namespace NadekoBot.Modules.Searches.Commands
                 }
                 catch
                 {
-                    Console.WriteLine("Error with the currency download.");
+                    NadekoBot.WriteInColor("Error with the currency download.", ConsoleColor.Red);
                 }
             }
         }

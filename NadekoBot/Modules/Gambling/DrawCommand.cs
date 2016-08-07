@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Gambling
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error drawing (a) card(s) " + ex.ToString());
+                NadekoBot.WriteInColor("Error drawing (a) card(s) " + ex.ToString(), ConsoleColor.Red);
             }
         };
     }

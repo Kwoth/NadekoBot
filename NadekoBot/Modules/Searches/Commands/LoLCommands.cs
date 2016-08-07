@@ -138,7 +138,7 @@ namespace NadekoBot.Modules.Searches.Commands
                                               .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
                           if (general == null)
                           {
-                              Console.WriteLine("General is null.");
+                              NadekoBot.WriteInColor("General is null.", ConsoleColor.Yellow);
                               return;
                           }
                           //get build data for this role
@@ -274,7 +274,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                       }
                       catch (Exception ex)
                       {
-                          Console.WriteLine(ex);
+                          NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                           await e.Channel.SendMessage("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
                       }
                   });

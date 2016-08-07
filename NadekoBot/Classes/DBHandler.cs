@@ -41,7 +41,7 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
             }
         }
 

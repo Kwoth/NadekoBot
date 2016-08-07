@@ -496,7 +496,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       }
                       catch (Exception ex)
                       {
-                          Console.WriteLine(ex);
+                          NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                       }
                   });
 

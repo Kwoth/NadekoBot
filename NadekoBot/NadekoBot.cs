@@ -123,18 +123,16 @@ namespace NadekoBot
             mem.Start();
 
             //create new discord client and log
-            Console.ForegroundColor = ConsoleColor.Red;
             Client = new DiscordClient(new DiscordConfigBuilder()
             {
                 MessageCacheSize = 10,
                 ConnectionTimeout = 200000,
                 LogLevel = LogSeverity.Warning,
                 LogHandler = (s, e) =>
-                    Console.WriteLine($"Severity: {e.Severity}" +
+                    NadekoBot.WriteInColor($"Severity: {e.Severity}" +
                                       $"ExceptionMessage: {e.Exception?.Message ?? "-"}" +
-                                      $"Message: {e.Message}"),
+                                      $"Message: {e.Message}", ConsoleColor.Red),
             });
-            Console.ResetColor();
 
             //create a command service
             var commandService = new CommandService(new CommandServiceConfigBuilder
@@ -215,9 +213,9 @@ namespace NadekoBot
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
 
-                Console.WriteLine("-----------------");
-                Console.WriteLine(await NadekoStats.Instance.GetStats().ConfigureAwait(false));
-                Console.WriteLine("-----------------");
+                WriteInColor("-----------------", ConsoleColor.Cyan);
+                WriteInColor(await NadekoStats.Instance.GetStats().ConfigureAwait(false), ConsoleColor.Cyan);
+                WriteInColor("-----------------", ConsoleColor.Cyan);
 
 
                 OwnerPrivateChannels = new List<Channel>(Creds.OwnerIds.Length);

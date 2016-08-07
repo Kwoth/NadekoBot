@@ -353,7 +353,7 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in e621 search: \n" + ex);
+                NadekoBot.WriteInColor("Error in e621 search: \n" + ex, ConsoleColor.Red);
                 return "Error, do you have too many tags?";
             }
         }
@@ -385,8 +385,8 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Shortening of this url failed: " + url);
-                Console.WriteLine(ex.ToString());
+                NadekoBot.WriteInColor("Shortening of this url failed: " + url, ConsoleColor.Red);
+                NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 return url;
             }
         }

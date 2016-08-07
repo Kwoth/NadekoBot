@@ -51,7 +51,7 @@ namespace NadekoBot.Modules.Permissions
                          }
                          catch (Exception ex)
                          {
-                             Console.WriteLine(ex.Message);
+                             NadekoBot.WriteInColor(ex.Message, ConsoleColor.Red);
                              await e.Channel.SendMessage($"Role `{arg}` probably doesn't exist. Create the role with that name first.").ConfigureAwait(false);
                              return;
                          }

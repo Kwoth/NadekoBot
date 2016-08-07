@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Permissions.Classes
 
         public static void Initialize()
         {
-            Console.WriteLine("Reading from the permission files.");
+            NadekoBot.WriteInColor("Reading from the permission files.", ConsoleColor.Magenta);
             Directory.CreateDirectory("data/permissions");
             foreach (var file in Directory.EnumerateFiles("data/permissions/"))
             {
@@ -38,7 +38,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 }
                 catch { }
             }
-            Console.WriteLine("Permission initialization complete.");
+            NadekoBot.WriteInColor("Permission initialization complete.", ConsoleColor.Green);
         }
 
         internal static Permissions GetRolePermissionsById(Server server, ulong id)

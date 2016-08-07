@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Games.Commands
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in poll game {ex}");
+                NadekoBot.WriteInColor($"Error in poll game {ex}", ConsoleColor.Red);
             }
         }
 

@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"aar exception. {ex}");
+                    NadekoBot.WriteInColor($"aar exception. {ex}", ConsoleColor.Red);
                 }
             };
         }

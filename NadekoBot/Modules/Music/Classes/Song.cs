@@ -93,16 +93,16 @@ namespace NadekoBot.Modules.Music.Classes
                 var t = await Task.WhenAny(prebufferingTask, Task.Delay(5000, cancelToken));
                 if (t != prebufferingTask)
                 {
-                    Console.WriteLine("Prebuffering timed out or canceled. Cannot get any data from the stream.");
+                    NadekoBot.WriteInColor("Prebuffering timed out or canceled. Cannot get any data from the stream.", ConsoleColor.Red);
                     return;
                 }
                 else if(prebufferingTask.IsCanceled)
                 {
-                    Console.WriteLine("Prebuffering timed out. Cannot get any data from the stream.");
+                    NadekoBot.WriteInColor("Prebuffering timed out. Cannot get any data from the stream.", ConsoleColor.Red);
                     return;
                 }
                 sw.Stop();
-                Console.WriteLine("Prebuffering successfully completed in "+ sw.Elapsed);
+                NadekoBot.WriteInColor("Prebuffering successfully completed in "+ sw.Elapsed, ConsoleColor.Green);
 
                 const int blockSize = 3840;
                 byte[] buffer = new byte[blockSize];
@@ -167,7 +167,7 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 await Task.Delay(100, cancelToken);
             }
-            Console.WriteLine("Buffering successfull");
+            NadekoBot.WriteInColor("Buffering successfull", ConsoleColor.Green);
         }
 
         /*
@@ -314,7 +314,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed resolving the link.{ex.Message}");
+                NadekoBot.WriteInColor($"Failed resolving the link.{ex.Message}", ConsoleColor.Red);
                 return null;
             }
         }
@@ -342,7 +342,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .pls:\n{file}");
+                    NadekoBot.WriteInColor($"Failed reading .pls:\n{file}", ConsoleColor.Red);
                     return null;
                 }
             }
@@ -361,7 +361,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .m3u:\n{file}");
+                    NadekoBot.WriteInColor($"Failed reading .m3u:\n{file}", ConsoleColor.Red);
                     return null;
                 }
 
@@ -377,7 +377,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .asx:\n{file}");
+                    NadekoBot.WriteInColor($"Failed reading .asx:\n{file}", ConsoleColor.Red);
                     return null;
                 }
             }
@@ -397,7 +397,7 @@ namespace NadekoBot.Modules.Music.Classes
                 }
                 catch
                 {
-                    Console.WriteLine($"Failed reading .xspf:\n{file}");
+                    NadekoBot.WriteInColor($"Failed reading .xspf:\n{file}", ConsoleColor.Red);
                     return null;
                 }
             }

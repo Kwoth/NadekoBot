@@ -59,7 +59,7 @@ namespace NadekoBot.Modules.Trello
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Timer failed " + ex.ToString());
+                    NadekoBot.WriteInColor("Timer failed " + ex.ToString(), ConsoleColor.Red);
                 }
             };
 
@@ -87,7 +87,7 @@ namespace NadekoBot.Modules.Trello
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Failed to join the board. " + ex.ToString());
+                            NadekoBot.WriteInColor("Failed to join the board. " + ex.ToString(), ConsoleColor.Red);
                         }
                     });
 

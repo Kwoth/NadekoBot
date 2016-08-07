@@ -69,7 +69,7 @@ namespace NadekoBot.Modules.Utility.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Timer error! {ex}");
+                    NadekoBot.WriteInColor($"Timer error! {ex}", ConsoleColor.Red);
                 }
                 finally
                 {

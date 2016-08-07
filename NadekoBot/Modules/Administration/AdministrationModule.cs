@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                         catch (Exception ex)
                         {
                             await e.Channel.SendMessage("Failed to add roles. Bot has insufficient permissions.\n").ConfigureAwait(false);
-                            Console.WriteLine(ex.ToString());
+                            NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                         }
                     });
 

@@ -362,7 +362,7 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                     else
                     {
-                        Console.WriteLine("SEQUENCE NOT EQUAL BUT NO DIFF ROLES - REPORT TO KWOTH on #NADEKOLOG server");
+                        NadekoBot.WriteInColor("SEQUENCE NOT EQUAL BUT NO DIFF ROLES - REPORT TO KWOTH on #NADEKOLOG server", ConsoleColor.Red);
                         return;
                     }
 

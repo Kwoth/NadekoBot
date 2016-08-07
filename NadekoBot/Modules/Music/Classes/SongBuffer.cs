@@ -88,23 +88,21 @@ namespace NadekoBot.Modules.Music.Classes
                }
                catch (System.ComponentModel.Win32Exception)
                {
-                   Console.ForegroundColor = ConsoleColor.Red;
-                   Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
+                   NadekoBot.WriteInColor(@"You have not properly installed or configured FFMPEG. 
 Please install and configure FFMPEG to play music. 
 Check the guides for your platform on how to setup ffmpeg correctly:
     Windows Guide: https://goo.gl/SCv72y
-    Linux Guide:  https://goo.gl/rRhjCp");
-                   Console.ResetColor();
+    Linux Guide:  https://goo.gl/rRhjCp", ConsoleColor.Red);
                }
                catch (Exception ex)
                {
-                   Console.WriteLine($"Buffering stopped: {ex.Message}");
+                   NadekoBot.WriteInColor($"Buffering stopped: {ex.Message}", ConsoleColor.Red);
                }
                finally
                {
                    if(outStream != null)
                         outStream.Dispose();
-                   Console.WriteLine($"Buffering done.");
+                   NadekoBot.WriteInColor($"Buffering done.", ConsoleColor.Cyan);
                    if (p != null)
                    {
                        try
