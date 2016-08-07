@@ -52,8 +52,6 @@ namespace NadekoBot.Modules.ClashOfClans
                     {
                         NadekoBot.WriteInColor("Could not load coc wars: " + e.Message, ConsoleColor.Red);
                     }
-
-
                 }
                 //Can't this be disabled if the modules is disabled too :)
                 var callExpire = new TimeSpan(2, 0, 0);
@@ -98,12 +96,10 @@ namespace NadekoBot.Modules.ClashOfClans
                                 ClashWars.AddOrUpdate(cw.Key, newVal, (x, s) => newVal);
                             }
                         }
-                        if (hash != ClashWars.GetHashCode()) //something changed 
+                        if (hash != ClashWars.GetHashCode()) //something changed
                         {
                             Save();
                         }
-
-
                     }
                     catch { }
                     await Task.Delay(5000);
@@ -139,11 +135,11 @@ namespace NadekoBot.Modules.ClashOfClans
         }
 
         #region commands
+
         public override void Install(ModuleManager manager)
         {
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 cgb.CreateCommand(Prefix + "createwar")
@@ -173,7 +169,6 @@ namespace NadekoBot.Modules.ClashOfClans
                               if (!ClashWars.TryAdd(e.Server.Id, wars))
                                   return;
                           }
-
 
                           var cw = new ClashWar(enemyClan, size, e.Server.Id, e.Channel.Id);
                           //cw.Start();
@@ -238,7 +233,6 @@ namespace NadekoBot.Modules.ClashOfClans
                             }
                             await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                             return;
-
                         }
                         //if number is not null, print the war needed
                         var warsInfo = GetInfo(e);
@@ -362,10 +356,9 @@ namespace NadekoBot.Modules.ClashOfClans
                         Save();
                     });
             });
-
         }
-        #endregion
 
+        #endregion commands
 
         private async Task FinishClaim(CommandEventArgs e, int stars = 3)
         {

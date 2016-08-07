@@ -61,8 +61,11 @@ namespace NadekoBot.Classes.Help.Commands
                     await e.Channel.SendMessage($@"**__Help for:__ `{com.Text}`**" + str + $"\n**Desc:** {new Regex(@"\|").Replace(com.Description, "\n**Usage:**", 1)}").ConfigureAwait(false);
             }).ConfigureAwait(false);
         };
-        public static string HelpString {
-            get {
+
+        public static string HelpString
+        {
+            get
+            {
                 var str = !string.IsNullOrWhiteSpace(NadekoBot.Creds.ClientId) && !NadekoBot.Config.DontJoinServers
                     ? String.Format("To add me to your server, use this link -> <https://discordapp.com/oauth2/authorize?client_id={0}&scope=bot&permissions=66186303>\n", NadekoBot.Creds.ClientId)
                     : "";
@@ -137,6 +140,8 @@ Don't forget to leave your discord name or id in the message.
             return str;
         }
 
-        public HelpCommand(DiscordModule module) : base(module) { }
+        public HelpCommand(DiscordModule module) : base(module)
+        {
+        }
     }
 }

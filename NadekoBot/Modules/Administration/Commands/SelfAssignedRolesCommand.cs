@@ -12,7 +12,10 @@ namespace NadekoBot.Modules.Administration.Commands
 {
     internal class SelfAssignedRolesCommand : DiscordCommand
     {
-        public SelfAssignedRolesCommand(DiscordModule module) : base(module) { }
+        public SelfAssignedRolesCommand(DiscordModule module) : base(module)
+        {
+        }
+
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "asar")
@@ -95,8 +98,6 @@ namespace NadekoBot.Modules.Administration.Commands
                     }
                     await e.Channel.SendMessage(msg.ToString()).ConfigureAwait(false);
                 });
-
-
 
             cgb.CreateCommand(Module.Prefix + "togglexclsar").Alias(Module.Prefix + "tesar")
                 .Description($"toggle whether the self-assigned roles should be exclusive | `{Prefix}tesar`")

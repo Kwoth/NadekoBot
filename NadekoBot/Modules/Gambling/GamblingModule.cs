@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Gambling
                     });
 
                 cgb.CreateCommand(Prefix + "give")
-                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName)+ $"|`{Prefix}give 1 \"@SomeGuy\"`")
+                    .Description(string.Format("Give someone a certain amount of {0}s", NadekoBot.Config.CurrencyName) + $"|`{Prefix}give 1 \"@SomeGuy\"`")
                     .Parameter("amount", ParameterType.Required)
                     .Parameter("receiver", ParameterType.Unparsed)
                     .Do(async e =>
@@ -91,7 +91,6 @@ namespace NadekoBot.Modules.Gambling
                         await FlowersHandler.AddFlowersAsync(mentionedUser, "Gift", (int)amount).ConfigureAwait(false);
 
                         await e.Channel.SendMessage($"{e.User.Mention} successfully sent {amount} {NadekoBot.Config.CurrencyName}s to {mentionedUser.Mention}!").ConfigureAwait(false);
-
                     });
 
                 cgb.CreateCommand(Prefix + "award")
@@ -141,7 +140,7 @@ namespace NadekoBot.Modules.Gambling
                 cgb.CreateCommand(Prefix + "betroll")
                     .Alias(Prefix + "br")
                     .Description($"Bets a certain amount of {NadekoBot.Config.CurrencyName}s and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. | `{Prefix}br 5`")
-                    .Parameter("amount",ParameterType.Required)
+                    .Parameter("amount", ParameterType.Required)
                     .Do(async e =>
                     {
                         var amountstr = e.GetArg("amount").Trim();
@@ -176,13 +175,13 @@ namespace NadekoBot.Modules.Gambling
                             str += $"Congratulations! You won {amount * 3}{NadekoBot.Config.CurrencySign} for rolling above 90.";
                             await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 3, true).ConfigureAwait(false);
                         }
-                        else {
+                        else
+                        {
                             str += $"👑 Congratulations! You won {amount * 10}{NadekoBot.Config.CurrencySign} for rolling **100**. 👑";
                             await FlowersHandler.AddFlowersAsync(e.User, "Betroll Gamble", amount * 10, true).ConfigureAwait(false);
                         }
 
                         await e.Channel.SendMessage(str).ConfigureAwait(false);
-                        
                     });
 
                 cgb.CreateCommand(Prefix + "leaderboard")

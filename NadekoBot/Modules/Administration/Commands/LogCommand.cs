@@ -33,7 +33,6 @@ namespace NadekoBot.Modules.Administration.Commands
                 NadekoBot.Client.ChannelDestroyed += ChannelDestroyed;
                 NadekoBot.Client.ChannelUpdated += ChannelUpdated;
 
-
                 NadekoBot.Client.MessageReceived += async (s, e) =>
                 {
                     if (e.Channel.IsPrivate || e.User.Id == NadekoBot.Client.CurrentUser.Id)
@@ -224,10 +223,10 @@ namespace NadekoBot.Modules.Administration.Commands
         $@"🕔`{prettyCurrentTime}` **File Uploaded** `#{e.Channel.Name}`
 👤`{e.User?.ToString() ?? ("NULL")}` {e.Message.Attachments.FirstOrDefault()?.ProxyUrl}").ConfigureAwait(false);
                 }
-
             }
             catch { }
         }
+
         private async void MsgDltd(object sender, MessageEventArgs e)
         {
             try
@@ -256,6 +255,7 @@ namespace NadekoBot.Modules.Administration.Commands
             }
             catch { }
         }
+
         private async void MsgUpdtd(object sender, MessageUpdatedEventArgs e)
         {
             try
@@ -277,6 +277,7 @@ namespace NadekoBot.Modules.Administration.Commands
             }
             catch { }
         }
+
         private async void UsrUpdtd(object sender, UserUpdatedEventArgs e)
         {
             var config = SpecificConfigurations.Default.Of(e.Server.Id);
@@ -365,7 +366,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.WriteInColor("SEQUENCE NOT EQUAL BUT NO DIFF ROLES - REPORT TO KWOTH on #NADEKOLOG server", ConsoleColor.Red);
                         return;
                     }
-
                 }
                 else
                     return;
@@ -376,7 +376,6 @@ namespace NadekoBot.Modules.Administration.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-
             cgb.CreateCommand(Module.Prefix + "spmom")
                 .Description($"Toggles whether mentions of other offline users on your server will send a pm to them. **Needs Manage Server Permissions.**| `{Prefix}spmom`")
                 .AddCheck(SimpleCheckers.ManageServer())
@@ -413,7 +412,6 @@ namespace NadekoBot.Modules.Administration.Commands
                       SpecificConfigurations.Default.Of(e.Server.Id).LogServerChannel = null;
                       await e.Channel.SendMessage($"❗**NO LONGER LOGGING IN {ch.Mention} CHANNEL**❗").ConfigureAwait(false);
                   });
-
 
             cgb.CreateCommand(Prefix + "logignore")
                 .Description($"Toggles whether the {Prefix}logserver command ignores this channel. Useful if you have hidden admin channel and public log channel. **Bot Owner Only!**| `{Prefix}logignore`")
@@ -455,7 +453,6 @@ namespace NadekoBot.Modules.Administration.Commands
                   .AddCheck(SimpleCheckers.ManageServer())
                   .Do(async e =>
                   {
-
                       var config = SpecificConfigurations.Default.Of(e.Server.Id);
                       if (e.GetArg("all")?.ToLower() == "all")
                       {

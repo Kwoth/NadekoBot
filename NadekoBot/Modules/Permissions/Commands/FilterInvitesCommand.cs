@@ -11,7 +11,6 @@ namespace NadekoBot.Modules.Permissions.Commands
     {
         private readonly Regex filterRegex = new Regex(@"(?:discord(?:\.gg|app\.com\/invite)\/(?<id>([\w]{16}|(?:[\w]+-?){3})))");
 
-
         public FilterInvitesCommand(DiscordModule module) : base(module)
         {
             NadekoBot.OnReady += () => NadekoBot.Client.MessageReceived += async (sender, args) =>
@@ -67,7 +66,6 @@ namespace NadekoBot.Modules.Permissions.Commands
 
                         if (chanStr?.ToLowerInvariant().Trim() != "all")
                         {
-
                             var chan = string.IsNullOrWhiteSpace(chanStr)
                                 ? e.Channel
                                 : PermissionHelper.ValidateChannel(e.Server, chanStr);
@@ -84,7 +82,6 @@ namespace NadekoBot.Modules.Permissions.Commands
                         }
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for **ALL** channels.")
                                        .ConfigureAwait(false);
-
                     }
                     catch (Exception ex)
                     {
@@ -105,7 +102,6 @@ namespace NadekoBot.Modules.Permissions.Commands
                         await PermissionsHandler.SetServerFilterInvitesPermission(e.Server, state).ConfigureAwait(false);
                         await e.Channel.SendMessage($"Invite Filter has been **{(state ? "enabled" : "disabled")}** for this server.")
                                        .ConfigureAwait(false);
-
                     }
                     catch (Exception ex)
                     {

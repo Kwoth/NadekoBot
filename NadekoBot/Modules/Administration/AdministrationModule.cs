@@ -53,10 +53,8 @@ namespace NadekoBot.Modules.Administration
 
         public override void Install(ModuleManager manager)
         {
-
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 var client = manager.Client;
@@ -75,7 +73,6 @@ namespace NadekoBot.Modules.Administration
                             await e.Channel.SendMessage("❗`Now automatically deleting successfull command invokations.`");
                         else
                             await e.Channel.SendMessage("❗`Stopped automatic deletion of successfull command invokations.`");
-
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
@@ -651,7 +648,7 @@ namespace NadekoBot.Modules.Administration
                             return;
                         }
                         int val;
-                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument, 
+                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument,
                                                                             //delete that number of messages.
                         {
                             if (val <= 0)
@@ -894,7 +891,6 @@ namespace NadekoBot.Modules.Administration
                         }
                         await e.User.SendFile($"Chatlog-{e.Server.Name}/#{e.Channel.Name}-{DateTime.Now}.txt", JsonConvert.SerializeObject(new { Messages = msgs.Select(s => s.ToString()) }, Formatting.Indented).ToStream()).ConfigureAwait(false);
                     });
-
             });
         }
     }

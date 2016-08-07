@@ -9,10 +9,9 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class WowJokeCommand : DiscordCommand
+    internal class WowJokeCommand : DiscordCommand
     {
-
-        List<WoWJoke> jokes = new List<WoWJoke>();
+        private List<WoWJoke> jokes = new List<WoWJoke>();
 
         public WowJokeCommand(DiscordModule module) : base(module)
         {
@@ -20,7 +19,6 @@ namespace NadekoBot.Modules.Searches.Commands
 
         internal override void Init(CommandGroupBuilder cgb)
         {
-
             cgb.CreateCommand(Module.Prefix + "wowjoke")
                 .Description($"Get one of Kwoth's penultimate WoW jokes. | `{Prefix}wowjoke`")
                 .Do(async e =>

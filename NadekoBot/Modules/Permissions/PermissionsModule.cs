@@ -26,7 +26,6 @@ namespace NadekoBot.Modules.Permissions
         {
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -784,10 +783,10 @@ namespace NadekoBot.Modules.Permissions
                     });
 
                 cgb.CreateCommand(Prefix + "cmdcooldown")
-                    .Alias(Prefix+ "cmdcd")
+                    .Alias(Prefix + "cmdcd")
                     .Description($"Sets a cooldown per user for a command. Set 0 to clear. **Needs Manager Messages Permissions**| `{Prefix}cmdcd \"some cmd\" 5`")
                     .Parameter("command", ParameterType.Required)
-                    .Parameter("secs",ParameterType.Required)
+                    .Parameter("secs", ParameterType.Required)
                     .AddCheck(SimpleCheckers.ManageMessages())
                     .Do(async e =>
                     {
@@ -799,12 +798,11 @@ namespace NadekoBot.Modules.Permissions
                             if (!int.TryParse(secsStr, out secs) || secs < 0 || secs > 3600)
                                 throw new ArgumentOutOfRangeException("secs", "Invalid second parameter. (Must be a number between 0 and 3600)");
 
-
                             await PermissionsHandler.SetCommandCooldown(e.Server, command, secs).ConfigureAwait(false);
-                            if(secs == 0)
+                            if (secs == 0)
                                 await e.Channel.SendMessage($"Command **{command}** has no coooldown now.").ConfigureAwait(false);
                             else
-                                await e.Channel.SendMessage($"Command **{command}** now has a **{secs} {(secs==1 ? "second" : "seconds")}** cooldown.").ConfigureAwait(false);
+                                await e.Channel.SendMessage($"Command **{command}** now has a **{secs} {(secs == 1 ? "second" : "seconds")}** cooldown.").ConfigureAwait(false);
                         }
                         catch (ArgumentException exArg)
                         {
@@ -831,7 +829,7 @@ namespace NadekoBot.Modules.Permissions
                             await e.Channel.SendMessage("`No command cooldowns set.`").ConfigureAwait(false);
                             return;
                         }
-                        await e.Channel.SendMessage(SearchHelper.ShowInPrettyCode(perms.CommandCooldowns.Select(c=>c.Key+ ": "+c.Value+" secs"),s=>$"{s,-30}",2)).ConfigureAwait(false);
+                        await e.Channel.SendMessage(SearchHelper.ShowInPrettyCode(perms.CommandCooldowns.Select(c => c.Key + ": " + c.Value + " secs"), s => $"{s,-30}", 2)).ConfigureAwait(false);
                     });
             });
         }

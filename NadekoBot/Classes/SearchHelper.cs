@@ -44,6 +44,7 @@ namespace NadekoBot.Classes
                         }
                     }
                     return await cl.GetStreamAsync(url).ConfigureAwait(false);
+
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
@@ -52,6 +53,7 @@ namespace NadekoBot.Classes
                     }
                     var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
                     return await message.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
             }
@@ -76,6 +78,7 @@ namespace NadekoBot.Classes
                         }
                     }
                     return await cl.GetStringAsync(url).ConfigureAwait(false);
+
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
@@ -84,6 +87,7 @@ namespace NadekoBot.Classes
                     }
                     var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
                     return await message.Content.ReadAsStringAsync().ConfigureAwait(false);
+
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
             }
@@ -271,7 +275,6 @@ namespace NadekoBot.Classes
             return toReturn;
         }
 
-
         public static async Task<string> GetDanbooruImageLink(string tag)
         {
             var rng = new Random();
@@ -335,7 +338,6 @@ namespace NadekoBot.Classes
             var match = matches[rng.Next(0, matches.Count)];
             return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
-
 
         internal static async Task<string> GetE621ImageLink(string tags)
         {

@@ -10,15 +10,12 @@ namespace NadekoBot.Modules.Help
 {
     internal class HelpModule : DiscordModule
     {
-
         public HelpModule()
         {
             commands.Add(new HelpCommand(this));
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Help;
-
-
 
         public override void Install(ModuleManager manager)
         {
@@ -47,7 +44,7 @@ namespace NadekoBot.Modules.Help
                             return;
                         var cmds = NadekoBot.Client.GetService<CommandService>().AllCommands
                                                     .Where(c => c.Category.ToLower() == module)
-                                                    .OrderBy(c=>c.Text)
+                                                    .OrderBy(c => c.Text)
                                                     .AsEnumerable();
                         var cmdsArray = cmds as Command[] ?? cmds.ToArray();
                         if (!cmdsArray.Any())

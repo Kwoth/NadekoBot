@@ -11,8 +11,13 @@ namespace NadekoBot.Modules.Music.Classes
         private static readonly SoundCloud _instance = new SoundCloud();
         public static SoundCloud Default => _instance;
 
-        static SoundCloud() { }
-        public SoundCloud() { }
+        static SoundCloud()
+        {
+        }
+
+        public SoundCloud()
+        {
+        }
 
         public async Task<SoundCloudVideo> ResolveVideoAsync(string url)
         {
@@ -56,19 +61,25 @@ namespace NadekoBot.Modules.Music.Classes
         public long Id { get; set; } = 0;
         public SoundCloudUser User { get; set; } = new SoundCloudUser();
         public string Title { get; set; } = "";
+
         [JsonIgnore]
         public string FullName => User.Name + " - " + Title;
+
         public bool Streamable { get; set; } = false;
+
         [JsonProperty("permalink_url")]
         public string TrackLink { get; set; } = "";
+
         [JsonIgnore]
         public string StreamLink => $"https://api.soundcloud.com/tracks/{Id}/stream?client_id={NadekoBot.Creds.SoundCloudClientID}";
     }
+
     public class SoundCloudUser
     {
         [Newtonsoft.Json.JsonProperty("username")]
         public string Name { get; set; }
     }
+
     /*
     {"kind":"track",
     "id":238888167,
@@ -125,5 +136,4 @@ namespace NadekoBot.Modules.Music.Classes
     "attachments_uri":"https://api.soundcloud.com/tracks/238888167/attachments"}
 
     */
-
 }

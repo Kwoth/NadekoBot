@@ -1,9 +1,11 @@
 ﻿using Discord.Modules;
-using System.Collections.Generic;
 using NadekoBot.Classes;
+using System.Collections.Generic;
 
-namespace NadekoBot.Modules {
-    public abstract class DiscordModule : IModule {
+namespace NadekoBot.Modules
+{
+    public abstract class DiscordModule : IModule
+    {
         protected readonly HashSet<DiscordCommand> commands = new HashSet<DiscordCommand>();
 
         public abstract string Prefix { get; }

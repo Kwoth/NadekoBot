@@ -1,16 +1,16 @@
 //
 // Copyright (c) 2009-2012 Krueger Systems, Inc.
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,9 @@ using Sqlite3 = Sqlite.Sqlite3;
 using Sqlite3DatabaseHandle = Sqlite.Database;
 using Sqlite3Statement = Sqlite.Statement;
 #else
+
 using Sqlite3DatabaseHandle = System.IntPtr;
+
 using Sqlite3Statement = System.IntPtr;
 #endif
 
@@ -69,7 +71,6 @@ namespace SQLite
         protected NotNullConstraintViolationException(SQLite3.Result r, string message)
             : this(r, message, null, null)
         {
-
         }
 
         protected NotNullConstraintViolationException(SQLite3.Result r, string message, TableMapping mapping, object obj)
@@ -231,7 +232,7 @@ namespace SQLite
             }
         }
 
-        static byte[] GetNullTerminatedUtf8(string s)
+        private static byte[] GetNullTerminatedUtf8(string s)
         {
             var utf8Length = System.Text.Encoding.UTF8.GetByteCount(s);
             var bytes = new byte[utf8Length + 1];
@@ -243,7 +244,7 @@ namespace SQLite
         /// Used to list some code that we want the MonoTouch linker
         /// to see, but that we never want to actually execute.
         /// </summary>
-        static bool _preserveDuringLinkMagic;
+        private static bool _preserveDuringLinkMagic;
 
         /// <summary>
         /// Sets a busy handler to sleep the specified amount of time when a table is locked.
@@ -279,12 +280,12 @@ namespace SQLite
         /// </summary>
         /// <param name="type">
         /// The type whose mapping to the database is returned.
-        /// </param>         
+        /// </param>
         /// <param name="createFlags">
         /// Optional flags allowing implicit PK and indexes based on naming conventions
-        /// </param>     
+        /// </param>
         /// <returns>
-        /// The mapping represents the schema of the columns of the database and contains 
+        /// The mapping represents the schema of the columns of the database and contains
         /// methods to set and get properties of objects.
         /// </returns>
         public TableMapping GetMapping(Type type, CreateFlags createFlags = CreateFlags.None)
@@ -306,7 +307,7 @@ namespace SQLite
         /// Retrieves the mapping that is automatically generated for the given type.
         /// </summary>
         /// <returns>
-        /// The mapping represents the schema of the columns of the database and contains 
+        /// The mapping represents the schema of the columns of the database and contains
         /// methods to set and get properties of objects.
         /// </returns>
         public TableMapping GetMapping<T>()
@@ -361,7 +362,7 @@ namespace SQLite
         /// later access this schema by calling GetMapping.
         /// </summary>
         /// <param name="ty">Type to reflect to a database table.</param>
-        /// <param name="createFlags">Optional flags allowing implicit PK and indexes based on naming conventions.</param>  
+        /// <param name="createFlags">Optional flags allowing implicit PK and indexes based on naming conventions.</param>
         /// <returns>
         /// The number of entries added to the database schema.
         /// </returns>
@@ -540,7 +541,7 @@ namespace SQLite
             return Query<ColumnInfo>(query);
         }
 
-        void MigrateTable(TableMapping map)
+        private void MigrateTable(TableMapping map)
         {
             var existingCols = GetTableInfo(map.TableName);
 
@@ -803,7 +804,7 @@ namespace SQLite
 
         /// <summary>
         /// Attempts to retrieve the first object that matches the predicate from the table
-        /// associated with the specified type. 
+        /// associated with the specified type.
         /// </summary>
         /// <param name="predicate">
         /// A predicate for which object to find.
@@ -857,7 +858,7 @@ namespace SQLite
 
         /// <summary>
         /// Attempts to retrieve the first object that matches the predicate from the table
-        /// associated with the specified type. 
+        /// associated with the specified type.
         /// </summary>
         /// <param name="predicate">
         /// A predicate for which object to find.
@@ -885,9 +886,9 @@ namespace SQLite
         /// <example cref="System.InvalidOperationException">Throws if a transaction has already begun.</example>
         public void BeginTransaction()
         {
-            // The BEGIN command only works if the transaction stack is empty, 
-            //    or in other words if there are no pending transactions. 
-            // If the transaction stack is not empty when the BEGIN command is invoked, 
+            // The BEGIN command only works if the transaction stack is empty,
+            //    or in other words if there are no pending transactions.
+            // If the transaction stack is not empty when the BEGIN command is invoked,
             //    then the command fails with an error.
             // Rather than crash with an error, we will just ignore calls to BeginTransaction
             //    that would result in an error.
@@ -902,7 +903,7 @@ namespace SQLite
                     var sqlExp = ex as SQLiteException;
                     if (sqlExp != null)
                     {
-                        // It is recommended that applications respond to the errors listed below 
+                        // It is recommended that applications respond to the errors listed below
                         //    by explicitly issuing a ROLLBACK command.
                         // TODO: This rollback failsafe should be localized to all throw sites.
                         switch (sqlExp.Result)
@@ -918,7 +919,7 @@ namespace SQLite
                     }
                     else
                     {
-                        // Call decrement and not VolatileWrite in case we've already 
+                        // Call decrement and not VolatileWrite in case we've already
                         //    created a transaction point in SaveTransactionPoint since the catch.
                         Interlocked.Decrement(ref _transactionDepth);
                     }
@@ -936,7 +937,7 @@ namespace SQLite
         /// <summary>
         /// Creates a savepoint in the database at the current point in the transaction timeline.
         /// Begins a new transaction if one is not in progress.
-        /// 
+        ///
         /// Call <see cref="RollbackTo"/> to undo transactions since the returned savepoint.
         /// Call <see cref="Release"/> to commit transactions after the savepoint returned here.
         /// Call <see cref="Commit"/> to end the transaction, committing all changes.
@@ -956,7 +957,7 @@ namespace SQLite
                 var sqlExp = ex as SQLiteException;
                 if (sqlExp != null)
                 {
-                    // It is recommended that applications respond to the errors listed below 
+                    // It is recommended that applications respond to the errors listed below
                     //    by explicitly issuing a ROLLBACK command.
                     // TODO: This rollback failsafe should be localized to all throw sites.
                     switch (sqlExp.Result)
@@ -1002,10 +1003,10 @@ namespace SQLite
         /// Rolls back the transaction that was begun by <see cref="BeginTransaction"/>.
         /// </summary>
         /// <param name="noThrow">true to avoid throwing exceptions, false otherwise</param>
-        void RollbackTo(string savepoint, bool noThrow)
+        private void RollbackTo(string savepoint, bool noThrow)
         {
-            // Rolling back without a TO clause rolls backs all transactions 
-            //    and leaves the transaction stack empty.   
+            // Rolling back without a TO clause rolls backs all transactions
+            //    and leaves the transaction stack empty.
             try
             {
                 if (String.IsNullOrEmpty(savepoint))
@@ -1024,16 +1025,15 @@ namespace SQLite
             {
                 if (!noThrow)
                     throw;
-
             }
             // No need to rollback if there are no transactions open.
         }
 
         /// <summary>
-        /// Releases a savepoint returned from <see cref="SaveTransactionPoint"/>.  Releasing a savepoint 
+        /// Releases a savepoint returned from <see cref="SaveTransactionPoint"/>.  Releasing a savepoint
         ///    makes changes since that savepoint permanent if the savepoint began the transaction,
         ///    or otherwise the changes are permanent pending a call to <see cref="Commit"/>.
-        /// 
+        ///
         /// The RELEASE command is like a COMMIT for a SAVEPOINT.
         /// </summary>
         /// <param name="savepoint">The name of the savepoint to release.  The string should be the result of a call to <see cref="SaveTransactionPoint"/></param>
@@ -1042,7 +1042,7 @@ namespace SQLite
             DoSavePointExecute(savepoint, "release ");
         }
 
-        void DoSavePointExecute(string savepoint, string cmd)
+        private void DoSavePointExecute(string savepoint, string cmd)
         {
             // Validate the savepoint
             int firstLen = savepoint.IndexOf('D');
@@ -1304,7 +1304,6 @@ namespace SQLite
                 return 0;
             }
 
-
             var map = GetMapping(objType);
 
 #if NETFX_CORE
@@ -1316,13 +1315,13 @@ namespace SQLite
                 {
                     var info = objType.GetTypeInfo();
                     prop = info.GetDeclaredProperty(map.PK.PropertyName);
-                    if (prop != null) 
+                    if (prop != null)
                     {
                         if (prop.GetValue(obj, null).Equals(Guid.Empty))
                         {
                             prop.SetValue(obj, Guid.NewGuid(), null);
                         }
-                        break; 
+                        break;
                     }
 
                     objType = info.BaseType;
@@ -1342,7 +1341,6 @@ namespace SQLite
             }
 #endif
 
-
             var replacing = string.Compare(extra, "OR REPLACE", StringComparison.OrdinalIgnoreCase) == 0;
 
             var cols = replacing ? map.InsertOrReplaceColumns : map.InsertColumns;
@@ -1361,7 +1359,6 @@ namespace SQLite
             }
             catch (SQLiteException ex)
             {
-
                 if (SQLite3.ExtendedErrCode(this.Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
                 {
                     throw NotNullConstraintViolationException.New(ex.Result, ex.Message, map, obj);
@@ -1445,7 +1442,6 @@ namespace SQLite
             }
             catch (SQLiteException ex)
             {
-
                 if (ex.Result == SQLite3.Result.Constraint && SQLite3.ExtendedErrCode(this.Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
                 {
                     throw NotNullConstraintViolationException.New(ex, map, obj);
@@ -1590,7 +1586,7 @@ namespace SQLite
     /// <summary>
     /// Represents a parsed connection string.
     /// </summary>
-    class SQLiteConnectionString
+    internal class SQLiteConnectionString
     {
         public string ConnectionString { get; private set; }
         public string DatabasePath { get; private set; }
@@ -1717,9 +1713,9 @@ namespace SQLite
 
         public string GetByPrimaryKeySql { get; private set; }
 
-        Column _autoPk;
-        Column[] _insertColumns;
-        Column[] _insertOrReplaceColumns;
+        private Column _autoPk;
+        private Column[] _insertColumns;
+        private Column[] _insertOrReplaceColumns;
 
         public TableMapping(Type type, CreateFlags createFlags = CreateFlags.None)
         {
@@ -1826,8 +1822,8 @@ namespace SQLite
             return exact;
         }
 
-        PreparedSqlLiteInsertCommand _insertCommand;
-        string _insertCommandExtra;
+        private PreparedSqlLiteInsertCommand _insertCommand;
+        private string _insertCommandExtra;
 
         public PreparedSqlLiteInsertCommand GetInsertCommand(SQLiteConnection conn, string extra)
         {
@@ -1845,7 +1841,7 @@ namespace SQLite
             return _insertCommand;
         }
 
-        PreparedSqlLiteInsertCommand CreateInsertCommand(SQLiteConnection conn, string extra)
+        private PreparedSqlLiteInsertCommand CreateInsertCommand(SQLiteConnection conn, string extra)
         {
             var cols = InsertColumns;
             string insertSql;
@@ -1867,7 +1863,6 @@ namespace SQLite
                                                      select "\"" + c.Name + "\"").ToArray()),
                                    string.Join(",", (from c in cols
                                                      select "?").ToArray()), extra);
-
             }
 
             var insertCommand = new PreparedSqlLiteInsertCommand(conn);
@@ -1886,7 +1881,7 @@ namespace SQLite
 
         public class Column
         {
-            PropertyInfo _prop;
+            private PropertyInfo _prop;
 
             public string Name { get; private set; }
 
@@ -2109,7 +2104,7 @@ namespace SQLite
 
     public partial class SQLiteCommand
     {
-        SQLiteConnection _conn;
+        private SQLiteConnection _conn;
         private List<Binding> _bindings;
 
         public string CommandText { get; set; }
@@ -2286,19 +2281,19 @@ namespace SQLite
             return string.Join(Environment.NewLine, parts);
         }
 
-        Sqlite3Statement Prepare()
+        private Sqlite3Statement Prepare()
         {
             var stmt = SQLite3.Prepare2(_conn.Handle, CommandText);
             BindAll(stmt);
             return stmt;
         }
 
-        void Finalize(Sqlite3Statement stmt)
+        private void Finalize(Sqlite3Statement stmt)
         {
             SQLite3.Finalize(stmt);
         }
 
-        void BindAll(Sqlite3Statement stmt)
+        private void BindAll(Sqlite3Statement stmt)
         {
             int nextIdx = 1;
             foreach (var b in _bindings)
@@ -2392,7 +2387,7 @@ namespace SQLite
             }
         }
 
-        class Binding
+        private class Binding
         {
             public string Name { get; set; }
 
@@ -2401,7 +2396,7 @@ namespace SQLite
             public int Index { get; set; }
         }
 
-        object ReadCol(Sqlite3Statement stmt, int index, SQLite3.ColType type, Type clrType)
+        private object ReadCol(Sqlite3Statement stmt, int index, SQLite3.ColType type, Type clrType)
         {
             if (type == SQLite3.ColType.Null)
             {
@@ -2619,20 +2614,20 @@ namespace SQLite
 
         public TableMapping Table { get; private set; }
 
-        Expression _where;
-        List<Ordering> _orderBys;
-        int? _limit;
-        int? _offset;
+        private Expression _where;
+        private List<Ordering> _orderBys;
+        private int? _limit;
+        private int? _offset;
 
-        BaseTableQuery _joinInner;
-        Expression _joinInnerKeySelector;
-        BaseTableQuery _joinOuter;
-        Expression _joinOuterKeySelector;
-        Expression _joinSelector;
+        private BaseTableQuery _joinInner;
+        private Expression _joinInnerKeySelector;
+        private BaseTableQuery _joinOuter;
+        private Expression _joinOuterKeySelector;
+        private Expression _joinSelector;
 
-        Expression _selector;
+        private Expression _selector;
 
-        TableQuery(SQLiteConnection conn, TableMapping table)
+        private TableQuery(SQLiteConnection conn, TableMapping table)
         {
             Connection = conn;
             Table = table;
@@ -2699,7 +2694,8 @@ namespace SQLite
             return Skip(index).Take(1).First();
         }
 
-        bool _deferred;
+        private bool _deferred;
+
         public TableQuery<T> Deferred()
         {
             var q = Clone<T>();
@@ -2842,7 +2838,7 @@ namespace SQLite
             }
         }
 
-        class CompileResult
+        private class CompileResult
         {
             public string CommandText { get; set; }
 
@@ -2874,7 +2870,6 @@ namespace SQLite
             }
             else if (expr.NodeType == ExpressionType.Call)
             {
-
                 var call = (MethodCallExpression)expr;
                 var args = new CompileResult[call.Arguments.Count];
                 var obj = call.Object != null ? CompileExpr(call.Object, queryArgs) : null;
@@ -2930,7 +2925,6 @@ namespace SQLite
                     sqlCall = call.Method.Name.ToLower() + "(" + string.Join(",", args.Select(a => a.CommandText).ToArray()) + ")";
                 }
                 return new CompileResult { CommandText = sqlCall };
-
             }
             else if (expr.NodeType == ExpressionType.Constant)
             {
@@ -3055,7 +3049,7 @@ namespace SQLite
             throw new NotSupportedException("Cannot compile: " + expr.NodeType.ToString());
         }
 
-        static object ConvertTo(object obj, Type t)
+        private static object ConvertTo(object obj, Type t)
         {
             Type nut = Nullable.GetUnderlyingType(t);
 
@@ -3084,7 +3078,7 @@ namespace SQLite
                 throw new NotSupportedException("Cannot compile Null-BinaryExpression with type " + expression.NodeType.ToString());
         }
 
-        string GetSqlName(Expression expr)
+        private string GetSqlName(Expression expr)
         {
             var n = expr.NodeType;
             if (n == ExpressionType.GreaterThan)
@@ -3253,7 +3247,6 @@ namespace SQLite
             NoticeRecoverRollback = (Result.Notice | (2 << 8))
         }
 
-
         public enum ConfigOption : int
         {
             SingleThread = 1,
@@ -3262,6 +3255,7 @@ namespace SQLite
         }
 
 #if !USE_CSHARP_SQLITE && !USE_WP8_NATIVE_SQLITE
+
         [DllImport("sqlite3", EntryPoint = "sqlite3_open", CallingConvention = CallingConvention.Cdecl)]
         public static extern Result Open([MarshalAs(UnmanagedType.LPStr)] string filename, out IntPtr db);
 
@@ -3370,7 +3364,8 @@ namespace SQLite
         public static extern IntPtr ColumnName(IntPtr stmt, int index);
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_column_name16", CallingConvention = CallingConvention.Cdecl)]
-        static extern IntPtr ColumnName16Internal(IntPtr stmt, int index);
+        private static extern IntPtr ColumnName16Internal(IntPtr stmt, int index);
+
         public static string ColumnName16(IntPtr stmt, int index)
         {
             return Marshal.PtrToStringUni(ColumnName16Internal(stmt, index));
@@ -3419,6 +3414,7 @@ namespace SQLite
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_libversion_number", CallingConvention = CallingConvention.Cdecl)]
         public static extern int LibVersionNumber();
+
 #else
 		public static Result Open(string filename, out Sqlite3DatabaseHandle db)
 		{

@@ -12,9 +12,13 @@ using NadekoBot.Modules.Gambling;
 using NadekoBot.Modules.Games;
 using NadekoBot.Modules.Games.Commands;
 using NadekoBot.Modules.Help;
+
 #if !NADEKO_RELEASE
+
 using NadekoBot.Modules.Music;
+
 #endif
+
 using NadekoBot.Modules.NSFW;
 using NadekoBot.Modules.Permissions;
 using NadekoBot.Modules.Permissions.Classes;
@@ -62,7 +66,6 @@ namespace NadekoBot
                 if (!File.Exists("data/config.json"))
                     File.Copy("data/config_example.json", "data/config.json");
                 File.WriteAllText("credentials_example.json", JsonConvert.SerializeObject(new Credentials(), Formatting.Indented));
-
             }
             catch
             {
@@ -216,7 +219,6 @@ namespace NadekoBot
                 WriteInColor("-----------------", ConsoleColor.Green);
                 WriteInColor(await NadekoStats.Instance.GetStats().ConfigureAwait(false), ConsoleColor.Green);
                 WriteInColor("-----------------", ConsoleColor.Green);
-
 
                 OwnerPrivateChannels = new List<Channel>(Creds.OwnerIds.Length);
                 foreach (var id in Creds.OwnerIds)

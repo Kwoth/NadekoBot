@@ -21,7 +21,6 @@ namespace NadekoBot.Modules.Games
             commands.Add(new Bomberman(this));
             commands.Add(new Leet(this));
             //commands.Add(new BetrayGame(this));
-
         }
 
         public override string Prefix { get; } = NadekoBot.Config.CommandPrefixes.Games;
@@ -30,7 +29,6 @@ namespace NadekoBot.Modules.Games
         {
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -80,15 +78,18 @@ namespace NadekoBot.Modules.Games
                             case "rocket":
                                 pick = 0;
                                 break;
+
                             case "p":
                             case "paper":
                             case "paperclip":
                                 pick = 1;
                                 break;
+
                             case "scissors":
                             case "s":
                                 pick = 2;
                                 break;
+
                             default:
                                 return;
                         }

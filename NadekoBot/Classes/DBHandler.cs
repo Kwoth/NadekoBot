@@ -15,7 +15,10 @@ namespace NadekoBot.Classes
 
         public SQLiteConnection Connection { get; set; }
 
-        static DbHandler() { }
+        static DbHandler()
+        {
+        }
+
         public DbHandler()
         {
             Connection = new SQLiteConnection(FilePath);
@@ -48,14 +51,11 @@ namespace NadekoBot.Classes
         internal T FindOne<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
         {
             return Connection.Table<T>().Where(p).FirstOrDefault();
-
         }
 
         internal IList<T> FindAll<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
         {
-
             return Connection.Table<T>().Where(p).ToList();
-
         }
 
         internal void DeleteWhere<T>(Expression<Func<T, bool>> p) where T : IDataModel, new()
@@ -109,8 +109,9 @@ namespace NadekoBot.Classes
             var r = new Random();
             return Connection.Table<T>().Where(p).ToList().OrderBy(x => r.Next()).FirstOrDefault();
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="num">Page number (0+)</param>
         /// <returns></returns>
@@ -123,7 +124,6 @@ ON mp.Id = psi.PlaylistId
 Group BY mp.Name
 Order By mp.DateAdded desc
 Limit 20 OFFSET ?", num * 20);
-
         }
 
         internal IEnumerable<CurrencyState> GetTopRichest(int n = 10)
@@ -147,13 +147,14 @@ public static class Queries
 CREATE TRIGGER IF NOT EXISTS OnTransactionAdded
 AFTER INSERT ON CurrencyTransaction
 BEGIN
-INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded) 
+INSERT OR REPLACE INTO CurrencyState (Id, UserId, Value, DateAdded)
     VALUES (COALESCE((SELECT Id from CurrencyState where UserId = NEW.UserId),(SELECT COALESCE(MAX(Id),0)+1 from CurrencyState)),
-            NEW.UserId, 
-            COALESCE((SELECT Value+New.Value FROM CurrencyState Where UserId = NEW.UserId),NEW.Value),  
+            NEW.UserId,
+            COALESCE((SELECT Value+New.Value FROM CurrencyState Where UserId = NEW.UserId),NEW.Value),
             NEW.DateAdded);
 END
 ";
+
     public const string DeletePlaylistTriggerQuery = @"
 CREATE TRIGGER IF NOT EXISTS music_playlist
 AFTER DELETE ON MusicPlaylist

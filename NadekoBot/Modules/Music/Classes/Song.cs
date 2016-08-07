@@ -17,18 +17,23 @@ namespace NadekoBot.Modules.Music.Classes
     {
         public string Provider { get; internal set; }
         public MusicType ProviderType { get; internal set; }
+
         /// <summary>
         /// Will be set only if the providertype is normal
         /// </summary>
         public string Query { get; internal set; }
+
         public string Title { get; internal set; }
         public string Uri { get; internal set; }
     }
+
     public class Song
     {
         public StreamState State { get; internal set; }
+
         public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
+
         public SongInfo SongInfo { get; }
         public string QueuerName { get; set; }
 
@@ -45,9 +50,12 @@ namespace NadekoBot.Modules.Music.Classes
         public bool PrintStatusMessage { get; set; } = true;
 
         private int skipTo = 0;
-        public int SkipTo {
+
+        public int SkipTo
+        {
             get { return SkipTo; }
-            set {
+            set
+            {
                 skipTo = value;
                 bytesSent = (ulong)skipTo * 3840 * 50;
             }
@@ -85,7 +93,7 @@ namespace NadekoBot.Modules.Music.Classes
 
             try
             {
-                var attempt = 0;             
+                var attempt = 0;
 
                 var prebufferingTask = CheckPrebufferingAsync(inStream, sb, cancelToken);
                 var sw = new Stopwatch();
@@ -96,13 +104,13 @@ namespace NadekoBot.Modules.Music.Classes
                     NadekoBot.WriteInColor("Prebuffering timed out or canceled. Cannot get any data from the stream.", ConsoleColor.Red);
                     return;
                 }
-                else if(prebufferingTask.IsCanceled)
+                else if (prebufferingTask.IsCanceled)
                 {
                     NadekoBot.WriteInColor("Prebuffering timed out. Cannot get any data from the stream.", ConsoleColor.Red);
                     return;
                 }
                 sw.Stop();
-                NadekoBot.WriteInColor("Prebuffering successfully completed in "+ sw.Elapsed, ConsoleColor.Green);
+                NadekoBot.WriteInColor("Prebuffering successfully completed in " + sw.Elapsed, ConsoleColor.Green);
 
                 const int blockSize = 3840;
                 byte[] buffer = new byte[blockSize];
@@ -135,7 +143,7 @@ namespace NadekoBot.Modules.Music.Classes
                                 break;
                             }
                             else
-                                await Task.Delay(100, cancelToken).ConfigureAwait(false);                         
+                                await Task.Delay(100, cancelToken).ConfigureAwait(false);
                         }
                         else
                             attempt = 0;
@@ -154,7 +162,7 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 await bufferTask;
                 await Task.Run(() => voiceClient.Clear());
-                if(inStream != null)
+                if (inStream != null)
                     inStream.Dispose();
                 Console.WriteLine("l");
                 sb.CleanFiles();
@@ -179,7 +187,6 @@ namespace NadekoBot.Modules.Music.Classes
             var array = new byte[audioSamples.Length];
             for (var i = 0; i < array.Length; i += 2)
             {
-
                 // convert byte pair to int
                 short buf1 = audioSamples[i + 1];
                 short buf2 = audioSamples[i];
@@ -193,7 +200,6 @@ namespace NadekoBot.Modules.Music.Classes
                 // convert back
                 array[i] = (byte)res;
                 array[i + 1] = (byte)(res >> 8);
-
             }
             return array;
         }
@@ -249,6 +255,7 @@ namespace NadekoBot.Modules.Music.Classes
                             ProviderType = musicType,
                             Query = query,
                         });
+
                     case MusicType.Radio:
                         return new Song(new SongInfo
                         {
@@ -348,7 +355,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
             if (query.Contains(".m3u"))
             {
-                /* 
+                /*
 # This is a comment
                    C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
                    C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
@@ -364,7 +371,6 @@ namespace NadekoBot.Modules.Music.Classes
                     NadekoBot.WriteInColor($"Failed reading .m3u:\n{file}", ConsoleColor.Red);
                     return null;
                 }
-
             }
             if (query.Contains(".asx"))
             {
