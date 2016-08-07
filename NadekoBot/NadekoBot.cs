@@ -213,9 +213,9 @@ namespace NadekoBot
                 await Task.Delay(1000).ConfigureAwait(false);
 #endif
 
-                WriteInColor("-----------------", ConsoleColor.Cyan);
-                WriteInColor(await NadekoStats.Instance.GetStats().ConfigureAwait(false), ConsoleColor.Cyan);
-                WriteInColor("-----------------", ConsoleColor.Cyan);
+                WriteInColor("-----------------", ConsoleColor.Green);
+                WriteInColor(await NadekoStats.Instance.GetStats().ConfigureAwait(false), ConsoleColor.Green);
+                WriteInColor("-----------------", ConsoleColor.Green);
 
 
                 OwnerPrivateChannels = new List<Channel>(Creds.OwnerIds.Length);

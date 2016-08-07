@@ -254,7 +254,7 @@ namespace NadekoBot
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
             commandTracker.TryAdd(e.Message.Id, DateTime.UtcNow);
-            NadekoBot.WriteInColor($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----", ConsoleColor.Cyan);
+            NadekoBot.WriteInColor($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----", ConsoleColor.DarkGreen);
             commandsRan++;
 #if !NADEKO_RELEASE
             await Task.Run(() =>
