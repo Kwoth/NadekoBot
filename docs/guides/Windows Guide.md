@@ -40,8 +40,7 @@ ________________________________________________________________________________
 - In there you will see fields like `Token`, `ClientId`, `BotId`, `OwnerIDs`.
 - In your [DiscordApp][DiscordApp], under `Bot User` part, you will see the `Token:click to reveal` part, click to reveal it.
 - Copy your bot's token, and put it between `" "` in your `credentials.json` file.
-- Copy `Client ID` and replace it with the example one in your `credentials.json`.
-- Copy `Bot ID` and replace it with the example one in your `credentials.json`.
+- Copy `Client ID` and replace it with the example one in your `credentials.json` in `Client ID` **and** `BotID` field.
 - Save your `credentials.json` but keep it open. We need to put your `User ID` and owner.
 
 ####Inviting your bot to your server 
@@ -68,7 +67,7 @@ ________________________________________________________________________________
 - Now you are the bot owner.
 - You can add `User IDs` from the other users by separating IDs with a comma if you want to have more owners.
 
-`*Alternatively, you can download nadekobot from [Releases][Releases] and extract the zip yourself. 
+`*Alternatively, you can download nadekobot from` [Releases][Releases] `and extract the zip yourself. 
 That is what updater does, except it makes it easier for you to update because it doesn't overwrite 
 important files.If you are downloading releases you will have to be careful about your config, 
 credentials, and other files you edited in order to preserve your data every time you update.`
@@ -109,7 +108,7 @@ ________________________________________________________________________________
 [NET Framework]: https://www.microsoft.com/en-us/download/details.aspx?id=48130
 [FFMPEG]: https://github.com/Soundofdarkness/FFMPEG-Installer
 [7zip]: http://www.7-zip.org/download.html
-[Releases]: //github.com/Kwoth/NadekoUpdater/releases/tag/v1.0
+[Releases]: https://github.com/Kwoth/NadekoBot/releases
 [DiscordApp]: https://discordapp.com/developers/applications/me
 [Notepad++]: https://notepad-plus-plus.org/
 [Invite Guide]: http://discord.kongslien.net/guide.html
