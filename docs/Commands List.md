@@ -168,7 +168,7 @@ Command and aliases | Description | Usage
 `$flip` | Flips coin(s) - heads or tails, and shows an image. | `$flip` or `$flip 3`
 `$betflip`, `$bf` | Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet. | `$bf 5 heads` or `$bf 3 t`
 `$roll` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice. If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll 7` or `$roll 3d5`
-`$rolluo` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$roll` or `$roll` 7 or `$roll 3d5`
+`$rolluo` | Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered). If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `$rolluo` or `$rolluo 7` or `$rolluo 3d5`
 `$nroll` | Rolls in a given range. | `$nroll 5` (rolls 0-5) or `$nroll 5-15`
 `$race` | Starts a new animal race. | `$race`
 `$joinrace`, `$jr` | Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `$jr` or `$jr 5`
@@ -224,8 +224,8 @@ Command and aliases | Description | Usage
 `!!local`, `!!lo` | Queues a local file by specifying a full path. **Bot Owner Only!** | `!!lo C:/music/mysong.mp3`
 `!!move`, `!!mv` | Moves the bot to your voice channel. (works only if music is already playing) | `!!mv`
 `!!remove`, `!!rm` | Remove a song by its # in the queue, or 'all' to remove whole queue. | `!!rm 5`
-`!!movesong`, `!!ms` | Moves a song from one position to another. | `!! ms` 5>3
-`!!setmaxqueue`, `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq` 50 or `!!smq`
+`!!movesong`, `!!ms` | Moves a song from one position to another. | `!! ms 5>3`
+`!!setmaxqueue`, `!!smq` | Sets a maximum queue size. Supply 0 or no argument to have no limit.  | `!!smq 50` or `!!smq`
 `!!cleanup` | Cleans up hanging voice connections. **Bot Owner Only!** | `!!cleanup`
 `!!reptcursong`, `!!rcs` | Toggles repeat of current song. | `!!rcs`
 `!!rpeatplaylst`, `!!rpl` | Toggles repeat of all songs in the queue (every song that finishes is added to the end of the queue). | `!!rpl`
@@ -255,7 +255,7 @@ Command and aliases | Description | Usage
 `~wowjoke` | Get one of Kwoth's penultimate WoW jokes. | `~wowjoke`
 `~calculate`, `~calc` | Evaluate a mathematical expression. | `~calc 1+1`
 `~osu` | Shows osu stats for a player. | `~osu Name` or `~osu Name taiko`
-`~osu b` | Shows information about an osu beatmap. |`~osu b` https://osu.ppy.sh/s/127712
+`~osu b` | Shows information about an osu beatmap. |`~osu b https://osu.ppy.sh/s/127712`
 `~osu top5` | Displays a user's top 5 plays.  |`~osu top5 Name`
 `~pokemon`, `~poke` | Searches for a pokemon. | `~poke Sylveon`
 `~pokemonability`, `~pokeab` | Searches for a pokemon ability. | `~pokeab "water gun"`
