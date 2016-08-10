@@ -4,6 +4,12 @@ To invite NadekoBot to your server, click on the image bellow:
 [![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
 
 In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we can provide support.
+
+NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
+
+Here you can read current [Issues][Issues].
+
+If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 ##Content
 - [About](about.md)
 - Guides
@@ -12,7 +18,10 @@ In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we
 	- [OSX Guide](guides/OSX Guide.md)
 	- [Building from Source](guides/Building from Source.md)
 	- [Docker Guide](guides/Docker Guide.md)
-- [Commands List](Commands List.md)
+	- [DigitalOcean Guide](guides/DigitalOcean Guide.md)
+- Commands
+	- [Readme](Readme.md)
+	- [Commands List](Commands List.md)
 - [Permissions System](Permissions System.md)
 - [JSON Explanations](JSON Explanations.md)
 - [Custiom Reactions](Custom Reactions.md)
@@ -22,3 +31,6 @@ In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we
 
 [img]: https://discordcdn.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
+[GitHub]: https://github.com/Kwoth/NadekoBot
+[Issues]: https://github.com/Kwoth/NadekoBot/issues
+[dev]: https://github.com/Kwoth/NadekoBot/tree/dev
