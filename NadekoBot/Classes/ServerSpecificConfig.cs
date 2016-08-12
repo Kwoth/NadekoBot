@@ -64,7 +64,7 @@ namespace NadekoBot.Classes
             await saveLock.WaitAsync();
             try
             {
-                await Task.Run(() => File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented)));
+                File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented));
             }
             finally
             {
