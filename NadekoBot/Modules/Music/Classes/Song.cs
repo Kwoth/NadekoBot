@@ -16,17 +16,20 @@ namespace NadekoBot.Modules.Music.Classes
     public class Song
     {
         private int skipTo = 0;
+
         public Song(SongInfo songInfo)
         {
             this.SongInfo = songInfo;
         }
 
         public MusicPlayer MusicPlayer { get; set; }
+
         public string PrettyName =>
             $"**【 {SongInfo.Title.TrimTo(55)} 】**`{(SongInfo.Provider ?? "-")}` `by {QueuerName}`";
 
         public bool PrintStatusMessage { get; set; } = true;
         public string QueuerName { get; set; }
+
         public int SkipTo
         {
             get { return SkipTo; }
@@ -187,6 +190,7 @@ namespace NadekoBot.Modules.Music.Classes
             var time = TimeSpan.FromSeconds(bytesSent / 3840 / 50);
             return $"【{(int)time.TotalMinutes}m {time.Seconds}s】";
         }
+
         public Song SetMusicPlayer(MusicPlayer mp)
         {
             this.MusicPlayer = mp;
