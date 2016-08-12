@@ -18,12 +18,11 @@ namespace NadekoBot.Classes
 
         private const string filePath = "data/ServerSpecificConfigs.json";
 
-        static SpecificConfigurations()
-        {
-        }
+        static SpecificConfigurations() { }
 
         private SpecificConfigurations()
         {
+
             if (File.Exists(filePath))
             {
                 try
@@ -43,7 +42,7 @@ namespace NadekoBot.Classes
                 }
                 catch (Exception ex)
                 {
-                    NadekoBot.WriteInColor($"Deserialization failing: {ex}", ConsoleColor.Red);
+                    Console.WriteLine($"Deserialization failing: {ex}");
                 }
             }
             if (configs == null)
@@ -65,7 +64,7 @@ namespace NadekoBot.Classes
             await saveLock.WaitAsync();
             try
             {
-                File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented));
+                await Task.Run(() => File.WriteAllText(filePath, JsonConvert.SerializeObject(configs, Formatting.Indented)));
             }
             finally
             {
@@ -78,28 +77,21 @@ namespace NadekoBot.Classes
     {
         [JsonProperty("VoicePlusTextEnabled")]
         private bool voicePlusTextEnabled;
-
         [JsonIgnore]
-        public bool VoicePlusTextEnabled
-        {
+        public bool VoicePlusTextEnabled {
             get { return voicePlusTextEnabled; }
-            set
-            {
+            set {
                 voicePlusTextEnabled = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
         }
-
         [JsonProperty("SendPrivateMessageOnMention")]
         private bool sendPrivateMessageOnMention;
-
         [JsonIgnore]
-        public bool SendPrivateMessageOnMention
-        {
+        public bool SendPrivateMessageOnMention {
             get { return sendPrivateMessageOnMention; }
-            set
-            {
+            set {
                 sendPrivateMessageOnMention = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -108,13 +100,10 @@ namespace NadekoBot.Classes
 
         [JsonProperty("LogChannel")]
         private ulong? logServerChannel = null;
-
         [JsonIgnore]
-        public ulong? LogServerChannel
-        {
+        public ulong? LogServerChannel {
             get { return logServerChannel; }
-            set
-            {
+            set {
                 logServerChannel = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -123,12 +112,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private ObservableCollection<ulong> logserverIgnoreChannels;
-
-        public ObservableCollection<ulong> LogserverIgnoreChannels
-        {
+        public ObservableCollection<ulong> LogserverIgnoreChannels {
             get { return logserverIgnoreChannels; }
-            set
-            {
+            set {
                 logserverIgnoreChannels = value;
                 if (value != null)
                     logserverIgnoreChannels.CollectionChanged += (s, e) =>
@@ -141,13 +127,10 @@ namespace NadekoBot.Classes
 
         [JsonProperty("LogPresenceChannel")]
         private ulong? logPresenceChannel = null;
-
         [JsonIgnore]
-        public ulong? LogPresenceChannel
-        {
+        public ulong? LogPresenceChannel {
             get { return logPresenceChannel; }
-            set
-            {
+            set {
                 logPresenceChannel = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -156,12 +139,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private ObservableConcurrentDictionary<ulong, ulong> voiceChannelLog;
-
-        public ObservableConcurrentDictionary<ulong, ulong> VoiceChannelLog
-        {
+        public ObservableConcurrentDictionary<ulong, ulong> VoiceChannelLog {
             get { return voiceChannelLog; }
-            set
-            {
+            set {
                 voiceChannelLog = value;
                 if (value != null)
                     voiceChannelLog.CollectionChanged += (s, e) =>
@@ -174,12 +154,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private ObservableCollection<ulong> listOfSelfAssignableRoles;
-
-        public ObservableCollection<ulong> ListOfSelfAssignableRoles
-        {
+        public ObservableCollection<ulong> ListOfSelfAssignableRoles {
             get { return listOfSelfAssignableRoles; }
-            set
-            {
+            set {
                 listOfSelfAssignableRoles = value;
                 if (value != null)
                     listOfSelfAssignableRoles.CollectionChanged += (s, e) =>
@@ -190,14 +167,13 @@ namespace NadekoBot.Classes
             }
         }
 
+
+
         [JsonIgnore]
         private ulong autoAssignedRole = 0;
-
-        public ulong AutoAssignedRole
-        {
+        public ulong AutoAssignedRole {
             get { return autoAssignedRole; }
-            set
-            {
+            set {
                 autoAssignedRole = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -206,12 +182,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private ObservableConcurrentDictionary<ulong, int> generateCurrencyChannels;
-
-        public ObservableConcurrentDictionary<ulong, int> GenerateCurrencyChannels
-        {
+        public ObservableConcurrentDictionary<ulong, int> GenerateCurrencyChannels {
             get { return generateCurrencyChannels; }
-            set
-            {
+            set {
                 generateCurrencyChannels = value;
                 if (value != null)
                     generateCurrencyChannels.CollectionChanged += (s, e) =>
@@ -224,12 +197,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private bool autoDeleteMessagesOnCommand = false;
-
-        public bool AutoDeleteMessagesOnCommand
-        {
+        public bool AutoDeleteMessagesOnCommand {
             get { return autoDeleteMessagesOnCommand; }
-            set
-            {
+            set {
                 autoDeleteMessagesOnCommand = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
@@ -238,26 +208,21 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private bool exclusiveSelfAssignedRoles = false;
-
-        public bool ExclusiveSelfAssignedRoles
-        {
+        public bool ExclusiveSelfAssignedRoles {
             get { return exclusiveSelfAssignedRoles; }
-            set
-            {
+            set {
                 exclusiveSelfAssignedRoles = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
             }
         }
 
+
         [JsonIgnore]
         private ObservableCollection<StreamNotificationConfig> observingStreams;
-
-        public ObservableCollection<StreamNotificationConfig> ObservingStreams
-        {
+        public ObservableCollection<StreamNotificationConfig> ObservingStreams {
             get { return observingStreams; }
-            set
-            {
+            set {
                 observingStreams = value;
                 if (value != null)
                     observingStreams.CollectionChanged += (s, e) =>
@@ -270,12 +235,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private float defaultMusicVolume = 1f;
-
-        public float DefaultMusicVolume
-        {
+        public float DefaultMusicVolume {
             get { return defaultMusicVolume; }
-            set
-            {
+            set {
                 defaultMusicVolume = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();
