@@ -6,14 +6,13 @@ using System.IO;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class PokemonSearchCommands : DiscordCommand
+    internal class PokemonSearchCommands : DiscordCommand
     {
         private static Dictionary<string, SearchPokemon> pokemons;
         private static Dictionary<string, SearchPokemonAbility> pokemonAbilities;
 
         public PokemonSearchCommands(DiscordModule module) : base(module)
         {
-
             pokemons = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemon>>(File.ReadAllText("data/pokemon/pokemon_list.json"));
             pokemonAbilities = JsonConvert.DeserializeObject<Dictionary<string, SearchPokemonAbility>>(File.ReadAllText("data/pokemon/pokemon_abilities.json"));
         }
@@ -70,6 +69,7 @@ namespace NadekoBot.Modules.Searches.Commands
             public float M { get; set; }
             public float F { get; set; }
         }
+
         public class BaseStatsClass
         {
             public int HP { get; set; }
@@ -83,6 +83,7 @@ namespace NadekoBot.Modules.Searches.Commands
     **HP:**  {HP,-4} **ATK:** {ATK,-4} **DEF:** {DEF,-4}
     **SPA:** {SPA,-4} **SPD:** {SPD,-4} **SPE:** {SPE,-4}";
         }
+
         public int Id { get; set; }
         public string Species { get; set; }
         public string[] Types { get; set; }
@@ -100,7 +101,6 @@ namespace NadekoBot.Modules.Searches.Commands
 `Stats:` {BaseStats}
 `Height:` {HeightM,4}m `Weight:` {WeightKg}kg
 `Abilities:` {string.Join(", ", Abilities.Values)}";
-
     }
 
     public class SearchPokemonAbility

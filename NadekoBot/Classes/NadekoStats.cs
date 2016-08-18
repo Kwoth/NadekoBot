@@ -7,7 +7,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+
+#if NADEKO_RELEASE
 using System.IO;
+#endif
+
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -36,7 +40,9 @@ namespace NadekoBot
         private static ulong messageCounter = 0;
         public static ulong MessageCounter => messageCounter;
 
-        static NadekoStats() { }
+        static NadekoStats()
+        {
+        }
 
         private NadekoStats()
         {
@@ -112,7 +118,8 @@ namespace NadekoBot
             carbonStatusTimer.Start();
         }
 
-        HttpClient carbonClient = new HttpClient();
+        private HttpClient carbonClient = new HttpClient();
+
         private async Task SendUpdateToCarbon()
         {
             if (string.IsNullOrWhiteSpace(NadekoBot.Creds.CarbonKey))
@@ -132,8 +139,8 @@ namespace NadekoBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Failed sending status update to carbon.");
-                Console.WriteLine(ex);
+                NadekoBot.WriteInColor("Failed sending status update to carbon.", ConsoleColor.Yellow);
+                NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
             }
         }
 
@@ -205,15 +212,12 @@ namespace NadekoBot
                     });
 
                     statsSw.Stop();
-                    var clr = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"--------------\nCollecting stats finished in {statsSw.Elapsed.TotalSeconds}s\n-------------");
-                    Console.ForegroundColor = clr;
+                    NadekoBot.WriteInColor($"-============-\nCollecting stats finished in {statsSw.Elapsed.TotalSeconds}s\n-============-", ConsoleColor.Magenta);
                     statsSw.Reset();
                 }
                 catch
                 {
-                    Console.WriteLine("DB Exception in stats collecting.");
+                    NadekoBot.WriteInColor("DB Exception in stats collecting.", ConsoleColor.Red);
                     break;
                 }
             }
@@ -223,10 +227,10 @@ namespace NadekoBot
 
         private void CommandService_CommandFinished(object sender, CommandEventArgs e)
         {
-
             DateTime dt;
             if (!commandTracker.TryGetValue(e.Message.Id, out dt))
                 return;
+#if NADEKO_RELEASE
             try
             {
                 if (e is CommandErrorEventArgs)
@@ -240,7 +244,6 @@ namespace NadekoBot
 ");
                         Console.WriteLine($">>COMMAND ERRORED after *{(DateTime.UtcNow - dt).TotalSeconds}s*\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
                     }
-
                 }
                 else
                 {
@@ -248,18 +251,19 @@ namespace NadekoBot
                 }
             }
             catch { }
+#endif
         }
 
         private async void StatsCollector_RanCommand(object sender, CommandEventArgs e)
         {
             commandTracker.TryAdd(e.Message.Id, DateTime.UtcNow);
-            Console.WriteLine($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----");
+            NadekoBot.WriteInColor($">>COMMAND STARTED\nCmd: {e.Command.Text}\nMsg: {e.Message.Text}\nUsr: {e.User.Name} [{e.User.Id}]\nSrvr: {e.Server?.Name ?? "PRIVATE"} [{e.Server?.Id}]\n-----", ConsoleColor.DarkGreen);
+            commandsRan++;
 #if !NADEKO_RELEASE
             await Task.Run(() =>
             {
                 try
                 {
-                    commandsRan++;
                     Classes.DbHandler.Instance.Connection.Insert(new DataModels.Command
                     {
                         ServerId = (long)(e.Server?.Id ?? 0),
@@ -274,8 +278,8 @@ namespace NadekoBot
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Probably unimportant error in ran command DB write.");
-                    Console.WriteLine(ex);
+                    NadekoBot.WriteInColor("Probably unimportant error in ran command DB write.", ConsoleColor.Red);
+                    NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 }
             }).ConfigureAwait(false);
 #endif

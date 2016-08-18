@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Gambling.Commands
 {
-    class AnimalRacing : DiscordCommand
+    internal class AnimalRacing : DiscordCommand
     {
         public static ConcurrentDictionary<ulong, AnimalRace> AnimalRaces = new ConcurrentDictionary<ulong, AnimalRace>();
 
@@ -32,14 +32,12 @@ namespace NadekoBot.Modules.Gambling.Commands
                     }
                 });
 
-
             cgb.CreateCommand(Prefix + "joinrace")
                 .Alias(Prefix + "jr")
                 .Description($"Joins a new race. You can specify an amount of flowers for betting (optional). You will get YourBet*(participants-1) back if you win. | `{Prefix}jr` or `{Prefix}jr 5`")
                 .Parameter("amount", ParameterType.Optional)
                 .Do(async e =>
                 {
-
                     int amount;
                     if (!int.TryParse(e.GetArg("amount"), out amount) || amount < 0)
                         amount = 0;
@@ -62,13 +60,11 @@ namespace NadekoBot.Modules.Gambling.Commands
                         return;
                     }
                     await ar.JoinRace(e.User, amount);
-
                 });
         }
 
         public class AnimalRace
         {
-
             private ConcurrentQueue<string> animals = new ConcurrentQueue<string>(NadekoBot.Config.RaceAnimals.Shuffle());
 
             public bool Fail { get; internal set; }
@@ -145,7 +141,6 @@ namespace NadekoBot.Modules.Gambling.Commands
                         //update the state
                         participants.ForEach(p =>
                         {
-
                             p.Total += 1 + rng.Next(0, 10);
                             if (p.Total > 60)
                             {
@@ -158,7 +153,6 @@ namespace NadekoBot.Modules.Gambling.Commands
                                     p.Place = place++;
                             }
                         });
-
 
                         //draw the state
 
@@ -193,7 +187,6 @@ namespace NadekoBot.Modules.Gambling.Commands
                 {
                     await raceChannel.SendMessage($"🏁 {winner.User.Mention} as {winner.Animal} **Won the race!**");
                 }
-
             }
 
             private void Client_MessageReceived(object sender, MessageEventArgs e)
@@ -288,7 +281,6 @@ namespace NadekoBot.Modules.Gambling.Commands
                 {
                     return str + $"`{Place}th`";
                 }
-
             }
         }
     }

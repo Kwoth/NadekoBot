@@ -1,20 +1,18 @@
-﻿using NadekoBot.Classes;
+﻿using Discord.Commands;
+using NadekoBot.Classes;
+using NadekoBot.Extensions;
+using NadekoBot.Properties;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using NadekoBot.Properties;
-using System.IO;
 using System.Drawing.Imaging;
-using NadekoBot.Extensions;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Conversations.Commands
 {
-    class RipCommand : DiscordCommand
+    internal class RipCommand : DiscordCommand
     {
         public RipCommand(DiscordModule module) : base(module)
         {
@@ -53,7 +51,6 @@ namespace NadekoBot.Modules.Conversations.Commands
                     });
         }
 
-
         /// <summary>
         /// Create a RIP image of the given name and avatar, with an optional year
         /// </summary>
@@ -65,12 +62,12 @@ namespace NadekoBot.Modules.Conversations.Commands
         {
             var bm = Resources.rip;
             int width = 300;
-            var fontSize = width / name.Length  -2;
+            var fontSize = width / name.Length - 2;
             if (fontSize > 20) fontSize = 20;
             var g = Graphics.FromImage(bm);
             Font nameFont = new Font("Comic Sans MS", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
             SizeF nameSize = g.MeasureString(name, nameFont);
-            g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, (bm.Width /2 - 8) - (nameSize.Width /2), 243 - nameSize.Height);
+            g.DrawString(name, new Font("Comic Sans MS", fontSize, FontStyle.Bold), Brushes.Black, (bm.Width / 2 - 8) - (nameSize.Width / 2), 243 - nameSize.Height);
             g.DrawString((year ?? "?") + " - " + DateTime.Now.Year, new Font("Consolas", 12, FontStyle.Bold), Brushes.Black, 80, 240);
 
             g.DrawImage(avatar, 80, 135);
@@ -110,11 +107,9 @@ namespace NadekoBot.Modules.Conversations.Commands
                 {
                     gr.SetClip(gp);
                     gr.DrawImage(Image.FromStream(stream), Point.Empty);
-
                 }
             }
             return bmp;
-
         }
     }
 }

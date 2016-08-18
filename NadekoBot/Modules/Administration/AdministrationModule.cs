@@ -628,7 +628,7 @@ namespace NadekoBot.Modules.Administration
                 cgb.CreateCommand(Prefix + "prune")
                     .Alias(Prefix + "clr")
                     .Description(
-                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. " +
+                    "`.prune` removes all nadeko's messages in the last 100 messages.`.prune X` removes last X messages from the channel (up to 100)`.prune @Someone` removes all Someone's messages in the last 100 messages.`.prune @Someone X` removes last X 'Someone's' messages in the channel. **Needs Manage Messages Permissions**" +
                     $"| `{Prefix}prune` or `{Prefix}prune 5` or `{Prefix}prune @Someone` or `{Prefix}prune @Someone X`")
                     .Parameter("user_or_num", ParameterType.Optional)
                     .Parameter("num", ParameterType.Optional)
@@ -651,8 +651,7 @@ namespace NadekoBot.Modules.Administration
                             return;
                         }
                         int val;
-                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument, 
-                                                                            //delete that number of messages.
+                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument, delete that number of messages.
                         {
                             if (val <= 0)
                                 return;
@@ -685,7 +684,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "setname")
                     .Alias(Prefix + "newnm")
-                    .Description($"Give the bot a new name. **Bot Owner Only!** | {Prefix}newnm BotName")
+                    .Description($"Give the bot a new name. **Bot Owner Only!** | `{Prefix}newnm BotName`")
                     .Parameter("new_name", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -697,7 +696,7 @@ namespace NadekoBot.Modules.Administration
 
                 cgb.CreateCommand(Prefix + "newavatar")
                     .Alias(Prefix + "setavatar")
-                    .Description($"Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `{Prefix}setavatar https://i.ytimg.com/vi/WDudkR1eTMM/maxresdefault.jpg`")
+                    .Description($"Sets a new avatar image for the NadekoBot. Argument is a direct link to an image. **Bot Owner Only!** | `{Prefix}setavatar http://i.imgur.com/xTG3a1I.jpg`")
                     .Parameter("img", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())
                     .Do(async e =>
@@ -728,7 +727,7 @@ namespace NadekoBot.Modules.Administration
                   });
 
                 cgb.CreateCommand(Prefix + "send")
-                    .Description($"Send a message to someone on a different server through the bot. **Bot Owner Only!** | `{Prefix}send serverid|u:user_id Send this to a user!` or `{Prefix}send serverid|c:channel_id Send this to a channel!`")
+                    .Description($"Send a message to someone on a different server through the bot. **Bot Owner Only!** | `{Prefix}send sid|u:uid Hello user!` or `{Prefix}send sid|c:cid Message to channel!` (cid = channel id, sid = server id)")
                     .Parameter("ids", ParameterType.Required)
                     .Parameter("msg", ParameterType.Unparsed)
                     .AddCheck(SimpleCheckers.OwnerOnly())

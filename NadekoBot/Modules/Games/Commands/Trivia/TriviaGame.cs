@@ -13,7 +13,7 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 {
     internal class TriviaGame
     {
-        private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1,1);
+        private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1, 1);
 
         private Server server { get; }
         private Channel channel { get; }
@@ -76,7 +76,6 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 
                     //timeout
                     await Task.Delay(QuestionDurationMiliseconds - HintTimeoutMiliseconds, token).ConfigureAwait(false);
-
                 }
                 catch (TaskCanceledException) { } //means someone guessed the answer
                 GameActive = false;

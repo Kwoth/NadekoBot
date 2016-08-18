@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Searches.Commands
 {
-    class MemegenCommands : DiscordCommand
+    internal class MemegenCommands : DiscordCommand
     {
         public MemegenCommands(DiscordModule module) : base(module)
         {

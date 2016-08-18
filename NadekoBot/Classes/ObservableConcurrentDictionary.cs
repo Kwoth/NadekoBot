@@ -1,7 +1,7 @@
 ﻿//--------------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved. 
-// 
+//
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//
 //  File: ObservableConcurrentDictionary.cs
 //
 //--------------------------------------------------------------------------
@@ -38,6 +38,7 @@ namespace System.Collections.Concurrent
 
         /// <summary>Event raised when the collection changes.</summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         /// <summary>Event raised when a property on the collection changes.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -107,6 +108,7 @@ namespace System.Collections.Concurrent
         }
 
         #region ICollection<KeyValuePair<TKey,TValue>> Members
+
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
         {
             TryAddWithNotification(item);
@@ -128,11 +130,13 @@ namespace System.Collections.Concurrent
             ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).CopyTo(array, arrayIndex);
         }
 
-        int ICollection<KeyValuePair<TKey, TValue>>.Count {
+        int ICollection<KeyValuePair<TKey, TValue>>.Count
+        {
             get { return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).Count; }
         }
 
-        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly {
+        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
+        {
             get { return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).IsReadOnly; }
         }
 
@@ -141,9 +145,11 @@ namespace System.Collections.Concurrent
             TValue temp;
             return TryRemoveWithNotification(item.Key, out temp);
         }
-        #endregion
+
+        #endregion ICollection<KeyValuePair<TKey,TValue>> Members
 
         #region IEnumerable<KeyValuePair<TKey,TValue>> Members
+
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
             return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).GetEnumerator();
@@ -153,9 +159,11 @@ namespace System.Collections.Concurrent
         {
             return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).GetEnumerator();
         }
-        #endregion
+
+        #endregion IEnumerable<KeyValuePair<TKey,TValue>> Members
 
         #region IDictionary<TKey,TValue> Members
+
         public void Add(TKey key, TValue value)
         {
             TryAddWithNotification(key, value);
@@ -166,7 +174,8 @@ namespace System.Collections.Concurrent
             return _dictionary.ContainsKey(key);
         }
 
-        public ICollection<TKey> Keys {
+        public ICollection<TKey> Keys
+        {
             get { return _dictionary.Keys; }
         }
 
@@ -186,11 +195,13 @@ namespace System.Collections.Concurrent
             return TryAddWithNotification(key, value);
         }
 
-        public ICollection<TValue> Values {
+        public ICollection<TValue> Values
+        {
             get { return _dictionary.Values; }
         }
 
-        public TValue this[TKey key] {
+        public TValue this[TKey key]
+        {
             get { return _dictionary[key]; }
             set { UpdateWithNotification(key, value); }
         }
@@ -199,6 +210,7 @@ namespace System.Collections.Concurrent
         {
             return TryRemoveWithNotification(key, out value);
         }
-        #endregion
+
+        #endregion IDictionary<TKey,TValue> Members
     }
 }

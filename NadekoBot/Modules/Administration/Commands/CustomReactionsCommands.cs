@@ -6,15 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class CustomReactionsCommands : DiscordCommand
+    internal class CustomReactionsCommands : DiscordCommand
     {
         public CustomReactionsCommands(DiscordModule module) : base(module)
         {
-
         }
 
         internal override void Init(CommandGroupBuilder cgb)
@@ -23,7 +21,7 @@ namespace NadekoBot.Modules.Administration.Commands
 
             cgb.CreateCommand(Prefix + "addcustreact")
                 .Alias(Prefix + "acr")
-                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   | `{Prefix}acr \"hello\" I love saying hello to %user%`")
+                .Description($"Add a custom reaction. Guide here: <https://github.com/Kwoth/NadekoBot/wiki/Custom-Reactions> **Bot Owner Only!**   | `{Prefix}acr \"hello\" Hi there %user%`")
                 .AddCheck(SimpleCheckers.OwnerOnly())
                 .Parameter("name", ParameterType.Required)
                 .Parameter("message", ParameterType.Unparsed)
@@ -42,7 +40,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         NadekoBot.Config.CustomReactions.Add(name, new System.Collections.Generic.List<string>() { message });
                     await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                     await e.Channel.SendMessage($"Added {name} : {message}").ConfigureAwait(false);
-
                 });
 
             cgb.CreateCommand(Prefix + "listcustreact")
@@ -123,8 +120,6 @@ namespace NadekoBot.Modules.Administration.Commands
                     if (string.IsNullOrWhiteSpace(msg))
                         return;
 
-
-
                     if (!NadekoBot.Config.CustomReactions.ContainsKey(name))
                     {
                         await e.Channel.SendMessage("`Could not find given commandname`").ConfigureAwait(false);
@@ -169,7 +164,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         {
                             await e.Channel.SendMessage("Given index was out of range").ConfigureAwait(false);
                             return;
-
                         }
                         NadekoBot.Config.CustomReactions[name].RemoveAt(index);
                         if (!NadekoBot.Config.CustomReactions[name].Any())
@@ -218,6 +212,7 @@ namespace NadekoBot.Modules.Administration.Commands
         }
     }
 }
+
 // zeta is a god
 //├
 //─

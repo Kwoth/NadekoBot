@@ -11,15 +11,14 @@ using System.Timers;
 
 namespace NadekoBot.Modules.Utility.Commands
 {
-    class Remind : DiscordCommand
+    internal class Remind : DiscordCommand
     {
-
-        Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
+        private Regex regex = new Regex(@"^(?:(?<months>\d)mo)?(?:(?<weeks>\d)w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,2})h)?(?:(?<minutes>\d{1,2})m)?$",
                                 RegexOptions.Compiled | RegexOptions.Multiline);
 
-        List<Timer> reminders = new List<Timer>();
+        private List<Timer> reminders = new List<Timer>();
 
-        IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
+        private IDictionary<string, Func<Reminder, string>> replacements = new Dictionary<string, Func<Reminder, string>>
         {
             { "%message%" , (r) => r.Message },
             { "%user%", (r) => $"<@!{r.UserId}>" },
@@ -30,7 +29,7 @@ namespace NadekoBot.Modules.Utility.Commands
         {
             var remList = DbHandler.Instance.GetAllRows<Reminder>();
 
-            reminders = remList.Select(StartNewReminder).ToList();
+            NadekoBot.OnReady += () => reminders = remList.Select(StartNewReminder).ToList();
         }
 
         private Timer StartNewReminder(Reminder r)
@@ -65,11 +64,10 @@ namespace NadekoBot.Modules.Utility.Commands
                         replacements.Aggregate(NadekoBot.Config.RemindMessageFormat,
                         (cur, replace) => cur.Replace(replace.Key, replace.Value(r)))
                             ).ConfigureAwait(false); //it works trust me
-
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Timer error! {ex}");
+                    NadekoBot.WriteInColor($"Timer error! {ex}", ConsoleColor.Red);
                 }
                 finally
                 {

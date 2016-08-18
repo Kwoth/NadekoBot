@@ -22,6 +22,7 @@ namespace NadekoBot.Modules.Searches
     internal class SearchesModule : DiscordModule
     {
         private readonly Random rng;
+
         public SearchesModule()
         {
             commands.Add(new LoLCommands(this));
@@ -42,7 +43,6 @@ namespace NadekoBot.Modules.Searches
         {
             manager.CreateCommands("", cgb =>
             {
-
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 commands.ForEach(cmd => cmd.Init(cgb));
@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Searches
                         await e.Channel.SendMessage(
 $@"🌍 **Weather for** 【{obj["target"]}】
 📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
-😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
+😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph
 🔆 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
 🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
                     });
@@ -300,10 +300,11 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       {
                           var items = JObject.Parse(res);
                           var sb = new System.Text.StringBuilder();
-                          sb.AppendLine($"`Term:` {items["list"][0]["word"].ToString()}");
-                          sb.AppendLine($"`Definition:` {items["list"][0]["definition"].ToString()}");
-                          sb.Append($"`Link:` <{await items["list"][0]["permalink"].ToString().ShortenUrl().ConfigureAwait(false)}>");
-                          await e.Channel.SendMessage(sb.ToString());
+                          var item = items["list"][0];
+                          sb.AppendLine($"`Term:` {item["word"].ToString()}");
+                          sb.AppendLine($"`Definition:` {item["definition"].ToString()}");
+                          sb.Append($"`Link:` <{item["permalink"].ToString()}>");
+                          await e.Channel.SendMessage(sb.ToString()).ConfigureAwait(false);
                       }
                       catch
                       {
@@ -476,7 +477,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         await e.Channel.SendFile("arg1.png", img.ToStream());
                     });
 
-
                 cgb.CreateCommand(Prefix + "videocall")
                   .Description($"Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message. | `{Prefix}videocall \"@SomeGuy\"`")
                   .Parameter("arg", ParameterType.Unparsed)
@@ -495,7 +495,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                       }
                       catch (Exception ex)
                       {
-                          Console.WriteLine(ex);
+                          NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                       }
                   });
 
@@ -513,9 +513,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                         }
                         await e.Channel.SendMessage(await usr.AvatarUrl.ShortenUrl()).ConfigureAwait(false);
                     });
-
             });
         }
     }
 }
-

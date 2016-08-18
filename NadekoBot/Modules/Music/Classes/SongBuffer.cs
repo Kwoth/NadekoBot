@@ -1,11 +1,7 @@
 ﻿using NadekoBot.Extensions;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,9 +11,8 @@ namespace NadekoBot.Modules.Music.Classes
     /// Create a buffer for a song file. It will create multiples files to ensure, that radio don't fill up disk space.
     /// It also help for large music by deleting files that are already seen.
     /// </summary>
-    class SongBuffer
+    internal class SongBuffer
     {
-
         public SongBuffer(string basename, SongInfo songInfo, int skipTo)
         {
             Basename = basename;
@@ -37,7 +32,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private long NextFileToRead = 0;
 
-        public bool BufferingCompleted { get; private set;} = false;
+        public bool BufferingCompleted { get; private set; } = false;
 
         private ulong CurrentBufferSize = 0;
 
@@ -71,7 +66,8 @@ namespace NadekoBot.Modules.Music.Classes
                            try
                            {
                                outStream.Dispose();
-                           }catch { }
+                           }
+                           catch { }
                            outStream = new FileStream(Basename + "-" + ++FileNumber, FileMode.Append, FileAccess.Write, FileShare.Read);
                            currentFileSize = bytesRead;
                        }
@@ -88,24 +84,21 @@ namespace NadekoBot.Modules.Music.Classes
                }
                catch (System.ComponentModel.Win32Exception)
                {
-                   var oldclr = Console.ForegroundColor;
-                   Console.ForegroundColor = ConsoleColor.Red;
-                   Console.WriteLine(@"You have not properly installed or configured FFMPEG. 
-Please install and configure FFMPEG to play music. 
+                   NadekoBot.WriteInColor(@"You have not properly installed or configured FFMPEG.
+Please install and configure FFMPEG to play music.
 Check the guides for your platform on how to setup ffmpeg correctly:
     Windows Guide: https://goo.gl/SCv72y
-    Linux Guide:  https://goo.gl/rRhjCp");
-                   Console.ForegroundColor = oldclr;
+    Linux Guide:  https://goo.gl/rRhjCp", ConsoleColor.Red);
                }
                catch (Exception ex)
                {
-                   Console.WriteLine($"Buffering stopped: {ex.Message}");
+                   NadekoBot.WriteInColor($"Buffering stopped: {ex.Message}", ConsoleColor.Red);
                }
                finally
                {
-                   if(outStream != null)
-                        outStream.Dispose();
-                   Console.WriteLine($"Buffering done.");
+                   if (outStream != null)
+                       outStream.Dispose();
+                   NadekoBot.WriteInColor($"Buffering done.", ConsoleColor.Cyan);
                    if (p != null)
                    {
                        try
@@ -125,7 +118,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
         public string GetNextFile()
         {
             string filename = Basename + "-" + NextFileToRead;
-            
+
             if (NextFileToRead != 0)
             {
                 try
@@ -146,7 +139,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
         public void CleanFiles()
         {
-            for (long i = NextFileToRead - 1 ; i <= FileNumber; i++)
+            for (long i = NextFileToRead - 1; i <= FileNumber; i++)
             {
                 try
                 {

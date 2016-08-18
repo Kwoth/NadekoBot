@@ -13,11 +13,12 @@ namespace NadekoBot.Modules.Administration.Commands
 {
     internal class VoicePlusTextCommand : DiscordCommand
     {
-        Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+        private Regex channelNameRegex = new Regex(@"[^a-zA-Z0-9 -]", RegexOptions.Compiled);
+
         public VoicePlusTextCommand(DiscordModule module) : base(module)
         {
             // changing servers may cause bugs
-            NadekoBot.Client.UserUpdated += async (sender, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.UserUpdated += async (sender, e) =>
             {
                 try
                 {
@@ -32,7 +33,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         return;
                     if (!serverPerms.Value.ManageChannels || !serverPerms.Value.ManageRoles)
                     {
-
                         try
                         {
                             await e.Server.Owner.SendMessage(
@@ -43,7 +43,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         config.VoicePlusTextEnabled = false;
                         return;
                     }
-
 
                     var beforeVch = e.Before.VoiceChannel;
                     if (beforeVch != null)
@@ -76,7 +75,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 }
             };
         }
@@ -88,7 +87,7 @@ namespace NadekoBot.Modules.Administration.Commands
         {
             cgb.CreateCommand(Module.Prefix + "cleanv+t")
                 .Alias(Module.Prefix + "cv+t")
-                .Description($"Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk.\nNeeds Manage Roles and Manage Channels Permissions.** | `{Prefix}cleanv+t`")
+                .Description($"Deletes all text channels ending in `-voice` for which voicechannels are not found. **Use at your own risk. Needs Manage Roles and Manage Channels Permissions.** | `{Prefix}cleanv+t`")
                 .AddCheck(SimpleCheckers.CanManageRoles)
                 .AddCheck(SimpleCheckers.ManageChannels())
                 .Do(async e =>
@@ -152,7 +151,6 @@ namespace NadekoBot.Modules.Administration.Commands
                         await e.Channel.SendMessage("Successfuly enabled voice + text feature. " +
                                                     "**Make sure the bot has manage roles and manage channels permissions**")
                                                     .ConfigureAwait(false);
-
                     }
                     catch (Exception ex)
                     {

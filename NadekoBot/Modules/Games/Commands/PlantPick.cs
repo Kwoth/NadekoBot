@@ -21,10 +21,10 @@ namespace NadekoBot.Modules.Games.Commands
     /// Check out GDL (its a growing gamedev community):
     /// https://discord.gg/0TYNJfCU4De7YIk8
     /// </summary>
-    class PlantPick : DiscordCommand
+    internal class PlantPick : DiscordCommand
     {
-
         private Random rng;
+
         public PlantPick(DiscordModule module) : base(module)
         {
             NadekoBot.Client.MessageReceived += PotentialFlowerGeneration;
@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Games.Commands
                 if (config.GenerateCurrencyChannels.TryGetValue(e.Channel.Id, out cd))
                     if (!plantpickCooldowns.TryGetValue(e.Channel.Id, out lastSpawned) || (lastSpawned + new TimeSpan(0, cd, 0)) < now)
                     {
-                        var rnd = Math.Abs(rng.Next(0,101));
+                        var rnd = Math.Abs(rng.Next(0, 101));
                         if (rnd == 0)
                         {
                             var msgs = new[] { await e.Channel.SendFile(GetRandomCurrencyImagePath()), await e.Channel.SendMessage($"❗ A random {NadekoBot.Config.CurrencyName} appeared! Pick it up by typing `>pick`") };
@@ -57,10 +57,11 @@ namespace NadekoBot.Modules.Games.Commands
             }
             catch { }
         }
-        //channelid/messageid pair
-        ConcurrentDictionary<ulong, IEnumerable<Message>> plantedFlowerChannels = new ConcurrentDictionary<ulong, IEnumerable<Message>>();
 
-        private SemaphoreSlim locker = new SemaphoreSlim(1,1);
+        //channelid/messageid pair
+        private ConcurrentDictionary<ulong, IEnumerable<Message>> plantedFlowerChannels = new ConcurrentDictionary<ulong, IEnumerable<Message>>();
+
+        private SemaphoreSlim locker = new SemaphoreSlim(1, 1);
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -74,7 +75,7 @@ namespace NadekoBot.Modules.Games.Commands
                     if (!plantedFlowerChannels.TryRemove(e.Channel.Id, out msgs))
                         return;
 
-                    foreach(var msgToDelete in msgs)
+                    foreach (var msgToDelete in msgs)
                         await msgToDelete.Delete().ConfigureAwait(false);
 
                     await FlowersHandler.AddFlowersAsync(e.User, "Picked a flower.", 1, true).ConfigureAwait(false);
@@ -119,7 +120,7 @@ namespace NadekoBot.Modules.Games.Commands
                         var msg2 = await e.Channel.SendMessage($"Oh how Nice! **{e.User.Name}** planted {(vowelFirst ? "an" : "a")} {NadekoBot.Config.CurrencyName}. Pick it using {Module.Prefix}pick").ConfigureAwait(false);
                         plantedFlowerChannels.TryAdd(e.Channel.Id, new[] { msg, msg2 });
                     }
-                    finally { locker.Release();  }
+                    finally { locker.Release(); }
                 });
 
             cgb.CreateCommand(Prefix + "gencurrency")
@@ -152,7 +153,7 @@ namespace NadekoBot.Modules.Games.Commands
         private string GetRandomCurrencyImagePath() =>
             Directory.GetFiles("data/currency_images").OrderBy(s => rng.Next()).FirstOrDefault();
 
-        int GetRandomNumber()
+        private int GetRandomNumber()
         {
             using (RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider())
             {

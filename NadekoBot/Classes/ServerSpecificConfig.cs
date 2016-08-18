@@ -208,11 +208,9 @@ namespace NadekoBot.Classes
 
         [JsonIgnore]
         private bool exclusiveSelfAssignedRoles = false;
-        public bool ExclusiveSelfAssignedRoles
-        {
+        public bool ExclusiveSelfAssignedRoles {
             get { return exclusiveSelfAssignedRoles; }
-            set
-            {
+            set {
                 exclusiveSelfAssignedRoles = value;
                 if (!SpecificConfigurations.Instantiated) return;
                 OnPropertyChanged();

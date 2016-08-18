@@ -21,10 +21,9 @@ namespace NadekoBot.Modules.Permissions.Classes
             RoleBanModule, UserBanCommand, UserBanModule
         }
 
-
         public static void Initialize()
         {
-            Console.WriteLine("Reading from the permission files.");
+            NadekoBot.WriteInColor("Reading from the permission files.", ConsoleColor.Magenta);
             Directory.CreateDirectory("data/permissions");
             foreach (var file in Directory.EnumerateFiles("data/permissions/"))
             {
@@ -38,7 +37,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 }
                 catch { }
             }
-            Console.WriteLine("Permission initialization complete.");
+            NadekoBot.WriteInColor("Permission initialization complete.", ConsoleColor.Green);
         }
 
         internal static Permissions GetRolePermissionsById(Server server, ulong id)
@@ -157,7 +156,7 @@ namespace NadekoBot.Modules.Permissions.Classes
                 Newtonsoft.Json.JsonConvert.SerializeObject(serverPerms, Newtonsoft.Json.Formatting.Indented));
         });
 
-        public static Task WriteToJson() => Task.Run(() => 
+        public static Task WriteToJson() => Task.Run(() =>
         {
             Directory.CreateDirectory("data/permissions/");
             foreach (var kvp in PermissionsDict)
@@ -428,11 +427,13 @@ namespace NadekoBot.Modules.Permissions.Classes
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
                 new ServerPermissions(server.Id, server.Name));
-            if (value == 0) {
+            if (value == 0)
+            {
                 int throwaway;
                 serverPerms.CommandCooldowns.TryRemove(commandName, out throwaway);
             }
-            else {
+            else
+            {
                 serverPerms.CommandCooldowns.AddOrUpdate(commandName, value, (str, v) => value);
             }
 
@@ -448,6 +449,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             serverPerms.Words.Add(word);
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
+
         public static async Task RemoveFilteredWord(Server server, string word)
         {
             var serverPerms = PermissionsDict.GetOrAdd(server.Id,
@@ -458,6 +460,7 @@ namespace NadekoBot.Modules.Permissions.Classes
             await WriteServerToJson(serverPerms).ConfigureAwait(false);
         }
     }
+
     /// <summary>
     /// Holds a permission list
     /// </summary>
@@ -467,18 +470,22 @@ namespace NadekoBot.Modules.Permissions.Classes
         /// Name of the parent object whose permissions these are
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Module name with allowed/disallowed
         /// </summary>
         public ConcurrentDictionary<string, bool> Modules { get; set; }
+
         /// <summary>
         /// Command name with allowed/disallowed
         /// </summary>
         public ConcurrentDictionary<string, bool> Commands { get; set; }
+
         /// <summary>
         /// Should the bot filter invites to other discord servers (and ref links in the future)
         /// </summary>
         public bool FilterInvites { get; set; }
+
         /// <summary>
         /// Should the bot filter words which are specified in the Words hashset
         /// </summary>
@@ -532,18 +539,22 @@ namespace NadekoBot.Modules.Permissions.Classes
         /// The guy who can edit the permissions
         /// </summary>
         public string PermissionsControllerRole { get; set; }
+
         /// <summary>
         /// Does it print the error when a restriction occurs
         /// </summary>
         public bool Verbose { get; set; }
+
         /// <summary>
         /// The id of the thing (user/server/channel)
         /// </summary>
         public ulong Id { get; set; } //a string because of the role name.
+
         /// <summary>
         /// Permission object bound to the id of something/role name
         /// </summary>
         public Permissions Permissions { get; set; }
+
         /// <summary>
         /// Banned words, usually profanities, like word "java"
         /// </summary>
@@ -552,6 +563,7 @@ namespace NadekoBot.Modules.Permissions.Classes
         public Dictionary<ulong, Permissions> UserPermissions { get; set; }
         public Dictionary<ulong, Permissions> ChannelPermissions { get; set; }
         public Dictionary<ulong, Permissions> RolePermissions { get; set; }
+
         /// <summary>
         /// Dictionary of command names with their respective cooldowns
         /// </summary>

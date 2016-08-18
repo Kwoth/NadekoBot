@@ -12,13 +12,12 @@ namespace NadekoBot.Modules.Games.Commands
 {
     internal class PollCommand : DiscordCommand
     {
-
         public static ConcurrentDictionary<Server, Poll> ActivePolls = new ConcurrentDictionary<Server, Poll>();
 
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "poll")
-                  .Description($"Creates a poll, only person who has manage server permission can do it. | `{Prefix}poll Question?;Answer1;Answ 2;A_3`")
+                  .Description($"Creates a poll, only person who has manage server permission can do it. **Needs Manage Server Permissions**| `{Prefix}poll Question?;Answer1;Answ 2;A_3`")
                   .Parameter("allargs", ParameterType.Unparsed)
                   .Do(async e =>
                   {
@@ -54,7 +53,9 @@ namespace NadekoBot.Modules.Games.Commands
                   });
         }
 
-        public PollCommand(DiscordModule module) : base(module) { }
+        public PollCommand(DiscordModule module) : base(module)
+        {
+        }
     }
 
     internal class Poll
@@ -113,7 +114,7 @@ namespace NadekoBot.Modules.Games.Commands
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in poll game {ex}");
+                NadekoBot.WriteInColor($"Error in poll game {ex}", ConsoleColor.Red);
             }
         }
 

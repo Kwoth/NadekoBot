@@ -9,7 +9,10 @@ namespace NadekoBot.Modules.Administration.Commands
 {
     internal class IncidentsCommands : DiscordCommand
     {
-        public IncidentsCommands(DiscordModule module) : base(module) { }
+        public IncidentsCommands(DiscordModule module) : base(module)
+        {
+        }
+
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "listincidents")

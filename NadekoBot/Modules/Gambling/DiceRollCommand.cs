@@ -13,9 +13,9 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class DiceRollCommand : DiscordCommand
     {
-
-        public DiceRollCommand(DiscordModule module) : base(module) { }
-
+        public DiceRollCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -27,7 +27,7 @@ namespace NadekoBot.Modules.Gambling
 
             cgb.CreateCommand(Module.Prefix + "rolluo")
                 .Description("Rolls 0-100. If you supply a number [x] it rolls up to 30 normal dice (unordered)." +
-                             $" If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `{Prefix}roll` or `{Prefix}roll` 7 or `{Prefix}roll 3d5`")
+                             $" If you split 2 numbers with letter d (xdy) it will roll x dice from 1 to y. | `{Prefix}rolluo` or `{Prefix}rolluo 7` or `{Prefix}rolluo 3d5`")
                 .Parameter("num", ParameterType.Optional)
                 .Do(RollFunc(false));
 
@@ -45,8 +45,8 @@ namespace NadekoBot.Modules.Gambling
                                               (Properties.Resources.ResourceManager.GetObject("_" + 0) as Image),
                                             }.Merge();
 
+        private Regex dndRegex = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
 
-        Regex dndRegex = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
         private Func<CommandEventArgs, Task> RollFunc(bool ordered = true)
         {
             var r = new Random();
@@ -113,7 +113,8 @@ namespace NadekoBot.Modules.Gambling
                                     }
                                 }
                         }
-                        else {
+                        else
+                        {
                             toInsert = dices.Count;
                         }
                         dices.Insert(toInsert, GetDice(randomNumber));
@@ -130,7 +131,6 @@ namespace NadekoBot.Modules.Gambling
                 }
             };
         }
-
 
         private Func<CommandEventArgs, Task> NRollFunc() =>
             async e =>

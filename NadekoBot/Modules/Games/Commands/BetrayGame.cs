@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Commands
 {
-    class BetrayGame : DiscordCommand
+    internal class BetrayGame : DiscordCommand
     {
-        public BetrayGame(DiscordModule module) : base(module) { }
+        public BetrayGame(DiscordModule module) : base(module)
+        {
+        }
 
         private enum Answers
         {
             Cooperate,
             Betray
         }
+
         internal override void Init(CommandGroupBuilder cgb)
         {
             cgb.CreateCommand(Module.Prefix + "betray")
@@ -32,25 +35,30 @@ namespace NadekoBot.Modules.Games.Commands
                              $"If Nadeko betrays - you lose A LOT, nadeko gets extra. | `{Prefix}cooperater`")
                 .Do(async e =>
                 {
-
                     await ReceiveAnswer(e, Answers.Cooperate).ConfigureAwait(false);
                 });
         }
 
         private int userPoints = 0;
 
-        private int UserPoints {
+        private int UserPoints
+        {
             get { return userPoints; }
-            set {
+            set
+            {
                 if (value < 0)
                     userPoints = 0;
                 userPoints = value;
             }
         }
+
         private int nadekoPoints = 0;
-        private int NadekoPoints {
+
+        private int NadekoPoints
+        {
             get { return nadekoPoints; }
-            set {
+            set
+            {
                 if (value < 0)
                     nadekoPoints = 0;
                 nadekoPoints = value;
@@ -59,6 +67,7 @@ namespace NadekoBot.Modules.Games.Commands
 
         private int round = 0;
         private Answers NextAnswer = Answers.Cooperate;
+
         private async Task ReceiveAnswer(CommandEventArgs e, Answers userAnswer)
         {
             var response = userAnswer == Answers.Betray

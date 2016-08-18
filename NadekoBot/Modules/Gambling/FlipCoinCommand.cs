@@ -9,8 +9,9 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class FlipCoinCommand : DiscordCommand
     {
-
-        public FlipCoinCommand(DiscordModule module) : base(module) { }
+        public FlipCoinCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -20,19 +21,17 @@ namespace NadekoBot.Modules.Gambling
                 .Do(FlipCoinFunc());
 
             cgb.CreateCommand(Module.Prefix + "betflip")
-                .Alias(Prefix+"bf")
+                .Alias(Prefix + "bf")
                 .Description($"Bet to guess will the result be heads or tails. Guessing award you double flowers you've bet. | `{Prefix}bf 5 heads` or `{Prefix}bf 3 t`")
                 .Parameter("amount", ParameterType.Required)
                 .Parameter("guess", ParameterType.Required)
                 .Do(BetFlipCoinFunc());
         }
 
-
-
         private readonly Random rng = new Random();
+
         public Func<CommandEventArgs, Task> BetFlipCoinFunc() => async e =>
         {
-
             var amountstr = e.GetArg("amount").Trim();
 
             var guessStr = e.GetArg("guess").Trim().ToUpperInvariant();
@@ -57,11 +56,13 @@ namespace NadekoBot.Modules.Gambling
 
             var guess = guessStr == "HEADS" || guessStr == "H";
             bool result = false;
-            if (rng.Next(0, 2) == 1) {
+            if (rng.Next(0, 2) == 1)
+            {
                 await e.Channel.SendFile("heads.png", Properties.Resources.heads.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
                 result = true;
             }
-            else {
+            else
+            {
                 await e.Channel.SendFile("tails.png", Properties.Resources.tails.ToStream(System.Drawing.Imaging.ImageFormat.Png)).ConfigureAwait(false);
             }
 
@@ -70,7 +71,6 @@ namespace NadekoBot.Modules.Gambling
             {
                 str = $"{e.User.Mention}`You guessed it!` You won {amount * 2}{NadekoBot.Config.CurrencySign}";
                 await FlowersHandler.AddFlowersAsync(e.User, "Betflip Gamble", amount * 2, true).ConfigureAwait(false);
-
             }
             else
                 str = $"{e.User.Mention}`More luck next time.`";
@@ -80,7 +80,6 @@ namespace NadekoBot.Modules.Gambling
 
         public Func<CommandEventArgs, Task> FlipCoinFunc() => async e =>
         {
-
             if (e.GetArg("count") == "")
             {
                 if (rng.Next(0, 2) == 1)

@@ -12,7 +12,9 @@ namespace NadekoBot.Modules.Gambling
 {
     internal class DrawCommand : DiscordCommand
     {
-        public DrawCommand(DiscordModule module) : base(module) { }
+        public DrawCommand(DiscordModule module) : base(module)
+        {
+        }
 
         internal override void Init(CommandGroupBuilder cgb)
         {
@@ -84,7 +86,7 @@ namespace NadekoBot.Modules.Gambling
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error drawing (a) card(s) " + ex.ToString());
+                NadekoBot.WriteInColor("Error drawing (a) card(s) " + ex.ToString(), ConsoleColor.Red);
             }
         };
     }

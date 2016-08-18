@@ -14,7 +14,9 @@ namespace NadekoBot.Modules.Games.Commands.Trivia
 
         private Random rng { get; } = new Random();
 
-        static TriviaQuestionPool() { }
+        static TriviaQuestionPool()
+        {
+        }
 
         private TriviaQuestionPool()
         {

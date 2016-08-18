@@ -22,13 +22,16 @@ namespace NadekoBot.Modules.Translator.Helpers
         /// <summary>
         /// Gets the supported languages.
         /// </summary>
-        public static IEnumerable<string> Languages {
-            get {
+        public static IEnumerable<string> Languages
+        {
+            get
+            {
                 GoogleTranslator.EnsureInitialized();
                 return GoogleTranslator._languageModeMap.Keys.OrderBy(p => p);
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Public methods
 
@@ -48,7 +51,6 @@ namespace NadekoBot.Modules.Translator.Helpers
             DateTime tmStart = DateTime.Now;
             string text = string.Empty;
 
-
             // Download translation
             string url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
                                         GoogleTranslator.LanguageEnumToIdentifier(sourceLanguage),
@@ -63,7 +65,7 @@ namespace NadekoBot.Modules.Translator.Helpers
             return (string.Concat(JArray.Parse(text)[0].Select(x => x[0])));
         }
 
-        #endregion
+        #endregion Public methods
 
         #region Private methods
 
@@ -99,6 +101,8 @@ namespace NadekoBot.Modules.Translator.Helpers
                     { "bengali", "bn"},
                     { "bulgarian", "bg"},
                     { "catalan", "ca"},
+                    { "chinese-traditional", "zh-TW"},
+                    { "chinese-simplified", "zh-CN"},
                     { "chinese", "zh-CN"},
                     { "croatian", "hr"},
                     { "czech", "cs"},
@@ -163,6 +167,7 @@ namespace NadekoBot.Modules.Translator.Helpers
                     { "bn", "bn"},
                     { "bg", "bg"},
                     { "ca", "ca"},
+                    { "zh-TW", "zh-TW"},
                     { "zh-CN", "zh-CN"},
                     { "hr", "hr"},
                     { "cs", "cs"},
@@ -220,7 +225,7 @@ namespace NadekoBot.Modules.Translator.Helpers
             }
         }
 
-        #endregion
+        #endregion Private methods
 
         #region Fields
 
@@ -229,6 +234,6 @@ namespace NadekoBot.Modules.Translator.Helpers
         /// </summary>
         public static Dictionary<string, string> _languageModeMap;
 
-        #endregion
+        #endregion Fields
     }
 }

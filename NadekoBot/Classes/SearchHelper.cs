@@ -44,6 +44,7 @@ namespace NadekoBot.Classes
                         }
                     }
                     return await cl.GetStreamAsync(url).ConfigureAwait(false);
+
                 case RequestHttpMethod.Post:
                     FormUrlEncodedContent formContent = null;
                     if (headers != null)
@@ -52,6 +53,7 @@ namespace NadekoBot.Classes
                     }
                     var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
                     return await message.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
                 default:
                     throw new NotImplementedException("That type of request is unsupported.");
             }
@@ -61,10 +63,33 @@ namespace NadekoBot.Classes
             IEnumerable<KeyValuePair<string, string>> headers = null,
             RequestHttpMethod method = RequestHttpMethod.Get)
         {
-
-            using (var streamReader = new StreamReader(await GetResponseStreamAsync(url, headers, method).ConfigureAwait(false)))
+            if (string.IsNullOrWhiteSpace(url))
+                throw new ArgumentNullException(nameof(url));
+            var cl = new HttpClient();
+            cl.DefaultRequestHeaders.Clear();
+            switch (method)
             {
-                return await streamReader.ReadToEndAsync().ConfigureAwait(false);
+                case RequestHttpMethod.Get:
+                    if (headers != null)
+                    {
+                        foreach (var header in headers)
+                        {
+                            cl.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+                        }
+                    }
+                    return await cl.GetStringAsync(url).ConfigureAwait(false);
+
+                case RequestHttpMethod.Post:
+                    FormUrlEncodedContent formContent = null;
+                    if (headers != null)
+                    {
+                        formContent = new FormUrlEncodedContent(headers);
+                    }
+                    var message = await cl.PostAsync(url, formContent).ConfigureAwait(false);
+                    return await message.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                default:
+                    throw new NotImplementedException("That type of request is unsupported.");
             }
         }
 
@@ -250,7 +275,6 @@ namespace NadekoBot.Classes
             return toReturn;
         }
 
-
         public static async Task<string> GetDanbooruImageLink(string tag)
         {
             var rng = new Random();
@@ -315,7 +339,6 @@ namespace NadekoBot.Classes
             return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
         }
 
-
         internal static async Task<string> GetE621ImageLink(string tags)
         {
             try
@@ -332,7 +355,7 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in e621 search: \n" + ex);
+                NadekoBot.WriteInColor("Error in e621 search: \n" + ex, ConsoleColor.Red);
                 return "Error, do you have too many tags?";
             }
         }
@@ -364,8 +387,8 @@ namespace NadekoBot.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Shortening of this url failed: " + url);
-                Console.WriteLine(ex.ToString());
+                NadekoBot.WriteInColor("Shortening of this url failed: " + url, ConsoleColor.Red);
+                NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                 return url;
             }
         }

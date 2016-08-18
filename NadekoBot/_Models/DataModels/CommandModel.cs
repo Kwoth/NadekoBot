@@ -1,5 +1,7 @@
-﻿namespace NadekoBot.DataModels {
-    internal class Command : IDataModel {
+﻿namespace NadekoBot.DataModels
+{
+    internal class Command : IDataModel
+    {
         public long UserId { get; set; }
         public string UserName { get; set; }
         public long ServerId { get; set; }

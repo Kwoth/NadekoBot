@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NadekoBot.Classes.JSONModels
 {
@@ -15,11 +11,13 @@ namespace NadekoBot.Classes.JSONModels
             Moves = m;
             Multipliers = multi;
         }
+
         public string Name { get; set; }
         public List<PokemonMultiplier> Multipliers { get; set; }
         public string Icon { get; set; }
         public string[] Moves { get; set; }
     }
+
     public class PokemonMultiplier
     {
         public PokemonMultiplier(string t, double m)
@@ -27,6 +25,7 @@ namespace NadekoBot.Classes.JSONModels
             Type = t;
             Multiplication = m;
         }
+
         public string Type { get; set; }
         public double Multiplication { get; set; }
     }

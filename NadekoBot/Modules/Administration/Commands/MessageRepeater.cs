@@ -9,13 +9,15 @@ using System.Timers;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class MessageRepeater : DiscordCommand
+    internal class MessageRepeater : DiscordCommand
     {
         private readonly ConcurrentDictionary<Server, Repeater> repeaters = new ConcurrentDictionary<Server, Repeater>();
+
         private class Repeater
         {
             [Newtonsoft.Json.JsonIgnore]
             public Timer MessageTimer { get; set; }
+
             [Newtonsoft.Json.JsonIgnore]
             public Channel RepeatingChannel { get; set; }
 
@@ -52,9 +54,9 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
             }
         }
+
         internal override void Init(CommandGroupBuilder cgb)
         {
-
             cgb.CreateCommand(Module.Prefix + "repeatinvoke")
                 .Alias(Module.Prefix + "repinv")
                 .Description($"Immediately shows the repeat message and restarts the timer. **Needs Manage Messages Permissions.**| `{Prefix}repinv`")
@@ -85,7 +87,6 @@ namespace NadekoBot.Modules.Administration.Commands
                     // if both null, disable
                     if (string.IsNullOrWhiteSpace(msg) && string.IsNullOrWhiteSpace(minutesStr))
                     {
-
                         Repeater rep;
                         if (!repeaters.TryRemove(e.Server, out rep))
                             return;
@@ -124,6 +125,8 @@ namespace NadekoBot.Modules.Administration.Commands
                 });
         }
 
-        public MessageRepeater(DiscordModule module) : base(module) { }
+        public MessageRepeater(DiscordModule module) : base(module)
+        {
+        }
     }
 }

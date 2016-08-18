@@ -7,8 +7,12 @@ namespace NadekoBot.DataModels
     {
         [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
+
         [Newtonsoft.Json.JsonProperty("createdAt")]
         public DateTime DateAdded { get; set; } = DateTime.Now;
-        public IDataModel() { }
+
+        public IDataModel()
+        {
+        }
     }
 }

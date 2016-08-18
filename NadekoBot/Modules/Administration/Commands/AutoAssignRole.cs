@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace NadekoBot.Modules.Administration.Commands
 {
-    class AutoAssignRole : DiscordCommand
+    internal class AutoAssignRole : DiscordCommand
     {
         public AutoAssignRole(DiscordModule module) : base(module)
         {
-            NadekoBot.Client.UserJoined += (s, e) =>
+            NadekoBot.OnReady += () => NadekoBot.Client.UserJoined += (s, e) =>
             {
                 try
                 {
@@ -25,7 +25,7 @@ namespace NadekoBot.Modules.Administration.Commands
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"aar exception. {ex}");
+                    NadekoBot.WriteInColor($"aar exception. {ex}", ConsoleColor.Red);
                 }
             };
         }
@@ -65,7 +65,6 @@ namespace NadekoBot.Modules.Administration.Commands
 
                     config.AutoAssignedRole = role.Id;
                     await e.Channel.SendMessage("`Auto assigned role is set.`").ConfigureAwait(false);
-
                 });
         }
     }

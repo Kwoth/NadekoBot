@@ -13,7 +13,6 @@ namespace NadekoBot.Modules.Searches.Commands
 {
     internal class LoLCommands : DiscordCommand
     {
-
         private class CachedChampion
         {
             public System.IO.Stream ImageStream { get; set; }
@@ -32,6 +31,7 @@ namespace NadekoBot.Modules.Searches.Commands
         private static Dictionary<string, CachedChampion> CachedChampionImages = new Dictionary<string, CachedChampion>();
 
         private System.Timers.Timer clearTimer { get; } = new System.Timers.Timer();
+
         public LoLCommands(DiscordModule module) : base(module)
         {
             clearTimer.Interval = new TimeSpan(0, 10, 0).TotalMilliseconds;
@@ -40,9 +40,9 @@ namespace NadekoBot.Modules.Searches.Commands
             {
                 try
                 {
-                        CachedChampionImages = CachedChampionImages
-                            .Where(kvp => DateTime.Now - kvp.Value.AddedAt > new TimeSpan(1, 0, 0))
-                            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    CachedChampionImages = CachedChampionImages
+                        .Where(kvp => DateTime.Now - kvp.Value.AddedAt > new TimeSpan(1, 0, 0))
+                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 }
                 catch { }
             };
@@ -64,8 +64,10 @@ namespace NadekoBot.Modules.Searches.Commands
         {
             public int Games { get; set; }
             public float WinRate { get; set; }
+
             [Newtonsoft.Json.JsonProperty("key")]
             public string Name { get; set; }
+
             public float StatScore { get; set; }
         }
 
@@ -85,7 +87,7 @@ namespace NadekoBot.Modules.Searches.Commands
                           var name = e.GetArg("champ").Replace(" ", "").ToLower();
                           CachedChampion champ = null;
 
-                          if(CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ))
+                          if (CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ))
                               if (champ != null)
                               {
                                   champ.ImageStream.Position = 0;
@@ -116,7 +118,7 @@ namespace NadekoBot.Modules.Searches.Commands
                               role = allData[0]["role"].ToString();
                               resolvedRole = ResolvePos(role);
                           }
-                          if(CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ))
+                          if (CachedChampionImages.TryGetValue(name + "_" + resolvedRole, out champ))
                               if (champ != null)
                               {
                                   champ.ImageStream.Position = 0;
@@ -138,7 +140,7 @@ namespace NadekoBot.Modules.Searches.Commands
                                               .FirstOrDefault(jt => jt["role"].ToString() == role)?["general"];
                           if (general == null)
                           {
-                              Console.WriteLine("General is null.");
+                              NadekoBot.WriteInColor("General is null.", ConsoleColor.Yellow);
                               return;
                           }
                           //get build data for this role
@@ -204,12 +206,15 @@ namespace NadekoBot.Modules.Searches.Commands
                                           case "w":
                                               orderY += orderVerticalSpacing;
                                               break;
+
                                           case "e":
                                               orderY += orderVerticalSpacing * 2;
                                               break;
+
                                           case "r":
                                               orderY += orderVerticalSpacing * 3;
                                               break;
+
                                           default:
                                               break;
                                       }
@@ -274,7 +279,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                       }
                       catch (Exception ex)
                       {
-                          Console.WriteLine(ex);
+                          NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
                           await e.Channel.SendMessage("💢 Failed retreiving data for that champion.").ConfigureAwait(false);
                       }
                   });
@@ -283,7 +288,6 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                   .Description($"Shows top 6 banned champions ordered by ban rate. Ban these champions and you will be Plat 5 in no time. | `{Prefix}lolban`")
                   .Do(async e =>
                   {
-
                       var showCount = 8;
                       //http://api.champion.gg/stats/champs/mostBanned?api_key=YOUR_API_TOKEN&page=1&limit=2
                       try
@@ -321,6 +325,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
             Champion,
             Item
         }
+
         private static Image GetImage(string id, GetImageType imageType = GetImageType.Champion)
         {
             try
@@ -329,6 +334,7 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                 {
                     case GetImageType.Champion:
                         return Image.FromFile($"data/lol/champions/{id}.png");
+
                     case GetImageType.Item:
                     default:
                         return Image.FromFile($"data/lol/items/{id}.png");
@@ -352,16 +358,19 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                 case "midd":
                 case "middle":
                     return "Middle";
+
                 case "top":
                 case "topp":
                 case "t":
                 case "toporfeed":
                     return "Top";
+
                 case "j":
                 case "jun":
                 case "jungl":
                 case "jungle":
                     return "Jungle";
+
                 case "a":
                 case "ad":
                 case "adc":
@@ -370,11 +379,13 @@ Assists: {general["assists"]}  Ban: {general["banRate"]}%
                 case "adcarry":
                 case "c":
                     return "ADC";
+
                 case "s":
                 case "sup":
                 case "supp":
                 case "support":
                     return "Support";
+
                 default:
                     return pos;
             }

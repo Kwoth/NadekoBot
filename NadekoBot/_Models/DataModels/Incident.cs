@@ -1,6 +1,6 @@
 ﻿namespace NadekoBot.DataModels
 {
-    class Incident : IDataModel
+    internal class Incident : IDataModel
     {
         public long ServerId { get; set; }
         public long ChannelId { get; set; }

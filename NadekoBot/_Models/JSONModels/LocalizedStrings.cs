@@ -1,7 +1,9 @@
 ﻿using System.IO;
 
-namespace NadekoBot.Classes.JSONModels {
-    public class LocalizedStrings {
+namespace NadekoBot.Classes.JSONModels
+{
+    public class LocalizedStrings
+    {
         public string[] Insults { get; set; } = {
             " You are a poop.", " You're a jerk.",
             " I will eat you when I get my powers back."
@@ -16,14 +18,14 @@ namespace NadekoBot.Classes.JSONModels {
             " Wow."
         };
 
-        public static string[] GetAvailableLocales() {
+        public static string[] GetAvailableLocales()
+        {
             Directory.CreateDirectory("data/locales");
             return Directory.GetFiles("data/locales");
         }
 
         //public static void HandleLocalization() {
         //    var locales = LocalizedStrings.GetAvailableLocales();
-
 
         //    Console.WriteLine("Pick a language:\n" +
         //                      "1. English");
@@ -39,6 +41,7 @@ namespace NadekoBot.Classes.JSONModels {
         //    } catch (Exception ex) {
         //        Console.ForegroundColor = ConsoleColor.Red;
         //        Console.WriteLine(ex);
+        //        Console.ResetColor();
         //        Console.ReadKey();
         //        return;
         //    }
