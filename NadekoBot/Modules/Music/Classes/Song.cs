@@ -281,7 +281,7 @@ namespace NadekoBot.Modules.Music.Classes
                 await Task.Run(() => voiceClient.Clear());
                 if (inStream != null)
                     inStream.Dispose();
-                Console.WriteLine("l");
+                NadekoBot.WriteInColor("Playing finished", ConsoleColor.Green);
                 sb.CleanFiles();
             }
         }
