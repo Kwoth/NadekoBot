@@ -53,8 +53,10 @@ namespace NadekoBot.Modules.Administration
 
         public override void Install(ModuleManager manager)
         {
+
             manager.CreateCommands("", cgb =>
             {
+
                 cgb.AddCheck(PermissionChecker.Instance);
 
                 var client = manager.Client;
@@ -70,9 +72,10 @@ namespace NadekoBot.Modules.Administration
                         conf.AutoDeleteMessagesOnCommand = !conf.AutoDeleteMessagesOnCommand;
                         await Classes.JSONModels.ConfigHandler.SaveConfig().ConfigureAwait(false);
                         if (conf.AutoDeleteMessagesOnCommand)
-                            await e.Channel.SendMessage("❗`Now automatically deleting successfull command invokations.`");
+                            await e.Channel.SendMessage("❗`Now automatically deleting successful command invokations.`");
                         else
-                            await e.Channel.SendMessage("❗`Stopped automatic deletion of successfull command invokations.`");
+                            await e.Channel.SendMessage("❗`Stopped automatic deletion of successful command invokations.`");
+
                     });
 
                 cgb.CreateCommand(Prefix + "restart")
@@ -125,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                         catch (Exception ex)
                         {
                             await e.Channel.SendMessage("Failed to add roles. Bot has insufficient permissions.\n").ConfigureAwait(false);
-                            NadekoBot.WriteInColor(ex.ToString(), ConsoleColor.Red);
+                            Console.WriteLine(ex.ToString());
                         }
                     });
 
@@ -648,7 +651,7 @@ namespace NadekoBot.Modules.Administration
                             return;
                         }
                         int val;
-                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument,
+                        if (int.TryParse(e.GetArg("user_or_num"), out val)) // if num is set in the first argument, 
                                                                             //delete that number of messages.
                         {
                             if (val <= 0)
@@ -891,6 +894,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         await e.User.SendFile($"Chatlog-{e.Server.Name}/#{e.Channel.Name}-{DateTime.Now}.txt", JsonConvert.SerializeObject(new { Messages = msgs.Select(s => s.ToString()) }, Formatting.Indented).ToStream()).ConfigureAwait(false);
                     });
+
             });
         }
     }
