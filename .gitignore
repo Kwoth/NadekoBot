@@ -8,6 +8,7 @@
 *.sln.docstates
 *.pfx
 obj/
+.vs/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 **/src/NadekoBot/bin
@@ -21,11 +22,7 @@ Tests/bin
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
-NadekoBot/bin/Debug/data/nadekobot.sqlite
-NadekoBot/bin/Debug/data/config.json
-NadekoBot/bin/Debug/data/ServerSpecificConfigs.json
 NadekoBot.sln.iml
 .idea/workspace.xml
 .idea/vcs.xml
 .idea/modules.xml
-NadekoBot/bin/Debug/data/config_xnaas.json
