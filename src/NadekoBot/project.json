@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0-*",
-  "description": "General purposee Discord bot written in C#.",
+  "version": "1.0.0.1",
+  "description": "General purpose Discord bot written in C#.",
   "authors": [ "Kwoth" ],
   "copyright": "Kwoth",
   "buildOptions": {
@@ -25,7 +25,9 @@
     "System.Diagnostics.Contracts": "4.0.1",
     "NLog": "4.4.0-betaV15"
   },
-
+  "runtimes": {
+    "win10-x64": {},
+  },
   "frameworks": {
     "netcoreapp1.0": {
       "imports": "dnxcore50"

@@ -1,0 +1,266 @@
+[
+  {
+    "Name": "Normal",
+    "Icon": "⭕",
+    "Weaknesses": [
+      "Fighting"
+    ],
+    "Strengths": [
+      "Mundane"
+    ]
+  },
+  {
+    "Name": "Fire",
+    "Icon": "🔥",
+    "Weaknesses": [
+      "Water",
+      "Rock",
+      "Fire",
+      "Dragon"
+    ],
+    "Strengths": [
+      "Grass",
+      "Steel",
+      "Ice",
+      "Bug"
+    ]
+  },
+  {
+    "Name": "Water",
+    "Icon": "💦",
+    "Weaknesses": [
+      "Water",
+      "Grass",
+      "Dragon"
+    ],
+    "Strengths": [
+      "Fire",
+      "Ground",
+      "Rock"
+    ]
+  },
+  {
+    "Name": "Electric",
+    "Icon": "⚡",
+    "Weaknesses": [
+      "Grass",
+      "Dragon",
+      "Electric",
+      "Ground"
+    ],
+    "Strengths": [
+      "Water",
+      "Flying"
+    ]
+  },
+  {
+    "Name": "Grass",
+    "Icon": "🌿",
+    "Weaknesses": [
+      "Fire",
+      "Grass",
+      "Poison",
+      "Flying",
+      "Bug",
+      "Dragon",
+      "Steel"
+    ],
+    "Strengths": [
+      "Water",
+      "Ground",
+      "Rock"
+    ]
+  },
+  {
+    "Name": "Ice",
+    "Icon": "❄",
+    "Weaknesses": [
+      "Fire",
+      "Water",
+      "Ice",
+      "Steel"
+    ],
+    "Strengths": [
+      "Grass",
+      "Ground",
+      "Flying",
+      "Dragon"
+    ]
+  },
+  {
+    "Name": "Fighting",
+    "Icon": "✊",
+    "Weaknesses": [
+      "Poison",
+      "Flying",
+      "Psychic",
+      "Bug",
+      "Fairy",
+      "Ghost"
+    ],
+    "Strengths": [
+      "Normal",
+      "Steel",
+      "Ice",
+      "Rock",
+      "Dark",
+      "Steel"
+    ]
+  },
+  {
+    "Name": "Poison",
+    "Icon": "☠",
+    "Weaknesses": [
+      "Poison",
+      "Ground",
+      "Rock",
+      "Ghost",
+      "Steel"
+    ],
+    "Strengths": [
+      "Grass",
+      "Fairy"
+    ]
+  },
+  {
+    "Name": "Ground",
+    "Icon": "🗻",
+    "Weaknesses": [
+      "Grass",
+      "Bug",
+      "Flying"
+    ],
+    "Strengths": [
+      "Fire",
+      "Steel",
+      "Electric",
+      "Poison",
+      "Rock"
+    ]
+  },
+  {
+    "Name": "Flying",
+    "Icon": "💨",
+    "Weaknesses": [
+      "Electric",
+      "Rock",
+      "Steel"
+    ],
+    "Strengths": [
+      "Grass",
+      "Fighting",
+      "Bug"
+    ]
+  },
+  {
+    "Name": "Psychic",
+    "Icon": "☄",
+    "Weaknesses": [
+      "Psychic",
+      "Steel",
+      "Dark"
+    ],
+    "Strengths": [
+      "Fighting",
+      "Poison"
+    ]
+  },
+  {
+    "Name": "Bug",
+    "Icon": "🐛",
+    "Weaknesses": [
+      "Fire",
+      "Fighting",
+      "Poison",
+      "Flying",
+      "Ghost",
+      "Steel",
+      "Fairy"
+    ],
+    "Strengths": [
+      "Grass",
+      "Psychic",
+      "Dark"
+    ]
+  },
+  {
+    "Name": "Rock",
+    "Icon": "🔷",
+    "Weaknesses": [
+      "Fighting",
+      "Ground",
+      "Steel"
+    ],
+    "Strengths": [
+      "Fire",
+      "Ice",
+      "Flying",
+      "Bug"
+    ]
+  },
+  {
+    "Name": "Ghost",
+    "Icon": "👻",
+    "Weaknesses": [
+      "Dark",
+      "Normal"
+    ],
+    "Strengths": [
+      "Psychic",
+      "Ghost"
+    ]
+  },
+  {
+    "Name": "Dragon",
+    "Icon": "🐉",
+    "Weaknesses": [
+      "Steel",
+      "Fairy"
+    ],
+    "Strengths": [
+      "Dragon"
+    ]
+  },
+  {
+    "Name": "Steel",
+    "Icon": "🌑",
+    "Weaknesses": [
+      "Fire",
+      "Water",
+      "Electric",
+      "Steel"
+    ],
+    "Strengths": [
+      "Ice",
+      "Rock",
+      "Fairy"
+    ]
+  },
+  {
+    "Name": "Fairy",
+    "Icon": "💫",
+    "Weaknesses": [
+      "Fighting",
+      "Dragon",
+      "Dark"
+    ],
+    "Strengths": [
+      "Fire",
+      "Steel",
+      "Poison"
+    ]
+  },
+  {
+    "Name": "Dark",
+    "Icon": "✴",
+    "Weaknesses": [
+      "Fighting",
+      "Dark",
+      "Fairy"
+    ],
+    "Strengths": [
+      "Psychic",
+      "Ghost"
+    ]
+  }
+]

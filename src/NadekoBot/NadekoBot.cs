@@ -7,6 +7,8 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -22,10 +24,8 @@ namespace NadekoBot
         public static BotConfiguration Config { get; private set; }
         public static Localization Localizer { get; private set; }
         public static BotCredentials Credentials { get; private set; }
-
         private static YoutubeService Youtube { get; set; }
         public static StatsService Stats { get; private set; }
-
         public async Task RunAsync(string[] args)
         {
             SetupLogger();
@@ -44,10 +44,10 @@ namespace NadekoBot
             Commands = new CommandService();
             Config = new BotConfiguration();
             Localizer = new Localization();
+            Credentials = new BotCredentials();
             Youtube = new YoutubeService();
             Stats = new StatsService(Client);
             _log = LogManager.GetCurrentClassLogger();
-
             //setup DI
             var depMap = new DependencyMap();
             depMap.Add<ILocalization>(Localizer);
@@ -59,9 +59,7 @@ namespace NadekoBot
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token);
             await Client.ConnectAsync();
-
             _log.Info("Connected");
-
             //load commands
             await Commands.LoadAssembly(Assembly.GetEntryAssembly(), depMap);
             Client.MessageReceived += Client_MessageReceived;
@@ -95,6 +93,7 @@ namespace NadekoBot
         {
             var throwaway = Task.Run(async () =>
             {
+               
                 var t = await Commands.Execute(imsg, imsg.Content);
                 if (t.IsSuccess)
                 {
