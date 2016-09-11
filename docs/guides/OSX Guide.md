@@ -113,7 +113,7 @@ session name)`.
 
 CHECK THE BOT IN DISCORD, IF EVERYTHING IS WORKING
 
-Now time to move bot to background and to do that, press CTRL+B+D (this will ditach the nadeko session using TMUX)
+Now time to move bot to background and to do that, press CTRL+A+D (this will detach the nadeko session using TMUX)
 
 ####Inviting your bot to your server - [Invite Guide][Invite Guide]
 - Create a new server in Discord.
