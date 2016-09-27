@@ -21,7 +21,6 @@ namespace NadekoBot.Services.Impl
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2).ToString();
 
-
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler)
         {
 
@@ -40,7 +39,8 @@ namespace NadekoBot.Services.Impl
 `Uptime: {GetUptimeString()}`
 `Servers: {client.GetGuilds().Count} | TextChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is ITextChannel)).Count()} | VoiceChannels: {client.GetGuilds().SelectMany(g => g.GetChannels().Where(c => c is IVoiceChannel)).Count()}`
 `Commands Ran this session: {commandsRan}`
-`Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`");
+`Messages: {messageCounter} ({messageCounter / (double)GetUptime().TotalSeconds:F2}/sec)` `Heap: {Heap} MB`
+`ShardId: {NadekoBot.Credentials.ShardId} | Total of Shards : {NadekoBot.Credentials.TotalShards}`");
 
         public Task Reset()
         {

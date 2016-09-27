@@ -42,16 +42,20 @@ namespace NadekoBot
 
             _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
+            //Setting up credentials
+            Credentials = new BotCredentials();
+
             //create client
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 AudioMode = Discord.Audio.AudioMode.Outgoing,
                 MessageCacheSize = 10,
                 LogLevel = LogSeverity.Warning,
+                ShardId = Credentials.ShardId,
+                TotalShards = Credentials.TotalShards
             });
 
             //initialize Services
-            Credentials = new BotCredentials();
             CommandService = new CommandService();
             Localizer = new Localization();
             Google = new GoogleApiService();
@@ -72,7 +76,16 @@ namespace NadekoBot
             CommandService.AddTypeReader<Module>(new ModuleTypeReader());
 
             //connect
-            await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
+            try
+            {
+                await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
+            }
+            catch(Exception e)
+            {
+                _log.Error("Error : " + e.Message);
+                await Task.Delay(-1);
+                return;
+            }
             await Client.ConnectAsync().ConfigureAwait(false);
             await Client.DownloadAllUsersAsync().ConfigureAwait(false);
 

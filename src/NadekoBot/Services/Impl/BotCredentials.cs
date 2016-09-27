@@ -28,6 +28,9 @@ namespace NadekoBot.Services.Impl
 
         public DB Db { get; }
 
+        public int TotalShards { get; }
+        public int ShardId { get; }
+
         public BotCredentials()
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -41,10 +44,9 @@ namespace NadekoBot.Services.Impl
                 MashapeKey = cm.MashapeKey;
                 OsuApiKey = cm.OsuApiKey;
                 SoundCloudClientId = cm.SoundCloudClientId;
-                if (cm.Db == null)
-                    Db = new DB("sqlite", "");
-                else
-                    Db = new DB(cm.Db.Type, cm.Db.ConnectionString);
+                TotalShards = cm.TotalShards;
+                ShardId = cm.ShardId;
+                Db = cm.Db == null ? new DB("sqlite", "") : new DB(cm.Db.Type, cm.Db.ConnectionString);
             }
             else
                 _log.Fatal("credentials.json is missing. Failed to start.");
@@ -60,6 +62,8 @@ namespace NadekoBot.Services.Impl
             public string OsuApiKey { get; set; }
             public string SoundCloudClientId { get; set; }
             public DB Db { get; set; }
+            public int TotalShards { get; set; } = 1;
+            public int ShardId { get; set; } = 0;
         }
 
         private class DbModel
