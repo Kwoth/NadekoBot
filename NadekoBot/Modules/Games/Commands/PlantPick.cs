@@ -124,7 +124,7 @@ namespace NadekoBot.Modules.Games.Commands
 
             cgb.CreateCommand(Prefix + "gencurrency")
                 .Alias(Prefix + "gc")
-                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Optional parameter cooldown time in minutes, 5 minutes by default. Requires Manage Messages permission. | `{Prefix}gc` or `{Prefix}gc 60`")
+                .Description($"Toggles currency generation on this channel. Every posted message will have 2% chance to spawn a {NadekoBot.Config.CurrencyName}. Optional parameter cooldown time in minutes, 5 minutes by default. **Requires Manage Messages permission**. | `{Prefix}gc` or `{Prefix}gc 60`")
                 .AddCheck(SimpleCheckers.ManageMessages())
                 .Parameter("cd", ParameterType.Unparsed)
                 .Do(async e =>
