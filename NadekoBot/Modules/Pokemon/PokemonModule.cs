@@ -329,6 +329,13 @@ namespace NadekoBot.Modules.Pokemon
 
                         await e.Channel.SendMessage($"Set type of {e.User.Mention} to {targetTypeStr}{targetType.Icon} for a {NadekoBot.Config.CurrencySign}").ConfigureAwait(false);
                     });
+                cgb.CreateCommand(Prefix + "types")
+                    .Alias(Prefix + "type")
+                    .Description($"Shows a list of the types avaliable. | `{Prefix}types`")
+                    .Do(async e =>
+                {
+                    await e.Channel.SendMessage("Types avaliable are: " + string.Join(", ", NadekoBot.Config.PokemonTypes.Select(t => t.Name.ToUpperInvariant()))).ConfigureAwait(false);
+                });
             });
         }
     }
