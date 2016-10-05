@@ -24,10 +24,16 @@ namespace NadekoBot.Services
                 case "SQLITE":
                     dbType = typeof(NadekoSqliteContext);
                     break;
-                //case "SQLSERVER":
-                //    dbType = typeof(NadekoSqlServerContext);
-                //    break;
+                case "SQLSERVER":
+                    dbType = typeof(NadekoSqlServerContext);
+                    break;
+                case "PGSQL":
+                case "NPGSQL":
+                case "POSTGRESQL":
+                    dbType = typeof(NadekoPgsqlContext);
+                    break;
                 default:
+                    throw new UnknowDatabaseProviderException();
                     break;
 
             }

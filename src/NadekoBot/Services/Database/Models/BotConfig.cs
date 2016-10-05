@@ -5,13 +5,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Scaffolding.Configuration.Internal;
 
 namespace NadekoBot.Services.Database.Models
 {
     public class BotConfig : DbEntity
     {
         public HashSet<BlacklistItem> Blacklist { get; set; }
-        public ulong BufferSize { get; set; } = 4000000;
+
+        /// <summary>
+        /// <strong>DO NOT USE IT DIRECTLY</strong>, pls use <see cref="BufferSize"/>.
+        /// It's used internally by EF
+        /// </summary>
+        [Column("BufferSize")]
+        public long _bufferSize { get; set; } = 4000000;
+
+        [NotMapped]
+        public ulong BufferSize
+        {
+            get { return (ulong) _bufferSize; }
+            set { _bufferSize = (long) value; }
+        }
+
         public bool DontJoinServers { get; set; } = false;
         public bool ForwardMessages { get; set; } = true;
         public bool ForwardToAllOwners { get; set; } = true;
@@ -47,7 +67,20 @@ namespace NadekoBot.Services.Database.Models
 
     public class BlacklistItem : DbEntity
     {
-        public ulong ItemId { get; set; }
+        /// <summary>
+        /// <strong>DO NOT USE IT DIRECTLY</strong>, pls use <see cref="ItemId"/>.
+        /// It's used internally by EF
+        /// </summary>
+        [Column("ItemId")]
+        public long _itemId { get; set; }
+
+        [NotMapped]
+        public ulong ItemId
+        {
+            get { return (ulong) _itemId; }
+            set { _itemId = (long) value; }
+        }
+
         public BlacklistType Type { get; set; }
 
         public enum BlacklistType

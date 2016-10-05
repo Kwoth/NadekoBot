@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using NadekoBot.Modules.Permissions;
+using NadekoBot.Services.Database.Models;
 using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 
@@ -22,6 +23,7 @@ namespace NadekoBot
 {
     public class NadekoBot
     {
+
         private Logger _log;
 
         public static CommandService CommandService { get; private set; }
@@ -37,14 +39,13 @@ namespace NadekoBot
 
         public async Task RunAsync(string[] args)
         {
+
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
-
             _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
 
             Credentials = new BotCredentials();
-
             //create client
             Client = new ShardedDiscordClient (new DiscordSocketConfig
             {
@@ -55,44 +56,52 @@ namespace NadekoBot
                 ConnectionTimeout = 60000
             });
 
-            //initialize Services
-            CommandService = new CommandService();
-            Localizer = new Localization();
-            Google = new GoogleApiService();
-            CommandHandler = new CommandHandler(Client, CommandService);
-            Stats = new StatsService(Client, CommandHandler);
-
-            //setup DI
-            var depMap = new DependencyMap();
-            depMap.Add<ILocalization>(Localizer);
-            depMap.Add<ShardedDiscordClient >(Client);
-            depMap.Add<CommandService>(CommandService);
-            depMap.Add<IGoogleApiService>(Google);
-
-
-            //setup typereaders
-            CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
-            CommandService.AddTypeReader<Command>(new CommandTypeReader());
-            CommandService.AddTypeReader<Module>(new ModuleTypeReader());
-            CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
-
-            //connect
-            await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
-            await Client.ConnectAsync().ConfigureAwait(false);
-            await Client.DownloadAllUsersAsync().ConfigureAwait(false);
-
-            _log.Info("Connected");
-
-            //load commands and prefixes
-            using (var uow = DbHandler.UnitOfWork())
+            try
             {
-                ModulePrefixes = new ReadOnlyDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+                //initialize Services
+                CommandService = new CommandService();
+                Localizer = new Localization();
+                Google = new GoogleApiService();
+                CommandHandler = new CommandHandler(Client, CommandService);
+                Stats = new StatsService(Client, CommandHandler);
+
+                //setup DI
+                var depMap = new DependencyMap();
+                depMap.Add<ILocalization>(Localizer);
+                depMap.Add<ShardedDiscordClient>(Client);
+                depMap.Add<CommandService>(CommandService);
+                depMap.Add<IGoogleApiService>(Google);
+
+
+                //setup typereaders
+                CommandService.AddTypeReader<PermissionAction>(new PermissionActionTypeReader());
+                CommandService.AddTypeReader<Command>(new CommandTypeReader());
+                CommandService.AddTypeReader<Module>(new ModuleTypeReader());
+
+                //connect
+                await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);
+                await Client.ConnectAsync().ConfigureAwait(false);
+                await Client.DownloadAllUsersAsync().ConfigureAwait(false);
+
+                _log.Info("Connected");
+
+                //load commands and prefixes
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    ModulePrefixes =
+                        new ReadOnlyDictionary<string, string>(
+                            uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
+                }
+                await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
+
+                Console.WriteLine(await Stats.Print().ConfigureAwait(false));
+
+                await Task.Delay(-1);
             }
-            await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
-
-            Console.WriteLine(await Stats.Print().ConfigureAwait(false));
-
-            await Task.Delay(-1);
+            catch (UnknowDatabaseProviderException)
+            {
+                _log.Fatal("Unknown database provider, pls check your credentials.json");
+            }
         }
 
         private void SetupLogger()
