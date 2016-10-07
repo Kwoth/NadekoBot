@@ -18,6 +18,8 @@ namespace NadekoBot.Services.Database
         IBotConfigRepository BotConfig { get; }
         IRepeaterRepository Repeaters { get; }
         IUnitConverterRepository ConverterUnits { get; }
+        ICustomReactionRepository CustomReactions { get; }
+
 
         int Complete();
         Task<int> CompleteAsync();

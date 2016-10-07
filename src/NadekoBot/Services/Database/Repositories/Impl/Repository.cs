@@ -17,6 +17,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
         {
             _context = context;
             _set = context.Set<T>();
+            
         }
 
         public void Add(T obj) =>

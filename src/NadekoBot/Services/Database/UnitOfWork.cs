@@ -45,6 +45,9 @@ namespace NadekoBot.Services.Database
         private ITypingArticlesRepository _typingArticles;
         public ITypingArticlesRepository TypingArticles => _typingArticles ?? (_typingArticles = new TypingArticlesRepository(_context));
 
+        private ICustomReactionRepository _customReactions;
+        public ICustomReactionRepository CustomReactions => _customReactions ?? (_customReactions = new CustomReactionsRepository(_context));
+
         private IMusicPlaylistRepository _musicPlaylists;
         public IMusicPlaylistRepository MusicPlaylists => _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
 

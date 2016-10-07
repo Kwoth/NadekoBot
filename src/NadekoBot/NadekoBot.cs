@@ -75,6 +75,7 @@ namespace NadekoBot
             CommandService.AddTypeReader<Command>(new CommandTypeReader());
             CommandService.AddTypeReader<Module>(new ModuleTypeReader());
             CommandService.AddTypeReader<IGuild>(new GuildTypeReader());
+            CommandService.AddTypeReader<Services.Database.Models.CustomReaction>(new CustomReactionReader());
 
             //connect
             await Client.LoginAsync(TokenType.Bot, Credentials.Token).ConfigureAwait(false);

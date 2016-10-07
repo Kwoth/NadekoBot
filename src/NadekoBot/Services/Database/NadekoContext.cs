@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database
         public DbSet<Currency> Currency { get; set; }
         public DbSet<ConvertUnit> ConversionUnits { get; set; }
         public DbSet<TypingArticle> TypingArticles { get; set; }
+        public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
 
         //logging
@@ -36,8 +37,8 @@ namespace NadekoBot.Services.Database
 
         public NadekoContext()
         {
-            this.Database.Migrate();
-            EnsureSeedData();
+            //this.Database.Migrate();
+            //EnsureSeedData();
         }
 
         public void EnsureSeedData()
