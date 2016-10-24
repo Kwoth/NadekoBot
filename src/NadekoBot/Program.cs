@@ -9,7 +9,7 @@
             }
             catch (System.Exception e)
             {
-                System.Console.WriteLine("NadekoBot Crashed with Exception: {0}", e.Message);
+                System.Console.WriteLine("NadekoBot Crashed with Exception: {0}", e);
             }
         }
     }
