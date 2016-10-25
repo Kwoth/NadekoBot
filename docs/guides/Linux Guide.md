@@ -149,7 +149,7 @@ Go to that link after **replacing** and you will be able to add your bot to your
 
 **Alternative Method to install NadekoBot**
 
-I you see issues getting NadekoBot installed after following [Getting NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) follow the steps bellow:
+If you find issues getting NadekoBot installed after following [Getting NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) follow the steps bellow:
 
 - Getting Nadeko
 
