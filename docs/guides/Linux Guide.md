@@ -145,9 +145,7 @@ Go to that link after **replacing** and you will be able to add your bot to your
 
 **NOW YOU HAVE YOUR OWN NADEKO BOT \o/** `Thanks to Kwoth <3`
 
-####Some more Info (just in case)
-
-**Alternative Method to install NadekoBot**
+####Alternative Method to install NadekoBot
 
 If you find issues getting NadekoBot installed after following [Getting NadekoBot](http://nadekobot.readthedocs.io/en/1.0/guides/Linux%20Guide/#getting-nadekobot) follow the steps bellow:
 
@@ -166,6 +164,8 @@ If you find issues getting NadekoBot installed after following [Getting NadekoBo
 - `cd ~/NadekoBot/src/NadekoBot/`
 - `dotnet restore` 
 - `dotnet build --configuration Release`
+
+####Some more Info
 
 **TMUX**
 
