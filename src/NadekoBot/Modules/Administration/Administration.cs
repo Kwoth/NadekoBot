@@ -123,22 +123,6 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task Restart(IUserMessage umsg)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            await channel.SendMessageAsync("`Restarting in 2 seconds...`").ConfigureAwait(false);
-            await Task.Delay(2000).ConfigureAwait(false);
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                Arguments = "dotnet " + System.Reflection.Assembly.GetEntryAssembly().Location
-            });
-            Environment.Exit(0);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         [RequirePermission(GuildPermission.Administrator)]
         public async Task Delmsgoncmd(IUserMessage umsg)
         {
@@ -306,11 +290,6 @@ namespace NadekoBot.Modules.Administration
                 await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
             }
-            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
-            {
-                await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
-                return;
-            }
             try
             {
                 await (await user.CreateDMChannelAsync()).SendMessageAsync($"**You have been BANNED from `{channel.Guild.Name}` server.**\n" +
@@ -340,7 +319,7 @@ namespace NadekoBot.Modules.Administration
             {
                 msg = "No reason provided.";
             }
-            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Max().Position >= ((IGuildUser)umsg.Author).Roles.Max().Position)
+            if (umsg.Author.Id != user.Guild.OwnerId && user.Roles.Select(r => r.Position).Max() >= ((IGuildUser)umsg.Author).Roles.Select(r => r.Position).Max())
             {
                 await channel.SendMessageAsync("You can't use this command on users with a role higher or equal to yours in the role hierarchy.");
                 return;
@@ -407,6 +386,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [Priority(1)]
         public async Task SetMuteRole(IUserMessage imsg, [Remainder] string name)
         {
@@ -427,6 +407,7 @@ namespace NadekoBot.Modules.Administration
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequirePermission(GuildPermission.ManageRoles)]
         [Priority(0)]
         public Task SetMuteRole(IUserMessage imsg, [Remainder] IRole role)
             => SetMuteRole(imsg, role.Name);
@@ -747,7 +728,7 @@ namespace NadekoBot.Modules.Administration
 
             game = game ?? "";
 
-            await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(game)).ConfigureAwait(false);
+            await NadekoBot.Client.SetGame(game).ConfigureAwait(false);
 
             await channel.SendMessageAsync("`New game set.`").ConfigureAwait(false);
         }
@@ -761,7 +742,7 @@ namespace NadekoBot.Modules.Administration
 
             name = name ?? "";
 
-            await NadekoBot.Client.GetCurrentUser().ModifyStatusAsync(u => u.Game = new Game(name, url, StreamType.Twitch)).ConfigureAwait(false);
+            await NadekoBot.Client.SetStream(name, url).ConfigureAwait(false);
 
             await channel.SendMessageAsync("`New stream set.`").ConfigureAwait(false);
         }
@@ -856,7 +837,7 @@ namespace NadekoBot.Modules.Administration
             }
             var title = $"Chatlog-{channel.Guild.Name}/#{channel.Name}-{DateTime.Now}.txt";
             await (umsg.Author as IGuildUser).SendFileAsync(
-                await JsonConvert.SerializeObject(new { Messages = msgs.Select(s => $"【{s.Timestamp:HH:mm:ss}】" + s.ToString()) }, Formatting.Indented).ToStream().ConfigureAwait(false),
+                await JsonConvert.SerializeObject(new { Messages = msgs.Select(s => $"【{s.Timestamp:HH:mm:ss}】{s.Author}:" + s.ToString()) }, Formatting.Indented).ToStream().ConfigureAwait(false),
                 title, title).ConfigureAwait(false);
         }
 
