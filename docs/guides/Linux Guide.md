@@ -84,7 +84,7 @@ sudo apt-get update && sudo apt-get install ffmpeg -y
 
 - `ufw enable`
 
-**Type** `y` ** and hit Enter**
+**Type** `y` **and hit Enter**
 
 - `sudo ufw allow ssh`
 
@@ -137,9 +137,9 @@ Now time to **move bot to background** and to do that, press **CTRL+B+D** (this 
 
 For how to set up Nadeko for music and Google API Keys, follow [Setting up NadekoBot for Music](http://nadekobot.readthedocs.io/en/1.0/guides/Windows%20Guide/#setting-up-nadekobot-for-music)
 
-####Inviting the bot
+####Inviting your bot to your server - [Invite Guide][Invite Guide]
 
-Copy your CLIENT ID (from the same [Developer page](https://discordapp.com/developers/applications/me) where you got your token!) and **replace** `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your client ID.
+Copy your **CLIENT ID** (from the same [Developer page](https://discordapp.com/developers/applications/me) where you got your token!) and **replace** `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your client ID.
 
 Go to that link after **replacing** and you will be able to add your bot to your server.
 
@@ -186,3 +186,5 @@ Open **PuTTY** and login as you have before, type `reboot` and hit Enter.
 - HIT **CTRL+B+D** and close **PuTTY**
 
 *IF YOU FACE ANY TROUBLE ANYWHERE IN THE GUIDE JUST FIND US IN [NADEKO'S DISCORD SERVER](https://discord.gg/0ehQwTK2RBjAxzEY)*
+
+[Invite Guide]: http://discord.kongslien.net/guide.html
