@@ -26,7 +26,7 @@ Note if the command is not being initiated, hit **Enter**
 
 ####Installing Git
 
-- `sudo apt-get install git -y`
+`sudo apt-get install git -y`
 
 ####Installing .NET Core
 
