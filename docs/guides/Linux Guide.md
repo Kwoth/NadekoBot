@@ -141,9 +141,9 @@ For how to set up Nadeko for music and Google API Keys, follow [Setting up Nadek
 
 Copy your **CLIENT ID** (from the same [Developer page](https://discordapp.com/developers/applications/me) where you got your token!) and **replace** `12345678` in this link `https://discordapp.com/oauth2/authorize?client_id=12345678&scope=bot&permissions=66186303` with your client ID.
 
-Go to that link after **replacing** and you will be able to add your bot to your server.
+Go to that link after **replacing** and you will be able to add the bot to your server.
 
-**NOW YOU HAVE YOUR OWN NADEKO BOT \o/** `Thanks to Kwoth <3`
+`Thanks to Kwoth <3`
 
 ####Alternative Method to install NadekoBot
 
