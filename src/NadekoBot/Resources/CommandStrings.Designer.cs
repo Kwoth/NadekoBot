@@ -7429,5 +7429,85 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("youtube_usage", resourceCulture);
             }
         }
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftping mcping.
+        /// </summary>
+        public static string mcping_cmd {
+            get {
+                return ResourceManager.GetString("mcping_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Pings a minecraft server..
+        /// </summary>
+        public static string mcping_desc {
+            get {
+                return ResourceManager.GetString("mcping_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcping 127.0.0.1:1337`.
+        /// </summary>
+        public static string mcping_usage {
+            get {
+                return ResourceManager.GetString("mcping_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftquery mcquery.
+        /// </summary>
+        public static string mcquery_cmd {
+            get {
+                return ResourceManager.GetString("mcquery_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds information about a minecraft server..
+        /// </summary>
+        public static string mcquery_desc {
+            get {
+                return ResourceManager.GetString("mcquery_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcquery server:ip`.
+        /// </summary>
+        public static string mcquery_usage {
+            get {
+                return ResourceManager.GetString("mcquery_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to minecraftuser mcuser.
+        /// </summary>
+        public static string mcuser_cmd {
+            get {
+                return ResourceManager.GetString("mcuser_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Finds information about a minecraft user..
+        /// </summary>
+        public static string mcuser_desc {
+            get {
+                return ResourceManager.GetString("mcuser_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}mcuser username or uuid`.
+        /// </summary>
+        public static string mcuser_usage {
+            get {
+                return ResourceManager.GetString("mcuser_usage", resourceCulture);
+            }
+        }
     }
 }

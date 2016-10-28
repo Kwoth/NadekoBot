@@ -2574,4 +2574,31 @@
   <data name="listquotes_usage" xml:space="preserve">
     <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
   </data>
+  <data name="mcping_cmd" xml:space="preserve">
+	<value>minecraftping mcping</value>
+	</data>
+  <data name="mcping_desc" xml:space="preserve">
+	<value>Pings a minecraft server.</value>
+  </data>
+  <data name="mcping_usage" xml:space="preserve">
+	<value>`{0}mcping 127.0.0.1:1337`</value>
+  </data>
+  <data name="mcuser_cmd" xml:space="preserve">
+	<value>minecraftuser mcuser</value>
+  </data>
+  <data name="mcuser_desc" xml:space="preserve">
+	<value>Finds information about a minecraft user.</value>
+  </data>
+  <data name="mcuser_usage" xml:space="preserve">
+	<value>`{0}mcuser username or uuid`</value>
+  </data>
+  <data name="mcquery_cmd" xml:space="preserve">
+	<value>minecraftquery mcquery</value>
+  </data>
+  <data name="mcquery_desc" xml:space="preserve">
+	<value>Finds information about a minecraft server.</value>
+  </data>
+  <data name="mcquery_usage" xml:space="preserve">
+	<value>`{0}mcquery server:ip`</value>
+  </data>
 </root>
