@@ -1,5 +1,7 @@
-######For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki>
-######You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: `nadekodiscordbot@gmail.com`
+<sub>For more information and how to setup your own NadekoBot, go to: <http://github.com/Kwoth/NadekoBot/wiki></sub>
+
+<sub>You can support the project on patreon: <https://patreon.com/nadekobot> or paypal: <code>`nadekodiscordbot@gmail.com`</code></sub>
+
 ##Table Of Contents
 - [CustomReactions](#customreactions)
 - [ClashOfClans](#clashofclans)
