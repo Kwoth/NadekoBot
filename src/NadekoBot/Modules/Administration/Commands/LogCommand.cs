@@ -41,22 +41,27 @@ namespace NadekoBot.Modules.Administration
 
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(uow.GuildConfigs
-                                                                                      .GetAll()
+                    GuildLogSettings = new ConcurrentDictionary<ulong, LogSetting>(NadekoBot.AllGuildConfigs
                                                                                       .ToDictionary(g => g.GuildId, g => g.LogSetting));
                 }
 
                 t = new Timer(async (state) =>
                 {
-                    var keys = UserPresenceUpdates.Keys.ToList();
-
-                    await Task.WhenAll(keys.Select(key =>
+                    try
                     {
-                        List<string> messages;
-                        if (UserPresenceUpdates.TryRemove(key, out messages))
-                            try { return key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { } //502/403
-                        return Task.CompletedTask;
-                    }));
+                        var keys = UserPresenceUpdates.Keys.ToList();
+
+                        await Task.WhenAll(keys.Select(async key =>
+                        {
+                            List<string> messages;
+                            if (UserPresenceUpdates.TryRemove(key, out messages))
+                                try { await key.SendMessageAsync(string.Join(Environment.NewLine, messages)); } catch { }
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Warn(ex);
+                    }
                 }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
                 
 
@@ -90,29 +95,33 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    string str = $"🕔`{prettyCurrentTime}`";
-                    if (before.Username != after.Username)
-                        str += $"**Name Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
-                    else if (before.Nickname != after.Nickname)
-                        str += $"**Nickname Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
-                    else if (before.AvatarUrl != after.AvatarUrl)
-                        str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
-                    else if (!before.Roles.SequenceEqual(after.Roles))
+                    try
                     {
-                        if (before.Roles.Count() < after.Roles.Count())
+                        string str = $"🕔`{prettyCurrentTime}`";
+                        if (before.Username != after.Username)
+                            str += $"**Name Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`New:`{after.ToString()}`";
+                        else if (before.Nickname != after.Nickname)
+                            str += $"**Nickname Changed**👤`{before.Username}#{before.Discriminator}`\n\t\t`Old:` {before.Nickname}#{before.Discriminator}\n\t\t`New:` {after.Nickname}#{after.Discriminator}";
+                        else if (before.AvatarUrl != after.AvatarUrl)
+                            str += $"**Avatar Changed**👤`{before.Username}#{before.Discriminator}`\n\t {await _google.ShortenUrl(before.AvatarUrl)} `=>` {await _google.ShortenUrl(after.AvatarUrl)}";
+                        else if (!before.Roles.SequenceEqual(after.Roles))
                         {
-                            var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                            str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                            if (before.Roles.Count() < after.Roles.Count())
+                            {
+                                var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                                str += $"**User's Roles changed ⚔➕**👤`{before.ToString()}`\n\tNow has {string.Join(", ", diffRoles)} role.";
+                            }
+                            else if (before.Roles.Count() > after.Roles.Count())
+                            {
+                                var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
+                                str += $"**User's Roles changed ⚔➖**👤`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
+                            }
                         }
-                        else if (before.Roles.Count() > after.Roles.Count())
-                        {
-                            var diffRoles = before.Roles.Where(r => !after.Roles.Contains(r)).Select(r => "`" + r.Name + "`");
-                            str += $"**User's Roles changed ⚔➖**👤`{before.ToString()}`\n\tNo longer has {string.Join(", ", diffRoles)} role.";
-                        }
+                        else
+                            return;
+                        try { await logChannel.SendMessageAsync(str).ConfigureAwait(false); } catch (Exception ex) { _log.Warn(ex); }
                     }
-                    else
-                        return;
-                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    catch { }
                 });
 
                 return Task.CompletedTask;
@@ -128,7 +137,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(before.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.ChannelUpdated)
+                    || !logSetting.ChannelUpdated
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -137,14 +147,18 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    if (before.Name != after.Name)
-                        await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
+                    try
+                    {
+                        if (before.Name != after.Name)
+                            await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Name Changed** `#{after.Name}` ({after.Id})
     `Old:` {before.Name}
     `New:` {after.Name}").ConfigureAwait(false);
-                    else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
-                        await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
+                        else if ((before as ITextChannel).Topic != (after as ITextChannel).Topic)
+                            await logChannel.SendMessageAsync($@"`{prettyCurrentTime}` **Channel Topic Changed** `#{after.Name}` ({after.Id})
     `Old:` {((ITextChannel)before).Topic}
     `New:` {((ITextChannel)after).Topic}").ConfigureAwait(false);
+                    }
+                    catch { }
                 });
 
                 return Task.CompletedTask;
@@ -159,7 +173,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.ChannelDestroyed)
+                    || !logSetting.ChannelDestroyed
+                    || logSetting.IgnoredChannels.Any(ilc=>ilc.ChannelId == ch.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -212,8 +227,7 @@ namespace NadekoBot.Modules.Administration
 
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out logSetting)
-                    || !logSetting.LogVoicePresence
-                    || logSetting.IgnoredChannels.Any(ic => ic.ChannelId == after.VoiceChannel.Id))
+                    || !logSetting.LogVoicePresence)
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -254,7 +268,7 @@ namespace NadekoBot.Modules.Administration
                 if (before.Status != after.Status)
                     str = $"`{prettyCurrentTime}`**{usr.Username}** is now **{after.Status}**.";
                 else
-                    str = $"`{prettyCurrentTime}`**{usr.Username}** is now playing **{after.Status}**.";
+                    str = $"`{prettyCurrentTime}`**{usr.Username}** is now playing **{after.Game}**.";
 
                 UserPresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
 
@@ -354,7 +368,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.MessageDeleted)
+                    || !logSetting.MessageDeleted
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -363,11 +378,15 @@ namespace NadekoBot.Modules.Administration
 
                 var task = Task.Run(async () =>
                 {
-                    var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
-👤`{msg.Author.Username}`: {msg.Resolve(userHandling:UserMentionHandling.NameAndDiscriminator)}";
-                    if (msg.Attachments.Any())
-                        str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
-                    await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    try
+                    {
+                        var str = $@"🕔`{prettyCurrentTime}` **Message** 🚮 `#{channel.Name}`
+👤`{msg.Author.Username}`: {msg.Resolve(userHandling: UserMentionHandling.NameAndDiscriminator)}";
+                        if (msg.Attachments.Any())
+                            str += $"{Environment.NewLine}`Attachements`: {string.Join(", ", msg.Attachments.Select(a => a.ProxyUrl))}";
+                        await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                    }
+                    catch (Exception ex) { _log.Warn(ex); }
                 });
 
                 return Task.CompletedTask;
@@ -390,7 +409,8 @@ namespace NadekoBot.Modules.Administration
                 LogSetting logSetting;
                 if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out logSetting)
                     || !logSetting.IsLogging
-                    || !logSetting.MessageUpdated)
+                    || !logSetting.MessageUpdated
+                    || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return Task.CompletedTask;
 
                 ITextChannel logChannel;
@@ -519,9 +539,13 @@ namespace NadekoBot.Modules.Administration
                     var config = uow.GuildConfigs.For(channel.Guild.Id);
                     LogSetting logSetting = GuildLogSettings.GetOrAdd(channel.Guild.Id, (id) => config.LogSetting);
                     removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
+                    config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == channel.Id);
                     if (removed == 0)
-                        logSetting.IgnoredChannels.Add(new IgnoredLogChannel { ChannelId = channel.Id });
-                    config.LogSetting = logSetting;
+                    {
+                        var toAdd = new IgnoredLogChannel { ChannelId = channel.Id };
+                        logSetting.IgnoredChannels.Add(toAdd);
+                        config.LogSetting.IgnoredChannels.Add(toAdd);
+                    }
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
 
@@ -541,7 +565,6 @@ namespace NadekoBot.Modules.Administration
 
             //    switch (eventName.ToLowerInvariant())
             //    {
-            //        case "messagereceived":
             //        case "messageupdated":
             //        case "messagedeleted":
             //        case "userjoined":

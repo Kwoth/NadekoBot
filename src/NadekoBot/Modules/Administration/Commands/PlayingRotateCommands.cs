@@ -58,9 +58,7 @@ namespace NadekoBot.Modules.Administration
                                 if (string.IsNullOrWhiteSpace(status))
                                     continue;
                                 PlayingPlaceholders.ForEach(e => status = status.Replace(e.Key, e.Value()));
-                                await (await NadekoBot.Client.GetCurrentUserAsync())
-                                        .ModifyStatusAsync(mpp => mpp.Game = new Game(status))
-                                        .ConfigureAwait(false);
+                                await NadekoBot.Client.SetGame(status);
                             }
                         }
                         catch (Exception ex)
@@ -69,7 +67,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         finally
                         {
-                            await Task.Delay(15000);
+                            await Task.Delay(TimeSpan.FromMinutes(1));
                         }
                     } while (true);
                 });

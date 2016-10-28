@@ -19,6 +19,7 @@ using Module = Discord.Commands.Module;
 using NadekoBot.TypeReaders;
 using System.Collections.Concurrent;
 using NadekoBot.Modules.Music;
+using NadekoBot.Services.Database.Models;
 
 namespace NadekoBot
 {
@@ -38,12 +39,22 @@ namespace NadekoBot
         public static ConcurrentDictionary<string, string> ModulePrefixes { get; private set; }
         public static bool Ready { get; private set; }
 
+        public static IEnumerable<GuildConfig> AllGuildConfigs { get; }
+
+        static NadekoBot()
+        {
+            using (var uow = DbHandler.UnitOfWork())
+            {
+                AllGuildConfigs = uow.GuildConfigs.GetAll();
+            }
+        }
+
         public async Task RunAsync(string[] args)
         {
             SetupLogger();
             _log = LogManager.GetCurrentClassLogger();
 
-            _log.Info("Starting NadekoBot v" + typeof(NadekoBot).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
+            _log.Info("Starting NadekoBot v" + StatsService.BotVersion);
 
 
             Credentials = new BotCredentials();
@@ -92,7 +103,7 @@ namespace NadekoBot
                 ModulePrefixes = new ConcurrentDictionary<string, string>(uow.BotConfig.GetOrCreate().ModulePrefixes.ToDictionary(m => m.ModuleName, m => m.Prefix));
             }
             // start handling messages received in commandhandler
-            await CommandHandler.StartHandling();
+            await CommandHandler.StartHandling().ConfigureAwait(false);
 
             await CommandService.LoadAssembly(Assembly.GetEntryAssembly(), depMap).ConfigureAwait(false);
 #if !GLOBAL_NADEKO

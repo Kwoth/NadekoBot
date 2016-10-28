@@ -33,7 +33,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var configs = uow.GuildConfigs.GetAll();
+                    var configs = NadekoBot.AllGuildConfigs;
                     commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
                 }
             }
@@ -112,8 +112,12 @@ namespace NadekoBot.Modules.Permissions
                         });
                         var t = Task.Run(async () =>
                         {
-                            await Task.Delay(cdRule.Seconds * 1000);
-                            activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Text.ToLowerInvariant() && ac.UserId == user.Id);
+                            try
+                            {
+                                await Task.Delay(cdRule.Seconds * 1000);
+                                activeCdsForGuild.RemoveWhere(ac => ac.Command == cmd.Text.ToLowerInvariant() && ac.UserId == user.Id);
+                            }
+                            catch { }
                         });
                     }
                 }

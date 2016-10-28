@@ -173,6 +173,10 @@ namespace NadekoBot.Services
                     {
                         if (msg.Channel is IPrivateChannel)
                         {
+                            //rofl, gotta do this to prevent this message from occuring on polls
+                            int vote;
+                            if (int.TryParse(msg.Content, out vote)) return; 
+
                             await msg.Channel.SendMessageAsync(Help.DMHelpString).ConfigureAwait(false);
 
                             await DMForwardCommands.HandleDMForwarding(msg, ownerChannels);
@@ -252,7 +256,7 @@ namespace NadekoBot.Services
                     int index;
                     if (!resetCommand && !pc.RootPermission.AsEnumerable().CheckPermissions(message, cmd.Text, cmd.Module.Name, out index))
                     {
-                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand()}** is preventing this action.";
+                        var returnMsg = $"Permission number #{index + 1} **{pc.RootPermission.GetAt(index).GetCommand(guild)}** is preventing this action.";
                         return new Tuple<Command, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, returnMsg));
                     }
 

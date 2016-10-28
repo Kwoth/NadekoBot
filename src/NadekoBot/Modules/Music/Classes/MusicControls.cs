@@ -93,54 +93,54 @@ namespace NadekoBot.Modules.Music.Classes
 
             var t = new Thread(new ThreadStart(async () =>
             {
-                try
+                while (!Destroyed)
                 {
-                    while (!Destroyed)
+                    try
                     {
-                        try
+                        if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
-                            if (audioClient?.ConnectionState != ConnectionState.Connected)
-                            {
-                                audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                                continue;
-                            }
-
-                            CurrentSong = GetNextSong();
-                            RemoveSongAt(0);
-
-                            if (CurrentSong == null)
-                                continue;
-
-
-                            OnStarted(this, CurrentSong);
-                            await CurrentSong.Play(audioClient, cancelToken);
-
-                            OnCompleted(this, CurrentSong);
-
-                            if (RepeatPlaylist)
-                                AddSong(CurrentSong, CurrentSong.QueuerName);
-
-                            if (RepeatSong)
-                                AddSong(CurrentSong, 0);
-
+                            if (audioClient != null)
+                                try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+                            continue;
                         }
-                        catch (OperationCanceledException) { }
-                        finally
-                        {
-                            if (!cancelToken.IsCancellationRequested)
-                            {
-                                SongCancelSource.Cancel();
-                            }
-                            SongCancelSource = new CancellationTokenSource();
-                            cancelToken = SongCancelSource.Token;
-                            CurrentSong = null;
-                            await Task.Delay(300).ConfigureAwait(false);
-                        }
+
+                        CurrentSong = GetNextSong();
+                        RemoveSongAt(0);
+
+                        if (CurrentSong == null)
+                            continue;
+
+
+                        OnStarted(this, CurrentSong);
+                        await CurrentSong.Play(audioClient, cancelToken);
+
+                        OnCompleted(this, CurrentSong);
+
+                        if (RepeatPlaylist)
+                            AddSong(CurrentSong, CurrentSong.QueuerName);
+
+                        if (RepeatSong)
+                            AddSong(CurrentSong, 0);
+
                     }
-                }
-                catch (Exception ex) {
-                    Console.WriteLine("Music thread crashed.");
-                    Console.WriteLine(ex);
+                    catch (OperationCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Music thread almost crashed.");
+                        Console.WriteLine(ex);
+                    }
+                    finally
+                    {
+                        if (!cancelToken.IsCancellationRequested)
+                        {
+                            SongCancelSource.Cancel();
+                        }
+                        SongCancelSource = new CancellationTokenSource();
+                        cancelToken = SongCancelSource.Token;
+                        CurrentSong = null;
+                        await Task.Delay(300).ConfigureAwait(false);
+                    }
                 }
             }));
 
@@ -188,7 +188,9 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(() =>
             {
-                playlist.Shuffle();
+                var oldPlaylist = playlist.ToArray();
+                playlist.Clear();
+                playlist.AddRange(oldPlaylist.Shuffle());
             });
         }
 
@@ -240,6 +242,31 @@ namespace NadekoBot.Modules.Music.Classes
             actionQueue.Enqueue(() =>
             {
                 playlist.Clear();
+            });
+        }
+
+        internal async Task UpdateSongDurationsAsync()
+        {
+            var curSong = CurrentSong;
+            var toUpdate = playlist.Where(s => s.SongInfo.ProviderType == MusicType.Normal &&
+                                                          s.TotalLength == TimeSpan.Zero);
+            if (curSong != null)
+                toUpdate = toUpdate.Append(curSong);
+            var ids = toUpdate.Select(s => s.SongInfo.Query.Substring(s.SongInfo.Query.LastIndexOf("?v=") + 3))
+                              .Distinct();
+
+            var durations = await NadekoBot.Google.GetVideoDurationsAsync(ids);
+
+            toUpdate.ForEach(s =>
+            {
+                foreach (var kvp in durations)
+                {
+                    if (s.SongInfo.Query.EndsWith(kvp.Key))
+                    {
+                        s.TotalLength = kvp.Value;
+                        return;
+                    }
+                }
             });
         }
 

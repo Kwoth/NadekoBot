@@ -19,7 +19,7 @@ namespace NadekoBot.Modules.Gambling
         [Group]
         public class DriceRollCommands
         {
-            private Regex dndRegex { get; } = new Regex(@"(?<n1>\d+)d(?<n2>\d+)", RegexOptions.Compiled);
+            private Regex dndRegex { get; } = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -35,10 +35,14 @@ namespace NadekoBot.Modules.Gambling
                 var num2 = gen % 10;
                 var imageStream = await Task.Run(() =>
                 {
-                    var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
-                    ms.Position = 0;
-                    return ms;
+                    try
+                    {
+                        var ms = new MemoryStream();
+                        new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
+                        ms.Position = 0;
+                        return ms;
+                    }
+                    catch { return new MemoryStream(); }
                 });
 
                 await channel.SendFileAsync(imageStream, "dice.png", $"{umsg.Author.Mention} rolled " + Format.Code(gen.ToString())).ConfigureAwait(false);
@@ -64,20 +68,25 @@ namespace NadekoBot.Modules.Gambling
                         int.TryParse(match.Groups["n2"].ToString(), out n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                     {
+                        var add = 0;
+                        var sub = 0;
+                        int.TryParse(match.Groups["add"].Value, out add);
+                        int.TryParse(match.Groups["sub"].Value, out sub);
+
                         var arr = new int[n1];
                         for (int i = 0; i < n1; i++)
                         {
-                            arr[i] = rng.Next(1, n2 + 1);
+                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
                         var elemCnt = 0;
-                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            [Priority(2)]
+            [Priority(0)]
             public async Task Roll(IUserMessage umsg, int num)
             {
                 var channel = (ITextChannel)umsg.Channel;
@@ -148,13 +157,18 @@ namespace NadekoBot.Modules.Gambling
                         int.TryParse(match.Groups["n2"].ToString(), out n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                     {
+                        var add = 0;
+                        var sub = 0;
+                        int.TryParse(match.Groups["add"].Value, out add);
+                        int.TryParse(match.Groups["sub"].Value, out sub);
+
                         var arr = new int[n1];
                         for (int i = 0; i < n1; i++)
                         {
-                            arr[i] = rng.Next(1, n2 + 1);
+                            arr[i] = rng.Next(1, n2 + 1) + add - sub;
                         }
                         var elemCnt = 0;
-                        await channel.SendMessageAsync($"`{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} 1-{n2}.`\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
+                        await channel.SendMessageAsync($"{umsg.Author.Mention} rolled {n1} {(n1 == 1 ? "die" : "dice")} `1 to {n2}` +`{add}` -`{sub}`.\n`Result:` " + string.Join(", ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => elemCnt++ % 2 == 0 ? $"**{x}**" : x.ToString()))).ConfigureAwait(false);
                     }
                 }
             }

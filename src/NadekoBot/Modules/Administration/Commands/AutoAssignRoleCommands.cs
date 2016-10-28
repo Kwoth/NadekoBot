@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Services;
 using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
+using NLog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,26 +17,33 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class AutoAssignRoleCommands
         {
+            private Logger _log { get; }
+
             public AutoAssignRoleCommands()
             {
                 var _client = NadekoBot.Client;
+                this._log = LogManager.GetCurrentClassLogger();
                 _client.UserJoined += (user) =>
                 {
                     var t = Task.Run(async () =>
                     {
-                        GuildConfig conf;
-                        using (var uow = DbHandler.UnitOfWork())
+                        try
                         {
-                            conf = uow.GuildConfigs.For(user.Guild.Id);
+                            GuildConfig conf;
+                            using (var uow = DbHandler.UnitOfWork())
+                            {
+                                conf = uow.GuildConfigs.For(user.Guild.Id);
+                            }
+
+                            if (conf.AutoAssignRoleId == 0)
+                                return;
+
+                            var role = user.Guild.Roles.FirstOrDefault(r => r.Id == conf.AutoAssignRoleId);
+
+                            if (role != null)
+                                await user.AddRolesAsync(role);
                         }
-
-                        if (conf.AutoAssignRoleId == 0)
-                            return;
-
-                        var role = user.Guild.Roles.FirstOrDefault(r => r.Id == conf.AutoAssignRoleId);
-
-                        if (role != null)
-                            await user.AddRolesAsync(role);
+                        catch (Exception ex) { _log.Warn(ex); }
                     });
                     return Task.CompletedTask;
                 };

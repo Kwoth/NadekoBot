@@ -4,6 +4,7 @@ using ImageProcessorCore;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -57,8 +58,12 @@ namespace NadekoBot.Modules.Gambling
                 if (guessStr != "H" && guessStr != "T" && guessStr != "HEADS" && guessStr != "TAILS")
                     return;
 
-                if (amount < 1)
+                if (amount < 3)
+                {
+                    await channel.SendMessageAsync($"You can't bet less than 3{Gambling.CurrencySign}.")
+                                 .ConfigureAwait(false);
                     return;
+                }
                 // todo update this
                 long userFlowers;
                 using (var uow = DbHandler.UnitOfWork())
@@ -91,9 +96,10 @@ namespace NadekoBot.Modules.Gambling
 
                 string str;
                 if (isHeads == result)
-                {
-                    str = $"{umsg.Author.Mention}`You guessed it!` You won {amount * 2}{Gambling.CurrencySign}";
-                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)umsg.Author, "Betflip Gamble", amount * 2, false).ConfigureAwait(false);
+                { 
+                    var toWin = (int)Math.Round(amount * 1.8);
+                    str = $"{umsg.Author.Mention}`You guessed it!` You won {toWin}{Gambling.CurrencySign}";
+                    await CurrencyHandler.AddCurrencyAsync((IGuildUser)umsg.Author, "Betflip Gamble", toWin, false).ConfigureAwait(false);
                 }
                 else
                 {

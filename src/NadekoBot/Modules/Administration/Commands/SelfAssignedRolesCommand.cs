@@ -19,6 +19,24 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SelfAssignedRolesCommands
         {
+            
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
+            public async Task AdSarm(IUserMessage imsg)
+            {
+                var channel = (ITextChannel)imsg.Channel;
+                bool newval;
+                using (var uow = DbHandler.UnitOfWork())
+                {
+                    var config = uow.GuildConfigs.For(channel.Guild.Id);
+                    newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
+                    await uow.CompleteAsync().ConfigureAwait(false);
+                }
+
+                await channel.SendMessageAsync($"Automatic deleting of `iam` and `iamn` confirmations has been {(newval ? "enabled" : "disabled")}.")
+                             .ConfigureAwait(false);
+            }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
@@ -165,9 +183,10 @@ namespace NadekoBot.Modules.Administration
                 {
                     await guildUser.AddRolesAsync(role).ConfigureAwait(false);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await channel.SendMessageAsync($":anger:`I am unable to add that role to you. I can't add roles to owners or other roles higher than my role in the role hierarchy.`").ConfigureAwait(false);
+                    Console.WriteLine(ex);
                     return;
                 }
                 var msg = await channel.SendMessageAsync($":ok:You now have {role.Name} role.").ConfigureAwait(false);

@@ -14,7 +14,7 @@ namespace NadekoBot.Modules.CustomReactions
     {
         public static Dictionary<string, Func<IUserMessage, string, string>> responsePlaceholders = new Dictionary<string, Func<IUserMessage, string, string>>()
         {
-            {"%target%", (ctx, trigger) => { return ctx.Content.ToLowerInvariant().Substring(trigger.Length); } }
+            {"%target%", (ctx, trigger) => { return ctx.Content.Substring(trigger.Length).Trim(); } }
         };
 
         public static Dictionary<string, Func<IUserMessage, string>> placeholders = new Dictionary<string, Func<IUserMessage, string>>()
@@ -37,12 +37,12 @@ namespace NadekoBot.Modules.CustomReactions
         {
             foreach (var ph in placeholders)
             {
-                str = str.ToLowerInvariant().Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx));
+                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx));
             }
 
             foreach (var ph in responsePlaceholders)
             {
-                str = str.ToLowerInvariant().Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, resolvedTrigger));
+                str = str.Replace(ph.Key.ToLowerInvariant(), ph.Value(ctx, resolvedTrigger));
             }
             return str;
         }

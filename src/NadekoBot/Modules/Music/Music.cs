@@ -141,6 +141,12 @@ namespace NadekoBot.Modules.Music
             var currentSong = musicPlayer.CurrentSong;
             if (currentSong == null)
                 return;
+
+            if (currentSong.TotalLength == TimeSpan.Zero)
+            {
+                await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
+            }
+
             var toSend = $"🎵`Now Playing` {currentSong.PrettyName} " + $"{currentSong.PrettyCurrentTime()}\n";
             if (musicPlayer.RepeatSong)
                 toSend += "🔂";
@@ -168,6 +174,11 @@ namespace NadekoBot.Modules.Music
             var currentSong = musicPlayer.CurrentSong;
             if (currentSong == null)
                 return;
+
+            if (currentSong.TotalLength == TimeSpan.Zero)
+            {
+                await musicPlayer.UpdateSongDurationsAsync().ConfigureAwait(false);
+            }
             await channel.SendMessageAsync($"🎵`Now Playing` {currentSong.PrettyName} " +
                                         $"{currentSong.PrettyCurrentTime()}").ConfigureAwait(false);
         }
@@ -317,7 +328,8 @@ namespace NadekoBot.Modules.Music
                 return;
             try
             {
-                var fileEnum = new DirectoryInfo(arg).GetFiles()
+                var dir = new DirectoryInfo(arg);
+                var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
                                     .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System));
                 foreach (var file in fileEnum)
                 {
@@ -381,6 +393,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(0)]
         public async Task Remove(IUserMessage umsg, int num)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -401,6 +414,7 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [Priority(1)]
         public async Task Remove(IUserMessage umsg, string all)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -785,9 +799,10 @@ namespace NadekoBot.Modules.Music
                     var queuedMessage = await textCh.SendMessageAsync($"🎵`Queued`{resolvedSong.PrettyName} **at** `#{musicPlayer.Playlist.Count + 1}`").ConfigureAwait(false);
                     var t = Task.Run(async () =>
                     {
-                        await Task.Delay(10000).ConfigureAwait(false);
                         try
                         {
+                            await Task.Delay(10000).ConfigureAwait(false);
+                        
                             await queuedMessage.DeleteAsync().ConfigureAwait(false);
                         }
                         catch { }

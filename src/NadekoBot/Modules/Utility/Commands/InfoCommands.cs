@@ -5,6 +5,7 @@ using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,23 @@ namespace NadekoBot.Modules.Utility
 {
     partial class Utility : DiscordModule
     {
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task TogetherTube(IUserMessage imsg)
+        {
+            var channel = (ITextChannel)imsg.Channel;
+
+            Uri target;
+            using (var http = new HttpClient())
+            {
+                var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false);
+                target = res.RequestMessage.RequestUri;
+            }
+
+            await channel.SendMessageAsync($"{imsg.Author.Mention}, `Here is the link:` {target}")
+                         .ConfigureAwait(false);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerInfo(IUserMessage msg, string guild = null)
@@ -34,9 +52,9 @@ namespace NadekoBot.Modules.Utility
 `Id:` **{server.Id}**
 `Icon Url:` **{ server.IconUrl}**
 `TextChannels:` **{(await server.GetTextChannelsAsync()).Count()}** `VoiceChannels:` **{(await server.GetVoiceChannelsAsync()).Count()}**
-`Members:` **{users.Count}** `Online:` **{users.Count(u => u.Status == UserStatus.Online)}**
+`Members:` **{users.Count}** `-` {users.Count(u => u.Status == UserStatus.Online)}:green_heart: {users.Count(u => u.Status == UserStatus.Idle)}:yellow_heart: {users.Count(u => u.Status == UserStatus.DoNotDisturb)}:heart: {users.Count(u=> u.Status == UserStatus.Offline || u.Status == UserStatus.Unknown)}:black_heart:
 `Roles:` **{server.Roles.Count()}**
-`Created At:` **{createdAt}**
+`Created At:` **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
 ");
             if (server.Emojis.Count() > 0)
                 sb.AppendLine($"`Custom Emojis:` **{string.Join(", ", server.Emojis)}**");
@@ -57,7 +75,7 @@ namespace NadekoBot.Modules.Utility
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
             var toReturn = $@"`Name:` **#{ch.Name}**
 `Id:` **{ch.Id}**
-`Created At:` **{createdAt}**
+`Created At:` **{createdAt.ToString("dd.MM.yyyy HH:mm")}**
 `Topic:` **{ch.Topic}**
 `Users:` **{(await ch.GetUsersAsync()).Count()}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
@@ -76,9 +94,10 @@ namespace NadekoBot.Modules.Utility
                 toReturn += $"`Nickname:` **{user.Nickname}**";
             toReturn += $@"`Id:` **{user.Id}**
 `Current Game:` **{(user.Game?.Name == null ? "-" : user.Game.Name)}**
-`Joined At:` **{user.JoinedAt}**
+`Joined Server:` **{user.JoinedAt?.ToString("dd.MM.yyyy HH:mm")}** 
+`Joined Discord:` **{user.CreatedAt.ToString("dd.MM.yyyy HH:mm")}**
 `Roles:` **({user.Roles.Count()}) - {string.Join(", ", user.Roles.Select(r => r.Name)).SanitizeMentions()}**
-`AvatarUrl:` **{user.AvatarUrl}**";
+`AvatarUrl:` **{await NadekoBot.Google.ShortenUrl(user.AvatarUrl).ConfigureAwait(false)}**";
             await msg.Reply(toReturn).ConfigureAwait(false);
         }
     }

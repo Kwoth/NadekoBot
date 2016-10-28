@@ -29,6 +29,7 @@ namespace NadekoBot.Services.Impl
 
         public DB Db { get; }
         public int TotalShards { get; }
+        public string CarbonKey { get; }
 
         public BotCredentials()
         {
@@ -47,6 +48,8 @@ namespace NadekoBot.Services.Impl
                 TotalShards = cm.TotalShards < 1 ? 1 : cm.TotalShards;
                 BotId = cm.BotId ?? cm.ClientId;
                 ClientId = cm.ClientId;
+                SoundCloudClientId = cm.SoundCloudClientId;
+                CarbonKey = cm.CarbonKey;
                 if (cm.Db == null)
                     Db = new DB("sqlite", "");
                 else
@@ -71,6 +74,7 @@ namespace NadekoBot.Services.Impl
             public string MashapeKey { get; set; } = "";
             public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";
+            public string CarbonKey { get; set; } = "";
             public DB Db { get; set; }
             public int TotalShards { get; set; } = 1;
         }
