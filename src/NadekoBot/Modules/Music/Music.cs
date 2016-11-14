@@ -23,6 +23,8 @@ namespace NadekoBot.Modules.Music
     {
         public static ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers = new ConcurrentDictionary<ulong, MusicPlayer>();
 
+
+
         public const string MusicDataPath = "data/musicdata";
         private IGoogleApiService _google;
 
@@ -83,7 +85,7 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(channel.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)umsg.Author).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                if(MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer))
+                if (MusicPlayers.TryRemove(channel.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
             return Task.CompletedTask;
         }
@@ -280,7 +282,11 @@ namespace NadekoBot.Modules.Music
             {
                 try
                 {
-                    await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, true).ConfigureAwait(false);
+                    if (!await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, id, partOfPlaylist: true).ConfigureAwait(false))
+                    {
+                        await channel.SendMessageAsync("Stopped loading the playlist");
+                        break;
+                    }
                 }
                 catch (PlaylistFullException)
                 { break; }
@@ -302,7 +308,7 @@ namespace NadekoBot.Modules.Music
             using (var http = new HttpClient())
             {
                 var scvids = JObject.Parse(await http.GetStringAsync($"http://api.soundcloud.com/resolve?url={pl}&client_id={NadekoBot.Credentials.SoundCloudClientId}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
-                await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, scvids[0].TrackLink).ConfigureAwait(false);
+                await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, scvids[0].TrackLink, partOfPlaylist: true).ConfigureAwait(false);
 
                 MusicPlayer mp;
                 if (!MusicPlayers.TryGetValue(channel.Guild.Id, out mp))
@@ -319,9 +325,15 @@ namespace NadekoBot.Modules.Music
                             Uri = svideo.StreamLink,
                             ProviderType = MusicType.Normal,
                             Query = svideo.TrackLink,
-                        }), ((IGuildUser)umsg.Author).Username);
+                        }), ((IGuildUser)umsg.Author).Username, partOfPlaylist: true);
                     }
                     catch (PlaylistFullException) { break; }
+                    catch (OperationCanceledException)
+                    {
+                        mp.ResetPlayListCancelToken();
+                        await channel.SendMessageAsync("Stopped loading the playlist");
+                        return;
+                    }
                 }
             }
         }
@@ -344,7 +356,11 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
-                        await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, file.FullName, true, MusicType.Local).ConfigureAwait(false);
+                        if (!await QueueSong(((IGuildUser)umsg.Author), channel, ((IGuildUser)umsg.Author).VoiceChannel, file.FullName, true, MusicType.Local, partOfPlaylist: true).ConfigureAwait(false))
+                        {
+                            await channel.SendMessageAsync("Stopped loading the playlist");
+                            break;
+                        }
                     }
                     catch (PlaylistFullException)
                     {
@@ -528,7 +544,8 @@ namespace NadekoBot.Modules.Music
 
             var curSong = musicPlayer.CurrentSong;
             var songs = musicPlayer.Playlist.Append(curSong)
-                                .Select(s=> new PlaylistSong() {
+                                .Select(s => new PlaylistSong()
+                                {
                                     Provider = s.SongInfo.Provider,
                                     ProviderType = s.SongInfo.ProviderType,
                                     Title = s.SongInfo.Title,
@@ -577,7 +594,11 @@ namespace NadekoBot.Modules.Music
                 var usr = (IGuildUser)umsg.Author;
                 try
                 {
-                    await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType).ConfigureAwait(false);
+                    if (!await QueueSong(usr, channel, usr.VoiceChannel, item.Query, true, item.ProviderType, partOfPlaylist: true).ConfigureAwait(false))
+                    {
+                        await channel.SendMessageAsync("Stopped loading the playlist");
+                        break;
+                    }
                 }
                 catch { break; }
             }
@@ -732,7 +753,7 @@ namespace NadekoBot.Modules.Music
                 await channel.SendMessageAsync("🎶`Autoplay enabled.`").ConfigureAwait(false);
         }
 
-        public static async Task QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal)
+        public static async Task<bool> QueueSong(IGuildUser queuer, ITextChannel textCh, IVoiceChannel voiceCh, string query, bool silent = false, MusicType musicType = MusicType.Normal, bool partOfPlaylist = false)
         {
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
@@ -768,7 +789,7 @@ namespace NadekoBot.Modules.Music
                             try { lastFinishedMessage = await textCh.SendMessageAsync($"🎵`Finished`{song.PrettyName}").ConfigureAwait(false); } catch { }
                             if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
                             {
-                                await QueueSong(queuer.Guild.GetCurrentUser(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                                await QueueSong(queuer.Guild.GetCurrentUser(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType, partOfPlaylist: partOfPlaylist).ConfigureAwait(false);
                             }
                         }
                         catch { }
@@ -782,7 +803,7 @@ namespace NadekoBot.Modules.Music
                         if (sender == null)
                             return;
 
-                            var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
+                        var msgTxt = $"🎵`Playing`{song.PrettyName} `Vol: {(int)(sender.Volume * 100)}%`";
                         try { playingMessage = await textCh.SendMessageAsync(msgTxt).ConfigureAwait(false); } catch { }
                     }
                 };
@@ -794,12 +815,19 @@ namespace NadekoBot.Modules.Music
                 musicPlayer.ThrowIfQueueFull();
                 resolvedSong = await Song.ResolveSong(query, musicType).ConfigureAwait(false);
 
-                musicPlayer.AddSong(resolvedSong, queuer.Username);
+                musicPlayer.AddSong(resolvedSong, queuer.Username, partOfPlaylist);
+                await textCh.SendMessageAsync("Queued a song");
+
             }
             catch (PlaylistFullException)
             {
                 try { await textCh.SendMessageAsync($"🎵 `Queue is full at {musicPlayer.MaxQueueSize}/{musicPlayer.MaxQueueSize}.` "); } catch { }
                 throw;
+            }
+            catch (OperationCanceledException)
+            {
+                musicPlayer.ResetPlayListCancelToken();
+                return false;
             }
             if (!silent)
             {
@@ -811,7 +839,7 @@ namespace NadekoBot.Modules.Music
                         try
                         {
                             await Task.Delay(10000).ConfigureAwait(false);
-                        
+
                             await queuedMessage.DeleteAsync().ConfigureAwait(false);
                         }
                         catch { }
@@ -819,6 +847,7 @@ namespace NadekoBot.Modules.Music
                 }
                 catch { } // if queued message sending fails, don't attempt to delete it
             }
+            return true;
         }
     }
 }
