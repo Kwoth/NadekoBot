@@ -3136,6 +3136,33 @@ namespace NadekoBot.Resources {
                 return ResourceManager.GetString("imdb_usage", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///    Looks up a localized string similar to imgur.
+        /// </summary>
+        public static string imgur_cmd {
+            get {
+                return ResourceManager.GetString("imgur_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Searches for a top imgur image, followed by a query..
+        /// </summary>
+        public static string imgur_desc {
+            get {
+                return ResourceManager.GetString("imgur_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}imgur pikachu`.
+        /// </summary>
+        public static string imgur_usage {
+            get {
+                return ResourceManager.GetString("imgur_usage", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///    Looks up a localized string similar to inrole.
@@ -5483,6 +5510,33 @@ namespace NadekoBot.Resources {
         public static string revimg_usage {
             get {
                 return ResourceManager.GetString("revimg_usage", resourceCulture);
+            }
+        }
+		
+        /// <summary>
+        ///    Looks up a localized string similar to randomimgur ri.
+        /// </summary>
+        public static string ri_cmd {
+            get {
+                return ResourceManager.GetString("ri_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random imgur image..
+        /// </summary>
+        public static string ri_desc {
+            get {
+                return ResourceManager.GetString("ri_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}randomimgur` or `{0}ri`.
+        /// </summary>
+        public static string ri_usage {
+            get {
+                return ResourceManager.GetString("ri_usage", resourceCulture);
             }
         }
         

@@ -2691,6 +2691,24 @@
   <data name="bfu_usage" xml:space="preserve">
     <value>`{0}bfu platform game user`</value>
   </data>
+  <data name="imgur_cmd" xml:space="preserve">
+    <value>imgur</value>
+  </data>
+  <data name="imgur_desc" xml:space="preserve">
+    <value>Searches for a top imgur image, followed by a query.</value>
+  </data>
+  <data name="imgur_usage" xml:space="preserve">
+    <value>`{0}imgur pikachu`</value>
+  </data>
+  <data name="ri_cmd" xml:space="preserve">
+    <value>randomimgur ri</value>
+  </data>
+  <data name="ri_desc" xml:space="preserve">
+    <value>Shows a random imgur image.</value>
+  </data>
+  <data name="ri_usage" xml:space="preserve">
+    <value>`{0}randomimgur` or `{0}ri`</value>
+  </data>
   <data name="yandere_cmd" xml:space="preserve">
     <value>yandere</value>
   </data>
