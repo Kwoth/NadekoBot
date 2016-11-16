@@ -16,6 +16,7 @@ namespace NadekoBot.Services.Impl
         public ulong BotId { get; }
 
         public string GoogleApiKey { get; }
+        public string ImgurApiKey { get; }
 
         public string MashapeKey { get; }
 
@@ -54,6 +55,7 @@ namespace NadekoBot.Services.Impl
                 OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToArray();
                 LoLApiKey = data[nameof(LoLApiKey)];
                 GoogleApiKey = data[nameof(GoogleApiKey)];
+                ImgurApiKey = data[nameof(ImgurApiKey)];
                 MashapeKey = data[nameof(MashapeKey)];
                 OsuApiKey = data[nameof(OsuApiKey)];
 
@@ -91,6 +93,7 @@ namespace NadekoBot.Services.Impl
             public ulong[] OwnerIds { get; set; } = new ulong[1];
             public string LoLApiKey { get; set; } = "";
             public string GoogleApiKey { get; set; } = "";
+            public string ImgurApiKey { get; set; } = "";
             public string MashapeKey { get; set; } = "";
             public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";
