@@ -3,7 +3,6 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NLog;
 using System;
 using System.Collections.Concurrent;
@@ -45,13 +44,6 @@ namespace NadekoBot.Modules.Gambling
 
                 if (amount < 0)
                     amount = 0;
-
-                if (amount > 0)
-                    if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)umsg.Author, "BetRace", amount, true).ConfigureAwait(false))
-                    {
-                        try { await channel.SendMessageAsync($"{umsg.Author.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
-                        return;
-                    }
 
 
                 AnimalRace ar;
@@ -119,8 +111,8 @@ namespace NadekoBot.Modules.Gambling
                                 try { await raceChannel.SendMessageAsync("🏁`Race failed to start since there was not enough participants.`"); } catch (Exception ex) { _log.Warn(ex); }
                                 var p = participants.FirstOrDefault();
 
-                                if (p != null)
-                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, true).ConfigureAwait(false);
+                                if (p != null && p.AmountBet > 0)
+                                    await CurrencyHandler.AddCurrencyAsync(p.User, "BetRace", p.AmountBet, false).ConfigureAwait(false);
                                 End();
                                 return;
                             }
@@ -225,28 +217,33 @@ namespace NadekoBot.Modules.Gambling
                     }
                 }
 
-                public async Task<bool> JoinRace(IGuildUser u, int amount = 0)
+                public async Task JoinRace(IGuildUser u, int amount = 0)
                 {
                     var animal = "";
                     if (!animals.TryDequeue(out animal))
                     {
                         await raceChannel.SendMessageAsync($"{u.Mention} `There is no running race on this server.`");
-                        return false;
+                        return;
                     }
                     var p = new Participant(u, animal, amount);
                     if (participants.Contains(p))
                     {
                         await raceChannel.SendMessageAsync($"{u.Mention} `You already joined this race.`");
-                        return false;
+                        return;
                     }
                     if (Started)
                     {
                         await raceChannel.SendMessageAsync($"{u.Mention} `Race is already started`");
-                        return false;
+                        return;
                     }
+                    if (amount > 0)
+                        if (!await CurrencyHandler.RemoveCurrencyAsync((IGuildUser)u, "BetRace", amount, true).ConfigureAwait(false))
+                        {
+                            try { await raceChannel.SendMessageAsync($"{u.Mention} You don't have enough {Gambling.CurrencyName}s.").ConfigureAwait(false); } catch { }
+                            return;
+                        }
                     participants.Add(p);
-                    await raceChannel.SendMessageAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {(amount == 1? CurrencyName : CurrencyPluralName)}!**" : "**"));
-                    return true;
+                    await raceChannel.SendMessageAsync($"{u.Mention} **joined the race as a {p.Animal}" + (amount > 0 ? $" and bet {amount} {CurrencySign}!**" : "**"));
                 }
             }
 

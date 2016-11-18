@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
-using NadekoBot.Extensions;
 using NadekoBot.Services;
 using Newtonsoft.Json.Linq;
 using System;
@@ -58,7 +57,7 @@ namespace NadekoBot.Modules.Searches
                     {
                         if (i % 2 == 0 && i != 0)
                             sb.AppendLine();
-                        sb.Append($"`{i + 1}.` **{dataList[i]["name"]}**  ");
+                        sb.Append($"`{i + 1}.` **{dataList[i]["name"]}** {dataList[i]["general"]["banRate"]}% ");
                         //sb.AppendLine($" ({dataList[i]["general"]["banRate"]}%)");
                     }
 
@@ -67,7 +66,7 @@ namespace NadekoBot.Modules.Searches
             }
             catch (Exception)
             {
-                await channel.SendMessageAsync($":anger: Fail: Champion.gg didsabled ban data until next patch. Sorry for the inconvenience.").ConfigureAwait(false);
+                await channel.SendMessageAsync($":anger: `Something went wrong.`").ConfigureAwait(false);
             }
         }
     }

@@ -4,14 +4,11 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -67,7 +64,7 @@ namespace NadekoBot.Modules.Administration
                         }
                         finally
                         {
-                            await Task.Delay(15000);
+                            await Task.Delay(TimeSpan.FromMinutes(1));
                         }
                     } while (true);
                 });

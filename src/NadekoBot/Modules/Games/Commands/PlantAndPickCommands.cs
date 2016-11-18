@@ -4,7 +4,6 @@ using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
@@ -13,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games
@@ -54,7 +52,7 @@ namespace NadekoBot.Modules.Games
                 {
                     var conf = uow.BotConfig.GetOrCreate();
                     var x =
-                    generationChannels = new ConcurrentHashSet<ulong>(uow.GuildConfigs.GetAll()
+                    generationChannels = new ConcurrentHashSet<ulong>(NadekoBot.AllGuildConfigs
                         .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj=>obj.ChannelId)));
                     chance = conf.CurrencyGenerationChance;
                     cooldown = conf.CurrencyGenerationCooldown;

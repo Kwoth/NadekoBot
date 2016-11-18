@@ -2,13 +2,11 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NadekoBot.Services;
 using Discord.WebSocket;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using System.Collections.Generic;
 
@@ -41,7 +39,7 @@ namespace NadekoBot.Modules.Gambling
 
             role = role ?? channel.Guild.EveryoneRole;
 
-            var members = role.Members().Where(u => u.Status == UserStatus.Online);
+            var members = role.Members().Where(u => u.Status != UserStatus.Offline && u.Status != UserStatus.Unknown);
             var membersArray = members as IUser[] ?? members.ToArray();
             var usr = membersArray[new NadekoRandom().Next(0, membersArray.Length)];
             await channel.SendMessageAsync($"**Raffled user:** {usr.Username} (id: {usr.Id})").ConfigureAwait(false);
@@ -204,7 +202,7 @@ namespace NadekoBot.Modules.Gambling
             {
                 str += "More luck next time.";
             }
-            else if (rng < 90)
+            else if (rng < 91)
             {
                 str += $"Congratulations! You won {amount * 2}{Gambling.CurrencySign} for rolling above 66";
                 await CurrencyHandler.AddCurrencyAsync(guildUser, "Betroll Gamble", amount * 2, false).ConfigureAwait(false);

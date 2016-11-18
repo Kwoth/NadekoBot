@@ -1,9 +1,6 @@
 ﻿using NadekoBot.Services.Database.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Modules.Permissions;
 
@@ -120,6 +117,16 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             data.RootPermission.Prepend(p);
             data.RootPermission = p;
             return data;
+        }
+
+        public void SetCleverbotEnabled(ulong id, bool cleverbotEnabled)
+        {
+            var conf = _set.FirstOrDefault(gc => gc.GuildId == id);
+
+            if (conf == null)
+                return;
+
+            conf.CleverbotEnabled = cleverbotEnabled;
         }
     }
 }

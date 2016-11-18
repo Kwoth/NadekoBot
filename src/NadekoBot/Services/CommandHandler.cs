@@ -2,22 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using NLog;
 using System.Diagnostics;
 using Discord.Commands;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NadekoBot.Modules.Permissions;
-using Microsoft.Data.Sqlite;
 using Discord.Net;
 using NadekoBot.Extensions;
 using static NadekoBot.Modules.Permissions.Permissions;
-using System.Collections.Concurrent;
 using NadekoBot.Modules.Help;
 using static NadekoBot.Modules.Administration.Administration;
+using NadekoBot.Modules.CustomReactions;
+using NadekoBot.Modules.Games;
 
 namespace NadekoBot.Services
 {
@@ -110,16 +108,37 @@ namespace NadekoBot.Services
                         _log.Warn("I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
                     }
                 }
-
-                BlacklistItem blacklistedItem;
-                if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
-                     (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
-                     (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
-                {
-                    return;
-                }
             }
+
+            BlacklistItem blacklistedItem;
+            if ((blacklistedItem = Permissions.BlacklistCommands.BlacklistedItems.FirstOrDefault(bi =>
+                 (bi.Type == BlacklistItem.BlacklistType.Server && bi.ItemId == guild?.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.Channel && bi.ItemId == msg.Channel.Id) ||
+                 (bi.Type == BlacklistItem.BlacklistType.User && bi.ItemId == usrMsg.Author.Id))) != null)
+            {
+                return;
+            }
+
+            try
+            {
+                var cleverbotExecuted = await Games.CleverBotCommands.TryAsk(usrMsg);
+
+                if (cleverbotExecuted)
+                    return;
+            }
+            catch (Exception ex) { _log.Warn(ex, "Error in cleverbot"); }
+
+            try
+            {
+                // maybe this message is a custom reaction
+                var crExecuted = await CustomReactions.TryExecuteCustomReaction(usrMsg).ConfigureAwait(false);
+
+                //if it was, don't execute the command
+                if (crExecuted)
+                    return;
+            }
+            catch { }
+
             var throwaway = Task.Run(async () =>
             {
                 var sw = new Stopwatch();

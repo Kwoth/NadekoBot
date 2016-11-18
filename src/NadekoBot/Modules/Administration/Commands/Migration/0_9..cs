@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration.Commands.Migration
 {
@@ -162,7 +159,7 @@ namespace NadekoBot.Modules.Administration.Commands.Migration
         }
     }
 
-    internal class ServerSpecificConfig
+    public class ServerSpecificConfig
     {
         public bool VoicePlusTextEnabled { get; set; }
         public bool SendPrivateMessageOnMention { get; set; }

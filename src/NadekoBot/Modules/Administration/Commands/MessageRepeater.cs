@@ -3,12 +3,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
 using NLog;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,6 +97,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -119,6 +118,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequirePermission(GuildPermission.ManageMessages)]
             public async Task Repeat(IUserMessage imsg, int minutes, [Remainder] string message)
             {
                 var channel = (ITextChannel)imsg.Channel;
@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Administration
                     return old;
                 });
 
-                await channel.SendMessageAsync($"Repeating \"{rep.Repeater.Message}\" every {rep.Repeater.Interval} minutes").ConfigureAwait(false);
+                await channel.SendMessageAsync($"Repeating \"{rep.Repeater.Message}\" every {rep.Repeater.Interval.Days} days, {rep.Repeater.Interval.Hours} hours and {rep.Repeater.Interval.Minutes} minutes.").ConfigureAwait(false);
             }
         }
     }

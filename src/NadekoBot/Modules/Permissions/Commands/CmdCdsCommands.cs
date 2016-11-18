@@ -3,13 +3,9 @@ using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
 using NadekoBot.Services.Database.Models;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
@@ -33,7 +29,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var configs = uow.GuildConfigs.GetAll();
+                    var configs = NadekoBot.AllGuildConfigs;
                     commandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(configs.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
                 }
             }

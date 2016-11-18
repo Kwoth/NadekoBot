@@ -1,6 +1,4 @@
 ﻿using Discord;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NadekoBot.Services
 {
@@ -15,14 +13,14 @@ namespace NadekoBot.Services
         string MashapeKey { get; }
         string LoLApiKey { get; }
 
-        DB Db { get; }
+        DBConfig Db { get; }
 
         bool IsOwner(IUser u);
     }
 
-    public class DB
+    public class DBConfig
     {
-        public DB(string type, string connString)
+        public DBConfig(string type, string connString)
         {
             this.Type = type;
             this.ConnectionString = connString;

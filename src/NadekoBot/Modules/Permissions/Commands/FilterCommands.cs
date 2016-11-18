@@ -2,12 +2,8 @@
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Services;
-using NadekoBot.Services.Database;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Permissions
@@ -46,7 +42,7 @@ namespace NadekoBot.Modules.Permissions
             {
                 using (var uow = DbHandler.UnitOfWork())
                 {
-                    var guildConfigs = uow.GuildConfigs.GetAll();
+                    var guildConfigs = NadekoBot.AllGuildConfigs;
 
                     InviteFilteringServers = new ConcurrentHashSet<ulong>(guildConfigs.Where(gc => gc.FilterInvites).Select(gc => gc.GuildId));
                     InviteFilteringChannels = new ConcurrentHashSet<ulong>(guildConfigs.SelectMany(gc => gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
