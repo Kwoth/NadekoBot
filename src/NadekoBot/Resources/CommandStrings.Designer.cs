@@ -5091,7 +5091,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Checks the status of a specific region&apos;s realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number..
+        ///    Looks up a localized string similar to Checks the status of a specific region&apos;s WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number..
         /// </summary>
         public static string realmstatus_desc {
             get {

@@ -2722,7 +2722,7 @@
     <value>realmstatus rs</value>
   </data>
   <data name="realmstatus_desc" xml:space="preserve">
-    <value>Checks the status of a specific region's realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number.</value>
+    <value>Checks the status of a specific region's WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number.</value>
   </data>
   <data name="realmstatus_usage" xml:space="preserve">
     <value>`{0}realmstatus us 2` or `{0}rs us 2`</value>
