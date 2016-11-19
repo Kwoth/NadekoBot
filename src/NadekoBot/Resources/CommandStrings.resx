@@ -2718,13 +2718,22 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
-  <data name="realmstatus_cmd" xml:space="preserve">
-    <value>realmstatus rs</value>
+  <data name="wowstatus_cmd" xml:space="preserve">
+    <value>wowstatus wst</value>
   </data>
-  <data name="realmstatus_desc" xml:space="preserve">
+  <data name="wowstatus_desc" xml:space="preserve">
     <value>Checks the status of a specific region's WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number.</value>
   </data>
-  <data name="realmstatus_usage" xml:space="preserve">
-    <value>`{0}realmstatus us 2` or `{0}rs us 2`</value>
+  <data name="wowstatus_usage" xml:space="preserve">
+    <value>`{0}wowstatus us 2` or `{0}wst us 2`</value>
+  </data>
+  <data name="wowchar_cmd" xml:space="preserve">
+    <value>wowchar wch</value>
+  </data>
+  <data name="wowchar_desc" xml:space="preserve">
+    <value>Shows information about a player which takes region, realm name, followed by a character name.</value>
+  </data>
+  <data name="wowchar_usage" xml:space="preserve">
+    <value>`{0}wowchar us medivh lisiano` or `{0}wch us medivh lisiano`</value>
   </data>
 </root>

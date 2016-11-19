@@ -193,28 +193,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RealmStatus(IUserMessage umsg, string region, [Remainder] string realmNum = null)
-        {
-            var channel = (ITextChannel)umsg.Channel;
-
-            if (string.IsNullOrWhiteSpace(region))
-            {
-                await channel.SendMessageAsync("Please enter a region (e.g., us, eu, kr, tw, cn, sea).").ConfigureAwait(false);
-            }
-            if (string.IsNullOrWhiteSpace(realmNum))
-            {
-                await channel.SendMessageAsync("Please enter a realm number (0-x).").ConfigureAwait(false);
-            }
-            var realm = GetWoWRealmStatus(region, int.Parse(realmNum));
-            var status = await realm.ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(status))
-                await channel.SendMessageAsync("Something went wrong ;(.").ConfigureAwait(false);
-            else
-                await channel.SendMessageAsync(status).ConfigureAwait(false);
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task RI(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -242,44 +220,6 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(link).ConfigureAwait(false);
-        }
-
-        public static async Task<string> GetWoWRealmStatus(string region, int realmNum)
-        {
-            try
-            {
-                using (var http = new HttpClient())
-                {
-                    var reqString = $"https://{region.ToLower()}.api.battle.net/wow/realm/status?apikey={NadekoBot.Credentials.BlizzardApiKey}";
-                    Console.WriteLine("Request String: " + reqString);
-                    var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
-                    var items = obj["realms"] as JArray;
-
-                    string statusCheck = (bool)items[realmNum]["status"] ? "(✔)GOOD" : "(X)BAD";
-
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"`---Connected Realms---`");
-                    foreach (var item in items[realmNum]["connected_realms"].ToArray())
-                    {
-                        sb.AppendLine($"〔:rosette: {item.ToString().ToUpper()}〕");
-                    }
-                    sb.Append($"`----------------------`");
-
-                    var response = $@"```css
-[☕ {region.ToUpper()}-WoW (Realm {realmNum}): {items[realmNum]["name"].ToString()} 〘Status: {statusCheck}〙]
-Server Type: [{items[realmNum]["type"].ToString()}]
-Battle Group: [{items[realmNum]["battlegroup"].ToString()}]
-Population: [{items[realmNum]["population"].ToString().ToUpper()}]
-Timezone: [{items[realmNum]["timezone"].ToString()}]
-```
-{sb.ToString()}";
-                    return response;
-                }
-            }
-            catch
-            {
-                return "Something went wrong ;(";
-            }
         }
 
         public static async Task<string> GetRandomImgurImage()
