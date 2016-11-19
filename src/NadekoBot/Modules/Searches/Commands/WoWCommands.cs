@@ -39,6 +39,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(region) || string.IsNullOrWhiteSpace(realmNum))
                 {
                     await channel.SendMessageAsync("Please enter a region (e.g., us, eu, kr, tw, cn, sea), followed by a a realm number (0-x).").ConfigureAwait(false);
+                    return;
                 }
                 var realm = GetWoWRealmStatus(region, int.Parse(realmNum));
                 var status = await realm.ConfigureAwait(false);
@@ -57,6 +58,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(region) || string.IsNullOrWhiteSpace(realmName) || string.IsNullOrWhiteSpace(characterName))
                 {
                     await channel.SendMessageAsync("Please enter a region (e.g., us, eu, kr, tw, cn, sea), realm name (e.g., medivh), followed by a character name (e.g., Lisiano)").ConfigureAwait(false);
+                    return;
                 }
 
                 var realm = GetCharacter(region, realmName, characterName);
