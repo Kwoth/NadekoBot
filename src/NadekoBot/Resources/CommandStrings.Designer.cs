@@ -5514,6 +5514,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to randomgalleryimgur rgi.
+        /// </summary>
+        public static string rgi_cmd {
+            get {
+                return ResourceManager.GetString("rgi_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Looks for the top and viral images which takes arguments page number, followed by a date range (day | week | month | year | all).
+        /// </summary>
+        public static string rgi_desc {
+            get {
+                return ResourceManager.GetString("rgi_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}randomgalleryimgur 1 day` or `{0}rgi 1 day`.
+        /// </summary>
+        public static string rgi_usage {
+            get {
+                return ResourceManager.GetString("rgi_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to rolecmd rc.
         /// </summary>
         public static string rolecmd_cmd {
