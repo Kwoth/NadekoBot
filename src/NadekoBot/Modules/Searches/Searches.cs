@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
 using System.Net;
+using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
 using ImageProcessorCore;
@@ -167,6 +168,95 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 {
                     await channel.SendMessageAsync("Something went wrong.");
                 }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RI(IUserMessage umsg)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var provider = GetRandomImgurImage();
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Imgur(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                await channel.SendMessageAsync("Please enter a query ;(").ConfigureAwait(false);
+                return;
+            }
+            var provider = GetImgurImage(query);
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        public static async Task<string> GetRandomImgurImage()
+        {
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("Authorization", $"Client-ID {NadekoBot.Credentials.ImgurApiKey}");
+                    var rng = new NadekoRandom();
+                    var reqString = $"https://api.imgur.com/3/gallery/random/random/{rng.Next(1, 50)}";
+                    var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
+                    var items = obj["data"] as JArray;
+                    if (obj["success"].ToString().Equals("false"))
+                    {
+                        return "API call to Imgur was unsuccessful ;(";
+                    }
+                    else
+                    {
+                        return items[rng.Next(1, items.Count)]["link"].ToString();
+                    }
+                }
+            }
+            catch
+            {
+                return "Something went wrong.";
+            }
+        }
+
+        public static async Task<string> GetImgurImage(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return "Enter a query!";
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("Authorization", $"Client-ID {NadekoBot.Credentials.ImgurApiKey}");
+                    var rng = new NadekoRandom();
+                    var reqString = $"https://api.imgur.com/3/gallery/search/top/1?q_any={Uri.EscapeUriString(query)}";
+                    var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
+                    var items = obj["data"] as JArray;
+                    if (obj["success"].ToString().Equals("false"))
+                    {
+                        return "API call to Imgur was unsuccessful ;(";
+                    }
+                    else
+                    {
+                        return items[rng.Next(1, items.Count)]["link"].ToString();
+                    }
+                }
+            }
+            catch
+            {
+                return "Something went wrong.";
             }
         }
 
@@ -387,6 +477,47 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Safeyandere(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetSafeYandereImageLink(tag).ConfigureAwait(false);
+            if (link == null)
+                await channel.SendMessageAsync("`No results.`");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        public static async Task<string> GetSafeYandereImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+            var url =
+            $"https://yande.re/post.xml?" +
+            $"limit=25" +
+            $"&page={rng.Next(0, 15)}" +
+            $"&tags={tag.Replace(" ", "_")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                if (string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "s") || string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "q"))
+                {
+                    return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -542,7 +673,8 @@ PC: ✔[{pc.ToString()}]
                         sb.AppendLine("```css");
                         sb.AppendLine($"[☕ BF4 Status: {status}]");
 
-                        foreach (var i in items) {
+                        foreach (var i in items)
+                        {
                             var plat = items[i.Key];
                             sb.AppendLine($"{plat["label"]}: ✔[{plat["count"]}] / ↑[{plat["peak24"]}]");
                         }
@@ -550,7 +682,8 @@ PC: ✔[{pc.ToString()}]
                         sb.Append("```");
                         await channel.SendMessageAsync(sb.ToString());
                     }
-                } catch
+                }
+                catch
                 {
                     await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {game}.").ConfigureAwait(false);
                 }
@@ -605,7 +738,8 @@ Accuracy: %[{playerGlobal_Accuracy.ToString()}]
 ELO: [{playerGlobal_ELO.ToString()}]
 ```";
                         await channel.SendMessageAsync(response);
-                    } else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
+                    }
+                    else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
                     {
                         var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
                         var items = JObject.Parse(res);
@@ -646,7 +780,7 @@ ELO: [{playerELO.ToString()}]
                 }
             }
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)
