@@ -7674,6 +7674,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to wowchar wch.
+        /// </summary>
+        public static string wowchar_cmd {
+            get {
+                return ResourceManager.GetString("wowchar_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows information about a player which takes region, realm name, followed by a character name..
+        /// </summary>
+        public static string wowchar_desc {
+            get {
+                return ResourceManager.GetString("wowchar_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wowchar us medivh lisiano` or `{0}wch us medivh lisiano`.
+        /// </summary>
+        public static string wowchar_usage {
+            get {
+                return ResourceManager.GetString("wowchar_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to wowjoke.
         /// </summary>
         public static string wowjoke_cmd {
@@ -7697,6 +7724,33 @@ namespace NadekoBot.Resources {
         public static string wowjoke_usage {
             get {
                 return ResourceManager.GetString("wowjoke_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wowstatus wst.
+        /// </summary>
+        public static string wowstatus_cmd {
+            get {
+                return ResourceManager.GetString("wowstatus_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Checks the status of a specific region&apos;s WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number..
+        /// </summary>
+        public static string wowstatus_desc {
+            get {
+                return ResourceManager.GetString("wowstatus_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wowstatus us 2` or `{0}wst us 2`.
+        /// </summary>
+        public static string wowstatus_usage {
+            get {
+                return ResourceManager.GetString("wowstatus_usage", resourceCulture);
             }
         }
         
