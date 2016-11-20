@@ -282,7 +282,7 @@ namespace NadekoBot.Services
 
                     if (cmd.Module.Source.Name == typeof(Permissions).Name) //permissions, you must have special role
                     {
-                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()))
+                        if (!((IGuildUser)user).Roles.Any(r => r.Name.Trim().ToLowerInvariant() == pc.PermRole.Trim().ToLowerInvariant()) && (this.ownerChannels.Any(o => o.Recipient.Id != user.Id)))
                         {
                             return new Tuple<Command, PermissionCache, IResult>(cmd, pc, SearchResult.FromError(CommandError.Exception, $"You need the **{pc.PermRole}** role in order to use permission commands."));
                         }
