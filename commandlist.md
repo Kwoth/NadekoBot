@@ -2,6 +2,23 @@
 ######You can donate on patreon: <https://patreon.com/nadekobot>
 ######or paypal: `nadekodiscordbot@gmail.com`
 
+#Table of Contents
+- [Help](#help)
+- [Administration](#administration)
+- [Utility](#utility)
+- [Permissions](#permissions)
+- [Conversations](#conversations)
+- [Gambling](#gambling)
+- [Games](#games)
+- [Music](#music)
+- [Searches](#searches)
+- [NSFW](#nsfw)
+- [ClashOfClans](#clashofclans)
+- [Pokegame](#pokegame)
+- [Translator](#translator)
+- [Customreactions](#customreactions)
+- [Trello](#trello)
+
 #NadekoBot List Of Commands  
 ### Help  
 Command and aliases |  Description |  Usage
@@ -12,6 +29,7 @@ Command and aliases |  Description |  Usage
 `-donate`, `~donate`  |  Instructions for helping the project! |  `-donate` or `~donate`
 `-modules`, `.modules`  |  List all bot modules. |  `-modules` or `.modules`
 `-commands`, `.commands`  |  List all of the bot's commands from a certain module. |  `-commands` or `.commands`
+###### [Back to TOC](#table-of-contents)
 
 ### Administration  
 Command and aliases |  Description |  Usage
@@ -90,6 +108,7 @@ Needs Manage Roles and Manage Channels Permissions.** |  `.cleanv+t`
 `.donadd`  |  Add a donator to the database. **Kwoth Only** |  `.donadd Donate Amount`
 `.announce`  |  Sends a message to all servers' general channel bot is connected to.**Bot Owner Only!** |  `.announce Useless spam`
 `.savechat`  |  Saves a number of messages to a text file and sends it to you. **Bot Owner Only** |  `.savechat 150`
+###### [Back to TOC](#table-of-contents)
 
 ### Utility  
 Command and aliases |  Description |  Usage
@@ -109,6 +128,7 @@ Command and aliases |  Description |  Usage
 `.serverid`, `.sid`  |  Shows current server ID. |  `.sid`
 `.roles`  |  List all roles on this server or a single user if specified. |  `.roles`
 `.channeltopic`, `.ct`  |  Sends current channel's topic as a message. |  `.ct`
+###### [Back to TOC](#table-of-contents)
 
 ### Permissions  
 Command and aliases |  Description |  Usage
@@ -150,6 +170,7 @@ Command and aliases |  Description |  Usage
 `;sbl`  |  Blacklists a server by a name or id (#general for example). **BOT OWNER ONLY** |  `;sbl [servername/serverid]`
 `;cmdcooldown`, `;cmdcd`  |  Sets a cooldown per user for a command. Set 0 to clear. |  `;cmdcd "some cmd" 5`
 `;allcmdcooldowns`, `;acmdcds`  |  Shows a list of all commands and their respective cooldowns. |  `;acmdcds`
+###### [Back to TOC](#table-of-contents)
 
 ### Conversations  
 Command and aliases |  Description |  Usage
@@ -164,6 +185,7 @@ Command and aliases |  Description |  Usage
 `@BotName fire`  |  Shows a unicode fire message. Optional parameter [x] tells her how many times to repeat the fire. |  `@NadekoBot fire [x]`
 `@BotName dump`  |  Dumps all of the invites it can to dump.txt.** Owner Only.** |  `@NadekoBot dump`
 `@BotName ab`  |  Try to get 'abalabahaha'| `@NadekoBot ab`
+###### [Back to TOC](#table-of-contents)
 
 ### Gambling  
 Command and aliases |  Description |  Usage
@@ -184,6 +206,7 @@ Command and aliases |  Description |  Usage
 `$take`  |  Takes a certain amount of flowers from someone. **Bot Owner Only!** |  `$take 1 "@someguy"`
 `$betroll`, `$br`  |  Bets a certain amount of NadekoFlowers and rolls a dice. Rolling over 66 yields x2 flowers, over 90 - x3 and 100 x10. |  `$br 5`
 `$leaderboard`, `$lb`  |  Displays bot currency leaderboard |  `$lb`
+###### [Back to TOC](#table-of-contents)
 
 ### Games  
 Command and aliases |  Description |  Usage
@@ -204,6 +227,7 @@ Command and aliases |  Description |  Usage
 `>8ball`  |  Ask the 8ball a yes/no question. |  `>8ball should i do something`
 `>rps`  |  Play a game of rocket paperclip scissors with Nadeko. |  `>rps scissors`
 `>linux`  |  Prints a customizable Linux interjection |  `>linux Spyware Windows`
+###### [Back to TOC](#table-of-contents)
 
 ### Music  
 Command and aliases |  Description |  Usage
@@ -241,6 +265,7 @@ Command and aliases |  Description |  Usage
 `!!goto`  |  Goes to a specific time in seconds in a song. |  `!!goto 30`
 `!!getlink`, `!!gl`  |  Shows a link to the song in the queue by index, or the currently playing song by default. |  `!!gl`
 `!!autoplay`, `!!ap`  |  Toggles autoplay - When the song is finished, automatically queue a related youtube song. (Works only for youtube songs and when queue is empty) |  `!!ap`
+###### [Back to TOC](#table-of-contents)
 
 ### Searches  
 Command and aliases |  Description |  Usage
@@ -293,6 +318,7 @@ Command and aliases |  Description |  Usage
 `~clr`  |  Shows you what color corresponds to that hex. |  `~clr 00ff00`
 `~videocall`  |  Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message. |  `~videocall "@SomeGuy"`
 `~av`, `~avatar`  |  Shows a mentioned person's avatar. |  `~av "@SomeGuy"`
+###### [Back to TOC](#table-of-contents)
 
 ### NSFW  
 Command and aliases |  Description |  Usage
@@ -305,6 +331,7 @@ Command and aliases |  Description |  Usage
 `~cp`  |  We all know where this will lead you to. |  `~cp`
 `~boobs`  |  Real adult content. |  `~boobs`
 `~butts`, `~ass`, `~butt`  |  Real adult content. |  `~butts` or `~ass`
+###### [Back to TOC](#table-of-contents)
 
 ### ClashOfClans  
 Command and aliases |  Description |  Usage
@@ -318,6 +345,7 @@ Command and aliases |  Description |  Usage
 `,claimfinish1`, `,cf1`  |  Finish your claim with 1 stars if you destroyed a base. Optional second argument finishes for someone else. |  `,cf [war_number] [optional_other_name]`
 `,unclaim`, `,uncall`, `,uc`  |  Removes your claim from a certain war. Optional second argument denotes a person in whose place to unclaim |  `,uc [war_number] [optional_other_name]`
 `,endwar`, `,ew`  |  Ends the war with a given index. |  `,ew [war_number]`
+###### [Back to TOC](#table-of-contents)
 
 ### Pokegame  
 Command and aliases |  Description |  Usage
@@ -327,12 +355,14 @@ Command and aliases |  Description |  Usage
 `>heal`  |  Heals someone. Revives those who fainted. Costs a NadekoFlower |  `>heal @someone`
 `>type`  |  Get the poketype of the target. |  `>type @someone`
 `>settype`  |  Set your poketype. Costs a NadekoFlower. |  `>settype fire`
+###### [Back to TOC](#table-of-contents)
 
 ### Translator  
 Command and aliases |  Description |  Usage
 ----------------|--------------|-------
 `~translate`, `~trans`  |  Translates from>to text. From the given language to the destiation language. |  `~trans en>fr Hello`
 `~translangs`  |  List the valid languages for translation. |  `~translangs` or `~translangs language`
+###### [Back to TOC](#table-of-contents)
 
 ### Customreactions  
 Command and aliases |  Description |  Usage
@@ -355,6 +385,7 @@ Command and aliases |  Description |  Usage
 `@BotName inv`, `<@!116275390695079945> inv`  |  Custom reaction. |  `%mention% inv`
 `@BotName threaten`, `<@!116275390695079945> threaten`  |  Custom reaction. |  `%mention% threaten`
 `@BotName archer`, `<@!116275390695079945> archer`  |  Custom reaction. |  `%mention% archer`
+###### [Back to TOC](#table-of-contents)
 
 ### Trello  
 Command and aliases |  Description |  Usage
@@ -363,3 +394,4 @@ Command and aliases |  Description |  Usage
 `trello unbind`  |  Unbinds a bot from the channel and board. **Bot Owner Only!**| `trello unbind`
 `trello lists`, `trello list`  |  Lists all lists, yo ;) **Bot Owner Only!**| `trello list`
 `trello cards`  |  Lists all cards from the supplied list. You can supply either a name or an index. **Bot Owner Only!**| `trello cards index`
+###### [Back to TOC](#table-of-contents)
