@@ -3138,6 +3138,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to imgur.
+        /// </summary>
+        public static string imgur_cmd {
+            get {
+                return ResourceManager.GetString("imgur_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Searches for a top imgur image, followed by a query..
+        /// </summary>
+        public static string imgur_desc {
+            get {
+                return ResourceManager.GetString("imgur_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}imgur pikachu`.
+        /// </summary>
+        public static string imgur_usage {
+            get {
+                return ResourceManager.GetString("imgur_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to inrole.
         /// </summary>
         public static string inrole_cmd {
@@ -5514,6 +5541,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to randomimgur ri.
+        /// </summary>
+        public static string ri_cmd {
+            get {
+                return ResourceManager.GetString("ri_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random imgur image..
+        /// </summary>
+        public static string ri_desc {
+            get {
+                return ResourceManager.GetString("ri_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}randomimgur` or `{0}ri`.
+        /// </summary>
+        public static string ri_usage {
+            get {
+                return ResourceManager.GetString("ri_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to rolecmd rc.
         /// </summary>
         public static string rolecmd_cmd {
@@ -7674,6 +7728,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to wowchar wch.
+        /// </summary>
+        public static string wowchar_cmd {
+            get {
+                return ResourceManager.GetString("wowchar_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows information about a player which takes region, realm name, followed by a character name..
+        /// </summary>
+        public static string wowchar_desc {
+            get {
+                return ResourceManager.GetString("wowchar_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wowchar us medivh lisiano` or `{0}wch us medivh lisiano`.
+        /// </summary>
+        public static string wowchar_usage {
+            get {
+                return ResourceManager.GetString("wowchar_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to wowjoke.
         /// </summary>
         public static string wowjoke_cmd {
@@ -7697,6 +7778,33 @@ namespace NadekoBot.Resources {
         public static string wowjoke_usage {
             get {
                 return ResourceManager.GetString("wowjoke_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to wowstatus wst.
+        /// </summary>
+        public static string wowstatus_cmd {
+            get {
+                return ResourceManager.GetString("wowstatus_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Checks the status of a specific region&apos;s WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number..
+        /// </summary>
+        public static string wowstatus_desc {
+            get {
+                return ResourceManager.GetString("wowstatus_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}wowstatus us 2` or `{0}wst us 2`.
+        /// </summary>
+        public static string wowstatus_usage {
+            get {
+                return ResourceManager.GetString("wowstatus_usage", resourceCulture);
             }
         }
         
