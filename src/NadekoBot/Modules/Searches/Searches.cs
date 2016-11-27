@@ -14,7 +14,7 @@ using System.Net;
 using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
-using ImageProcessorCore;
+using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Searches
 $@"🌍 **Weather for** 【{obj["target"]}】
 📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
 😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
-🔆 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
+🌡 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
 🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
         }
 
@@ -476,7 +476,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var green = Convert.ToInt32(color.Substring(2, 2), 16);
             var blue = Convert.ToInt32(color.Substring(4, 2), 16);
 
-            img.BackgroundColor(new ImageProcessorCore.Color(color));
+            img.BackgroundColor(new ImageSharp.Color(color));
 
             await channel.SendFileAsync(img.ToStream(), $"{color}.png");
         }
