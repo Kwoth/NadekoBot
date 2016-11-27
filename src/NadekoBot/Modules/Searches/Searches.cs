@@ -17,6 +17,7 @@ using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
+using System.Collections;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -146,6 +147,26 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
             if (string.IsNullOrWhiteSpace(query))
                 return;
+
+            var rng = new NadekoRandom();
+            Task<string> provider = Task.FromResult("");
+            switch (rng.Next(0, 0))
+            {
+                case 0:
+                    provider = GetGoogleImage(query);
+                    break;
+                default:
+                    break;
+            }
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        public static async Task<string> GetGoogleImage(string query)
+        {
             try
             {
                 using (var http = new HttpClient())
@@ -154,19 +175,108 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                     var reqString = $"https://www.googleapis.com/customsearch/v1?q={Uri.EscapeDataString(query)}&cx=018084019232060951019%3Ahs5piey28-e&num=1&searchType=image&start={ rng.Next(1, 50) }&fields=items%2Flink&key={NadekoBot.Credentials.GoogleApiKey}";
                     var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
                     var items = obj["items"] as JArray;
-                    await channel.SendMessageAsync(items[0]["link"].ToString()).ConfigureAwait(false);
+                    return items[0]["link"].ToString();
                 }
             }
             catch (HttpRequestException exception)
             {
                 if (exception.Message.Contains("403 (Forbidden)"))
                 {
-                    await channel.SendMessageAsync("Daily limit reached!");
+                    return "Daily limit reached!";
                 }
                 else
                 {
-                    await channel.SendMessageAsync("Something went wrong.");
+                    return "Something went wrong.";
                 }
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task RI(IUserMessage umsg)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var provider = GetRandomImgurImage();
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+		
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Imgur(IUserMessage umsg, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(query))
+			{
+				await channel.SendMessageAsync("Please enter a query ;(").ConfigureAwait(false);
+                return;
+			}
+            var provider = GetImgurImage(query);
+            var link = await provider.ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(link))
+                await channel.SendMessageAsync("Search yielded no results ;(").ConfigureAwait(false);
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        public static async Task<string> GetRandomImgurImage()
+        {
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("Authorization", $"Client-ID {NadekoBot.Credentials.ImgurApiKey}");
+                    var rng = new NadekoRandom();
+                    var reqString = $"https://api.imgur.com/3/gallery/random/random/{rng.Next(1, 50)}";
+                    var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
+                    var items = obj["data"] as JArray;
+                    if (obj["success"].ToString().Equals("false"))
+                    {
+                        return "API call to Imgur was unsuccessful ;(";
+                    }
+                    else
+                    {
+                        return items[rng.Next(1, items.Count)]["link"].ToString();
+                    }
+                }
+            }
+            catch
+            {
+                    return "Something went wrong.";
+            }
+        }
+		
+        public static async Task<string> GetImgurImage(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return "Enter a query!";
+            try
+            {
+                using (var http = new HttpClient())
+                {
+                    http.DefaultRequestHeaders.Clear();
+                    http.DefaultRequestHeaders.Add("Authorization", $"Client-ID {NadekoBot.Credentials.ImgurApiKey}");
+                    var rng = new NadekoRandom();
+                    var reqString = $"https://api.imgur.com/3/gallery/search/top/1?q_any={Uri.EscapeUriString(query)}";
+                    var obj = JObject.Parse(await http.GetStringAsync(reqString).ConfigureAwait(false));
+                    var items = obj["data"] as JArray;
+                    if (obj["success"].ToString().Equals("false"))
+                    {
+                        return "API call to Imgur was unsuccessful ;(";
+                    }
+                    else
+                    {
+                        return items[rng.Next(1, items.Count)]["link"].ToString();
+                    }
+                }
+            }
+            catch
+            {
+                    return "Something went wrong.";
             }
         }
 
