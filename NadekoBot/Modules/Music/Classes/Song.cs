@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Music.Classes
 
         private int skipTo = 0;
         public int SkipTo {
-            get { return SkipTo; }
+            get { return skipTo; }
             set {
                 skipTo = value;
                 bytesSent = (ulong)skipTo * 3840 * 50;
