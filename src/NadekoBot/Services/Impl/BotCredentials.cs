@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Discord;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace NadekoBot.Services.Impl
         public ulong BotId { get; }
 
         public string GoogleApiKey { get; }
+        public string ImgurApiKey { get; }
 
         public string MashapeKey { get; }
 
@@ -38,7 +40,7 @@ namespace NadekoBot.Services.Impl
             _log = LogManager.GetCurrentClassLogger();
 
             try { File.WriteAllText("./credentials_example.json", JsonConvert.SerializeObject(new CredentialsModel(), Formatting.Indented)); } catch { }
-            if(!File.Exists(credsFileName))
+            if (!File.Exists(credsFileName))
                 _log.Warn($"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'NadekoBot_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
             try
             {
@@ -54,6 +56,7 @@ namespace NadekoBot.Services.Impl
                 OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value)).ToArray();
                 LoLApiKey = data[nameof(LoLApiKey)];
                 GoogleApiKey = data[nameof(GoogleApiKey)];
+                ImgurApiKey = data[nameof(ImgurApiKey)];
                 MashapeKey = data[nameof(MashapeKey)];
                 OsuApiKey = data[nameof(OsuApiKey)];
 
@@ -68,11 +71,11 @@ namespace NadekoBot.Services.Impl
                 SoundCloudClientId = data[nameof(SoundCloudClientId)];
                 CarbonKey = data[nameof(CarbonKey)];
                 var dbSection = data.GetSection("db");
-                Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"]) 
-                                ? "sqlite" 
-                                : dbSection["Type"], 
-                            string.IsNullOrWhiteSpace(dbSection["ConnectionString"]) 
-                                ? "Filename=./data/NadekoBot.db" 
+                Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"])
+                                ? "sqlite"
+                                : dbSection["Type"],
+                            string.IsNullOrWhiteSpace(dbSection["ConnectionString"])
+                                ? "Filename=./data/NadekoBot.db"
                                 : dbSection["ConnectionString"]);
             }
             catch (Exception ex)
@@ -81,7 +84,7 @@ namespace NadekoBot.Services.Impl
                 _log.Fatal(ex);
                 throw;
             }
-            
+
         }
 
         private class CredentialsModel
@@ -91,6 +94,7 @@ namespace NadekoBot.Services.Impl
             public ulong[] OwnerIds { get; set; } = new ulong[1];
             public string LoLApiKey { get; set; } = "";
             public string GoogleApiKey { get; set; } = "";
+            public string ImgurApiKey { get; set; } = "";
             public string MashapeKey { get; set; } = "";
             public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";

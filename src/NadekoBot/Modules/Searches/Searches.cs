@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
 using System.Net;
+using Discord.WebSocket;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
 using ImageSharp;
@@ -387,6 +388,47 @@ $@"🌍 **Weather for** 【{obj["target"]}】
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Safeyandere(IUserMessage umsg, [Remainder] string tag = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+
+            tag = tag?.Trim() ?? "";
+            var link = await GetSafeYandereImageLink(tag).ConfigureAwait(false);
+            if (link == null)
+                await channel.SendMessageAsync("`No results.`");
+            else
+                await channel.SendMessageAsync(link).ConfigureAwait(false);
+        }
+
+        public static async Task<string> GetSafeYandereImageLink(string tag)
+        {
+            var rng = new NadekoRandom();
+            var url =
+            $"https://yande.re/post.xml?" +
+            $"limit=25" +
+            $"&page={rng.Next(0, 15)}" +
+            $"&tags={tag.Replace(" ", "_")}";
+            using (var http = new HttpClient())
+            {
+                var webpage = await http.GetStringAsync(url).ConfigureAwait(false);
+                var matches = Regex.Matches(webpage, "file_url=\"(?<url>.*?)\"");
+                var rating = Regex.Matches(webpage, "rating=\"(?<rate>.*?)\"");
+                if (matches.Count == 0)
+                    return null;
+                if (string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "s") || string.Equals(rating[rng.Next(0, rating.Count)].Groups["rate"].Value.ToString(), "q"))
+                {
+                    return matches[rng.Next(0, matches.Count)].Groups["url"].Value;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Safebooru(IUserMessage umsg, [Remainder] string tag = null)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -542,7 +584,8 @@ PC: ✔[{pc.ToString()}]
                         sb.AppendLine("```css");
                         sb.AppendLine($"[☕ BF4 Status: {status}]");
 
-                        foreach (var i in items) {
+                        foreach (var i in items)
+                        {
                             var plat = items[i.Key];
                             sb.AppendLine($"{plat["label"]}: ✔[{plat["count"]}] / ↑[{plat["peak24"]}]");
                         }
@@ -550,7 +593,8 @@ PC: ✔[{pc.ToString()}]
                         sb.Append("```");
                         await channel.SendMessageAsync(sb.ToString());
                     }
-                } catch
+                }
+                catch
                 {
                     await channel.SendMessageAsync($"💢 BF3/BF4 API is most likely not working at the moment or could not find {game}.").ConfigureAwait(false);
                 }
@@ -605,7 +649,8 @@ Accuracy: %[{playerGlobal_Accuracy.ToString()}]
 ELO: [{playerGlobal_ELO.ToString()}]
 ```";
                         await channel.SendMessageAsync(response);
-                    } else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
+                    }
+                    else if (game.Equals("bf4", StringComparison.OrdinalIgnoreCase))
                     {
                         var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
                         var items = JObject.Parse(res);
@@ -646,7 +691,7 @@ ELO: [{playerELO.ToString()}]
                 }
             }
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)

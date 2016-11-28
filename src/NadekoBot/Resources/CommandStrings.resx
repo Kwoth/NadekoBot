@@ -2700,4 +2700,13 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
+  <data name="rgi_cmd" xml:space="preserve">
+    <value>randomgalleryimgur rgi</value>
+  </data>
+  <data name="rgi_desc" xml:space="preserve">
+    <value>Looks for the top and viral images which takes arguments page number, followed by a date range (day | week | month | year | all)</value>
+  </data>
+  <data name="rgi_usage" xml:space="preserve">
+    <value>`{0}randomgalleryimgur 1 day` or `{0}rgi 1 day`</value>
+  </data>
 </root>
