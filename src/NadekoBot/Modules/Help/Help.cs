@@ -95,9 +95,17 @@ namespace NadekoBot.Modules.Help
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
+            var embed = new EmbedBuilder()
+                .WithAuthor(eau => eau.WithName("Author: [Kwoth#2560] | Library: [Discord.NET]")
+                .WithIconUrl("http://i.imgur.com/y0n6Lu4.jpg"))
+                .WithTitle(str)
+                .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
+                .AddField(fb => fb.WithIndex(1).WithName("**Usage:**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
+                .WithThumbnail(tn => tn.Url = "https://avatars.githubusercontent.com/u/2537696?v=3")
+                .WithFooter(fb => fb.WithIconUrl("https://media0.giphy.com/media/JIu5iDNbCeLsI/200_s.gif").WithText("Nadeko Help"))
+                .WithTimestamp(DateTime.Now);
             if (com != null)
-                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
-**Usage:** {string.Format(com.Remarks, com.Module.Prefix)}").ConfigureAwait(false);
+                await channel.SendMessageAsync("-", embed: embed.Build()).ConfigureAwait(false);
         }
 
         private string GetCommandRequirements(Command cmd)
