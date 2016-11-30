@@ -190,7 +190,7 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
                             .WithAuthor(ex => ex.WithName("Name: " + titleChar).WithUrl($"http://{region.ToLower()}.battle.net/wow/en/character/{realm.ToLower()}/{characterName}/statistic"))
                             .WithTitle("World of Warcraft - Character")
                             .WithDescription(joke)
-                            .WithThumbnail(tb => tb.WithUrl(charThumbnail))
+                            //.WithThumbnail(tb => tb.WithUrl(charThumbnail))
                             .AddField(fb => fb.WithName("**🗺 __Realm__**").WithValue($"{ToUpperFirstLetter(realm)}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**💁 __Class__**").WithValue($"{charClass}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**📄 __Race__**").WithValue($"{charRace} / {charRace_side}").WithIsInline(true))
