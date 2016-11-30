@@ -1,13 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
 using NadekoBot.Attributes;
+using NadekoBot.Modules.Searches.Models;
+using NadekoBot.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using Discord.API;
 using System.Text;
 using System.Threading.Tasks;
+using NadekoBot.Extensions;
+using System.Globalization;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -17,10 +25,17 @@ namespace NadekoBot.Modules.Searches
         public class WoWCommands
         {
             private Logger _log;
+            private static List<WoWJoke> wowJoke = new List<WoWJoke>();
 
             public WoWCommands()
             {
                 _log = LogManager.GetCurrentClassLogger();
+                if (File.Exists("data/wowjokes.json"))
+                {
+                    wowJoke = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
+                }
+                else
+                    _log.Warn("data/wowjokes.json is missing. WOW Jokes are not loaded.");
             }
 
             private static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
@@ -59,12 +74,8 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendMessageAsync("Please enter a region (e.g., us, eu, kr, tw, cn, sea), realm name (e.g., medivh), followed by a character name (e.g., Lisiano)").ConfigureAwait(false);
                 }
 
-                var realm = GetCharacter(region, realmName, characterName);
-                var status = await realm.ConfigureAwait(false);
-                if (string.IsNullOrWhiteSpace(status))
-                    await channel.SendMessageAsync("Something went wrong ;(.").ConfigureAwait(false);
-                else
-                    await channel.SendMessageAsync(status).ConfigureAwait(false);
+                Embed status = await GetCharacter(region, realmName, characterName).ConfigureAwait(false);
+                await channel.EmbedAsync(status).ConfigureAwait(false);
             }
 
             public static async Task<string> GetWoWRealmStatus(string region, int realmNum)
@@ -104,11 +115,22 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
                 }
             }
 
-            public static async Task<string> GetCharacter(string region, string realm, string characterName)
+            public static string ToUpperFirstLetter(string source)
+            {
+                if (string.IsNullOrEmpty(source))
+                    return string.Empty;
+                char[] letters = source.ToCharArray();
+                letters[0] = char.ToUpper(letters[0]);
+                return new string(letters);
+            }
+
+            public static async Task<Embed> GetCharacter(string region, string realm, string characterName)
             {
                 var characterString = "";
                 var classesString = "";
                 var racesString = "";
+                var titleChar = ToUpperFirstLetter(characterName);
+                var embed = new EmbedBuilder();
                 long lastModified = 0;
                 try
                 {
@@ -132,38 +154,56 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
 
                         float charClassNum = (float)characterObject["class"];
                         float charRaceNum = (float)characterObject["race"];
+                        string charThumbnail = $"https://render-api-{region.ToLower()}.worldofwarcraft.com/static-render/{region.ToLower()}/" + characterObject["thumbnail"].ToString();
                         lastModified = (long)characterObject["lastModified"];
                         DateTime time = UnixTimeStampToDateTime(lastModified);
                         string battleGroup = characterObject["battlegroup"].ToString();
-                        string charClass = classesData[(int)charClassNum]["name"].ToString();
-                        string charClass_powerType = classesData[(int)charClassNum]["powerType"].ToString().ToUpper();
-                        string charRace = racesData[(int)charRaceNum]["name"].ToString();
-                        string charRace_side = racesData[(int)charRaceNum]["side"].ToString().ToUpper();
-                        string charGender = (bool)characterObject["gender"] ? "MALE" : "FEMALE";
+                        string charClass = "";
+                        string charClass_powerType = "";
+                        string charRace = "";
+                        string charRace_side = "";
+
+                        foreach (var clss in classesData)
+                        {
+                            if ((int)clss["id"] == (int)charClassNum)
+                            {
+                                charClass = clss["name"].ToString();
+                                charClass_powerType = clss["powerType"].ToString().ToUpper();
+                            }
+                        }
+                        foreach (var clsx in racesData)
+                        {
+                            if ((int)clsx["id"] == (int)charClassNum)
+                            {
+                                charRace = clsx["name"].ToString();
+                                charRace_side = clsx["side"].ToString().ToUpper();
+                            }
+                        }
+
+                        string charGender = (bool)characterObject["gender"] ? "FEMALE" : "MALE";
                         float charLvl = (float)characterObject["level"];
                         float achievementPoints = (float)characterObject["achievementPoints"];
                         float totalHonorableKills = (float)characterObject["totalHonorableKills"];
-                        //int charFaction = int.Parse(data["faction"].ToString());
 
-
-                        var response = $@"```css
-[☕ {region.ToUpper()}-WoW (Realm: {realm})〘Name: {characterName}〙]
-Battle Group: [{battleGroup}]
-Class: [{charClass}] / [Power Type: {charClass_powerType}]
-Race: [{charRace}] / [{charRace_side}]
-Level: [{(int)charLvl}]
-Gender: [{charGender}]
-Achievement Points: [{achievementPoints}]
-Honorable Kills: [{totalHonorableKills}]
-Last Modified (24hr): [{time}]
-```";
-                        return response;
+                        var joke = wowJoke[new NadekoRandom().Next(0, wowJoke.Count())].ToString();
+                        embed
+                            .WithAuthor(ex => ex.WithName(titleChar).WithUrl($"http://{region.ToLower()}.battle.net/wow/en/character/{realm.ToLower()}/{characterName}/statistic"))
+                            .WithTitle("World of Warcraft - Character")
+                            .WithDescription(joke)
+                            .WithThumbnail(tb => tb.WithUrl(charThumbnail))
+                            .AddField(fb => fb.WithName("**🗺 __Realm__**").WithValue($"{ToUpperFirstLetter(realm)}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**💁 __Class__**").WithValue($"{charClass}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**📄 __Race__**").WithValue($"{charRace} / {charRace_side}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**🆙 __Level__**").WithValue($"{(int)charLvl}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**🚻 __Gender__**").WithValue($"{charGender}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**💯 __Achievement Points__**").WithValue($"{achievementPoints}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**🆗 __Honorable Kills__**").WithValue($"{totalHonorableKills}").WithIsInline(false))
+                            .WithFooter(foot => foot.WithText($"**Last Modified (24hr)**: {time}"))
+                            .WithColor(NadekoBot.OkColor);
+                        return embed.Build();
                     }
                 }
-                catch
-                {
-                    return "Something went wrong ;(.";
-                }
+                catch { return null; }
             }
         }
     }
