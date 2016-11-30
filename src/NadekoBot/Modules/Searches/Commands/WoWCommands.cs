@@ -187,7 +187,7 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
 
                         var joke = wowJoke[new NadekoRandom().Next(0, wowJoke.Count())].ToString();
                         embed
-                            .WithAuthor(ex => ex.WithName(titleChar).WithUrl($"http://{region.ToLower()}.battle.net/wow/en/character/{realm.ToLower()}/{characterName}/statistic"))
+                            .WithAuthor(ex => ex.WithName("Name: " + titleChar).WithUrl($"http://{region.ToLower()}.battle.net/wow/en/character/{realm.ToLower()}/{characterName}/statistic"))
                             .WithTitle("World of Warcraft - Character")
                             .WithDescription(joke)
                             .WithThumbnail(tb => tb.WithUrl(charThumbnail))
