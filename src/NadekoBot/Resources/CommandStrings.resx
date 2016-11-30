@@ -2700,7 +2700,6 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
-<<<<<<< HEAD
   <data name="wowchar_cmd" xml:space="preserve">
     <value>wowchar wch</value>
   </data>
