@@ -102,6 +102,7 @@ namespace NadekoBot.Modules.Help
                 .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
                 .AddField(fb => fb.WithIndex(1).WithName("**Usage:**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
                 .WithThumbnail(tn => tn.Url = NadekoBot.Client.GetCurrentUser().AvatarUrl)
+                .WithColor(NadekoBot.OkColor)
                 .WithFooter(fb => fb.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl).WithText("Nadeko Help"))
                 .WithTimestamp(DateTime.Now);
             if (com != null)
