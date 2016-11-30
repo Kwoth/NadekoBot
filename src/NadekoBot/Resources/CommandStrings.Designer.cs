@@ -96,7 +96,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/&gt;.
+        ///    Looks up a localized string similar to Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions/&gt;.
         /// </summary>
         public static string addcustreact_desc {
             get {
@@ -906,7 +906,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deletion of bye messages..
+        ///    Looks up a localized string similar to Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set 0 to disable automatic deletion..
         /// </summary>
         public static string byedel_desc {
             get {
@@ -915,7 +915,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}byedel`.
+        ///    Looks up a localized string similar to `{0}byedel 0` or `{0}byedel 30`.
         /// </summary>
         public static string byedel_usage {
             get {
@@ -2688,7 +2688,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Toggles automatic deletion of greet messages..
+        ///    Looks up a localized string similar to Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set 0 to disable automatic deletion..
         /// </summary>
         public static string greetdel_desc {
             get {
@@ -2697,7 +2697,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}greetdel`.
+        ///    Looks up a localized string similar to `{0}greetdel 0` or `{0}greetdel 30`.
         /// </summary>
         public static string greetdel_usage {
             get {
@@ -3971,6 +3971,33 @@ namespace NadekoBot.Resources {
         public static string magicitem_usage {
             get {
                 return ResourceManager.GetString("magicitem_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to magicthegathering mtg.
+        /// </summary>
+        public static string magicthegathering_cmd {
+            get {
+                return ResourceManager.GetString("magicthegathering_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Searches for a Magic The Gathering card..
+        /// </summary>
+        public static string magicthegathering_desc {
+            get {
+                return ResourceManager.GetString("magicthegathering_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}magicthegathering about face` or `{0}mtg about face`.
+        /// </summary>
+        public static string magicthegathering_usage {
+            get {
+                return ResourceManager.GetString("magicthegathering_usage", resourceCulture);
             }
         }
         

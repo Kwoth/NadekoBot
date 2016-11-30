@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
-using ImageProcessorCore;
+using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
@@ -43,12 +43,18 @@ namespace NadekoBot.Modules.Searches
 
             var obj = JObject.Parse(response)["weather"];
 
-            await channel.SendMessageAsync(
-$@"🌍 **Weather for** 【{obj["target"]}】
-📏 **Lat,Long:** ({obj["latitude"]}, {obj["longitude"]}) ☁ **Condition:** {obj["condition"]}
-😓 **Humidity:** {obj["humidity"]}% 💨 **Wind Speed:** {obj["windspeedk"]}km/h / {obj["windspeedm"]}mph 
-🔆 **Temperature:** {obj["centigrade"]}°C / {obj["fahrenheit"]}°F 🔆 **Feels like:** {obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F
-🌄 **Sunrise:** {obj["sunrise"]} 🌇 **Sunset:** {obj["sunset"]}").ConfigureAwait(false);
+            var embed = new EmbedBuilder()
+                .AddField(fb => fb.WithName("🌍 Location").WithValue($"{obj["target"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 Lat,Long").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ Condition").WithValue($"{obj["condition"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 Humidity").WithValue($"{obj["humidity"]}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 Wind Speed").WithValue($"{obj["windspeedk"]}km/h / {obj["windspeedm"]}mph").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 Temperature").WithValue($"{obj["centigrade"]}°C / {obj["fahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 Feels like").WithValue($"{obj["feelscentigrade"]}°C / {obj["feelsfahrenheit"]}°F").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 Sunrise").WithValue($"{obj["sunrise"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 Sunset").WithValue($"{obj["sunset"]}").WithIsInline(true))
+                .WithColor(NadekoBot.OkColor);
+            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -206,6 +212,46 @@ $@"🌍 **Weather for** 【{obj["target"]}】
                 return;
             await channel.SendMessageAsync($"https://google.com/search?q={ WebUtility.UrlEncode(terms).Replace(' ', '+') }")
                            .ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MagicTheGathering(IUserMessage umsg, [Remainder] string name = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            var arg = name;
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                await channel.SendMessageAsync("💢 `Please enter a card name to search for.`").ConfigureAwait(false);
+                return;
+            }
+
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            string response = "";
+            using (var http = new HttpClient())
+            {
+                http.DefaultRequestHeaders.Clear();
+                response = await http.GetStringAsync($"https://api.deckbrew.com/mtg/cards?name={Uri.EscapeUriString(arg)}")
+                                        .ConfigureAwait(false);
+                try
+                {
+                    var items = JArray.Parse(response).Shuffle().ToList();
+                    if (items == null)
+                        throw new KeyNotFoundException("Cannot find a card by that name");
+                    var msg = $@"```css
+[☕ Magic The Gathering]: {items[0]["name"].ToString()}
+[Store URL]: {await _google.ShortenUrl(items[0]["store_url"].ToString())}
+[Cost]: {items[0]["cost"].ToString()}
+[Description]: {items[0]["text"].ToString()}
+```
+{items[0]["editions"][0]["image_url"].ToString()}";
+                    await channel.SendMessageAsync(msg).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await channel.SendMessageAsync($"💢 Error could not find the card {arg}").ConfigureAwait(false);
+                }
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -434,7 +480,7 @@ $@"🌍 **Weather for** 【{obj["target"]}】
             var green = Convert.ToInt32(color.Substring(2, 2), 16);
             var blue = Convert.ToInt32(color.Substring(4, 2), 16);
 
-            img.BackgroundColor(new ImageProcessorCore.Color(color));
+            img.BackgroundColor(new ImageSharp.Color(color));
 
             await channel.SendFileAsync(img.ToStream(), $"{color}.png");
         }

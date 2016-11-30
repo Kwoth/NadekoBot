@@ -166,10 +166,10 @@
     <value>greetdel grdel</value>
   </data>
   <data name="greetdel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of greet messages.</value>
+    <value>Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
   </data>
   <data name="greetdel_usage" xml:space="preserve">
-    <value>`{0}greetdel`</value>
+    <value>`{0}greetdel 0` or `{0}greetdel 30`</value>
   </data>
   <data name="greet_cmd" xml:space="preserve">
     <value>greet</value>
@@ -211,10 +211,10 @@
     <value>byedel</value>
   </data>
   <data name="byedel_desc" xml:space="preserve">
-    <value>Toggles automatic deletion of bye messages.</value>
+    <value>Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set 0 to disable automatic deletion.</value>
   </data>
   <data name="byedel_usage" xml:space="preserve">
-    <value>`{0}byedel`</value>
+    <value>`{0}byedel 0` or `{0}byedel 30`</value>
   </data>
   <data name="greetdm_cmd" xml:space="preserve">
     <value>greetdm</value>
@@ -427,7 +427,7 @@
     <value>addcustreact acr</value>
   </data>
   <data name="addcustreact_desc" xml:space="preserve">
-    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/1.0/Custom%20Reactions/&gt;</value>
+    <value>Add a custom reaction with a trigger and a response. Running this command in server requires Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: &lt;http://nadekobot.readthedocs.io/en/latest/Custom%20Reactions/&gt;</value>
   </data>
   <data name="addcustreact_usage" xml:space="preserve">
     <value>`{0}acr "hello" Hi there %user%`</value>
@@ -2700,6 +2700,7 @@
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
   </data>
+<<<<<<< HEAD
   <data name="wowchar_cmd" xml:space="preserve">
     <value>wowchar wch</value>
   </data>
@@ -2717,5 +2718,14 @@
   </data>
   <data name="wowstatus_usage" xml:space="preserve">
     <value>`{0}wowstatus us 2` or `{0}wst us 2`</value>
+  </data>
+  <data name="magicthegathering_cmd" xml:space="preserve">
+    <value>magicthegathering mtg</value>
+  </data>
+  <data name="magicthegathering_desc" xml:space="preserve">
+    <value>Searches for a Magic The Gathering card.</value>
+  </data>
+  <data name="magicthegathering_usage" xml:space="preserve">
+    <value>`{0}magicthegathering about face` or `{0}mtg about face`</value>
   </data>
 </root>
