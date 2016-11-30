@@ -173,7 +173,7 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
                         }
                         foreach (var clsx in racesData)
                         {
-                            if ((int)clsx["id"] == (int)charClassNum)
+                            if ((int)clsx["id"] == (int)charRaceNum)
                             {
                                 charRace = clsx["name"].ToString();
                                 charRace_side = clsx["side"].ToString().ToUpper();
@@ -184,6 +184,7 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
                         float charLvl = (float)characterObject["level"];
                         float achievementPoints = (float)characterObject["achievementPoints"];
                         float totalHonorableKills = (float)characterObject["totalHonorableKills"];
+                        string armoryUrl = await NadekoBot.Google.ShortenUrl($"http://{region.ToLower()}.battle.net/wow/en/character/{realm.ToLower()}/{characterName}/statistic").ConfigureAwait(false);
 
                         var joke = wowJoke[new NadekoRandom().Next(0, wowJoke.Count())].ToString();
                         embed
@@ -198,7 +199,7 @@ Timezone: [{items[realmNum]["timezone"].ToString()}]
                             .AddField(fb => fb.WithName("**🚻 __Gender__**").WithValue($"{charGender}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**💯 __Achievement Points__**").WithValue($"{achievementPoints}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**🆗 __Honorable Kills__**").WithValue($"{totalHonorableKills}").WithIsInline(false))
-                            .WithFooter(foot => foot.WithText($"**Last Modified (24hr)**: {time}"))
+                            .WithFooter(foot => foot.WithText($"{armoryUrl} | Last Modified (24hr): {time}"))
                             .WithColor(NadekoBot.OkColor);
                         return embed.Build();
                     }
