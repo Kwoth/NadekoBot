@@ -1,4 +1,4 @@
-﻿using Discord.Commands;
+using Discord.Commands;
 using NadekoBot.Extensions;
 using System.Linq;
 using Discord;
@@ -88,16 +88,32 @@ namespace NadekoBot.Modules.Help
 
             if (com == null)
             {
-                await channel.SendMessageAsync("🔍 **I can't find that command.**");
+                var erro = new EmbedBuilder()
+                    .WithAuthor(eau => eau.WithName("Author: [Kwoth#2560] | Library: [Discord.NET]")
+                    .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                    .WithTitle("**__ERROR__**")
+                    .WithDescription("🔍 **I can't find that command.**")
+                    .WithThumbnail(tn => tn.Url = NadekoBot.Client.GetCurrentUser().AvatarUrl)
+                    .WithColor(NadekoBot.ErrorColor)
+                    .WithTimestamp(DateTime.Now);
+                await channel.EmbedAsync(erro.Build());
                 return;
             }
             var str = $"**__Help for:__ `{com.Text}`**";
             var alias = com.Aliases.Skip(1).FirstOrDefault();
             if (alias != null)
                 str += $" / `{alias}`";
+            var embed = new EmbedBuilder()
+                .WithAuthor(eau => eau.WithName("Author: [Kwoth#2560] | Library: [Discord.NET]")
+                .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                .WithTitle(str)
+                .WithDescription($"{ string.Format(com.Summary, com.Module.Prefix)}{ GetCommandRequirements(com)}")
+                .AddField(fb => fb.WithIndex(1).WithName("**Usage:**").WithValue($"{string.Format(com.Remarks, com.Module.Prefix)}").WithIsInline(false))
+                .WithThumbnail(tn => tn.Url = NadekoBot.Client.GetCurrentUser().AvatarUrl)
+                .WithColor(NadekoBot.OkColor)
+                .WithTimestamp(DateTime.Now);
             if (com != null)
-                await channel.SendMessageAsync(str + $@"{Environment.NewLine}**Desc:** {string.Format(com.Summary, com.Module.Prefix)} {GetCommandRequirements(com)}
-**Usage:** {string.Format(com.Remarks, com.Module.Prefix)}").ConfigureAwait(false);
+                await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
 
         private string GetCommandRequirements(Command cmd)
