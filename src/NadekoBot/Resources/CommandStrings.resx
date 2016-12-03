@@ -2691,6 +2691,24 @@
   <data name="bfu_usage" xml:space="preserve">
     <value>`{0}bfu platform game user`</value>
   </data>
+  <data name="imgur_cmd" xml:space="preserve">
+    <value>imgur</value>
+  </data>
+  <data name="imgur_desc" xml:space="preserve">
+    <value>Searches for a top imgur image, followed by a query.</value>
+  </data>
+  <data name="imgur_usage" xml:space="preserve">
+    <value>`{0}imgur pikachu`</value>
+  </data>
+  <data name="ri_cmd" xml:space="preserve">
+    <value>randomimgur ri</value>
+  </data>
+  <data name="ri_desc" xml:space="preserve">
+    <value>Shows a random imgur image.</value>
+  </data>
+  <data name="ri_usage" xml:space="preserve">
+    <value>`{0}randomimgur` or `{0}ri`</value>
+  </data>
   <data name="yandere_cmd" xml:space="preserve">
     <value>yandere</value>
   </data>
@@ -2699,5 +2717,23 @@
   </data>
   <data name="yandere_usage" xml:space="preserve">
     <value>`{0}yandere tag1+tag2`</value>
+  </data>
+  <data name="wowstatus_cmd" xml:space="preserve">
+    <value>wowstatus wst</value>
+  </data>
+  <data name="wowstatus_desc" xml:space="preserve">
+    <value>Checks the status of a specific region's WoW realms (e.g., us, eu, kr, tw, cn, sea), followed by a realm number.</value>
+  </data>
+  <data name="wowstatus_usage" xml:space="preserve">
+    <value>`{0}wowstatus us 2` or `{0}wst us 2`</value>
+  </data>
+  <data name="wowchar_cmd" xml:space="preserve">
+    <value>wowchar wch</value>
+  </data>
+  <data name="wowchar_desc" xml:space="preserve">
+    <value>Shows information about a player which takes region, realm name, followed by a character name.</value>
+  </data>
+  <data name="wowchar_usage" xml:space="preserve">
+    <value>`{0}wowchar us medivh lisiano` or `{0}wch us medivh lisiano`</value>
   </data>
 </root>
