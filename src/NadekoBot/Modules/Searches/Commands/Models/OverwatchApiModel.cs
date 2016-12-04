@@ -16,6 +16,45 @@ namespace NadekoBot.Modules.Searches.Models
         public float numberOfAchievementsCompleted { get; set; }
         public string finishedAchievements { get; set; }
 
+        public OverwatchPlayer[] Data { get; set; }
+        public class OverwatchPlayer
+        {
+            public string username { get; set; }
+            public float level { get; set; }
+            public string avatar { get; set; }
+            public string levelFrame { get; set; }
+            public string start { get; set; }
+            public OverwatchGames[] Games { get; set; }
+            public OverwatchPlaytime[] Playtime { get; set; }
+            public OverwatchCompetitive[] Competitive { get; set; }
+            public class OverwatchGames
+            {
+                public OverwatchQG[] QuickGames { get; set; }
+                public OverwatchCOMP[] Competitive { get; set; }
+
+                public class OverwatchQG
+                {
+                    public string wings { get; set; }
+                }
+                public class OverwatchCOMP
+                {
+                    public string wins { get; set; }
+                    public float lost { get; set; }
+                    public string played { get; set; }
+                }
+            }
+            public class OverwatchCompetitive
+            {
+                public string rank { get; set; }
+                public string rank_img { get; set; }
+            }
+            public class OverwatchPlaytime
+            {
+                public string quick { get; set; }
+                public string competitive { get; set; }
+            }
+        }
+
         public class OverwatchPatchNotes
         {
             public bool Missing { get; set; } = false;
