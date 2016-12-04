@@ -24,7 +24,7 @@ namespace NadekoBot.Modules.Administration
             private static ShardedDiscordClient _client { get; }
             private static Logger _log { get; }
 
-            private static string prettyCurrentTime => $"【{DateTime.Now:HH:mm:ss}】";
+            private static string prettyCurrentTime => $"{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd 【HH:mm:ss】 UTC")}";
 
             public static ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
