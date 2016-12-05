@@ -47,7 +47,7 @@ namespace NadekoBot.Modules.Utility
             {
                 var embed = new EmbedBuilder()
                     .WithTitle("Who is playing?")
-                    .WithDescription($"**__CURRENTLY PLAYING__**: {game.ToUpper()}"))
+                    .WithDescription($"Users who are playing {game.ToUpper()}"))
                     .WithColor(NadekoBot.OkColor)
                     .AddField(x => x.WithName("Users").WithValue(string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}"))))).WithIsInline(false));
                 await channel.EmbedAsync(embed.Build());
