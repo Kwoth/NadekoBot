@@ -6810,6 +6810,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to steamuser steam.
+        /// </summary>
+        public static string steamuser_cmd {
+            get {
+                return ResourceManager.GetString("steamuser_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Searches for a specific user by their community id.
+        /// </summary>
+        public static string steamuser_desc {
+            get {
+                return ResourceManager.GetString("steamuser_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}steamuser community_id` or `{0}steam Shotz`.
+        /// </summary>
+        public static string steamuser_usage {
+            get {
+                return ResourceManager.GetString("steamuser_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to stop s.
         /// </summary>
         public static string stop_cmd {

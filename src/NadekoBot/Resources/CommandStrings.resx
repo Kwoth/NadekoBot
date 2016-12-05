@@ -2763,4 +2763,13 @@
   <data name="type_usage" xml:space="preserve">
     <value>`{0}type @someone`</value>
   </data>
+  <data name="steamuser_cmd" xml:space="preserve">
+    <value>steamuser steam</value>
+  </data>
+  <data name="steamuser_desc" xml:space="preserve">
+    <value>Searches for a specific user by their community id</value>
+  </data>
+  <data name="steamuser_usage" xml:space="preserve">
+    <value>`{0}steamuser community_id` or `{0}steam Shotz`</value>
+  </data>
 </root>
