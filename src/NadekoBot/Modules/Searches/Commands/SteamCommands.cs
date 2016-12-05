@@ -31,7 +31,10 @@ namespace NadekoBot.Modules.Searches
                 var channel = (ITextChannel)umsg.Channel;
 
                 if (string.IsNullOrWhiteSpace(option) || string.IsNullOrWhiteSpace(user))
+                {
+                    await channel.SendErrorAsync("Please enter a username followed by an option. `-h ~steam` for more information.");
                     return;
+                }
 
                 if (option.Equals("profile",StringComparison.OrdinalIgnoreCase))
                 {

@@ -6819,7 +6819,9 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Searches for a specific user by their community id. You can use this to find out a user&apos;s profile or friends currently..
+        ///    Looks up a localized string similar to Searches for a specific user by their community id. You can use this to find out a user&apos;s profile or friends currently. Currently provides two options:
+        ///- profile
+        ///- friends.
         /// </summary>
         public static string steamuser_desc {
             get {
@@ -6828,7 +6830,8 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}steamuser community_id profile` or `{0}steam Shotz profile` or `{0}steam Shotz friends 1`.
+        ///    Looks up a localized string similar to `{0}steamuser community_id profile` or `{0}steam community_id profile`
+        ///`{0}steam community_id friends` or `{0}steam community_id friends 3`.
         /// </summary>
         public static string steamuser_usage {
             get {
