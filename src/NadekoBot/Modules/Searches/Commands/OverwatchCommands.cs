@@ -48,7 +48,7 @@ namespace NadekoBot.Modules.Searches
                             .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                             .WithUrl($"https://www.overbuff.com/players/pc/{model.Data.username}-{battletag}")
                             //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                            .WithIconUrl($"{model.Data.avatar}")
+                            .WithIconUrl($"{model.Data.avatar}"))
                             .WithThumbnail(th => th.WithUrl($"{model.Data.Competitive.rank_img}"))
                             //.AddField(fb => fb.WithName("**Username**").WithValue($"**{model.Data.username}**").WithIsInline(false))
                             .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
