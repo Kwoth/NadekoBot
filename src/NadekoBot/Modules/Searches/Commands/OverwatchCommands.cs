@@ -34,8 +34,8 @@ namespace NadekoBot.Modules.Searches
             {
                 var channel = (ITextChannel)umsg.Channel;
                 
-                var rankimg = $"{model.Data.Competitive.rank_img}";
-                if (rankimg != "https://cdn.discordapp.com/attachments/155726317222887425/255417077383430145/Competpoints_noborders.png")
+                
+                
 
                 if (string.IsNullOrWhiteSpace(query))
                     return;
@@ -47,21 +47,23 @@ namespace NadekoBot.Modules.Searches
                         var lootbox = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
                         var model = JsonConvert.DeserializeObject<OverwatchApiModel>(lootbox);
                         
-                        var embed = new EmbedBuilder()
-                            .WithAuthor(eau => eau.WithName($"{model.Data.username}")
-                            .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
+                        var rankimg = $"{model.Data.Competitive.rank_img}";
+                        if (rankimg != "https://cdn.discordapp.com/attachments/155726317222887425/255417077383430145/Competpoints_noborders.png")
+                            var embed = new EmbedBuilder()
+                                .WithAuthor(eau => eau.WithName($"{model.Data.username}")
+                                .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                            .WithIconUrl($"{model.Data.avatar}"))
-                            .WithThumbnail(th => th.WithUrl(rankimg))
+                                .WithIconUrl($"{model.Data.avatar}"))
+                                .WithThumbnail(th => th.WithUrl(rankimg))
                             //.AddField(fb => fb.WithName("**Username**").WithValue($"**{model.Data.username}**").WithIsInline(false))
-                            .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Competitive Rank**").WithValue($"{model.Data.Competitive.rank}").WithIsInline(true))
-                            .WithColor(0xfaa02e);
-                        await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                                .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Competitive Rank**").WithValue($"{model.Data.Competitive.rank}").WithIsInline(true))
+                                .WithColor(0xfaa02e);
+                            await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         ///await channel.SendMessageAsync($@"Username: {model.Data.username}
 ///Level: {model.Data.level}
 ///Quick Wins: {model.Data.Games.Quick.wins}
