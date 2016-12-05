@@ -33,6 +33,9 @@ namespace NadekoBot.Modules.Searches
             public async Task Overwatch(IUserMessage umsg, string region, [Remainder] string query = null)
             {
                 var channel = (ITextChannel)umsg.Channel;
+                
+                var rankimg = $"{model.Data.Competitive.rank_img}";
+                if (rankimg != "https://cdn.discordapp.com/attachments/155726317222887425/255417077383430145/Competpoints_noborders.png")
 
                 if (string.IsNullOrWhiteSpace(query))
                     return;
@@ -44,8 +47,6 @@ namespace NadekoBot.Modules.Searches
                         var lootbox = await http.GetStringAsync($"https://api.lootbox.eu/pc/{region.ToLower()}/{battletag}/profile");
                         var model = JsonConvert.DeserializeObject<OverwatchApiModel>(lootbox);
                         
-                        var rankimg = $"{model.Data.Competitive.rank_img}"
-                        if (rankimg != "https://cdn.discordapp.com/attachments/155726317222887425/255417077383430145/Competpoints_noborders.png")
                         var embed = new EmbedBuilder()
                             .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                             .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
