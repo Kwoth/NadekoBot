@@ -45,11 +45,12 @@ namespace NadekoBot.Modules.Searches
                         var model = JsonConvert.DeserializeObject<OverwatchApiModel>(lootbox);
                         
                         var embed = new EmbedBuilder()
-                            .WithAuthor(eau => eau.WithName("Overwatch Stats")
-                            .WithUrl("http://nadekobot.readthedocs.io/en/latest/Commands%20List/")
-                            .WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
-                            .WithThumbnail(th => th.WithUrl($"{model.Data.avatar}"))
-                            .AddField(fb => fb.WithName("**Username**").WithValue($"**{model.Data.username}**").WithIsInline(false))
+                            .WithAuthor(eau => eau.WithName($"{model.Data.username}")
+                            .WithUrl($"https://www.overbuff.com/players/pc/{model.Data.username}-{battletag}")
+                            //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
+                            .WithIconUrl($"{model.Data.avatar}")
+                            .WithThumbnail(th => th.WithUrl($"{model.Data.Competitive.rank_img}"))
+                            //.AddField(fb => fb.WithName("**Username**").WithValue($"**{model.Data.username}**").WithIsInline(false))
                             .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
