@@ -49,6 +49,7 @@ namespace NadekoBot.Modules.Searches
                         
                         var rankimg = $"{model.Data.Competitive.rank_img}";
                         if (rankimg != "https://cdn.discordapp.com/attachments/155726317222887425/255417077383430145/Competpoints_noborders.png")
+                        {
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
@@ -64,6 +65,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue($"{model.Data.Competitive.rank}").WithIsInline(true))
                                 .WithColor(0xfaa02e);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                        }
                         ///await channel.SendMessageAsync($@"Username: {model.Data.username}
 ///Level: {model.Data.level}
 ///Quick Wins: {model.Data.Games.Quick.wins}
