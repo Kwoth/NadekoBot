@@ -52,7 +52,6 @@ namespace NadekoBot.Modules.Searches
                         if (string.IsNullOrWhiteSpace(rank))
                         {
                             var embed = new EmbedBuilder()
-                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                                 .WithIconUrl($"{model.Data.avatar}"))
@@ -64,6 +63,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
                                 .WithColor(0xfaa02e);
+                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         }
                         else
