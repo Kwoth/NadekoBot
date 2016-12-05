@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Searches
                         
                         var embed = new EmbedBuilder()
                             .WithAuthor(eau => eau.WithName($"{model.Data.username}")
-                            .WithUrl($"https://www.overbuff.com/players/pc/{model.Data.username}-{battletag}")
+                            .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                             //.WithIconUrl(NadekoBot.Client.GetCurrentUser().AvatarUrl))
                             .WithIconUrl($"{model.Data.avatar}"))
                             .WithThumbnail(th => th.WithUrl($"{model.Data.Competitive.rank_img}"))
