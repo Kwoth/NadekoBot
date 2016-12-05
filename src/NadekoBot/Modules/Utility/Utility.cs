@@ -44,7 +44,15 @@ namespace NadekoBot.Modules.Utility
             if (!arr.Any())
                 await channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("Who is playing?")
+                    .WithDescription($"**__CURRENTLY PLAYING__**: {game.ToUpper()}")
+                    .WithThumbnail(x => x.WithUrl("http://i.imgur.com/aQeDe6P.png"))
+                    .WithColor(NadekoBot.OkColor)
+                    .AddField(x => x.WithName("Users").WithValue(string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}"))))).WithIsInline(false));
+                await channel.EmbedAsync(embed.Build());
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
