@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue($"{model.Data.Competitive.rank}").WithIsInline(true))
-                            .WithColor(faa02e);
+                            .WithColor(0xfaa02e);
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         ///await channel.SendMessageAsync($@"Username: {model.Data.username}
 ///Level: {model.Data.level}
