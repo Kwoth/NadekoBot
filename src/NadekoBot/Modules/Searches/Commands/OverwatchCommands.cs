@@ -50,7 +50,7 @@ namespace NadekoBot.Modules.Searches
                             .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
                             .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
-                            .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
+                            .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(false))
                             .AddField(fb => fb.WithName("**Competitive Rank**").WithValue($"{model.Data.Competitive.rank}").WithIsInline(true))
                             .WithColor(NadekoBot.OkColor);
                         await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
