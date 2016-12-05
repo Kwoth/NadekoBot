@@ -30,8 +30,36 @@ namespace NadekoBot.Modules.Searches.Models
                 public int personastateflags { get; set; }
                 public string loccountrycode { get; set; }
             }
-
         }
+
+        //Player Friends List
+        public SteamPlayerFriends FriendsList { get; set; }
+        public class SteamPlayerFriends
+        {
+            public GetFriends[] Friends { get; set; }
+            public class GetFriends
+            {
+                public string steamid { get; set; } //64 bit Steam ID to return friends list
+                public string relationship { get; set; } //Relationship filter. Possibles values: all, friend.
+                public ulong friend_since { get; set; } //Unix timestamp
+            }
+        }
+
+        //Player Achievements
+        public SteamPlayerStats PlayerStats { get; set; }
+        public class SteamPlayerStats
+        {
+            public string steamID { get; set; }
+            public string gameName { get; set; }
+            public SteamPlayerAchievements[] Achievements { get; set; }
+            public class SteamPlayerAchievements
+            {
+                string apiname { get; set; }
+                int achieved { get; set; } //1 true - 0 false
+            }
+        }
+
+        //User Persona Enum
         public enum profilestate
         {
             Offline = 0,

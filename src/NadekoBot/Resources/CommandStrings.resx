@@ -2767,9 +2767,9 @@
     <value>steamuser steam</value>
   </data>
   <data name="steamuser_desc" xml:space="preserve">
-    <value>Searches for a specific user by their community id</value>
+    <value>Searches for a specific user by their community id. You can use this to find out a user's profile or friends currently.</value>
   </data>
   <data name="steamuser_usage" xml:space="preserve">
-    <value>`{0}steamuser community_id` or `{0}steam Shotz`</value>
+    <value>`{0}steamuser community_id profile` or `{0}steam Shotz profile` or `{0}steam Shotz friends 1`</value>
   </data>
 </root>
