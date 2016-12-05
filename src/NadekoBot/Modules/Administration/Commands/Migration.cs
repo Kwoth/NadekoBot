@@ -102,7 +102,6 @@ namespace NadekoBot.Modules.Administration
                     var greet = (long)reader["Greet"] == 1;
                     var greetDM = (long)reader["GreetPM"] == 1;
                     var greetChannel = (ulong)(long)reader["GreetChannelId"];
-                    var language = (string)reader["Language"];
                     var greetMsg = (string)reader["GreetText"];
                     var bye = (long)reader["Bye"] == 1;
                     var byeDM = (long)reader["ByePM"] == 1;
@@ -124,7 +123,6 @@ namespace NadekoBot.Modules.Administration
                     gc.ChannelByeMessageText = byeMsg;
 
                     gc.AutoDeleteGreetMessagesTimer = gc.AutoDeleteByeMessagesTimer = grdel ? 30 : 0;
-                    gc.Language = language;
                     _log.Info(++i);
                 }
 
