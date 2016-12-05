@@ -49,7 +49,7 @@ namespace NadekoBot.Modules.Searches
                         
                         var rankimg = $"{model.Data.Competitive.rank_img}";
                         var rank = $"{model.Data.Competitive.rank}";
-                        if (rank == null)
+                        if (string.IsNullOrWhiteSpace(rank))
                         {
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
@@ -82,6 +82,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
                                 .WithColor(0xfaa02e);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
+                            return;
                         }
                         ///await channel.SendMessageAsync($@"Username: {model.Data.username}
 ///Level: {model.Data.level}
