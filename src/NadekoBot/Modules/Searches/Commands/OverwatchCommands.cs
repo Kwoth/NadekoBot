@@ -52,6 +52,7 @@ namespace NadekoBot.Modules.Searches
                         if (string.IsNullOrWhiteSpace(rank))
                         {
                             var embed = new EmbedBuilder()
+                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                                 .WithIconUrl($"{model.Data.avatar}"))
