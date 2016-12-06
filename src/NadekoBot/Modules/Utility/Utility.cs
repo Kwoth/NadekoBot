@@ -176,48 +176,48 @@ namespace NadekoBot.Modules.Utility
                     },
                     Fields = new[] {
                         new EmbedField() {
-                            Name = "Author",
-                            Value = Format.Bold(stats.Author),
+                            Name = Format.Bold("Author"),
+                            Value = stats.Author,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Library",
-                            Value = Format.Bold(stats.Library),
+                            Name = Format.Bold("Library"),
+                            Value = stats.Library,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Bot ID",
-                            Value = Format.Bold(NadekoBot.Client.GetCurrentUser().Id.ToString()),
+                            Name = Format.Bold("Bot ID"),
+                            Value = NadekoBot.Client.GetCurrentUser().Id.ToString(),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Commands Ran",
-                            Value = Format.Bold(stats.CommandsRan.ToString()),
+                            Name = Format.Bold("Commands Ran"),
+                            Value = stats.CommandsRan.ToString(),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Messages",
-                            Value = Format.Bold($"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)"),
+                            Name = Format.Bold("Messages"),
+                            Value = $"{stats.MessageCounter} ({stats.MessagesPerSecond:F2}/sec)",
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Memory",
-                            Value = Format.Bold($"{stats.Heap} MB"),
+                            Name = Format.Bold("Memory"),
+                            Value = $"{stats.Heap} MB",
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Owner ID(s)",
-                            Value = Format.Bold(stats.OwnerIds),
+                            Name = Format.Bold("Owner ID(s)"),
+                            Value = stats.OwnerIds,
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Uptime",
-                            Value = Format.Bold(stats.GetUptimeString("\n")),
+                            Name = Format.Bold("Uptime"),
+                            Value = stats.GetUptimeString("\n"),
                             Inline = true
                         },
                         new EmbedField() {
-                            Name = "Presence",
-                            Value = Format.Bold($"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels"),
+                            Name = Format.Bold("Presence"),
+                            Value = $"{NadekoBot.Client.GetGuilds().Count} Servers\n{stats.TextChannels} Text Channels\n{stats.VoiceChannels} Voice Channels",
                             Inline = true
                         },
 
