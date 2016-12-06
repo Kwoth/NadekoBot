@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Searches
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                                 .WithIconUrl($"{model.Data.avatar}"))
-                                .WithThumbnail(th => th.WithUrl("http://i.imgur.com/YZ4w2ey.png"))
+                                .WithThumbnail(th => th.WithUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
                                 .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
@@ -80,6 +80,10 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
+                                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
+                                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
+                                .WithFooter(fb => fb.WithIconUrl($"{model.Data.star}").WithText("Stars"))
+                                .WithTimestamp(DateTime.UtcNow);
                                 .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
