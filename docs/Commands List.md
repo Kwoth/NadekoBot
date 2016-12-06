@@ -12,6 +12,7 @@ You can support the project on patreon: <https://patreon.com/nadekobot> or paypa
 - [Permissions](#permissions)
 - [Searches](#searches)
 - [Utility](#utility)
+- [Pokemon](#pokemon)
 
 
 ### Administration  
@@ -265,6 +266,17 @@ Command and aliases | Description | Usage
 `;chnlfilterwords` `;cfw` | Toggles automatic deleting of messages containing banned words on the channel. Does not negate the ;srvrfilterwords enabled setting. Does not affect bot owner.  | `;cfw`
 `;fw`  | Adds or removes (if it exists) a word from the list of filtered words. Use`;sfw` or `;cfw` to toggle filtering.  | `;fw poop`
 `;lstfilterwords` `;lfw` | Shows a list of filtered words.  | `;lfw`
+
+###### [Back to TOC](#table-of-contents)
+
+### Pokemon  
+Command and aliases | Description | Usage
+----------------|--------------|-------
+`>attack` | Attacks a target with the given move. Use `>movelist` to see a list of moves your type can use. | `>attack "vine whip" @someguy`
+`>movelist`, `>ml` | Lists the moves you are able to use | `>ml`
+`>heal` | Heals someone. Revives those who fainted. Costs a NadekoFlower | `>heal @someone`
+`>type` | Get the poketype of the target. | `>type @someone`
+`>settype` | Set your poketype. Costs a NadekoFlower. | `>settype fire`
 
 ###### [Back to TOC](#table-of-contents)
 
