@@ -55,7 +55,7 @@ namespace NadekoBot.Modules.Searches
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                                 .WithIconUrl($"{model.Data.avatar}"))
-                                .WithThumbnail(th => th.WithUrl($"{model.Data.avatar}"))
+                                .WithThumbnail(th => th.WithUrl("http://i.imgur.com/YZ4w2ey.png"))
                                 .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
@@ -63,7 +63,6 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
                                 .WithColor(0xfaa02e);
-                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         }
                         else
@@ -82,7 +81,6 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
                                 .WithColor(0xfaa02e);
-                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
                         }
