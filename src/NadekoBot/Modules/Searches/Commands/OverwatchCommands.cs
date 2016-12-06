@@ -80,9 +80,10 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
-                                .WithImage(tn => tn.Url = $"{model.Data.levelFrame}")
+                                //.WithImage(tn => tn.Url = $"{model.Data.levelFrame}")
                                 //.WithFooter(fb => fb.WithIconUrl($"{model.Data.star}").WithText("Stars"))
                                 //.WithTimestamp(DateTime.Now)
+                                // was a bad idea -samvaio
                                 .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
