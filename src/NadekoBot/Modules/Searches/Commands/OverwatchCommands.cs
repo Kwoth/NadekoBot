@@ -67,7 +67,6 @@ namespace NadekoBot.Modules.Searches
                         }
                         else
                         {
-                            //DateTimeOffset date = date.ToLocalTime();
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
@@ -81,10 +80,9 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
-                                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
-                                .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
-                                .WithFooter(fb => fb.WithIconUrl($"{model.Data.star}").WithText("Stars"))
-                                .WithTimestamp(DateTime.UtcNow)
+                                .WithImage(tn => tn.Url = $"{model.Data.levelFrame}")
+                                //.WithFooter(fb => fb.WithIconUrl($"{model.Data.star}").WithText("Stars"))
+                                //.WithTimestamp(DateTime.Now)
                                 .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
