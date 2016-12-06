@@ -62,7 +62,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
-                                .WithColor(0xfaa02e);
+                                .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         }
                         else
@@ -80,7 +80,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
-                                .WithColor(0xfaa02e);
+                                .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
                         }
