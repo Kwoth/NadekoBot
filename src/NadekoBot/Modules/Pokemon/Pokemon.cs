@@ -316,7 +316,31 @@ namespace NadekoBot.Modules.Pokemon
             var targetType = StringToPokemonType(typeTargeted);
             if (targetType == null)
             {
-                await channel.SendTableAsync<PokemonType>("`Available types:`\n", PokemonTypes, (t) => $"{t.Icon} {t.Name,-10}").ConfigureAwait(false);
+                var pokemonTypeName = PokemonTypes.Select(t => $"{t.Name,-10}").ToArray();
+                var pokemonTypeIcon = PokemonTypes.Select(t => $"{t.Icon}").ToArray();
+                var embed = new EmbedBuilder()
+                                .WithTitle("**__Available Types__**")
+                                .WithDescription("These are the available types you can set by typing `>settype TYPE`")
+                                .AddField(x=>x.WithName(pokemonTypeName[0]).WithValue(pokemonTypeIcon[0]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[1]).WithValue(pokemonTypeIcon[1]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[2]).WithValue(pokemonTypeIcon[2]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[3]).WithValue(pokemonTypeIcon[3]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[4]).WithValue(pokemonTypeIcon[4]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[5]).WithValue(pokemonTypeIcon[5]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[6]).WithValue(pokemonTypeIcon[6]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[7]).WithValue(pokemonTypeIcon[7]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[8]).WithValue(pokemonTypeIcon[8]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[9]).WithValue(pokemonTypeIcon[9]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[10]).WithValue(pokemonTypeIcon[10]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[11]).WithValue(pokemonTypeIcon[11]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[12]).WithValue(pokemonTypeIcon[12]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[13]).WithValue(pokemonTypeIcon[13]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[14]).WithValue(pokemonTypeIcon[14]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[15]).WithValue(pokemonTypeIcon[15]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[16]).WithValue(pokemonTypeIcon[16]).WithIsInline(true))
+                                .AddField(x => x.WithName(pokemonTypeName[17]).WithValue(pokemonTypeIcon[17]).WithIsInline(true))
+                                .WithColor(NadekoBot.OkColor);
+                await channel.EmbedAsync(embed.Build());
                 return;
             }
             if (targetType == GetPokeType(user.Id))
