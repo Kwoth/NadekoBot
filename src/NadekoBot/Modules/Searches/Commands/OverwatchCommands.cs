@@ -70,8 +70,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         else
                         {
-                            await channel.SendMessageAsync($@"Please Wait...").ConfigureAwait(false)
-                            await channel.TriggerTypingAsync().ConfigureAwait(false)
+                            await channel.SendMessageAsync($@"Please Wait...").ConfigureAwait(false);
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
@@ -92,6 +91,7 @@ namespace NadekoBot.Modules.Searches
                                 //.WithTimestamp(DateTime.Now)
                                 // was a bad idea -samvaio
                                 .WithColor(0xf99e1a);
+                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
                         }
