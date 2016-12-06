@@ -66,7 +66,7 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Data.Playtime.quick}").WithIsInline(true))
                                 //.WithFooter(fb => fb.WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png").WithText("Overwatch Stats"))
                                 //.WithImage(tn => tn.Url = "https://cdn.discordapp.com/attachments/155726317222887425/255692313597050880/blank.png")
-                                .WithColor(0xf99e1a);
+                                .WithColor(NadekoBot.OkColor);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         }
                         else
@@ -90,7 +90,7 @@ namespace NadekoBot.Modules.Searches
                                 //.WithFooter(fb => fb.WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png").WithText("Overwatch Stats"))
                                 //.WithTimestamp(DateTime.Now)
                                 // was a bad idea -samvaio
-                                .WithColor(0xf99e1a);
+                                .WithColor(NadekoBot.OkColor);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
                         }
@@ -106,7 +106,11 @@ namespace NadekoBot.Modules.Searches
                 }
                 catch
                 {
-                    await channel.SendMessageAsync("❎ Found no user with that **BattleTag**.").ConfigureAwait(false);
+                    //await channel.SendMessageAsync("❎ Found no user with that **BattleTag**.").ConfigureAwait(false);
+                    var embed = new EmbedBuilder()
+                        .AddField(fb => fb.WithName("**Found no user!**").WithValue("Please check the **Region** and **BattleTag** before trying again.").WithIsInline(true))
+                        .WithColor(NadekoBot.ErrorColor);
+                    await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
             }
         }
