@@ -84,10 +84,6 @@ namespace NadekoBot.Modules.Searches
                 catch
                 {
                     await channel.SendErrorAsync("Found no user! Please check the **Region** and **BattleTag** before trying again.");
-                    //var embed = new EmbedBuilder()
-                        //.AddField(fb => fb.WithName("**Found no user!**").WithValue("Please check the **Region** and **BattleTag** before trying again.").WithIsInline(true))
-                        //.WithColor(NadekoBot.ErrorColor);
-                    //await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
             }
         }
