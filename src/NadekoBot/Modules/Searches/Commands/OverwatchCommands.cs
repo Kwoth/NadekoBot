@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         else
                         {
-                            DateTimeOffset date = date.ToLocalTime();
+                            //DateTimeOffset date = date.ToLocalTime();
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
@@ -84,7 +84,7 @@ namespace NadekoBot.Modules.Searches
                                 .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
                                 .WithImage(tn => tn.Url = "https://lh3.googleusercontent.com/-TDLUR4j7q20/V8u0E7CDUyI/AAAAAAAAAbQ/1pmQ256Cbdg324gU_ecvqdPMsmIBST-gwCJoC/w895-h504/rol%2B1-A.png")
                                 .WithFooter(fb => fb.WithIconUrl($"{model.Data.star}").WithText("Stars"))
-                                .WithTimestamp(DateTime.Now);
+                                .WithTimestamp(DateTime.UtcNow)
                                 .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
