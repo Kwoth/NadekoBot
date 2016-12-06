@@ -55,22 +55,23 @@ namespace NadekoBot.Modules.Searches
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
                                 .WithIconUrl($"{model.Data.avatar}"))
-                                //.WithThumbnail(th => th.WithUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png"))
+                                .WithThumbnail(th => th.WithUrl("https://cdn.discordapp.com/attachments/155726317222887425/255692313597050880/blank.png"))
                                 .AddField(fb => fb.WithName("**Level**").WithValue($"{model.Data.level}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Quick Wins**").WithValue($"{model.Data.Games.Quick.wins}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Wins**").WithValue($"{model.Data.Games.Competitive.wins}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Played**").WithValue($"{model.Data.Games.Competitive.played}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue("0").WithIsInline(true))
-                                .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Data.Playtime.quick}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
+                                .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Data.Playtime.quick}").WithIsInline(true))
                                 .WithFooter(fb => fb.WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png").WithText("Overwatch Stats"))
+                                .WithImage(tn => tn.Url = "https://cdn.discordapp.com/attachments/155726317222887425/255692313597050880/blank.png")
                                 .WithColor(0xf99e1a);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                         }
                         else
                         {
-                            await channel.SendMessageAsync($@"Please Wait...").ConfigureAwait(false);
+                            await channel.TriggerTypingAsync().ConfigureAwait(false)
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
@@ -84,14 +85,13 @@ namespace NadekoBot.Modules.Searches
                                 .AddField(fb => fb.WithName("**Current Competitive Loses**").WithValue($"{model.Data.Games.Competitive.lost}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Current Competitive Played**").WithValue($"{model.Data.Games.Competitive.played}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Rank**").WithValue(rank).WithIsInline(true))
-                                .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Data.Playtime.quick}").WithIsInline(true))
                                 .AddField(fb => fb.WithName("**Competitive Playtime**").WithValue($"{model.Data.Playtime.competitive}").WithIsInline(true))
-                                //.WithImage(tn => tn.Url = $"{model.Data.levelFrame}")
-                                .WithFooter(fb => fb.WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png").WithText($"Overwatch Stats | Quick Playtime: {model.Data.Playtime.quick}"))
+                                .AddField(fb => fb.WithName("**Quick Playtime**").WithValue($"{model.Data.Playtime.quick}").WithIsInline(true))
+                                .WithImage(tn => tn.Url = "https://cdn.discordapp.com/attachments/155726317222887425/255692313597050880/blank.png")
+                                .WithFooter(fb => fb.WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/255653487512256512/YZ4w2ey.png").WithText("Overwatch Stats"))
                                 //.WithTimestamp(DateTime.Now)
                                 // was a bad idea -samvaio
                                 .WithColor(0xf99e1a);
-                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                             return;
                         }
