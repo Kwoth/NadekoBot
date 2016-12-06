@@ -71,7 +71,7 @@ namespace NadekoBot.Modules.Searches
                         }
                         else
                         {
-                            await channel.TriggerTypingAsync().ConfigureAwait(false)
+                            await channel.TriggerTypingAsync().ConfigureAwait(false);
                             var embed = new EmbedBuilder()
                                 .WithAuthor(eau => eau.WithName($"{model.Data.username}")
                                 .WithUrl($"https://www.overbuff.com/players/pc/{battletag}")
