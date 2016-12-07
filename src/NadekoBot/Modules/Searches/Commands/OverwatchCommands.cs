@@ -1,14 +1,11 @@
 ﻿using Discord;
-using Discord.API;
 using Discord.Commands;
 using NadekoBot.Attributes;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Searches.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json; 
 using NLog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
