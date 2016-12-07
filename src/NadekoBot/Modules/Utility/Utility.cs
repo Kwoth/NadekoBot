@@ -44,7 +44,14 @@ namespace NadekoBot.Modules.Utility
             if (!arr.Any())
                 await channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
             else
-                await channel.SendMessageAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• {el,-35}")))) + "\n```").ConfigureAwait(false);
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("Who is playing?")
+                    .WithDescription($@"Users who are playing {game.ToUpper()}
+{string.Join("\n", arr.GroupBy(item => (i++) / 3).Select(ig => string.Concat(ig.Select(el => $"• { el,-35}"))))}")
+                    .WithColor(NadekoBot.OkColor);
+                await channel.EmbedAsync(embed.Build());
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
