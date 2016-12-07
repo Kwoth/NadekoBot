@@ -1,10 +1,12 @@
+<b><u><h1>PLEASE NOTE THAT 0.9 IS NO LONGER OFFICIALY SUPPORTED BY THE NADEKO TEAM, AS WE WILL NO LONGER PATCH AND UPDATE 0.9. THIS GUIDE IS HERE ONLY FOR USERS THAT ARE UNABLE TO RUN 1.0 OR NEED TO RUN 0.9 FOR OTHER REASONS.</h1></b></u>
+
+If you are looking for the 1.0 guide, it is located [here][1.0].
+
 #NadekoBot Documentation
 
 To invite NadekoBot to your server, click on the image bellow:
 
 [![img][img]](https://discordapp.com/oauth2/authorize?client_id=170254782546575360&scope=bot&permissions=66186303)
-
-In case you need any help, hop on [NadekoBot Server][NadekoBot Server], where we can provide support.
 
 NadekoBot is an open source project, and it can be found on our [GitHub][GitHub] page.
 
@@ -29,6 +31,7 @@ If you want to contribute, be sure to PR on the **[dev][dev]** branch.
 - [Contribution Guide](Contribution Guide.md)
 - [Donate](Donate.md)
 
+[1.0]: http://nadekobot.readthedocs.io/en/latest/
 [img]: https://discordcdn.com/attachments/202743183774318593/210580315381563392/discord.png
 [NadekoBot Server]: https://discord.gg/0ehQwTK2RBjAxzEY
 [GitHub]: https://github.com/Kwoth/NadekoBot

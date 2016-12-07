@@ -1,5 +1,5 @@
 ________________________________________________________________________________
-*Thanks to @Flatbread and Mirai for making this guide*
+*Thanks to @Flatbread and Mirai for making this guide, plus Lucy for amending it for EOL*
 ________________________________________________________________________________
 
 ### Setting Up NadekoBot on Windows
@@ -13,16 +13,10 @@ ________________________________________________________________________________
 
 ####Guide 
 
-- Create a folder, name it `Nadeko`.
-- Head to [Updater Releases Page][Updater] and download `WINDOWS.-.nadeupdater.7z`.
-- Copy `WINDOWS.-.nadeupdater.7z` to the `Nadeko` (folder we created before) and extract everything.
-- You will see a file `NadekoUpdater.bat ` and a folder `publish ` after extraction.
-- Run/Launch/Open the file `NadekoUpdater.bat ` and you will see it running in cmd.exe asking you with **3 options** *1-3*.
-    - 1) Stable release - current stable release, but might not contain all the newest Nadeko updates.
-    - 2) Newest release - release with all features/upgrades.
-    - 3) Exit
-- Press `2` on your keyboard and hit `Enter`. Type `y` and hit `Enter` again. Downloading might take a while, so just be patient and wait. When download is done, press `3` on your keyboard and close the updater.
-- You should have a new folder named `NadekoBot` inside the `Nadeko` folder we previously created.
+- Create a folder, name it `NadekoBot`.
+- Head to the [Nadeko Releases Page][Releases] and download `NadekoBot.0.99.10.zip`.
+- Copy `NadekoBot.0.99.10.zip` to the `Nadeko` (folder we created before) and extract everything.
+- You should now see all of the Nadeko files extracted, including `NadekoBot.exe`
 
 ####Creating DiscordBot application
 - Go to [DiscordApp][DiscordApp].
@@ -53,8 +47,8 @@ ________________________________________________________________________________
 - Bot should be added to your server.
 
 ####Starting the bot
-- Enter your `NadekoBot` folder that should be (hopefully) in your `Nadeko` folder.
-- Run `NadekoBot.exe` (Note: There is `NadekoBot.exe` and `NadekoBot.exe.config`, dont run the second one)
+- Enter your `NadekoBot` folder.
+- Run `NadekoBot.exe` (Note: There is `NadekoBot.exe` and `NadekoBot.exe.config`, don't run the second one)
 - Your bot should now be online in the server we added him to.
 - Note: Your bot will be offline in case you close `NadekoBot.exe`.
 
@@ -66,11 +60,6 @@ ________________________________________________________________________________
 - Run `NadekoBot.exe` again.
 - Now you are the bot owner.
 - You can add `User IDs` from the other users by separating IDs with a comma if you want to have more owners.
-
-`*Alternatively, you can download nadekobot from` [Releases][Releases] `and extract the zip yourself. 
-That is what updater does, except it makes it easier for you to update because it doesn't overwrite 
-important files.If you are downloading releases you will have to be careful about your config, 
-credentials, and other files you edited in order to preserve your data every time you update.`
 
 ________________________________________________________________________________
 
