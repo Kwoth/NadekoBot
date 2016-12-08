@@ -6189,7 +6189,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to setlanguage setlang sl.
+        ///    Looks up a localized string similar to setlanguage setlang.
         /// </summary>
         public static string setlanguage_cmd {
             get {
@@ -6207,7 +6207,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to `{0}setlanguage en` or `{0}setlang en` or `{0}sl en`.
+        ///    Looks up a localized string similar to `{0}setlanguage en` or `{0}setlang en`.
         /// </summary>
         public static string setlanguage_usage {
             get {

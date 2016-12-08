@@ -2764,12 +2764,12 @@
     <value>`{0}type @someone`</value>
   </data>
   <data name="setlanguage_cmd" xml:space="preserve">
-    <value>setlanguage setlang sl</value>
+    <value>setlanguage setlang</value>
   </data>
   <data name="setlanguage_desc" xml:space="preserve">
     <value>Sets a custom language for a discord guild server.</value>
   </data>
   <data name="setlanguage_usage" xml:space="preserve">
-    <value>`{0}setlanguage en` or `{0}setlang en` or `{0}sl en`</value>
+    <value>`{0}setlanguage en` or `{0}setlang en`</value>
   </data>
 </root>
