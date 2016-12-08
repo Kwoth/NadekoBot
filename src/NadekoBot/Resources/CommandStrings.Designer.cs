@@ -6189,6 +6189,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to setlanguage setlang sl.
+        /// </summary>
+        public static string setlanguage_cmd {
+            get {
+                return ResourceManager.GetString("setlanguage_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sets a custom language for a discord guild server..
+        /// </summary>
+        public static string setlanguage_desc {
+            get {
+                return ResourceManager.GetString("setlanguage_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}setlanguage en` or `{0}setlang en` or `{0}sl en`.
+        /// </summary>
+        public static string setlanguage_usage {
+            get {
+                return ResourceManager.GetString("setlanguage_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to setmaxqueue smq.
         /// </summary>
         public static string setmaxqueue_cmd {

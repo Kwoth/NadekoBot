@@ -443,6 +443,7 @@ namespace NadekoBot.Migrations
                     AutoDeleteByeMessages = table.Column<bool>(nullable: false),
                     AutoDeleteGreetMessages = table.Column<bool>(nullable: false),
                     AutoDeleteGreetMessagesTimer = table.Column<int>(nullable: false),
+                    Language = table.Column<string>(nullable: false),
                     AutoDeleteSelfAssignedRoleMessages = table.Column<bool>(nullable: false),
                     ByeMessageChannelId = table.Column<ulong>(nullable: false),
                     ChannelByeMessageText = table.Column<string>(nullable: true),
