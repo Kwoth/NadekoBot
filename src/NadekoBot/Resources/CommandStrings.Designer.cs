@@ -6594,6 +6594,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to smugbomb.
+        /// </summary>
+        public static string smugbomb_cmd {
+            get {
+                return ResourceManager.GetString("smugbomb_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Fills the chat with smugness.
+        /// </summary>
+        public static string smugbomb_desc {
+            get {
+                return ResourceManager.GetString("smugbomb_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smugbomb 1-15`.
+        /// </summary>
+        public static string smugbomb_usage {
+            get {
+                return ResourceManager.GetString("smugbomb_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to softban sb.
         /// </summary>
         public static string softban_cmd {
