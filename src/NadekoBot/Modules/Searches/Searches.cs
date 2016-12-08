@@ -116,6 +116,17 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Smug(IUserMessage umsg)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            using (var http = new HttpClient())
+            {
+                await channel.SendMessageAsync("http://totallynotatunnel.org/smugfaces/" + await http.GetStringAsync("http://totallynotatunnel.org/smug.php").ConfigureAwait(false)).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task I(IUserMessage umsg, [Remainder] string query = null)
         {
             var channel = (ITextChannel)umsg.Channel;
