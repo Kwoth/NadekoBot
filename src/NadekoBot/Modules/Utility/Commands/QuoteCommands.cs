@@ -7,6 +7,7 @@ using NadekoBot.Services.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Utility
@@ -56,8 +57,16 @@ namespace NadekoBot.Modules.Utility
 
             if (quote == null)
                 return;
-
-            await channel.SendConfirmAsync("📣 " + quote.Text.SanitizeMentions());
+            var getUrl = "";
+            var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            foreach (Match m in linkParser.Matches(quote.Text.SanitizeMentions()))
+                getUrl = m.Value;
+            if (string.IsNullOrEmpty(getUrl))
+                await channel.SendConfirmAsync("📣 " + quote.Text.SanitizeMentions());
+            else
+            {
+                await channel.SendConfirmAsync("📣 " + quote.Text.SanitizeMentions(), getUrl);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

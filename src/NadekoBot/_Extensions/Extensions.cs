@@ -95,6 +95,9 @@ namespace NadekoBot.Extensions
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
              => ch.SendMessageAsync("", embed: new Embed() { Description = text, Color = NadekoBot.OkColor });
 
+        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text, string imgUrl)
+             => ch.SendMessageAsync("", embed: new Embed() { Description = text, Color = NadekoBot.OkColor, Image = new Discord.API.EmbedImage() { Url = imgUrl } });
+
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
         {
             var i = 0;
