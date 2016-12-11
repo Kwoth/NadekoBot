@@ -5,18 +5,19 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
-using System.Net;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
 using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
+using HtmlAgilityPack;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -102,6 +103,28 @@ namespace NadekoBot.Modules.Searches
                                     .ConfigureAwait(false);
             }
         }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Nebby(IUserMessage umsg)
+        {
+            HttpClient http = new HttpClient();
+            var channel = (ITextChannel)umsg.Channel;
+            var response = await http.GetByteArrayAsync("https://www.reddit.com/r/nebbyinthebag/random/");
+            string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
+            source = WebUtility.HtmlDecode(source);
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(source);
+
+            var link = doc.DocumentNode.Descendants("a").First(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
+            string hrefvalue = link.Attributes["href"].Value;
+            string validlink = WebUtility.HtmlDecode(hrefvalue);
+
+            await channel.SendMessageAsync(validlink);
+        }
+
+
+        
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]

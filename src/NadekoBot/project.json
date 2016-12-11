@@ -44,7 +44,8 @@
     "Newtonsoft.Json": "9.0.2-beta1",
     "NLog": "5.0.0-beta03",
     "System.Diagnostics.Contracts": "4.3.0",
-    "System.Xml.XPath": "4.3.0"
+    "System.Xml.XPath": "4.3.0",
+    "HtmlAgilityPack": "1.4.9.5"
   },
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",
