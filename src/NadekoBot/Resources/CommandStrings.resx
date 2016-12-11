@@ -2784,4 +2784,13 @@
   <data name="smugbomb_usage" xml:space="preserve">
     <value>`{0}smugbomb 1-15`</value>
   </data>
+  <data name="nebby_cmd" xml:space="preserve">
+    <value>nebby</value>
+  </data>
+  <data name="nebby_desc" xml:space="preserve">
+    <value>GET IN THE FUCKING BAG NEBBY</value>
+  </data>
+  <data name="nebby_usage" xml:space="preserve">
+    <value>`{0}nebby`</value>
+  </data>
 </root>

@@ -4434,6 +4434,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to nebby.
+        /// </summary>
+        public static string nebby_cmd {
+            get {
+                return ResourceManager.GetString("nebby_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to GET IN THE FUCKING BAG NEBBY.
+        /// </summary>
+        public static string nebby_desc {
+            get {
+                return ResourceManager.GetString("nebby_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}nebby`.
+        /// </summary>
+        public static string nebby_usage {
+            get {
+                return ResourceManager.GetString("nebby_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to next n.
         /// </summary>
         public static string next_cmd {

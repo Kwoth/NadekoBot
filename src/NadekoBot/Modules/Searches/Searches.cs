@@ -108,24 +108,35 @@ namespace NadekoBot.Modules.Searches
         [RequireContext(ContextType.Guild)]
         public async Task Nebby(IUserMessage umsg)
         {
-            HttpClient http = new HttpClient();
-            var channel = (ITextChannel)umsg.Channel;
-            var response = await http.GetByteArrayAsync("https://www.reddit.com/r/nebbyinthebag/random/");
-            string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
-            source = WebUtility.HtmlDecode(source);
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(source);
+            bool nebbyinbag = false;
+            do
+            {
+                HttpClient http = new HttpClient();
+                var channel = (ITextChannel)umsg.Channel;
+                var response = await http.GetByteArrayAsync("https://www.reddit.com/r/nebbyinthebag/random/");
+                string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
+                source = WebUtility.HtmlDecode(source);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(source);
+            
+                var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
 
-            var link = doc.DocumentNode.Descendants("a").First(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
-            string hrefvalue = link.Attributes["href"].Value;
-            string validlink = WebUtility.HtmlDecode(hrefvalue);
+                if (link != null)
+                {
+                    string hrefvalue = link.Attributes["href"].Value;
+                    string validlink = WebUtility.HtmlDecode(hrefvalue);
+                    await channel.SendMessageAsync(validlink);
+                    nebbyinbag = true;
+                }
 
-            await channel.SendMessageAsync(validlink);
+                else
+                {
+                    nebbyinbag = false;
+                }
+
+            } while (nebbyinbag != true);
         }
-
-
-        
-
+           
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IUserMessage umsg)
