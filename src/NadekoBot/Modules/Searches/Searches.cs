@@ -113,14 +113,14 @@ namespace NadekoBot.Modules.Searches
                 source = WebUtility.HtmlDecode(source);
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(source);
-            
+
                 var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
 
                 if (link != null)
                 {
                     string hrefvalue = link.Attributes["href"].Value;
-                    string validlink = WebUtility.HtmlDecode(hrefvalue);
-                    await channel.SendMessageAsync(validlink);
+                    hrefvalue = WebUtility.HtmlDecode(hrefvalue);
+                    await channel.SendMessageAsync(hrefvalue);
                     nebbyinbag = true;
                 }
 
@@ -131,7 +131,39 @@ namespace NadekoBot.Modules.Searches
 
             } while (nebbyinbag != true);
         }
-           
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Reddit(IUserMessage umsg, string subreddit)
+        {
+            bool reddit = false;
+
+            do
+            {
+                var http = new HttpClient();
+                var channel = (ITextChannel)umsg.Channel;
+                var response = await http.GetByteArrayAsync("https://www.reddit.com/r/" + subreddit + "/random");
+                string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
+                source = WebUtility.HtmlDecode(source);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(source);
+
+                var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
+
+                if (link != null)
+                {
+                    string hrefvalue = link.Attributes["href"].Value;
+                    hrefvalue = WebUtility.HtmlDecode(hrefvalue);
+                    await channel.SendMessageAsync(hrefvalue);
+                    reddit = true;
+
+                }
+                else
+                    reddit = false;
+
+            } while (reddit != true);
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IUserMessage umsg)
@@ -287,7 +319,7 @@ namespace NadekoBot.Modules.Searches
         public async Task Google(IUserMessage umsg, [Remainder] string terms = null)
         {
             var channel = (ITextChannel)umsg.Channel;
-            
+
             terms = terms?.Trim();
             if (string.IsNullOrWhiteSpace(terms))
                 return;
@@ -333,7 +365,7 @@ namespace NadekoBot.Modules.Searches
                                     .AddField(efb => efb.WithName("Store Url").WithValue(storeUrl).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Cost").WithValue(cost).WithIsInline(true))
                                     .AddField(efb => efb.WithName("Types").WithValue(types).WithIsInline(true));
-                                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
+                    //.AddField(efb => efb.WithName("Store Url").WithValue(await NadekoBot.Google.ShortenUrl(items[0]["store_url"].ToString())).WithIsInline(true));
 
                     await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
                 }
@@ -682,7 +714,7 @@ namespace NadekoBot.Modules.Searches
                 return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
-        
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)

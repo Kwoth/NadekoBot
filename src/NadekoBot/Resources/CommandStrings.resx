@@ -2775,4 +2775,13 @@
   <data name="nebby_usage" xml:space="preserve">
     <value>`{0}nebby`</value>
   </data>
+  <data name="reddit_cmd" xml:space="preserve">
+    <value>reddit</value>
+  </data>
+  <data name="reddit_desc" xml:space="preserve">
+    <value>Loads image from random post from specified subreddit</value>
+  </data>
+  <data name="reddit_usage" xml:space="preserve">
+    <value>{0}reddit subreddit</value>
+  </data>
 </root>
