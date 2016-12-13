@@ -137,31 +137,47 @@ namespace NadekoBot.Modules.Searches
         public async Task Reddit(IUserMessage umsg, string subreddit)
         {
             bool reddit = false;
-
+            int i = 5;
             do
             {
                 var http = new HttpClient();
                 var channel = (ITextChannel)umsg.Channel;
-                var response = await http.GetByteArrayAsync("https://www.reddit.com/r/" + subreddit + "/random");
-                string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
-                source = WebUtility.HtmlDecode(source);
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(source);
+                var response = await http.GetAsync("https://www.reddit.com/r/" + subreddit + "/random");
+                if(response.IsSuccessStatusCode) //If not presented with a 404 
+                { 
+                    string source = await response.Content.ReadAsStringAsync();
+                    source = WebUtility.HtmlDecode(source);
+                    HtmlDocument doc = new HtmlDocument();
+                    doc.LoadHtml(source);
+                    i--;
+                    var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
 
-                var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
+                    if (link != null) //if an image exists 
+                    {
+                        string hrefvalue = link.Attributes["href"].Value;
+                        hrefvalue = WebUtility.HtmlDecode(hrefvalue);
+                        await channel.SendMessageAsync(hrefvalue);
+                        reddit = true;
 
-                if (link != null)
-                {
-                    string hrefvalue = link.Attributes["href"].Value;
-                    hrefvalue = WebUtility.HtmlDecode(hrefvalue);
-                    await channel.SendMessageAsync(hrefvalue);
-                    reddit = true;
+                    }
+                    else
+                        reddit = false;
 
+                    if (i <= 0) 
+                    {
+                        await channel.SendMessageAsync("Error: Double check the sub");
+                        reddit = true;
+
+                    }
                 }
                 else
-                    reddit = false;
-
+                {
+                    await channel.SendMessageAsync("Error: Check the sub exists");
+                    reddit = true;
+                }
+                
             } while (reddit != true);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
