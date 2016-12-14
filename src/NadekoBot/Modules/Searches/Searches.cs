@@ -23,6 +23,11 @@ namespace NadekoBot.Modules.Searches
     [NadekoModule("Searches", "~")]
     public partial class Searches : DiscordModule
     {
+        public enum BFGame
+        {
+            Bf3, Bf4
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Weather(IUserMessage umsg, string city, string country)
@@ -611,7 +616,85 @@ namespace NadekoBot.Modules.Searches
                 return "http:" + matches[rng.Next(0, matches.Count)].Groups["url"].Value;
             }
         }
-        
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task BFU(IUserMessage umsg, string platform, BFGame game, [Remainder] string query = null)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            if (string.IsNullOrWhiteSpace(platform) || string.IsNullOrWhiteSpace(query))
+            {
+                await channel.SendErrorAsync($@"Enter a *platform*
+- [**BF3**: `pc`, `360` or `ps3`]
+- [**BF4**: `pc`, `xbox`, `ps3`, `xone`, `ps4`]
+
+Enter a *game*
+- `bf3`
+- `bf4`
+
+Followed by a *player search* to find information about that player.").ConfigureAwait(false);
+                return;
+            }
+            await umsg.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            using (var http = new HttpClient())
+            {
+                try
+                {
+                    if (game == BFGame.Bf3)
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf3stats.com/{Uri.EscapeUriString(platform)}/player/player={Uri.EscapeUriString(query)}&opt=all").ConfigureAwait(false);
+                        var data = JsonConvert.DeserializeObject<BF3ApiModel>(res);
+                        var embed = new EmbedBuilder()
+                                        .WithTitle($"[{platform.ToUpper()}] Battlefield 3 Profile")
+                                        .WithAuthor(x => x.WithName(data.name).WithIconUrl(BF3ApiModel.imgURL + data.country_img))
+                                        .WithUrl($"http://bf3stats.com/stats_{platform}/{data.name}")
+                                        .WithColor(NadekoBot.OkColor)
+                                        .WithThumbnail(x => x.WithUrl(BF3ApiModel.imgURL + data.stats.rank.img_small))
+                                        .AddField(x => x.WithName("🔖 **__Dogtags__**").WithValue($"**{data.dogtags.basic.name}** \n**{data.dogtags.advanced.name}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("💯 **__Rank / Score__**").WithValue($"**{data.stats.rank.name}** \n**{data.stats.rank.score}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("💀 **__Kill / Death__**").WithValue($"**{data.stats.global.kills}** / **{data.stats.global.deaths}** \n`K/D`: {Math.Round(((double)data.stats.global.kills / (double)data.stats.global.deaths), 2)}").WithIsInline(true))
+                                        .AddField(x => x.WithName("💪 **__Win / Loss__**").WithValue($"**{data.stats.global.wins}** / **{data.stats.global.losses}** \n`W/L`: {Math.Round(((double)data.stats.global.wins / (double)data.stats.global.losses), 2)}").WithIsInline(true))
+                                        .AddField(x => x.WithName("🔫 **__Accuracy %__**").WithValue($"**{Math.Round(((double)data.stats.global.hits / (double)data.stats.global.shots), 2)}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("🎓 **__ELO__**").WithValue($"**{(double)data.stats.global.elo}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("🌎 **__US__**").WithValue($"`Killed`: **{data.stats.teams.RU.kills}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("🌎 **__RU__**").WithValue($"`Killed`: **{data.stats.teams.US.kills}**").WithIsInline(true));
+                        await channel.EmbedAsync(embed.Build());
+                    } else if (game == BFGame.Bf4)
+                    {
+                        var res = await http.GetStringAsync($"http://api.bf4stats.com/api/playerInfo?plat={Uri.EscapeUriString(platform)}&name={Uri.EscapeUriString(query)}&output=json").ConfigureAwait(false);
+                        var data = JsonConvert.DeserializeObject<BF4ApiModel>(res);
+                        var embed = new EmbedBuilder()
+                                        .WithTitle($"[{platform.ToUpper()}] Battlefield 4 Profile")
+                                        .WithAuthor(x => x.WithName(data.player.name).WithIconUrl(BF4ApiModel.countryImgUrl + data.player.country + ".png"))
+                                        .WithUrl(data.player.blUser)
+                                        .WithColor(NadekoBot.OkColor)
+                                        .WithThumbnail(x => x.WithUrl(BF4ApiModel.rankImgUrl + data.player.rank.imgLarge))
+                                        .AddField(x => x.WithName("🔖 **__Dogtags__**").WithValue($"**{data.dogtags.basic.name}** \n**{data.dogtags.advanced.name}**"))
+                                        .AddField(x => x.WithName("💯 **__Rank__**").WithValue($"**{data.player.rank.name}** ({data.stats.rank})").WithIsInline(true))
+                                        .AddField(x => x.WithName("💀 **__Kill / Death__**").WithValue($"**{data.stats.kills}** / **{data.stats.deaths}** \n`K/D`: {Math.Round(data.stats.extra.kdr, 2)}").WithIsInline(true))
+                                        .AddField(x => x.WithName("💪 **__Win / Loss__**").WithValue($"**{data.stats.numWins}** / **{data.stats.numLosses}** \n`W/L`: {Math.Round(data.stats.extra.wlr, 2)}").WithIsInline(true))
+                                        .AddField(x => x.WithName("🔫 **__Accuracy %__**").WithValue($"**{Math.Round(data.stats.extra.accuracy, 2)}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("🎓 **__Statistics__**").WithValue($"`ELO`: **{data.stats.elo}** \n`Skill`: **{data.stats.skill}** \n`Longest Headshot`: **{data.stats.longestHeadshot}m** \n`Best Streak`: **{data.stats.bestStreak}**").WithIsInline(true))
+                                        .AddField(x => x.WithName("🌎 **__Score Per Minute__**").WithValue($"`General`: **{Math.Round(data.stats.extra.gspm, 2)}** \n`Kills`: **{Math.Round(data.stats.extra.kpm, 2)}** \n`Vechicles`: **{Math.Round(data.stats.extra.vehKpm, 2)}** \n`Weapons`: **{Math.Round(data.stats.extra.weaKpm, 2)}**").WithIsInline(true));
+                        await channel.EmbedAsync(embed.Build());
+                    }
+                }
+                catch
+                {
+                    await channel.SendErrorAsync($@"Enter a *platform*
+- [**BF3**: `pc`, `360` or `ps3`]
+- [**BF4**: `pc`, `xbox`, `ps3`, `xone`, `ps4`]
+
+Enter a *game*
+- `bf3`
+- `bf4`
+
+Followed by a *player search* to find information about that player.").ConfigureAwait(false);
+                    return;
+                }
+            }
+        }
+
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Wikia(IUserMessage umsg, string target, [Remainder] string query = null)

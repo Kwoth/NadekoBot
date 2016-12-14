@@ -789,6 +789,41 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to bfu bfuser.
+        /// </summary>
+        public static string bfu_cmd {
+            get {
+                return ResourceManager.GetString("bfu_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Enter a *platform*
+        ///- [**BF3**: `pc`, `360` or `ps3`]
+        ///- [**BF4**: `pc`, `xbox`, `ps3`, `xone`, `ps4`]
+        ///
+        ///Enter a *game*
+        ///- `bf3`
+        ///- `bf4`
+        ///
+        ///Followed by a *player search* to find information about that player..
+        /// </summary>
+        public static string bfu_desc {
+            get {
+                return ResourceManager.GetString("bfu_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}bfu xbox bf4 alex12002` or `{0}bfuser 360 bf3 EsTiAge`.
+        /// </summary>
+        public static string bfu_usage {
+            get {
+                return ResourceManager.GetString("bfu_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to boobs.
         /// </summary>
         public static string boobs_cmd {

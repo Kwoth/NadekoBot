@@ -2745,4 +2745,21 @@
   <data name="type_usage" xml:space="preserve">
     <value>`{0}type @someone`</value>
   </data>
+  <data name="bfu_cmd" xml:space="preserve">
+    <value>bfu bfuser</value>
+  </data>
+  <data name="bfu_desc" xml:space="preserve">
+    <value>Enter a *platform*
+- [**BF3**: `pc`, `360` or `ps3`]
+- [**BF4**: `pc`, `xbox`, `ps3`, `xone`, `ps4`]
+
+Enter a *game*
+- `bf3`
+- `bf4`
+
+Followed by a *player search* to find information about that player.</value>
+  </data>
+  <data name="bfu_usage" xml:space="preserve">
+    <value>`{0}bfu xbox bf4 alex12002` or `{0}bfuser 360 bf3 EsTiAge`</value>
+  </data>
 </root>
