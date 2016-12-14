@@ -324,6 +324,8 @@ namespace NadekoBot.Migrations
 
                     b.Property<int>("AutoDeleteByeMessagesTimer");
 
+                    b.Property<string>("Language");
+
                     b.Property<bool>("AutoDeleteGreetMessages");
 
                     b.Property<int>("AutoDeleteGreetMessagesTimer");
