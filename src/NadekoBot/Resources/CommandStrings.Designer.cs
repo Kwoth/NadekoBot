@@ -6513,6 +6513,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to smug.
+        /// </summary>
+        public static string smug_cmd {
+            get {
+                return ResourceManager.GetString("smug_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows a random smug anime girl face.
+        /// </summary>
+        public static string smug_desc {
+            get {
+                return ResourceManager.GetString("smug_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}smug`.
+        /// </summary>
+        public static string smug_usage {
+            get {
+                return ResourceManager.GetString("smug_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to softban sb.
         /// </summary>
         public static string softban_cmd {
@@ -6779,6 +6806,15 @@ namespace NadekoBot.Resources {
         public static string stop_usage {
             get {
                 return ResourceManager.GetString("stop_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         
