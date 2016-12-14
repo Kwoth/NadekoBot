@@ -2745,4 +2745,34 @@
   <data name="type_usage" xml:space="preserve">
     <value>`{0}type @someone`</value>
   </data>
+  <data name="smug_cmd" xml:space="preserve">
+    <value>smug</value>
+  </data>
+  <data name="smug_desc" xml:space="preserve">
+    <value>Shows a random smug anime girl face</value>
+  </data>
+  <data name="smug_usage" xml:space="preserve">
+    <value>`{0}smug`</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="smugbomb_cmd" xml:space="preserve">
+    <value>smugbomb</value>
+  </data>
+  <data name="smugbomb_desc" xml:space="preserve">
+    <value>Fills the chat with smugness</value>
+  </data>
+  <data name="smugbomb_usage" xml:space="preserve">
+    <value>`{0}smugbomb 1-15`</value>
+  </data>
+  <data name="nebby_cmd" xml:space="preserve">
+    <value>nebby</value>
+  </data>
+  <data name="nebby_desc" xml:space="preserve">
+    <value>GET IN THE FUCKING BAG NEBBY</value>
+  </data>
+  <data name="nebby_usage" xml:space="preserve">
+    <value>`{0}nebby`</value>
+  </data>
 </root>

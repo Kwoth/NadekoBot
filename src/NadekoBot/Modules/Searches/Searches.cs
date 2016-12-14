@@ -5,18 +5,19 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Net.Http;
 using NadekoBot.Services;
 using System.Threading.Tasks;
 using NadekoBot.Attributes;
 using System.Text.RegularExpressions;
-using System.Net;
 using NadekoBot.Modules.Searches.Models;
 using System.Collections.Generic;
 using ImageSharp;
 using NadekoBot.Extensions;
 using System.IO;
 using NadekoBot.Modules.Searches.Commands.OMDB;
+using HtmlAgilityPack;
 
 namespace NadekoBot.Modules.Searches
 {
@@ -100,6 +101,39 @@ namespace NadekoBot.Modules.Searches
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task Nebby(IUserMessage umsg)
+        {
+            bool nebbyinbag = false;
+            do
+            {
+                HttpClient http = new HttpClient();
+                var channel = (ITextChannel)umsg.Channel;
+                var response = await http.GetByteArrayAsync("https://www.reddit.com/r/nebbyinthebag/random/");
+                string source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
+                source = WebUtility.HtmlDecode(source);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(source);
+            
+                var link = doc.DocumentNode.Descendants("a").FirstOrDefault(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "may-blank");
+
+                if (link != null)
+                {
+                    string hrefvalue = link.Attributes["href"].Value;
+                    string validlink = WebUtility.HtmlDecode(hrefvalue);
+                    await channel.SendMessageAsync(validlink);
+                    nebbyinbag = true;
+                }
+
+                else
+                {
+                    nebbyinbag = false;
+                }
+
+            } while (nebbyinbag != true);
+        }
+           
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task RandomDog(IUserMessage umsg)
         {
             var channel = (ITextChannel)umsg.Channel;
@@ -107,6 +141,43 @@ namespace NadekoBot.Modules.Searches
             {
                 await channel.SendMessageAsync("http://random.dog/" + await http.GetStringAsync("http://random.dog/woof")
                              .ConfigureAwait(false)).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Smug(IUserMessage umsg)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            using (var http = new HttpClient())
+            {
+                await channel.SendMessageAsync("http://totallynotatunnel.org/smugfaces/" + await http.GetStringAsync("http://totallynotatunnel.org/smug.php").ConfigureAwait(false)).ConfigureAwait(false);
+            }
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Smugbomb(IUserMessage umsg, int value = 0)
+        {
+            var channel = (ITextChannel)umsg.Channel;
+            using (var http = new HttpClient())
+            {
+                if (value <= 0)
+                {
+                    await channel.SendMessageAsync("Enter level of smug");
+                }
+
+                if (value <= 15)
+                {
+                    for (int i = 0; i < value; i++)
+                    {
+                        await channel.SendMessageAsync("http://totallynotatunnel.org/smugfaces/" + await http.GetStringAsync("http://totallynotatunnel.org/smug.php").ConfigureAwait(false)).ConfigureAwait(false);
+                    }
+                }
+                else
+                {
+                    await channel.SendMessageAsync("Max smug level of 15");
+                }
             }
         }
 
