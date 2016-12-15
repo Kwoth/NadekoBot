@@ -202,7 +202,7 @@
     <value>byemsg</value>
   </data>
   <data name="byemsg_desc" xml:space="preserve">
-    <value>Sets a new leave announcement message. Type %user% if you want to mention the new member. Using it with no message will show the current bye message.</value>
+    <value>Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message.</value>
   </data>
   <data name="byemsg_usage" xml:space="preserve">
     <value>`{0}byemsg %user% has left.`</value>
@@ -790,7 +790,7 @@
     <value>Sends a message to you or a channel after certain amount of time. First argument is me/here/'channelname'. Second argument is time in a descending order (mo&gt;w&gt;d&gt;h&gt;m) example: 1w5d3h10m. Third argument is a (multiword)message.</value>
   </data>
   <data name="remind_usage" xml:space="preserve">
-    <value>`{0}remind me 1d5h Do something` or `{0}remind #general Start now!`</value>
+    <value>`{0}remind me 1d5h Do something` or `{0}remind #general 1m Start now!`</value>
   </data>
   <data name="remindtemplate_cmd" xml:space="preserve">
     <value>remindtemplate</value>
@@ -1660,10 +1660,10 @@
     <value>load</value>
   </data>
   <data name="load_desc" xml:space="preserve">
-    <value>Loads a playlist under a certain name.</value>
+    <value>Loads a saved playlist using it's ID. Use `{0}pls` to list all saved playlists and {0}save to save new ones.</value>
   </data>
   <data name="load_usage" xml:space="preserve">
-    <value>`{0}load classical-1`</value>
+    <value>`{0}load 5`</value>
   </data>
   <data name="playlists_cmd" xml:space="preserve">
     <value>playlists pls</value>
@@ -2673,24 +2673,6 @@
   <data name="wikia_usage" xml:space="preserve">
     <value>`{0}wikia mtg Vigilance` or `{0}wikia mlp Dashy`</value>
   </data>
-  <data name="bfo_cmd" xml:space="preserve">
-    <value>bfonline bfo</value>
-  </data>
-  <data name="bfo_desc" xml:space="preserve">
-    <value>Gives you online players for BF3 and BF4</value>
-  </data>
-  <data name="bfo_usage" xml:space="preserve">
-    <value>`{0}bfo bf3` or `{0}bfo bf4`</value>
-  </data>
-  <data name="bfu_cmd" xml:space="preserve">
-    <value>bfuser bfu</value>
-  </data>
-  <data name="bfu_desc" xml:space="preserve">
-    <value>Gives you back a battlefield user's stats.</value>
-  </data>
-  <data name="bfu_usage" xml:space="preserve">
-    <value>`{0}bfu platform game user`</value>
-  </data>
   <data name="yandere_cmd" xml:space="preserve">
     <value>yandere</value>
   </data>
@@ -2709,13 +2691,103 @@
   <data name="magicthegathering_usage" xml:space="preserve">
     <value>`{0}magicthegathering about face` or `{0}mtg about face`</value>
   </data>
-  <data name="overwatch_cmd" xml:space="preserve">
+  <data name="yodify_cmd" xml:space="preserve">
+    <value>yodify yoda</value>
+  </data>
+  <data name="yodify_desc" xml:space="preserve">
+    <value>Translates your normal sentences into Yoda styled sentences!</value>
+  </data>
+  <data name="yodify_usage" xml:space="preserve">
+    <value>{0}yodify I was once an adventurer like you` or `{0}yoda my feelings hurt`</value>
+  </data>
+  <data name="attack_cmd" xml:space="preserve">
+    <value>attack</value>
+  </data>
+  <data name="attack_desc" xml:space="preserve">
+    <value>Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.</value>
+  </data>
+  <data name="attack_usage" xml:space="preserve">
+    <value>`{0}attack "vine whip" @someguy`</value>
+  </data>
+  <data name="heal_cmd" xml:space="preserve">
+    <value>heal</value>
+  </data>
+  <data name="heal_desc" xml:space="preserve">
+    <value>Heals someone. Revives those who fainted. Costs a NadekoFlower</value>
+  </data>
+  <data name="heal_usage" xml:space="preserve">
+    <value>`{0}heal @someone`</value>
+  </data>
+  <data name="movelist_cmd" xml:space="preserve">
+    <value>movelist ml</value>
+  </data>
+  <data name="movelist_desc" xml:space="preserve">
+    <value>Lists the moves you are able to use</value>
+  </data>
+  <data name="movelist_usage" xml:space="preserve">
+    <value>`{0}ml`</value>
+  </data>
+  <data name="settype_cmd" xml:space="preserve">
+    <value>settype</value>
+  </data>
+  <data name="settype_desc" xml:space="preserve">
+    <value>Set your poketype. Costs a NadekoFlower. Provide no arguments to see a list of available types.</value>
+  </data>
+  <data name="settype_usage" xml:space="preserve">
+    <value>`{0}settype fire` or `{0}settype`</value>
+  </data>
+  <data name="type_cmd" xml:space="preserve">
+    <value>type</value>
+  </data>
+  <data name="type_desc" xml:space="preserve">
+    <value>Get the poketype of the target.</value>
+  </data>
+  <data name="type_usage" xml:space="preserve">
+    <value>`{0}type @someone`</value>
+  </data>
+  <data name="hangmanlist_cmd" xml:space="preserve">
+    <value>hangmanlist</value>
+  </data>
+  <data name="hangmanlist_desc" xml:space="preserve">
+    <value>Shows a list of hangman term types.</value>
+  </data>
+  <data name="hangmanlist_usage" xml:space="preserve">
+    <value>`{0} hangmanlist`</value>
+  </data>
+  <data name="hangman_cmd" xml:space="preserve">
+    <value>hangman</value>
+  </data>
+  <data name="hangman_desc" xml:space="preserve">
+    <value>Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to 'all'.</value>
+  </data>
+  <data name="hangman_usage" xml:space="preserve">
+    <value>`{0}hangman` or `{0}hangman movies`</value>
+  </data>
+  <data name="crstatsclear_cmd" xml:space="preserve">
+    <value>crstatsclear</value>
+  </data>
+  <data name="crstatsclear_desc" xml:space="preserve">
+    <value>Resets the counters on `{0}crstats`. You can specify a trigger to clear stats only for that trigger.</value>
+  </data>
+  <data name="crstatsclear_usage" xml:space="preserve">
+    <value>`{0}crstatsclear` or `{0}crstatsclear rng`</value>
+  </data>
+  <data name="crstats_cmd" xml:space="preserve">
+    <value>crstats</value>
+  </data>
+  <data name="crstats_desc" xml:space="preserve">
+    <value>Shows a list of custom reactions and the number of times they have been executed. Paginated with 10 per page. Use `{0}crstatsclear` to reset the counters.</value>
+  </data>
+  <data name="crstats_usage" xml:space="preserve">
+    <value>`{0}crstats` or `{0}crstats 3`</value>
+  </data>
+    <data name="overwatch_cmd" xml:space="preserve">
     <value>overwatch ow</value>
   </data>
   <data name="overwatch_desc" xml:space="preserve">
     <value>Show's basic stats on a player (competitive rank, playtime, level etc) Region codes are: `eu` `us` `cn` `kr`</value>
   </data>
   <data name="overwatch_usage" xml:space="preserve">
-    <value>`{0}ow us Battletag#1337` or  `{0}overwatch EU Battletag#2016`</value>
+    <value>`{0}ow us Battletag#1337` or  `{0}overwatch eu Battletag#2016`</value>
   </data>
 </root>
