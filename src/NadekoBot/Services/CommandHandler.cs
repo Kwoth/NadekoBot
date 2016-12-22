@@ -169,6 +169,9 @@ namespace NadekoBot.Services
                     }
                     else if (!result.IsSuccess && result.Error != CommandError.UnknownCommand)
                     {
+                        await channel.SendErrorAsync($@"**Server**: {(channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]")}
+**Channel**: {(channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]")}
+**Message**: {usrMsg.Content}", $"**__Error__**: {result.ErrorReason}", null).ConfigureAwait(false);
                         _log.Warn("Command Errored after {5}s\n\t" +
                                     "User: {0}\n\t" +
                                     "Server: {1}\n\t" +
