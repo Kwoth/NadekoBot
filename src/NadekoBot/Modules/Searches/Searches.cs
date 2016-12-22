@@ -34,18 +34,18 @@ namespace NadekoBot.Modules.Searches
             using (var http = new HttpClient())
                 response = await http.GetStringAsync($"http://api.ninetales.us/nadekobot/weather/?city={city}&country={country}").ConfigureAwait(false);
 
-            var obj = JObject.Parse(response)["weather"];
-
+            var obj = JsonConvert.DeserializeObject<WeatherApiModel>(response);
+            var model = obj.weather;
             var embed = new EmbedBuilder()
-                .AddField(fb => fb.WithName("🌍 **Location**").WithValue($"{obj["target"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{obj["latitude"]}, {obj["longitude"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("☁ **Condition**").WithValue($"{obj["condition"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{obj["humidity"]}%").WithIsInline(true))
-                .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue($"{obj["windspeedk"]}km/h ({obj["windspeedm"]}mph)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue($"{obj["centigrade"]}°C ({obj["fahrenheit"]}°F)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🔆 **Feels like**").WithValue($"{obj["feelscentigrade"]}°C ({obj["feelsfahrenheit"]}°F)").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌄 **Sunrise**").WithValue($"{obj["sunrise"]}").WithIsInline(true))
-                .AddField(fb => fb.WithName("🌇 **Sunset**").WithValue($"{obj["sunset"]}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌍 **Location**").WithValue($"{model.target}").WithIsInline(true))
+                .AddField(fb => fb.WithName("📏 **Lat,Long**").WithValue($"{model.latitude}, {model.longitude}").WithIsInline(true))
+                .AddField(fb => fb.WithName("☁ **Condition**").WithValue($"{model.condition}").WithIsInline(true))
+                .AddField(fb => fb.WithName("😓 **Humidity**").WithValue($"{model.humidity}%").WithIsInline(true))
+                .AddField(fb => fb.WithName("💨 **Wind Speed**").WithValue($"{model.windspeedk}km/h ({model.windspeedm}mph)").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌡 **Temperature**").WithValue($"{model.centigrade}°C ({model.fahrenheit}°F)").WithIsInline(true))
+                .AddField(fb => fb.WithName("🔆 **Feels like**").WithValue($"{model.feelscentigrade}°C ({model.feelsfahrenheit}°F)").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌄 **Sunrise**").WithValue($"{model.sunrise}").WithIsInline(true))
+                .AddField(fb => fb.WithName("🌇 **Sunset**").WithValue($"{model.sunset}").WithIsInline(true))
                 .WithColor(NadekoBot.OkColor);
             await channel.EmbedAsync(embed.Build()).ConfigureAwait(false);
         }
