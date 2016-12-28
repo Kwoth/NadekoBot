@@ -673,7 +673,15 @@ namespace NadekoBot.Modules.Searches
                 await channel.SendErrorAsync("Invalid user specified.").ConfigureAwait(false);
                 return;
             }
-            await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+            
+            if (usr.AvatarId.Substring(0, 2) == "a_")
+            {
+                await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl("https://images.discordapp.net/avatars/" + usr.Id + "/" + usr.AvatarId + ".gif").ConfigureAwait(false)).ConfigureAwait(false);
+            }
+            else
+            {
+                await channel.SendMessageAsync(await NadekoBot.Google.ShortenUrl(usr.AvatarUrl).ConfigureAwait(false)).ConfigureAwait(false);
+            }
         }
 
         [NadekoCommand, Usage, Description, Aliases]
