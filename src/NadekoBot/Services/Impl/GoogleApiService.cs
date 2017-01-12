@@ -51,7 +51,7 @@ namespace NadekoBot.Services.Impl
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
 
-        private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
+        private readonly Regex YtVideoIdRegex = new Regex(@"(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=([^&\n]+)|youtu\.be/([a-zA-Z\d_-]+))", RegexOptions.Compiled);
 
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
