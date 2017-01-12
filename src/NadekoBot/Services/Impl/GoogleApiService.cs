@@ -38,7 +38,9 @@ namespace NadekoBot.Services.Impl
             if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            var match = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)").Match(keywords);
+// a bit extra here so it accepts malformed playlist URL's. may throw error because it's expecting the contents after the ?list here, but we are allowing a full regex. although you get some boilerplate warnings, everything loads very quickly and properly.
+            
+            var match = new Regex(@"^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&list=(\S+))?$").Match(keywords);
             if (match.Length > 1)
             {
                 return new[] { match.Groups["id"].Value.ToString() };
@@ -50,6 +52,7 @@ namespace NadekoBot.Services.Impl
 
             return (await query.ExecuteAsync()).Items.Select(i => i.Id.PlaylistId);
         }
+//proper regex that returns correct video IDs for normal youtube links every time
 
         private readonly Regex YtVideoIdRegex = new Regex(@"(?:https?://)?(?:www\.)?(?:youtube\.com/watch\?v=([^&\n]+)|youtu\.be/([a-zA-Z\d_-]+))", RegexOptions.Compiled);
 
