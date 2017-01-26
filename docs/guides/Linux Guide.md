@@ -12,6 +12,12 @@ Assuming you have followed the link above to setup an account and Droplet with 6
 - Download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html)
 - Download [CyberDuck](https://cyberduck.io) or [WinSCP](https://winscp.net/eng/download.php)
 
+### If you are running Ubuntu 14.04LTS, 16.04LTS, or 16.10, there's an easy installer for you!
+Simply run one of these three commands representing your version of Ubuntu!
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/master/Nadeko-AutoInstall-Ubuntu-14.04LTS.sh && bash Nadeko-AutoInstall-Ubuntu-14.04LTS.sh`
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/master/Nadeko-AutoInstall-Ubuntu-16.04LTS.sh && bash Nadeko-AutoInstall-Ubuntu-16.04LTS.sh`
+`cd ~ && wget -N https://github.com/Kwoth/NadekoBot-BashScript/raw/master/Nadeko-AutoInstall-Ubuntu-16.10.sh && bash Nadeko-AutoInstall-Ubuntu-16.10LTS.sh`
+
 #### Follow these steps
 
 - **Open PuTTY.exe** that you downloaded before, and paste or enter your `IP address` and then click **Open**.
