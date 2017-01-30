@@ -1,5 +1,5 @@
 @ECHO off
-TITLE Downloading NadekoBot, please wait...
+TITLE Downloading Stable Build of NadekoBot, please wait...
 ::Setting convenient to read variables which don't delete the windows temp folder
 SET root=%~dp0
 CD /D %root%
