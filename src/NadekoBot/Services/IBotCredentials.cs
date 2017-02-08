@@ -9,6 +9,7 @@ namespace NadekoBot.Services
 
         string Token { get; }
         string GoogleApiKey { get; }
+        string BlizzardApiKey { get; }
         ulong[] OwnerIds { get; }
         string MashapeKey { get; }
         string LoLApiKey { get; }
