@@ -91,6 +91,7 @@ namespace NadekoBot.Modules.Music.Classes
                            await Task.Delay(100, cancelToken);
                    }
                    BufferingCompleted = true;
+                   Console.WriteLine($"Buffering {SongInfo.Title}...");
                }
                catch (System.ComponentModel.Win32Exception)
                {

@@ -14,7 +14,6 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace NadekoBot.Modules.Music
@@ -47,7 +46,6 @@ namespace NadekoBot.Modules.Music
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
                 return Task.CompletedTask;
-
             try
             {
 
@@ -84,13 +82,28 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Next(int skipCount = 1)
+        //public Task Next(int skipCount = 1)
+        public async Task Next(int skipCount = 1)
         {
             if (skipCount < 1)
-                return Task.CompletedTask;
+                //return Task.CompletedTask;
+                return;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
+
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    musicPlayer.Next();
+                    return;
+                }
+            }
+
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
             {
                 while (--skipCount > 0)
@@ -99,7 +112,15 @@ namespace NadekoBot.Modules.Music
                 }
                 musicPlayer.Next();
             }
-            return Task.CompletedTask;
+            
+            if (musicPlayer.Playlist.Count == 0)
+            {
+                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
+                if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                    if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+                        musicPlayer.Destroy();
+            }
+            return; //Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -108,11 +129,23 @@ namespace NadekoBot.Modules.Music
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            var song = musicPlayer.CurrentSong; ///toggle ap before destroying
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    musicPlayer.ToggleAutoplay();
+                }
+            }
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))  
+            musicPlayer.Destroy();
+            /*if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
-            }
+            }*/
+            
             return Task.CompletedTask;
         }
 
@@ -122,6 +155,14 @@ namespace NadekoBot.Modules.Music
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    musicPlayer.ToggleAutoplay();
+                }
+            }
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
@@ -214,7 +255,7 @@ namespace NadekoBot.Modules.Music
                 var desc = string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
                         .Take(itemsPerPage)
-                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+                        .Select(v => $"**{++number}.** {v.PrettyFullName}"));
 
                 if (currentSong != null)
                     desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
@@ -540,8 +581,7 @@ namespace NadekoBot.Modules.Music
             playlist.RemoveAt(nn1);
 
             var embed = new EmbedBuilder()
-                .WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
-            .WithUrl($"{s.SongInfo.Query}")
+                .WithDescription(s.PrettyName)
             .WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
             .AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
             .AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
@@ -846,7 +886,6 @@ namespace NadekoBot.Modules.Music
                                                   .WithDescription(song.PrettyName)
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
-
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
@@ -855,8 +894,13 @@ namespace NadekoBot.Modules.Music
                                 textCh, 
                                 voiceCh, 
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                                silent, 
+                                true,
                                 musicType).ConfigureAwait(false);
+                        }
+                        else if (mp.Playlist.Count == 0)
+                        {
+                                if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
+                                    mp.Destroy(); ///need to destroy like stop and next.
                         }
                     }
                     catch { }
@@ -887,10 +931,13 @@ namespace NadekoBot.Modules.Music
                     {
                         IUserMessage msg;
                         if (paused)
-                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                        {
+                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                        }
                         else
-                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-
+                        {
+                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                        }
                         if (msg != null)
                             msg.DeleteAfter(10);
                     }

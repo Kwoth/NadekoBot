@@ -143,16 +143,22 @@ namespace NadekoBot.Modules.Music.Classes
                         if (index != -1)
                             RemoveSongAt(index, true);
 
+                        if (audioClient != null)
+                            try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                        await Task.Delay(100).ConfigureAwait(false);
+                        audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         OnStarted(this, CurrentSong);
-                        try
+                        await CurrentSong.Play(audioClient, cancelToken);
+
+                        OnCompleted(this, CurrentSong);
+                        /*try
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
-                        catch(OperationCanceledException)
+                        catch (OperationCanceledException)
                         {
                             OnCompleted(this, CurrentSong);
-                        }
-                        
+                        }*/
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
@@ -160,6 +166,10 @@ namespace NadekoBot.Modules.Music.Classes
                         if (RepeatSong)
                             AddSong(CurrentSong, 0);
 
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        OnCompleted(this, CurrentSong);
                     }
                     catch (Exception ex)
                     {
@@ -349,7 +359,6 @@ namespace NadekoBot.Modules.Music.Classes
                     SongCancelSource.Cancel();
             });
         }
-
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         //{
         //    if (audioClient?.ConnectionState != ConnectionState.Connected)
