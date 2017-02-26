@@ -1800,6 +1800,24 @@
   <data name="wowjoke_usage" xml:space="preserve">
     <value>`{0}wowjoke`</value>
   </data>
+  <data name="ethprice_cmd" xml:space="preserve">
+    <value>ethprice</value>
+  </data>
+  <data name="ethprice_desc" xml:space="preserve">
+    <value>Get the price of Ethereum in USD/ETH</value>
+  </data>
+  <data name="ethprice_usage" xml:space="preserve">
+    <value>`{0}ethprice`</value>
+  </data>
+  <data name="btcprice_cmd" xml:space="preserve">
+    <value>btcprice</value>
+  </data>
+  <data name="btcprice_desc" xml:space="preserve">
+    <value>Get the price of Bitcoin in USD/ETH</value>
+  </data>
+  <data name="btcprice_usage" xml:space="preserve">
+    <value>`{0}btcprice`</value>
+  </data>
   <data name="calculate_cmd" xml:space="preserve">
     <value>calculate calc</value>
   </data>
