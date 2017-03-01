@@ -18,8 +18,11 @@ namespace NadekoBot.Modules.Administration
         {
             private ImmutableDictionary<string, string> supportedLocales { get; } = new Dictionary<string, string>()
             {
-                {"en-US", "English, United States" },
-                {"sr-cyrl-rs", "Serbian, Cyrillic" }
+                {"en-US", "English, United States"},
+                {"fr-FR", "French, France"},
+                {"ru-RU", "Russian, Russia"},
+                {"de-DE", "German, Germany"}
+                //{"sr-cyrl-rs", "Serbian, Cyrillic" }
             }.ToImmutableDictionary();
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -94,9 +97,10 @@ namespace NadekoBot.Modules.Administration
             [OwnerOnly]
             public async Task LanguagesList()
             {
-                await ReplyConfirmLocalized("lang_list",
-                        string.Join("\n", supportedLocales.Select(x => $"{Format.Code(x.Key)} => {x.Value}")))
-                    .ConfigureAwait(false);
+                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    .WithTitle(GetText("lang_list", ""))
+                    .WithDescription(string.Join("\n",
+                        supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}"))));
             }
         }
     }
