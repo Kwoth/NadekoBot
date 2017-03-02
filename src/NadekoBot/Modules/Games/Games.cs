@@ -205,7 +205,7 @@ namespace NadekoBot.Modules.Games
                 crazy = NextDouble(4, 10);
                 advice = 
                     "This is your NO-GO ZONE. We do not hang around, and date, and marry women who are atleast, in our mind, a 5. " +
-                    "So, this is your no-go zone. You don't go here. You just rule this out. Life is better this way, that's the way it is.";
+                    "This is a nope, nuh-uh, no way, never. You don't go here. You just rule this out. Take this out of your existence. Life is better this way, that's the way it is.";
             }
             else if (roll < 750)
             {
@@ -213,8 +213,8 @@ namespace NadekoBot.Modules.Games
                 crazy = NextDouble(4, .6 * hot + 4);
                 advice = "Above a 5, and to about an 8, and below the crazy line - this is your FUN ZONE. You can " +
                        "hang around here, and meet these girls and spend time with them. Keep in mind, while you're " +
-                       "in the fun zone, you want to move OUT of the fun zone to a more permanent location. " +
-                       "These girls are most of the time not crazy.";
+                       "in the fun zone, you'll want to move OUT of the fun zone to a more permanent location. " +
+                       "These girls aren't crazy, most of the time.";
             }
             else if (roll < 900)
             {
@@ -230,13 +230,13 @@ namespace NadekoBot.Modules.Games
                 crazy = NextDouble(7, .6 * hot + 4);
                 advice = "Below the crazy line, above an 8 hot, but still about 7 crazy. This is your DATE ZONE. " +
                        "You can stay in the date zone indefinitely. These are the girls you introduce to your friends and your family. " +
-                       "They're good looking, and they're reasonably not crazy most of the time. You can stay here indefinitely.";
+                       "They're good looking, and they're reasonably not crazy most of the time. You can stay here indefinitely, forever, till the end of time.";
             }
             else if (roll < 990)
             {
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(5, 7);
-                advice = "Above an 8 hot, and between about 7 and a 5 crazy - this is WIFE ZONE. You you meet this girl, you should consider long-term " +
+                advice = "Above an 8 hot, and between about 7 and a 5 crazy - this is WIFE ZONE. You should meet this girl, you should consider long-term " +
                        "relationship. Rare.";
             }
             else if (roll < 999)
@@ -244,15 +244,15 @@ namespace NadekoBot.Modules.Games
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(2, 3.99d);
                 advice = "You've met a girl she's above 8 hot, and not crazy at all (below 4)... totally cool?" +
-                         " You should be careful. That's a dude. It's a tranny.";
+                         " You should be careful. That's not a girl. That's a dude. It's a tranny.";
             }
             else
             {
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(4, 5);
-                advice = "Below 5 crazy, and above 8 hot, this is the UNICORN ZONE, these things don't exist." +
-                         "If you find a unicorn, please capture it safely, keep it alive, we'd like to study it, " +
-                         "and maybe look at how to replicate that.";
+                advice = "Below 5 crazy, and above 8 hot, this is the UNICORN ZONE. These... these things simply don't exist." +
+                         "If you find a unicorn, please capture it safely and keep it alive. We'd like to study it, " +
+                         "and maybe look at how to replicate it.";
             }
 
             return new GirlRating(crazy, hot, roll, advice);
