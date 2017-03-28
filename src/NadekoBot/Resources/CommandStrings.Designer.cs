@@ -5707,7 +5707,7 @@ namespace NadekoBot.Resources {
         /// </summary>
         public static string quoteid_cmd {
             get {
-                return ResourceManager.GetString("race_cmd", resourceCulture);
+                return ResourceManager.GetString("quoteid_cmd", resourceCulture);
             }
         }
         
@@ -5716,7 +5716,7 @@ namespace NadekoBot.Resources {
         /// </summary>
         public static string quoteid_desc {
             get {
-                return ResourceManager.GetString("race_desc", resourceCulture);
+                return ResourceManager.GetString("quoteid_desc", resourceCulture);
             }
         }
         
@@ -5725,7 +5725,7 @@ namespace NadekoBot.Resources {
         /// </summary>
         public static string quoteid_usage {
             get {
-                return ResourceManager.GetString("race_usage", resourceCulture);
+                return ResourceManager.GetString("quoteid_desc", resourceCulture);
             }
         }
         
