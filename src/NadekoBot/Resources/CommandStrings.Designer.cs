@@ -5725,7 +5725,7 @@ namespace NadekoBot.Resources {
         /// </summary>
         public static string quoteid_usage {
             get {
-                return ResourceManager.GetString("quoteid_desc", resourceCulture);
+                return ResourceManager.GetString("quoteid_usage", resourceCulture);
             }
         }
         
