@@ -5705,7 +5705,7 @@ namespace NadekoBot.Resources {
         /// <summary>
         ///    Looks up a localized string similar quoteid qid.
         /// </summary>
-        public static string race_cmd {
+        public static string quoteid_cmd {
             get {
                 return ResourceManager.GetString("race_cmd", resourceCulture);
             }
