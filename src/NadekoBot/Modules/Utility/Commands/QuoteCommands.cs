@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Utility
                     
                     if (qfromid == null)
                     {
-                        await Context.Channel.SendErrorAsync(GetText("quoteid_notfound"));
+                        await Context.Channel.SendErrorAsync(GetText("quotes_notfound"));
                     }
                     else if (CREmbed.TryParse(qfromid.Text, out crembed))
                     {
