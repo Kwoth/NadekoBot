@@ -6138,20 +6138,20 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
+        /// </summary>
+        public static string utility_quotes_notfound {
+            get {
+                return ResourceManager.GetString("utility_quotes_notfound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to No quotes found which you can remove..
         /// </summary>
         public static string utility_quotes_remove_none {
             get {
                 return ResourceManager.GetString("utility_quotes_remove_none", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
-        /// </summary>
-        public static string utility_quoteid_notfound {
-            get {
-                return ResourceManager.GetString("utility_quoteid_notfound", resourceCulture);
             }
         }
         
