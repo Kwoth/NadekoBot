@@ -2084,6 +2084,9 @@ Owner ID: {2}</value>
   <data name="utility_quotes_page_none" xml:space="preserve">
     <value>No quotes on this page.</value>
   </data>
+  <data name="utility_quotes_notfound" xml:space="preserve">
+    <value>No quotes found matching the quote ID specified.</value>
+  </data>
   <data name="utility_quotes_remove_none" xml:space="preserve">
     <value>No quotes found which you can remove.</value>
   </data>
@@ -2092,9 +2095,6 @@ Owner ID: {2}</value>
   </data>
   <data name="utility_quote_deleted" xml:space="preserve">
     <value>Quote #{0} deleted.</value>
-  </data>
-  <data name="utility_quoteid_notfound" xml:space="preserve">
-    <value>No quotes found matching the quote ID specified.</value>
   </data>
   <data name="utility_region" xml:space="preserve">
     <value>Region</value>
