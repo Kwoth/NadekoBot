@@ -6147,6 +6147,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
+        /// </summary>
+        public static string utility_quoteid_notfound {
+            get {
+                return ResourceManager.GetString("utility_quoteid_notfound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Region.
         /// </summary>
         public static string utility_region {
