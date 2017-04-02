@@ -1155,6 +1155,15 @@
   <data name="deletequote_cmd" xml:space="preserve">
     <value>deletequote delq</value>
   </data>
+  <data name="quoteid_cmd" xml:space="preserve">
+   <value>quoteid qid</value>
+  </data>
+  <data name="quoteid_desc" xml:space="preserve">
+    <value>Displays the quote with the specified ID number. Quote ID numbers can be found by typing `.liqu [num]` where `[num]` is a number of a page which contains 15 quotes.</value>
+  </data>
+  <data name="quoteid_usage" xml:space="preserve">
+    <value>`{0}qid 123456`</value>
+  </data>
   <data name="deletequote_desc" xml:space="preserve">
     <value>Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.</value>
   </data>
