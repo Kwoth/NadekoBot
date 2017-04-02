@@ -115,7 +115,7 @@ namespace NadekoBot.Modules.Utility
                     
                     if (qfromid == null)
                     {
-                        await Context.Channel.SendErrorAsync(GetText("error"));
+                        await Context.Channel.SendErrorAsync(GetText("quoteid_notfound"));
                     }
                     else if (CREmbed.TryParse(qfromid.Text, out crembed))
                     {
@@ -132,7 +132,7 @@ namespace NadekoBot.Modules.Utility
                         return;
                     }
                     
-                    else { await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant() + "፥  " +
+                    else { await Context.Channel.SendMessageAsync($"`#{qfromid.Id}` 🗯️ " + qfromid.Keyword.ToLowerInvariant() + ":  " +
                                                        qfromid.Text.SanitizeMentions()); }
                 }
             }        
