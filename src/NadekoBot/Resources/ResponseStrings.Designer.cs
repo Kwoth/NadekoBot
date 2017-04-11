@@ -412,6 +412,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Global permissions have been reset..
+        /// </summary>
+        public static string administration_global_perms_reset {
+            get {
+                return ResourceManager.GetString("administration_global_perms_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Greet announcements disabled..
         /// </summary>
         public static string administration_greet_off {
@@ -516,6 +525,24 @@ namespace NadekoBot.Resources {
         public static string administration_greetmsg_new {
             get {
                 return ResourceManager.GetString("administration_greetmsg_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Game Voice Channel feature has been disabled on this server..
+        /// </summary>
+        public static string administration_gvc_disabled {
+            get {
+                return ResourceManager.GetString("administration_gvc_disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} is a Game Voice Channel now..
+        /// </summary>
+        public static string administration_gvc_enabled {
+            get {
+                return ResourceManager.GetString("administration_gvc_enabled", resourceCulture);
             }
         }
         
@@ -917,6 +944,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to You are not in voice channel on this server..
+        /// </summary>
+        public static string administration_not_in_voice {
+            get {
+                return ResourceManager.GetString("administration_not_in_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Old message.
         /// </summary>
         public static string administration_old_msg {
@@ -1165,6 +1201,15 @@ namespace NadekoBot.Resources {
         public static string administration_reprm {
             get {
                 return ResourceManager.GetString("administration_reprm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Set the display of guild role {0} to {1}..
+        /// </summary>
+        public static string administration_rh {
+            get {
+                return ResourceManager.GetString("administration_rh", resourceCulture);
             }
         }
         
@@ -2711,6 +2756,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Item.
+        /// </summary>
+        public static string gambling_item {
+            get {
+                return ResourceManager.GetString("gambling_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Leaderboard.
         /// </summary>
         public static string gambling_leaderboard {
@@ -2756,6 +2810,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Name.
+        /// </summary>
+        public static string gambling_name {
+            get {
+                return ResourceManager.GetString("gambling_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to No more cards in the deck..
         /// </summary>
         public static string gambling_no_more_cards {
@@ -2788,6 +2851,15 @@ namespace NadekoBot.Resources {
         public static string gambling_not_enough {
             get {
                 return ResourceManager.GetString("gambling_not_enough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Out of stock..
+        /// </summary>
+        public static string gambling_out_of_stock {
+            get {
+                return ResourceManager.GetString("gambling_out_of_stock", resourceCulture);
             }
         }
         
@@ -2837,6 +2909,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Random unique item..
+        /// </summary>
+        public static string gambling_random_unique_item {
+            get {
+                return ResourceManager.GetString("gambling_random_unique_item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to You rolled {0}..
         /// </summary>
         public static string gambling_roll {
@@ -2851,6 +2932,141 @@ namespace NadekoBot.Resources {
         public static string gambling_second_larger_than_first {
             get {
                 return ResourceManager.GetString("gambling_second_larger_than_first", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop.
+        /// </summary>
+        public static string gambling_shop {
+            get {
+                return ResourceManager.GetString("gambling_shop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error DMing item. You&apos;ve been refunded..
+        /// </summary>
+        public static string gambling_shop_buy_error {
+            get {
+                return ResourceManager.GetString("gambling_shop_buy_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop item added.
+        /// </summary>
+        public static string gambling_shop_item_add {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No item on that index found..
+        /// </summary>
+        public static string gambling_shop_item_not_found {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Item purchase successful..
+        /// </summary>
+        public static string gambling_shop_item_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shop item removed.
+        /// </summary>
+        public static string gambling_shop_item_rm {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_rm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That shop entry does not support item adding..
+        /// </summary>
+        public static string gambling_shop_item_wrong_type {
+            get {
+                return ResourceManager.GetString("gambling_shop_item_wrong_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Item successfully added..
+        /// </summary>
+        public static string gambling_shop_list_item_added {
+            get {
+                return ResourceManager.GetString("gambling_shop_list_item_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to That item is already added..
+        /// </summary>
+        public static string gambling_shop_list_item_not_unique {
+            get {
+                return ResourceManager.GetString("gambling_shop_list_item_not_unique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No shop items found on this page..
+        /// </summary>
+        public static string gambling_shop_none {
+            get {
+                return ResourceManager.GetString("gambling_shop_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Purchase on {0} server.
+        /// </summary>
+        public static string gambling_shop_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You will get {0} role..
+        /// </summary>
+        public static string gambling_shop_role {
+            get {
+                return ResourceManager.GetString("gambling_shop_role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Role which is being sold no longer exists..
+        /// </summary>
+        public static string gambling_shop_role_not_found {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to You&apos;ve successfully purchased {0} role..
+        /// </summary>
+        public static string gambling_shop_role_purchase {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_purchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Error assigning role. Your purchase has been refunded..
+        /// </summary>
+        public static string gambling_shop_role_purchase_error {
+            get {
+                return ResourceManager.GetString("gambling_shop_role_purchase_error", resourceCulture);
             }
         }
         
@@ -2969,6 +3185,24 @@ namespace NadekoBot.Resources {
         public static string gambling_total_average {
             get {
                 return ResourceManager.GetString("gambling_total_average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Type.
+        /// </summary>
+        public static string gambling_type {
+            get {
+                return ResourceManager.GetString("gambling_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0} unique items left..
+        /// </summary>
+        public static string gambling_unique_items_left {
+            get {
+                return ResourceManager.GetString("gambling_unique_items_left", resourceCulture);
             }
         }
         
@@ -4487,6 +4721,24 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Blocked Commands.
+        /// </summary>
+        public static string permissions_blocked_commands {
+            get {
+                return ResourceManager.GetString("permissions_blocked_commands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blocked Modules.
+        /// </summary>
+        public static string permissions_blocked_modules {
+            get {
+                return ResourceManager.GetString("permissions_blocked_modules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Command {0} now has a {1}s cooldown..
         /// </summary>
         public static string permissions_cmdcd_add {
@@ -4577,6 +4829,42 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Command {0} has been disabled on all servers..
+        /// </summary>
+        public static string permissions_gcmd_add {
+            get {
+                return ResourceManager.GetString("permissions_gcmd_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Command {0} has been enabled on all servers..
+        /// </summary>
+        public static string permissions_gcmd_remove {
+            get {
+                return ResourceManager.GetString("permissions_gcmd_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Module {0} has been disabled on all servers..
+        /// </summary>
+        public static string permissions_gmod_add {
+            get {
+                return ResourceManager.GetString("permissions_gmod_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Module {0} has been enabled on all servers..
+        /// </summary>
+        public static string permissions_gmod_remove {
+            get {
+                return ResourceManager.GetString("permissions_gmod_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Invalid second parameter.(Must be a number between {0} and {1}).
         /// </summary>
         public static string permissions_invalid_second_param_between {
@@ -4618,6 +4906,15 @@ namespace NadekoBot.Resources {
         public static string permissions_invite_filter_server_on {
             get {
                 return ResourceManager.GetString("permissions_invite_filter_server_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No blocked commands or modules..
+        /// </summary>
+        public static string permissions_lgp_none {
+            get {
+                return ResourceManager.GetString("permissions_lgp_none", resourceCulture);
             }
         }
         
@@ -5774,6 +6071,15 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Time in {0} is {1} - {2}.
+        /// </summary>
+        public static string searches_time {
+            get {
+                return ResourceManager.GetString("searches_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Title:.
         /// </summary>
         public static string searches_title {
@@ -6103,6 +6409,15 @@ namespace NadekoBot.Resources {
         public static string utility_clpa_fail_wait_title {
             get {
                 return ResourceManager.GetString("utility_clpa_fail_wait_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Next update in {0}.
+        /// </summary>
+        public static string utility_clpa_next_update {
+            get {
+                return ResourceManager.GetString("utility_clpa_next_update", resourceCulture);
             }
         }
         
@@ -6498,20 +6813,11 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to No quotes on this page..
+        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
         /// </summary>
         public static string utility_quotes_page_none {
             get {
                 return ResourceManager.GetString("utility_quotes_page_none", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to No quotes found matching the quote ID specified..
-        /// </summary>
-        public static string utility_quotes_notfound {
-            get {
-                return ResourceManager.GetString("utility_quotes_notfound", resourceCulture);
             }
         }
         

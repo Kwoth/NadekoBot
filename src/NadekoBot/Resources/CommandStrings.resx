@@ -733,7 +733,7 @@
     <value>mentionrole menro</value>
   </data>
   <data name="mentionrole_desc" xml:space="preserve">
-    <value>Mentions every person from the provided role or roles (separated by a ',') on this server. Requires you to have the mention everyone permission.</value>
+    <value>Mentions every person from the provided role or roles (separated by a ',') on this server.</value>
   </data>
   <data name="mentionrole_usage" xml:space="preserve">
     <value>`{0}menro RoleName`</value>
@@ -1152,7 +1152,7 @@
   <data name="searchquote_usage" xml:space="preserve">
     <value>`{0}qsearch keyword text`</value>
   </data>
-    <data name="quoteid_cmd" xml:space="preserve">
+  <data name="quoteid_cmd" xml:space="preserve">
     <value>quoteid qid</value>
   </data>
   <data name="quoteid_desc" xml:space="preserve">
@@ -2596,10 +2596,10 @@
     <value>listquotes liqu</value>
   </data>
   <data name="listquotes_desc" xml:space="preserve">
-    <value>`{0}liqu` or `{0}liqu 3`</value>
+    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
   </data>
   <data name="listquotes_usage" xml:space="preserve">
-    <value>Lists all quotes on the server ordered alphabetically. 15 Per page.</value>
+    <value>`{0}liqu` or `{0}liqu 3`</value>
   </data>
   <data name="typedel_cmd" xml:space="preserve">
     <value>typedel</value>
@@ -2992,7 +2992,7 @@
     <value>slot</value>
   </data>
   <data name="slot_desc" xml:space="preserve">
-    <value>Play Nadeko slots. Max bet is 999. 3 seconds cooldown per user.</value>
+    <value>Play Nadeko slots. Max bet is 9999. 1.5 second cooldown per user.</value>
   </data>
   <data name="slot_usage" xml:space="preserve">
     <value>`{0}slot 5`</value>
@@ -3211,7 +3211,7 @@
     <value>Toggles whether the response message of the custom reaction will be sent as a direct message.</value>
   </data>
   <data name="crdm_usage" xml:space="preserve">
-    <value>`{0}crad 44`</value>
+    <value>`{0}crdm 44`</value>
   </data>
   <data name="aliaslist_cmd" xml:space="preserve">
     <value>aliaslist cmdmaplist aliases</value>
@@ -3247,7 +3247,7 @@
     <value>Warns a user.</value>
   </data>
   <data name="warn_usage" xml:space="preserve">
-    <value>`{0}warn @b1nzy`</value>
+    <value>`{0}warn @b1nzy Very rude person`</value>
   </data>
   <data name="startupcommandadd_cmd" xml:space="preserve">
     <value>scadd</value>
@@ -3334,10 +3334,19 @@
     <value>clparew</value>
   </data>
   <data name="claimpatreonrewards_desc" xml:space="preserve">
-    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can user this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
+    <value>Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.</value>
   </data>
   <data name="claimpatreonrewards_usage" xml:space="preserve">
-    <value>`{0}claimpatreonrewards`</value>
+    <value>`{0}clparew`</value>
+  </data>
+  <data name="ping_cmd" xml:space="preserve">
+    <value>ping</value>
+  </data>
+  <data name="ping_desc" xml:space="preserve">
+    <value>Ping the bot to see if there are latency issues.</value>
+  </data>
+  <data name="ping_usage" xml:space="preserve">
+    <value>`{0}ping`</value>
   </data>
   <data name="slowmodewhitelist_cmd" xml:space="preserve">
     <value>slowmodewl</value>
@@ -3347,5 +3356,122 @@
   </data>
   <data name="slowmodewhitelist_usage" xml:space="preserve">
     <value>`{0}slowmodewl SomeRole` or `{0}slowmodewl AdminDude`</value>
+  </data>
+  <data name="time_cmd" xml:space="preserve">
+    <value>time</value>
+  </data>
+  <data name="time_desc" xml:space="preserve">
+    <value>Shows the current time and timezone in the specified location.</value>
+  </data>
+  <data name="time_usage" xml:space="preserve">
+    <value>`{0}time London, UK`</value>
+  </data>
+  <data name="patreonrewardsreload_cmd" xml:space="preserve">
+    <value>parewrel</value>
+  </data>
+  <data name="patreonrewardsreload_desc" xml:space="preserve">
+    <value>Forces the update of the list of patrons who are eligible for the reward.</value>
+  </data>
+  <data name="patreonrewardsreload_usage" xml:space="preserve">
+    <value>`{0}parewrel`</value>
+  </data>
+  <data name="shopadd_cmd" xml:space="preserve">
+    <value>shopadd</value>
+  </data>
+  <data name="shopadd_desc" xml:space="preserve">
+    <value>Adds an item to the shop by specifying type price and name. Available types are role and list.</value>
+  </data>
+  <data name="shopadd_usage" xml:space="preserve">
+    <value>`{0}shopadd role 1000 Rich`</value>
+  </data>
+  <data name="shopremove_cmd" xml:space="preserve">
+    <value>shoprem shoprm</value>
+  </data>
+  <data name="shopremove_desc" xml:space="preserve">
+    <value>Removes an item from the shop by its color.</value>
+  </data>
+  <data name="shop_cmd" xml:space="preserve">
+    <value>shop</value>
+  </data>
+  <data name="shop_desc" xml:space="preserve">
+    <value>Lists this server's administrators' shop. Paginated.</value>
+  </data>
+  <data name="shop_usage" xml:space="preserve">
+    <value>`{0}shop` or `{0}shop 2`</value>
+  </data>
+  <data name="rolehoist_cmd" xml:space="preserve">
+    <value>rolehoist rh</value>
+  </data>
+  <data name="rolehoist_desc" xml:space="preserve">
+    <value>Toggles if this role is displayed in the sidebar or not</value>
+  </data>
+  <data name="rolehoist_usage" xml:space="preserve">
+    <value>`{0}rh Guests true` or `{0}rh "Space Wizards" true</value>
+  </data>
+  <data name="buy_cmd" xml:space="preserve">
+    <value>buy</value>
+  </data>
+  <data name="buy_desc" xml:space="preserve">
+    <value>Buys an item from the shop on a given index. If buying items, make sure that the bot can DM you.</value>
+  </data>
+  <data name="buy_usage" xml:space="preserve">
+    <value>`{0}buy 2`</value>
+  </data>
+  <data name="gamevoicechannel_cmd" xml:space="preserve">
+    <value>gvc</value>
+  </data>
+  <data name="gamevoicechannel_desc" xml:space="preserve">
+    <value>Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game, if it exists. Can't move users to channels that the bot has no connect permission for. One per server.</value>
+  </data>
+  <data name="gamevoicechannel_usage" xml:space="preserve">
+    <value>`{0}gvc`</value>
+  </data>
+  <data name="shoplistadd_cmd" xml:space="preserve">
+    <value>shoplistadd</value>
+  </data>
+  <data name="shoplistadd_desc" xml:space="preserve">
+    <value>Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked.</value>
+  </data>
+  <data name="shoplistadd_usage" xml:space="preserve">
+    <value>`{0}shoplistadd 1 Uni-que-Steam-Key`</value>
+  </data>
+  <data name="shopremove_usage" xml:space="preserve">
+    <value>`{0}shoprm 1`</value>
+  </data>
+  <data name="gcmd_cmd" xml:space="preserve">
+    <value>globalcommand gcmd</value>
+  </data>
+  <data name="gcmd_desc" xml:space="preserve">
+    <value>Enables or disables a command from use on all servers.</value>
+  </data>
+  <data name="gcmd_usage" xml:space="preserve">
+    <value>`{0}gcmd  `</value>
+  </data>
+  <data name="gmod_cmd" xml:space="preserve">
+    <value>globalmodule gmod</value>
+  </data>
+  <data name="gmod_desc" xml:space="preserve">
+    <value>Enable or disable a module from use on all servers.</value>
+  </data>
+  <data name="gmod_usage" xml:space="preserve">
+    <value>`{0}gmod nsfw disable`</value>
+  </data>
+  <data name="lgp_cmd" xml:space="preserve">
+    <value>listglobalperms lgp</value>
+  </data>
+  <data name="lgp_desc" xml:space="preserve">
+    <value>Lists global permissions set by the bot owner.</value>
+  </data>
+  <data name="lgp_usage" xml:space="preserve">
+    <value>`{0}lgp`</value>
+  </data>
+  <data name="resetglobalpermissions_cmd" xml:space="preserve">
+    <value>resetglobalperms</value>
+  </data>
+  <data name="resetglobalpermissions_desc" xml:space="preserve">
+    <value>Resets global permissions set by bot owner.</value>
+  </data>
+  <data name="resetglobalpermissions_usage" xml:space="preserve">
+    <value>`{0}resetglobalperms`</value>
   </data>
 </root>

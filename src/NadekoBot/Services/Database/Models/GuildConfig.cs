@@ -76,6 +76,9 @@ namespace NadekoBot.Services.Database.Models
         public HashSet<SlowmodeIgnoredUser> SlowmodeIgnoredUsers { get; set; }
         public HashSet<SlowmodeIgnoredRole> SlowmodeIgnoredRoles { get; set; }
 
+        public List<ShopEntry> ShopEntries { get; set; }
+        public ulong? GameVoiceChannel { get; set; } = null;
+
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
     }
 

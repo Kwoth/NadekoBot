@@ -10,9 +10,10 @@ using NadekoBot.Modules.Music.Classes;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20170408162851_game-voice-channel")]
+    partial class gamevoicechannel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
@@ -97,28 +98,6 @@ namespace NadekoBot.Migrations
                     b.HasIndex("BotConfigId");
 
                     b.ToTable("BlacklistItem");
-                });
-
-            modelBuilder.Entity("NadekoBot.Services.Database.Models.BlockedCmdOrMdl", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("BotConfigId");
-
-                    b.Property<int?>("BotConfigId1");
-
-                    b.Property<DateTime?>("DateAdded");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BotConfigId");
-
-                    b.HasIndex("BotConfigId1");
-
-                    b.ToTable("BlockedCmdOrMdl");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.BotConfig", b =>
@@ -1297,17 +1276,6 @@ namespace NadekoBot.Migrations
                     b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
                         .WithMany("Blacklist")
                         .HasForeignKey("BotConfigId");
-                });
-
-            modelBuilder.Entity("NadekoBot.Services.Database.Models.BlockedCmdOrMdl", b =>
-                {
-                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
-                        .WithMany("BlockedCommands")
-                        .HasForeignKey("BotConfigId");
-
-                    b.HasOne("NadekoBot.Services.Database.Models.BotConfig")
-                        .WithMany("BlockedModules")
-                        .HasForeignKey("BotConfigId1");
                 });
 
             modelBuilder.Entity("NadekoBot.Services.Database.Models.ClashCaller", b =>
