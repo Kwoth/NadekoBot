@@ -2601,6 +2601,15 @@
   <data name="listquotes_usage" xml:space="preserve">
     <value>`{0}liqu` or `{0}liqu 3`</value>
   </data>
+  <data name="listquoteskeyword_cmd" xml:space="preserve">
+    <value>listquoteskeyword liqukwd</value>
+  </data>
+  <data name="listquoteskeyword_desc" xml:space="preserve">
+    <value>Lists all quotes on the server matching a specific keyword. 15 Per page.</value>
+  </data>
+  <data name="listquoteskeyword_usage" xml:space="preserve">
+    <value>`{0}liqukwd keyword` or `{0}liqukwd keyword 3`</value>
+  </data>
   <data name="typedel_cmd" xml:space="preserve">
     <value>typedel</value>
   </data>
