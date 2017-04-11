@@ -4326,6 +4326,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to listquoteskeyword liqukwd.
+        /// </summary>
+        public static string listquoteskeyword_cmd {
+            get {
+                return ResourceManager.GetString("listquoteskeyword_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists all quotes on the server matching a specific keyword. 15 Per page..
+        /// </summary>
+        public static string listquoteskeyword_desc {
+            get {
+                return ResourceManager.GetString("listquoteskeyword_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}liqukwd keyword` or `{0}liqukwd keyword 3`.
+        /// </summary>
+        public static string listquoteskeyword_usage {
+            get {
+                return ResourceManager.GetString("listquoteskeyword_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to listservers.
         /// </summary>
         public static string listservers_cmd {
