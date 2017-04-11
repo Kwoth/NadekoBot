@@ -46,9 +46,11 @@ namespace NadekoBot.Modules.Utility
             {
                 page -= 1;
 
-                if (page < 0)
+                if (page < 0 || string.IsNullOrWhiteSpace(keyword))
                     return;
-
+                
+                keyword = keyword.ToUpperInvariant();
+                
                 IEnumerable<Quote> quotes;
                 using (var uow = DbHandler.UnitOfWork())
                 {
