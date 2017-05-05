@@ -217,7 +217,22 @@ namespace NadekoBot.Modules.Gambling
             var str = Context.User.Mention + Format.Code(GetText("roll", rnd));
             if (rnd < 67)
             {
+                if ((amount >= 10000) && (rnd == 0))
+                {
+                    str += GetText("br_win", (1000000) + CurrencySign, 0);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) (1000000), false).ConfigureAwait(false);
+                }
+                else if ((amount >= 10000) && ((rnd % 11) == 0))
+                {
+                    str += GetText("br_win", ((rnd % 10) * 11111111) + CurrencySign, rnd);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) ((rnd % 10) * 11111111), false).ConfigureAwait(false);
+                }
+                else
+                {
                 str += GetText("better_luck");
+                }
             }
             else
             {
@@ -226,12 +241,24 @@ namespace NadekoBot.Modules.Gambling
                     str += GetText("br_win", (amount * NadekoBot.BotConfig.Betroll67Multiplier) + CurrencySign, 66);
                     await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
                         (int) (amount * NadekoBot.BotConfig.Betroll67Multiplier), false).ConfigureAwait(false);
+                    if ((amount >= 10000) && ((rnd % 11) == 0))
+                    {
+                    str += GetText("br_win", ((rnd % 10) * 11111111) + CurrencySign, rnd);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) ((rnd % 10) * 11111111), false).ConfigureAwait(false);
+                    }
                 }
                 else if (rnd < 100)
                 {
                     str += GetText("br_win", (amount * NadekoBot.BotConfig.Betroll91Multiplier) + CurrencySign, 90);
                     await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
                         (int) (amount * NadekoBot.BotConfig.Betroll91Multiplier), false).ConfigureAwait(false);
+                    if ((amount >= 10000) && ((rnd % 11) == 0))
+                    {
+                    str += GetText("br_win", ((rnd % 10) * 111111111) + CurrencySign, rnd);
+                    await CurrencyHandler.AddCurrencyAsync(Context.User, "Betroll Gamble",
+                        (int) ((rnd % 10) * 111111111), false).ConfigureAwait(false);
+                    }
                 }
                 else
                 {
