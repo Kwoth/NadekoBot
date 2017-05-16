@@ -878,6 +878,9 @@ Reason: {1}</value>
   <data name="gambling_br_win" xml:space="preserve">
     <value>Congratulations! You won {0} for rolling above {1}</value>
   </data>
+  <data name="gambling_br_win_special" xml:space="preserve">
+    <value>Congratulations! You won {0} for rolling a {1}</value>
+  </data>
   <data name="gambling_deck_reshuffled" xml:space="preserve">
     <value>Deck reshuffled.</value>
   </data>
