@@ -19,6 +19,9 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
         public IEnumerable<Quote> GetGroup(ulong guildId, int skip, int take) => 
             _set.Where(q=>q.GuildId == guildId).OrderBy(q => q.Keyword).Skip(skip).Take(take).ToList();
+        
+        public IEnumerable<Quote> GetGroupKeyword(ulong guildId, string keyword, int skip, int take) => 
+            _set.Where(q=>q.GuildId == guildId && q.Keyword == keyword).OrderBy(q => q.Id).Skip(skip).Take(take).ToList();
 
         public Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
         {
