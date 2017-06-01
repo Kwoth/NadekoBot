@@ -255,12 +255,26 @@ namespace NadekoBot.Modules.NSFW
                 using (var http = new HttpClient())
                 {
                     http.AddFakeHeaders();
-                    var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + tag).ConfigureAwait(false);
+                    var blacklist = false;
+                    var data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + tag + "%20order:random&limit=1").ConfigureAwait(false);
                     var doc = new XmlDocument();
-                    doc.Load(data);
+                    while (!blacklist)
+                    {
+                        data = await http.GetStreamAsync("http://e621.net/post/index.xml?tags=" + tag + "%20order:random&limit=1").ConfigureAwait(false);
+                        doc = new XmlDocument();
+                        doc.Load(data);
+                        var tagNodes = doc.GetElementsByTagName("tags");
+                        var longTagText = tagNodes[0].InnerText;
+                        var allTags = longTagText.Split();
+                        var blacklistIncluded = false;
+                        foreach (var e6Tag in allTags)
+                        {
+                            if (e6Tag.Equals("cub") || e6Tag.Equals("gore") || e6Tag.Equals("flash") || e6Tag.Equals("rape")) { blacklistIncluded = true; break; }
+                        }
+                        if (blacklistIncluded == false) blacklist = !blacklist;
+                    }
                     var nodes = doc.GetElementsByTagName("file_url");
-
-                    var node = nodes[new NadekoRandom().Next(0, nodes.Count)];
+                    var node = nodes[0];
                     return node.InnerText;
                 }
             }
