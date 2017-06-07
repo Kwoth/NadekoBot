@@ -12,7 +12,7 @@ docker create --name=nadeko -v /nadeko/data:/opt/NadekoBot/src/NadekoBot/bin/Rel
 ```
 -If you are coming from a previous version of nadeko (the old docker) make sure your crednetials.json has been copied into this directory and is the only thing in this folder. 
 
--If you are making a fresh install, create your credentials.json from the following guide and palce it in the /nadeko folder [Nadeko JSON Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
+-If you are making a fresh install, create your credentials.json from the following guide and place it in the /nadeko folder [Nadeko JSON Guide](http://nadekobot.readthedocs.io/en/latest/JSON%20Explanations/)
 
 Next start the docker up with 
 
