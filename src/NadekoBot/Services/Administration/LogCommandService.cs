@@ -19,8 +19,8 @@ namespace NadekoBot.Services.Administration
         private readonly DiscordSocketClient _client;
         private readonly Logger _log;
 
-        private string PrettyCurrentTime => $"【{DateTime.UtcNow:HH:mm:ss}】";
-        private string CurrentTime => $"{DateTime.UtcNow:HH:mm:ss}";
+        private string PrettyCurrentTime => $"【{DateTime.Now:hh:mm:ss tt}】";
+        private string CurrentTime => $"{DateTime.Now:hh:mm:ss tt}";
 
         public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
@@ -191,9 +191,12 @@ namespace NadekoBot.Services.Administration
                         return;
 
                     var str = "";
+                    bool javla=false;
                     if (beforeVch?.Guild == afterVch?.Guild)
                     {
                         str = GetText(logChannel.Guild, "moved", usr.Username, beforeVch?.Name, afterVch?.Name);
+                        if(afterVch.Name.Contains("Javla Fitta"))
+                            javla=true;
                     }
                     else if (beforeVch == null)
                     {
@@ -203,8 +206,16 @@ namespace NadekoBot.Services.Administration
                     {
                         str = GetText(logChannel.Guild, "left", usr.Username, beforeVch.Name);
                     }
-                    var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
-                    toDelete.DeleteAfter(5);
+                    if(!usr.Username.Contains("Kanade") && !usr.Username.Contains("Scripter") && str.Contains("Javla Fitta"))
+                    {
+                        str=str.Replace("Javla Fitta","").Replace("joined","connected").Replace("left","disconnected").Replace(" moved ","");
+                        if(javla)
+                        {
+                            str=usr.Username + " has connected";
+                        }
+                        var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
+                        toDelete.DeleteAfter(5);
+                    }
                 }
                 catch
                 {
@@ -565,7 +576,7 @@ namespace NadekoBot.Services.Administration
                                 "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                                 Format.Bold(beforeVch.Name ?? ""));
                     }
-                    if (str != null)
+                    if (str != null && !str.Contains("Kanade"))
                         PresenceUpdates.AddOrUpdate(logChannel, new List<string>() { str }, (id, list) => { list.Add(str); return list; });
                 }
                 catch
