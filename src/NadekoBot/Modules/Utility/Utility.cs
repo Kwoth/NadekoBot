@@ -46,7 +46,7 @@ namespace NadekoBot.Modules.Utility
         {
             var channel = (ITextChannel)Context.Channel;
 
-            if ((timeout < 60 && timeout != 0) || timeout > 3600)
+            if (timeout > 3600)
                 return;
 
             Timer t;
@@ -320,10 +320,10 @@ namespace NadekoBot.Modules.Utility
         {            
             await Context.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithName($"NadekoBot v{StatsService.BotVersion}")
+                    .WithAuthor(eab => eab.WithName($"KanadeBot v{StatsService.BotVersion}")
                                           .WithUrl("http://nadekobot.readthedocs.io/en/latest/")
-                                          .WithIconUrl("https://cdn.discordapp.com/avatars/116275390695079945/b21045e778ef21c96d175400e779f0fb.jpg"))
-                    .AddField(efb => efb.WithName(GetText("author")).WithValue(_stats.Author).WithIsInline(true))
+                                          .WithIconUrl("https://cdn.discordapp.com/avatars/312167768462065666/a50256f806cd85db376e39e4275d8ac9.png"))
+                    .AddField(efb => efb.WithName(GetText("author")).WithValue($"NeonSpectrum#6219").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("botid")).WithValue(_client.CurrentUser.Id.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_bot.ShardId} / {_creds.TotalShards}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString()).WithIsInline(true))
