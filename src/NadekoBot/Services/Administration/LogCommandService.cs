@@ -214,7 +214,7 @@ namespace NadekoBot.Services.Administration
                             str=usr.Username + " has connected";
                         }
                         var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
-                        toDelete.DeleteAfter(5);
+                        toDelete.DeleteAfter(3);
                     }
                 }
                 catch
