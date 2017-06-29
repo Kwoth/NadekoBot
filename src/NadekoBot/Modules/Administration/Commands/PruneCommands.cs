@@ -32,7 +32,7 @@ namespace NadekoBot.Modules.Administration
                 var user = await Context.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
                 await _prune.PruneWhere((ITextChannel)Context.Channel, 100, (x) => x.Author.Id == user.Id).ConfigureAwait(false);
-                Context.Message.DeleteAfter(3);
+                Context.Message.DeleteAfter(0);
             }
             // prune x
             [NadekoCommand, Usage, Description, Aliases]

@@ -46,7 +46,7 @@ namespace NadekoBot.Services.Database.Models
         //permissions
         public Permission RootPermission { get; set; } = null;
         public List<Permissionv2> Permissions { get; set; }
-        public bool VerbosePermissions { get; set; } = true;
+        public bool VerbosePermissions { get; set; } = false;
         public string PermissionRole { get; set; } = "Nadeko";
 
         public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new HashSet<CommandCooldown>();
@@ -81,7 +81,7 @@ namespace NadekoBot.Services.Database.Models
 
         public List<ShopEntry> ShopEntries { get; set; }
         public ulong? GameVoiceChannel { get; set; } = null;
-        public bool VerboseErrors { get; set; } = false;
+        public bool VerboseErrors { get; set; } = true;
 
         //public List<ProtectionIgnoredChannel> ProtectionIgnoredChannels { get; set; } = new List<ProtectionIgnoredChannel>();
     }

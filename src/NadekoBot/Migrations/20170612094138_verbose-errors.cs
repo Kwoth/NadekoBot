@@ -12,7 +12,7 @@ namespace NadekoBot.Migrations
                 name: "VerboseErrors",
                 table: "GuildConfigs",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
