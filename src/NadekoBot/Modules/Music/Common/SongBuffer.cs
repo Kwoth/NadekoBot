@@ -68,7 +68,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                RedirectStandardError = false,
                 CreateNoWindow = true,
             });
         }
