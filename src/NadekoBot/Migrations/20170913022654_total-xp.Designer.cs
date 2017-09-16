@@ -9,9 +9,10 @@ using NadekoBot.Services.Database.Models;
 namespace NadekoBot.Migrations
 {
     [DbContext(typeof(NadekoContext))]
-    partial class NadekoSqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20170913022654_total-xp")]
+    partial class totalxp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -462,11 +463,9 @@ namespace NadekoBot.Migrations
 
                     b.Property<string>("Discriminator");
 
-                    b.Property<bool>("IsClubAdmin");
-
                     b.Property<DateTime>("LastLevelUp")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 9, 15, 5, 48, 8, 660, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 9, 13, 4, 26, 53, 906, DateTimeKind.Local));
 
                     b.Property<DateTime>("LastXpGain");
 
@@ -1366,7 +1365,7 @@ namespace NadekoBot.Migrations
 
                     b.Property<DateTime>("LastLevelUp")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 9, 15, 5, 48, 8, 665, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 9, 13, 4, 26, 53, 910, DateTimeKind.Local));
 
                     b.Property<int>("NotifyOnLevelUp");
 

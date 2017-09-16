@@ -3589,7 +3589,7 @@
     <value>`{0}xpex Role Excluded-Role` `{0}xpex Server`</value>
   </data>
   <data name="xpexclude_desc" xml:space="preserve">
-    <value>Exclude a user or a role from the xp system, or whole current server.</value>
+    <value>Exclude a channel, role or current server from the xp system.</value>
   </data>
   <data name="xpnotify_cmd" xml:space="preserve">
     <value>xpnotify xpn</value>
@@ -3779,5 +3779,32 @@
   </data>
   <data name="nsfwclearcache_desc" xml:space="preserve">
     <value>Clears nsfw cache.</value>
+  </data>
+  <data name="clubadmin_cmd" xml:space="preserve">
+    <value>clubadmin</value>
+  </data>
+  <data name="clubadmin_usage" xml:space="preserve">
+    <value>`{0}clubadmin`</value>
+  </data>
+  <data name="clubadmin_desc" xml:space="preserve">
+    <value>Assigns (or unassigns) staff role to the member of the club. Admins can ban, kick and accept applications.</value>
+  </data>
+  <data name="autoboobs_cmd" xml:space="preserve">
+    <value>autoboobs</value>
+  </data>
+  <data name="autoboobs_desc" xml:space="preserve">
+    <value>Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autoboobs_usage" xml:space="preserve">
+    <value>`{0}autoboobs 30` or `{0}autoboobs`</value>
+  </data>
+  <data name="autobutts_cmd" xml:space="preserve">
+    <value>autobutts</value>
+  </data>
+  <data name="autobutts_desc" xml:space="preserve">
+    <value>Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autobutts_usage" xml:space="preserve">
+    <value>`{0}autobutts 30` or `{0}autobutts`</value>
   </data>
 </root>

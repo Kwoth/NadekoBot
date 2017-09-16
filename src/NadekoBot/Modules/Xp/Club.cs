@@ -27,6 +27,27 @@ namespace NadekoBot.Modules.Xp
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            public async Task ClubAdmin([Remainder]IUser toAdmin)
+            {
+                bool admin;
+                try
+                {
+                    admin = _service.ToggleAdmin(Context.User, toAdmin);
+                }
+                catch (InvalidOperationException)
+                {
+                    await ReplyErrorLocalized("club_admin_error").ConfigureAwait(false);
+                    return;
+                }
+
+                if(admin)
+                    await ReplyConfirmLocalized("club_admin_add", Format.Bold(toAdmin.ToString())).ConfigureAwait(false);
+                else
+                    await ReplyConfirmLocalized("club_admin_remove", Format.Bold(toAdmin.ToString())).ConfigureAwait(false);
+
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
             public async Task ClubCreate([Remainder]string clubName)
             {
                 if (string.IsNullOrWhiteSpace(clubName) || clubName.Length > 20)
@@ -97,7 +118,14 @@ namespace NadekoBot.Modules.Xp
                         .AddField("Level Req.", club.MinimumLevelReq.ToString(), true)
                         .AddField("Members", string.Join("\n", club.Users
                             .Skip(page * 10)
-                            .Take(10)), false);
+                            .Take(10)
+                            .OrderByDescending(x => x.IsClubAdmin)
+                            .Select(x => 
+                            {
+                                if (x.IsClubAdmin)
+                                    return x.ToString() + "⭐";
+                                return x.ToString();
+                            })), false);
 
                     if (Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute))
                         return embed.WithThumbnailUrl(club.ImageUrl);
@@ -112,7 +140,7 @@ namespace NadekoBot.Modules.Xp
                 if (--page < 0)
                     return Task.CompletedTask;
 
-                var club = _service.GetBansAndApplications(Context.User.Id);
+                var club = _service.GetClubWithBansAndApplications(Context.User.Id);
                 if (club == null)
                     return ReplyErrorLocalized("club_not_exists");
 
@@ -131,7 +159,8 @@ namespace NadekoBot.Modules.Xp
 
                         return new EmbedBuilder()
                             .WithTitle(GetText("club_bans_for", club.ToString()))
-                            .WithDescription(toShow);
+                            .WithDescription(toShow)
+                            .WithOkColor();
 
                     }, bans.Length / 10);
             }
@@ -143,11 +172,11 @@ namespace NadekoBot.Modules.Xp
                 if (--page < 0)
                     return Task.CompletedTask;
 
-                var club = _service.GetBansAndApplications(Context.User.Id);
+                var club = _service.GetClubWithBansAndApplications(Context.User.Id);
                 if (club == null)
                     return ReplyErrorLocalized("club_not_exists");
 
-                var bans = club
+                var apps = club
                     .Applicants
                     .Select(x => x.User)
                     .ToArray();
@@ -155,16 +184,17 @@ namespace NadekoBot.Modules.Xp
                 return Context.Channel.SendPaginatedConfirmAsync(_client, page,
                     curPage =>
                     {
-                        var toShow = string.Join("\n", bans
+                        var toShow = string.Join("\n", apps
                             .Skip(page * 10)
                             .Take(10)
                             .Select(x => x.ToString()));
 
                         return new EmbedBuilder()
                             .WithTitle(GetText("club_apps_for", club.ToString()))
-                            .WithDescription(toShow);
+                            .WithDescription(toShow)
+                            .WithOkColor();
 
-                    }, bans.Length / 10);
+                    }, apps.Length / 10);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -282,7 +312,7 @@ namespace NadekoBot.Modules.Xp
                 }
                 else
                 {
-                    await ReplyErrorLocalized("club_disaband_error").ConfigureAwait(false);
+                    await ReplyErrorLocalized("club_disband_error").ConfigureAwait(false);
                 }
             }
 

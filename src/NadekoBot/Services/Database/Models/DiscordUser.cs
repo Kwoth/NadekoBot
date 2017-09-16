@@ -10,6 +10,9 @@ namespace NadekoBot.Services.Database.Models
         public string AvatarId { get; set; }
         
         public ClubInfo Club { get; set; }
+        public bool IsClubAdmin { get; set; }
+
+        public int TotalXp { get; set; }
         public DateTime LastLevelUp { get; set; } = DateTime.UtcNow;
         public DateTime LastXpGain { get; set; } = DateTime.MinValue;
         public XpNotificationType NotifyOnLevelUp { get; set; }

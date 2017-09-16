@@ -29,11 +29,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
             return usr;
         }
 
-        public int GetTotalUserXp(ulong userId)
-        {
-            return _set.Where(x => x.UserId == userId).Sum(x => x.Xp);
-        }
-
         public UserXpStats[] GetUsersFor(ulong guildId, int page)
         {
             return _set.Where(x => x.GuildId == guildId)
@@ -41,15 +36,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                 .Skip(page * 9)
                 .Take(9)
                 .ToArray();
-        }
-
-        public int GetUserGlobalRanking(ulong userId)
-        {
-            return _set
-                .GroupBy(x => x.UserId)
-                .Count(x => x.Sum(y => y.Xp) > _set
-                    .Where(y => y.UserId == userId)
-                    .Sum(y => y.Xp)) + 1;
         }
 
         public int GetUserGuildRanking(ulong userId, ulong guildId)
@@ -61,17 +47,6 @@ namespace NadekoBot.Services.Database.Repositories.Impl
                     .Select(y => y.Xp)
                     .DefaultIfEmpty()
                     .Sum())) + 1;
-        }
-
-        public (ulong UserId, int TotalXp)[] GetUsersFor(int page)
-        {
-            return _set.GroupBy(x => x.UserId)
-                .OrderByDescending(x => x.Sum(y => y.Xp))
-                .Skip(page * 9)
-                .Take(9)
-                .AsEnumerable()
-                .Select(x => (x.Key, x.Sum(y => y.Xp)))
-                .ToArray();
         }
     }
 }
