@@ -19,8 +19,11 @@ namespace NadekoBot.Modules.NSFW
     public class NSFW : NadekoTopLevelModule<SearchesService>
     {
         private static readonly ConcurrentDictionary<ulong, Timer> _autoHentaiTimers = new ConcurrentDictionary<ulong, Timer>();
+        private static readonly ConcurrentDictionary<ulong, Timer> _autoBoobTimers = new ConcurrentDictionary<ulong, Timer>();
+        private static readonly ConcurrentDictionary<ulong, Timer> _autoButtTimers = new ConcurrentDictionary<ulong, Timer>();
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
 
+		#region Internals
         private async Task InternalHentai(IMessageChannel channel, string tag, bool noError)
         {
             var rng = new NadekoRandom();
@@ -50,9 +53,65 @@ namespace NadekoBot.Modules.NSFW
                 .ConfigureAwait(false);
         }
 
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Hentai([Remainder] string tag = null) =>
-            InternalHentai(Context.Channel, tag, false);
+        public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
+        {
+            ImageCacherObject imgObj;
+            try
+            {
+                imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
+            }
+            catch (TagBlacklistedException)
+            {
+                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
+                return;
+            }
+
+            if (imgObj == null)
+                await ReplyErrorLocalized("not_found").ConfigureAwait(false);
+            else
+            {
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithDescription($"{Context.User} [{tag ?? "url"}]({imgObj}) ")
+                    .WithFooter(efb => efb.WithText(type.ToString()));
+
+                if (Uri.IsWellFormedUriString(imgObj.FileUrl, UriKind.Absolute))
+                    embed.WithImageUrl(imgObj.FileUrl);
+                else
+                    _log.Error($"Image link from {type} is not a proper Url: {imgObj.FileUrl}");
+
+                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+        }
+        
+		private async Task InternalBoobs(IMessageChannel Channel)
+        {
+            try
+            {
+                JToken obj;
+                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
+                await Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+            }
+        }
+
+        private async Task InternalButts(IMessageChannel Channel)
+        {
+            try
+            {
+                JToken obj;
+                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
+                await Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+            }
+        }
+		#endregion
+			
 #if !GLOBAL_NADEKO
         [NadekoCommand, Usage, Description, Aliases]
         [RequireUserPermission(ChannelPermission.ManageMessages)]
@@ -99,8 +158,87 @@ namespace NadekoBot.Modules.NSFW
                 interval,
                 string.Join(", ", tagsArr)).ConfigureAwait(false);
         }
-#endif
+		
+		[NadekoCommand, Usage, Description, Aliases]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        public async Task AutoBoobs(int interval = 0)
+        {
+            Timer t;
 
+            if (interval == 0)
+            {
+                if (!_autoBoobTimers.TryRemove(Context.Channel.Id, out t)) return;
+
+                t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                await ReplyConfirmLocalized("autoboobs_stopped").ConfigureAwait(false);
+                return;
+            }
+
+            if (interval < 20)
+                return;
+
+            t = new Timer(async (state) =>
+            {
+                try
+                {
+                    await InternalBoobs(Context.Channel).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }, null, interval * 1000, interval * 1000);
+
+            _autoBoobTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            {
+                old.Change(Timeout.Infinite, Timeout.Infinite);
+                return t;
+            });
+
+            await ReplyConfirmLocalized("autoboobs_started", interval).ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        public async Task AutoButts(int interval = 0)
+        {
+            Timer t;
+
+            if (interval == 0)
+            {
+                if (!_autoButtTimers.TryRemove(Context.Channel.Id, out t)) return;
+
+                t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                await ReplyConfirmLocalized("autobutts_stopped").ConfigureAwait(false);
+                return;
+            }
+
+            if (interval < 20)
+                return;
+
+            t = new Timer(async (state) =>
+            {
+                try
+                {
+                    await InternalButts(Context.Channel).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }, null, interval * 1000, interval * 1000);
+
+            _autoButtTimers.AddOrUpdate(Context.Channel.Id, t, (key, old) =>
+            {
+                old.Change(Timeout.Infinite, Timeout.Infinite);
+                return t;
+            });
+
+            await ReplyConfirmLocalized("autobutts_started", interval).ConfigureAwait(false);
+        }
+#endif
+		
+		#region Commands
         [NadekoCommand, Usage, Description, Aliases]
         public async Task HentaiBomb([Remainder] string tag = null)
         {
@@ -127,61 +265,7 @@ namespace NadekoBot.Modules.NSFW
                 _hentaiBombBlacklist.TryRemove(Context.Guild?.Id ?? Context.User.Id);
             }
         }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Yandere([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Konachan([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task E621([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.E621, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Rule34([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Danbooru([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Gelbooru([Remainder] string tag = null)
-            => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task Boobs()
-        {
-            try
-            {
-                JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.oboobs.ru/boobs/{new NadekoRandom().Next(0, 10330)}").ConfigureAwait(false))[0];
-                await Context.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-            }
-        }
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public async Task Butts()
-        {
-            try
-            {
-                JToken obj;
-                obj = JArray.Parse(await _service.Http.GetStringAsync($"http://api.obutts.ru/butts/{new NadekoRandom().Next(0, 4335)}").ConfigureAwait(false))[0];
-                await Context.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-            }
-        }
-
+		
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task NsfwTagBlacklist([Remainder] string tag = null)
@@ -214,35 +298,44 @@ namespace NadekoBot.Modules.NSFW
             _service.ClearCache();
             return Context.Channel.SendConfirmAsync("👌");
         }
+		
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Hentai([Remainder] string tag = null) =>
+            InternalHentai(Context.Channel, tag, false);
 
-        public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
-        {
-            ImageCacherObject imgObj;
-            try
-            {
-                imgObj = await _service.DapiSearch(tag, type, Context.Guild?.Id, forceExplicit).ConfigureAwait(false);
-            }
-            catch (TagBlacklistedException)
-            {
-                await ReplyErrorLocalized("blacklisted_tag").ConfigureAwait(false);
-                return;
-            }
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Yandere([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
-            if (imgObj == null)
-                await ReplyErrorLocalized("not_found").ConfigureAwait(false);
-            else
-            {
-                var embed = new EmbedBuilder().WithOkColor()
-                    .WithDescription($"{Context.User} [{tag ?? "url"}]({imgObj}) ")
-                    .WithFooter(efb => efb.WithText(type.ToString()));
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Konachan([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
-                if (Uri.IsWellFormedUriString(imgObj.FileUrl, UriKind.Absolute))
-                    embed.WithImageUrl(imgObj.FileUrl);
-                else
-                    _log.Error($"Image link from {type} is not a proper Url: {imgObj.FileUrl}");
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task E621([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
-                await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            }
-        }
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Rule34([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Danbooru([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Gelbooru([Remainder] string tag = null)
+            => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Boobs()
+            => InternalBoobs(Context.Channel);
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Butts()
+            => InternalButts(Context.Channel);
+		#endregion
+
+
     }
 }

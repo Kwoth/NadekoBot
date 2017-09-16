@@ -1728,7 +1728,7 @@
   <data name="save_usage" xml:space="preserve">
     <value>`{0}save classical1`</value>
   </data>
-    <data name="streamrole_cmd" xml:space="preserve">
+  <data name="streamrole_cmd" xml:space="preserve">
     <value>streamrole</value>
   </data>
   <data name="streamrole_desc" xml:space="preserve">
@@ -3563,6 +3563,24 @@
   </data>
   <data name="nsfwtagblacklist_desc" xml:space="preserve">
     <value>Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.</value>
+  </data>
+  <data name="autoboobs_cmd" xml:space="preserve">
+    <value>autoboobs</value>
+  </data>
+  <data name="autoboobs_desc" xml:space="preserve">
+    <value>Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autoboobs_usage" xml:space="preserve">
+    <value>`{0}autoboobs 30` or `{0}autoboobs`</value>
+  </data>
+  <data name="autobutts_cmd" xml:space="preserve">
+    <value>autobutts</value>
+  </data>
+  <data name="autobutts_desc" xml:space="preserve">
+    <value>Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable.</value>
+  </data>
+  <data name="autobutts_usage" xml:space="preserve">
+    <value>`{0}autobutts 30` or `{0}autobutts`</value>
   </data>
   <data name="experience_cmd" xml:space="preserve">
     <value>experience xp</value>

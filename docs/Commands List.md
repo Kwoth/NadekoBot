@@ -264,6 +264,8 @@ Commands and aliases | Description | Usage
 ----------------|--------------|-------
 `.hentai` | Shows a hentai image from a random website (gelbooru or danbooru or konachan or atfbooru or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.  | `.hentai yuri`
 `.autohentai` | Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tags. 20 seconds minimum. Provide no arguments to disable. **Requires ManageMessages channel permission.** | `.autohentai 30 yuri|tail|long_hair` or `.autohentai`
+`.autoboobs` | Posts a boobs every X seconds. 20 seconds minimum. Provide no arguments to disable. **Requires ManageMessages channel permission.** | `.autoboobs 30` or `.autoboobs`
+`.autobutts` | Posts a butts every X seconds. 20 seconds minimum. Provide no arguments to disable. **Requires ManageMessages channel permission.** | `.autobutts 30` or `.autobutts`
 `.hentaibomb` | Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.  | `.hentaibomb yuri`
 `.yandere` | Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)  | `.yandere tag1+tag2`
 `.konachan` | Shows a random hentai image from konachan with a given tag. Tag is optional but preferred.  | `.konachan yuri`
