@@ -455,7 +455,7 @@ Commands and aliases | Description | Usage
 `.xpleaderboard` `.xplb` | Shows current server's xp leaderboard.  | `.xplb`
 `.xpgleaderboard` `.xpglb` | Shows the global xp leaderboard.  | `.xpglb`
 `.xpadd` | Adds xp to a user on the server. This does not affect their global ranking. You can use negative values. **Requires Administrator server permission.** | `.xpadd 100 @b1nzy`
-`.clubcreate` | Creates a club. You must be atleast level 5 and not be in the club already.  | `.clubcreate b1nzy's friends`
+`.clubcreate` | Creates a club. You must be at least level 5 and not be in the club already.  | `.clubcreate b1nzy's friends`
 `.clubicon` | Sets the club icon.  | `.clubicon https://i.imgur.com/htfDMfU.png`
 `.clubinfo` | Shows information about the club.  | `.clubinfo b1nzy's friends#123`
 `.clubbans` | Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.  | `.clubbans 2`
