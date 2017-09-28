@@ -3652,7 +3652,7 @@
     <value>`{0}clubcreate b1nzy's friends`</value>
   </data>
   <data name="clubcreate_desc" xml:space="preserve">
-    <value>Creates a club. You must be atleast level 5 and not be in the club already.</value>
+    <value>Creates a club. You must be at least level 5 and not be in the club already.</value>
   </data>
   <data name="clubinformation_cmd" xml:space="preserve">
     <value>clubinfo</value>
