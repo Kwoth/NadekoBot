@@ -795,7 +795,7 @@
     "administration_migration_error": "Wystąpił błąd podczas migrowania, sprawdz konsole bota po więcej informacji.",
     "searches_hex_invalid": "Nieprawidłowy kolor.",
     "permissions_global_perms_reset": "Uprawnienia globalne zostały zrestartowane.",
-	"help_module": "Moduł: {0}",
+    "help_module": "Moduł: {0}",
     "games_hangman_stopped": "Gra w wisielca została zatrzymana.",
     "music_autoplaying": "Auto-Odtwarzanie.",
     "music_queue_stopped": "Odtwarzanie zostało wstrzymane. Użyj komendy {0} aby wznowić odtwarzanie.",
