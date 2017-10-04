@@ -804,5 +804,7 @@
     "music_songs_shuffle_enable": "Odtwarzanie losowe zostało włączone.",
     "music_songs_shuffle_disable": "Odtwarzanie losowe zostało wyłączone.",
     "music_song_skips_after": "Piosenki będą pomijane po {0}",
-    "administration_warnings_list": "Lista wszystkich ostrzeżonych użytkowników na tym serwerze"
+    "administration_warnings_list": "Lista wszystkich ostrzeżonych użytkowników na tym serwerze",
+    "searches_streaming": "Streamuje",
+	"searches_followers": "Obserwujący"
 }
