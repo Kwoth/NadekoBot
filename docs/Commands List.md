@@ -416,7 +416,7 @@ Commands and aliases | Description | Usage
 `.userid` `.uid` | Shows user ID.  | `.uid` or `.uid @SomeGuy`
 `.channelid` `.cid` | Shows current channel ID.  | `.cid`
 `.serverid` `.sid` | Shows current server ID.  | `.sid`
-`.roles` | List roles on this server or a roles of a specific user if specified. Paginated, 20 roles per page.  | `.roles 2` or `.roles @Someone`
+`.roles` | List roles on this server or roles of a user if specified. Paginated, 20 roles per page.  | `.roles 2` or `.roles @Someone`
 `.channeltopic` `.ct` | Sends current channel's topic as a message.  | `.ct`
 `.createinvite` `.crinv` | Creates a new invite which has infinite max uses and never expires. **Requires CreateInstantInvite channel permission.** | `.crinv`
 `.stats` | Shows some basic stats for Nadeko.  | `.stats`
