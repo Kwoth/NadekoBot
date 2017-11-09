@@ -1744,7 +1744,7 @@
     ]
   },
   "cash": {
-    "Cmd": "$ currency $$ $$$ cash cur",
+    "Cmd": "$ currency $$ $$$ cash cur wallet",
     "Desc": "Check how much currency a person has. (Defaults to yourself)",
     "Usage": [
       "{0}$",
