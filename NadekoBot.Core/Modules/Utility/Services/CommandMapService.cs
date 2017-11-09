@@ -58,18 +58,6 @@ namespace NadekoBot.Modules.Utility.Services
             Trigger: {1}
             Mapping: {2}", guild.Id, input, newInput);
 
-                        try
-                        {
-                            var toDelete = await channel.SendConfirmAsync($"{input} => {newInput}").ConfigureAwait(false);
-                            var _ = Task.Run(async () =>
-                            {
-                                await Task.Delay(1500);
-                                await toDelete.DeleteAsync(new RequestOptions() {
-                                    RetryMode = RetryMode.AlwaysRetry
-                                });
-                            });
-                        }
-                        catch { }
                         return newInput;
                     }
                 }
