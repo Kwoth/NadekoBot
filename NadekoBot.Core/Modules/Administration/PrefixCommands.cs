@@ -34,14 +34,20 @@ namespace NadekoBot.Modules.Administration
             }
 
             [NadekoCommand, Usage, Description, Aliases]
+            [Priority(1)]
+            public async Task DefPrefix()
+            {
+                await ReplyConfirmLocalized("defprefix_current", Format.Code(_cmdHandler.DefaultPrefix)).ConfigureAwait(false);
+                return;
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
+            [Priority(0)]
             public async Task DefPrefix([Remainder]string prefix)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
-                {
-                    await ReplyConfirmLocalized("defprefix_current", _cmdHandler.DefaultPrefix).ConfigureAwait(false);
                     return;
-                }
 
                 var oldPrefix = _cmdHandler.DefaultPrefix;
                 var newPrefix = _cmdHandler.SetDefaultPrefix(prefix);
