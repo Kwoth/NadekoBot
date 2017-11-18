@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
 using NadekoBot.Common.Collections;
-using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
+using NadekoBot.Extensions;
 using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -26,10 +25,12 @@ namespace NadekoBot.Modules.Administration.Services
     {
         public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
         public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
+
         public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>> UnmuteTimers { get; }
             = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Timer>>();
 
         public event Action<IGuildUser, MuteType> UserMuted = delegate { };
+
         public event Action<IGuildUser, MuteType> UserUnmuted = delegate { };
 
         private static readonly OverwritePermissions denyOverwrite = new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny, attachFiles: PermValue.Deny);
@@ -177,8 +178,7 @@ namespace NadekoBot.Modules.Administration.Services
             var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
             if (muteRole == null)
             {
-
-                //if it doesn't exist, create it 
+                //if it doesn't exist, create it
                 try { muteRole = await guild.CreateRoleAsync(muteRoleName, GuildPermissions.None).ConfigureAwait(false); }
                 catch
                 {
@@ -192,7 +192,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try
                 {
-                    if (!toOverwrite.PermissionOverwrites.Select(x => x.Permissions).Contains(denyOverwrite))
+                    if (toOverwrite.PermissionOverwrites.Select(x => x.TargetId == muteRole.Id).Count() == 0)
                     {
                         await toOverwrite.AddPermissionOverwriteAsync(muteRole, denyOverwrite)
                                 .ConfigureAwait(false);
