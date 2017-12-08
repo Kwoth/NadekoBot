@@ -140,9 +140,10 @@
   },
   "addplaying": {
     "Cmd": "addplaying adpl",
-    "Desc": "Adds a specified string to the list of playing strings to rotate. Supported placeholders: `%servers%`, `%users%`, `%playing%`, `%queued%`, `%time%`, `%shardid%`, `%shardcount%`, `%shardguilds%`.",
+    "Desc": "Adds a specified string to the list of playing strings to rotate. You have to pick either 'Playing', 'Watching' or 'ListeningTo' as the first parameter. Supported placeholders: `%servers%`, `%users%`, `%playing%`, `%queued%`, `%time%`, `%shardid%`, `%shardcount%`, `%shardguilds%`.",
     "Usage": [
-      "{0}adpl"
+      "{0}adpl Playing with you",
+      "{0}adpl Watching you sleep"
     ]
   },
   "listplaying": {
@@ -492,9 +493,11 @@
   },
   "setgame": {
     "Cmd": "setgame",
-    "Desc": "Sets the bots game.",
+    "Desc": "Sets the bots game status to either Playing, ListeningTo, or Watching.",
     "Usage": [
-      "{0}setgame with snakes"
+      "{0}setgame Playing with snakes.",
+      "{0}setgame Watching anime.",
+      "{0}setgame ListeningTo music."
     ]
   },
   "send": {
@@ -2399,11 +2402,18 @@
       "{0}smch"
     ]
   },
-  "reloadimages": {
-    "Cmd": "reloadimages",
+  "imagesreload": {
+    "Cmd": "imagesreload",
     "Desc": "Reloads images bot is using. Safe to use even when bot is being used heavily.",
     "Usage": [
-      "{0}reloadimages"
+      "{0}imagesreload"
+    ]
+  },
+  "botconfigreload": {
+    "Cmd": "botconfigreload",
+    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .execsql or manually in the .db file.",
+    "Usage": [
+      "{0}botconfigreload"
     ]
   },
   "shardstats": {
@@ -2636,7 +2646,7 @@
     ]
   },
   "claimpatreonrewards": {
-    "Cmd": "clparew",
+    "Cmd": "clparew claparew",
     "Desc": "Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.",
     "Usage": [
       "{0}clparew"
