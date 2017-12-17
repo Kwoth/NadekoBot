@@ -3198,6 +3198,14 @@
       "{0}poec Standard \"Mirror of Kalandra\""
     ]
   },
+  "wants": {
+    "Cmd": "wants",
+    "Desc": "Shows a list of users that have affinity set to the target user. Defaults to yourself.",
+    "Usage": [
+      "{0}wants",
+      "{0}wants @SomeUser"
+    ]
+  },
   "rollduel": {
     "cmd": "rollduel",
     "desc": "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",
