@@ -30,6 +30,13 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                         .Where(wi => wi.Claimer != null && wi.Claimer.UserId == userId)
                         .ToList();
         }
+		
+		public IList<WaifuInfo> ByAffinityUserId(ulong userId)
+		{
+			return _set.Include(wi => wi.Waifu)
+						.Where(wi => wi.Affinity != null && wi.Affinity.UserId == userId)
+						.ToList();
+		}
 
         public IList<WaifuInfo> GetTop(int count, int skip = 0)
         {
