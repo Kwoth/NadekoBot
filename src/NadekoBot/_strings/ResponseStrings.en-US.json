@@ -950,5 +950,8 @@
   "searches_account_not_found": "That account does not exist or is set to private.",
   "searches_ninja_not_found": "Currency with that name was not found or an invalid league name was provided.",
   "searches_leagues_not_found": "Unable to retrieve data from Path of Exile API.",
-  "searches_pog_not_found": "Unable to retrieve data from Path of Exile Wiki or invalid unique item."
+  "searches_pog_not_found": "Unable to retrieve data from Path of Exile Wiki or invalid unique item.",
+  "gambling_waifu_affinities_you": "Who wants to be {0}'s waifu:",
+  "gambling_waifu_affinities_claimed": "Content",
+  "gambling_waifu_affinities_unclaimed": "Unrequited"
 }

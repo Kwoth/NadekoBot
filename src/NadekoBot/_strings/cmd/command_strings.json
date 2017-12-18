@@ -3198,12 +3198,12 @@
       "{0}poec Standard \"Mirror of Kalandra\""
     ]
   },
-  "wants": {
-    "Cmd": "wants",
+  "waifuwants": {
+    "Cmd": "waifuwants wants",
     "Desc": "Shows a list of users that have affinity set to the target user. Defaults to yourself.",
     "Usage": [
-      "{0}wants",
-      "{0}wants @SomeUser"
+      "{0}waifuwants",
+      "{0}waifuwants @SomeUser"
     ]
   },
   "rollduel": {

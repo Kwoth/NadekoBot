@@ -503,7 +503,7 @@ namespace NadekoBot.Modules.Gambling
 			
 			[NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-			public async Task Wants([Remainder]IGuildUser target = null)
+			public async Task WaifuWants([Remainder]IGuildUser target = null)
 			{
 				if (target == null)
                     target = (IGuildUser)Context.User;
@@ -536,9 +536,9 @@ namespace NadekoBot.Modules.Gambling
 					else{unclaimedwants.Add(waifu.Waifu.ToString());}
 				}
 				var nobody = GetText("nobody");
-				var embed = new EmbedBuilder().WithOkColor().WithTitle("People who want to be your waifu")
-								.AddField(efb=>efb.WithName("Claimed").WithValue(claimedwants.Count==0?nobody:string.Join("\n", claimedwants)).WithIsInline(true))
-								.AddField(efb=>efb.WithName("Unclaimed").WithValue(unclaimedwants.Count==0?nobody:string.Join("\n",unclaimedwants)).WithIsInline(true));
+				var embed = new EmbedBuilder().WithOkColor().WithTitle(GetText("waifu_affinities_you", target))
+								.AddField(efb=>efb.WithName(GetText("waifu_affinities_claimed")).WithValue(claimedwants.Count==0?nobody:string.Join("\n", claimedwants)).WithIsInline(true))
+								.AddField(efb=>efb.WithName(GetText("waifu_affinities_unclaimed")).WithValue(unclaimedwants.Count==0?nobody:string.Join("\n",unclaimedwants)).WithIsInline(true));
 				await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
 			}
 			
