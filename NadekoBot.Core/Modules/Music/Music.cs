@@ -751,8 +751,11 @@ namespace NadekoBot.Modules.Music
 
             DirectoryInfo dir;
             try { dir = new DirectoryInfo(dirPath); } catch { return; }
+
+            List<string> validExtensions = new List<string>() { ".mp3", ".flac" };
             var fileEnum = dir.GetFiles("*", SearchOption.AllDirectories)
-                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System) && x.Extension != ".jpg" && x.Extension != ".png");
+                                .Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System) &&
+                                       validExtensions.Contains(x.Extension.ToLowerInvariant()));
             foreach (var file in fileEnum)
             {
                 try
