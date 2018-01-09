@@ -962,6 +962,8 @@
   "utility_reminder_deleted": "Reminder #{0} was deleted.",
   "utility_reminder_not_exist": "Reminder at that index does not exist.",
   "utility_reminders_none": "No reminder on this page.",
+  "permissions_gwl_title": "GlobalWhitelist Utility (`.cmds permissions`)",
+  "permissions_gwl_titlefield": "GlobalWhitelist Names",
   "permissions_gwl_create_error": "Error creating whitelist: {0}",
   "permissions_gwl_created": "Successfully created the whitelist named {0}",
   "permissions_gwl_empty": "No whitelists found! Do `.gwl MyWhitelistName` to make a new whitelist.",
