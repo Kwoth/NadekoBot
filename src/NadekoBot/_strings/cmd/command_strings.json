@@ -864,6 +864,14 @@
       "{0}qdel 123456"
     ]
   },
+  "listquoteskeyword": {
+    "Cmd": "listquoteskeyword liqukwd",
+    "Desc": "Lists all quotes on the server matching a specific keyword. 15 Per page. An optional page number can be used at the end if there are many quotes.",
+    "Usage": [
+      "{0}listquoteskeyword keyword",
+      "{0}liqukwd keyword 3"
+    ]
+  },
   "draw": {
     "Cmd": "draw",
     "Desc": "Draws a card from this server's deck. You can draw up to 10 cards by supplying a number of cards to draw.",
