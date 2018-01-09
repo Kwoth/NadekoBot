@@ -91,9 +91,9 @@ namespace NadekoBot.Modules.Permissions
                         string channelStr = "*none*";
                         string userStr = "*none*";
 
-                        if (servers.Length > 0) { serverStr = string.Join("\n",servers); }
-                        if (channels.Length > 0) { channelStr = "<#"+string.Join(">\n<#",channels)+">"; }
-                        if (users != null) { userStr = "<@"+string.Join(">\n<#",users)+">"; }
+                        if (servers.Length > 0) { serverStr = string.Join("\n",_service.GetNameOrMentionFromId(GlobalWhitelistType.Server, servers)); }
+                        if (channels.Length > 0) { channelStr = string.Join("\n",_service.GetNameOrMentionFromId(GlobalWhitelistType.Channel, channels)); }
+                        if (users.Length > 0) { userStr = string.Join("\n",_service.GetNameOrMentionFromId(GlobalWhitelistType.User, users)); }
                             
                         var embed = new EmbedBuilder()
                             .WithOkColor()
