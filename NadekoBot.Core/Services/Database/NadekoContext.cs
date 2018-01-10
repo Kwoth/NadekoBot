@@ -32,7 +32,6 @@ namespace NadekoBot.Core.Services.Database
         public DbSet<Reminder> Reminders { get; set; }
         public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
         public DbSet<BotConfig> BotConfig { get; set; }
-        public DbSet<Currency> Currency { get; set; }
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
@@ -52,6 +51,7 @@ namespace NadekoBot.Core.Services.Database
         public DbSet<EightBallResponse> EightBallResponses { get; set; }
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
+        public DbSet<Stake> Stakes { get; set; }
 
         public NadekoContext(DbContextOptions<NadekoContext> options) : base(options)
         {
@@ -185,15 +185,7 @@ namespace NadekoBot.Core.Services.Database
                 .HasDefaultValue(0);
 
             #endregion
-
-            #region Currency
-            var currencyEntity = modelBuilder.Entity<Currency>();
-
-            currencyEntity
-                .HasIndex(c => c.UserId)
-                .IsUnique();
-            #endregion
-
+            
             #region Permission
             var permissionEntity = modelBuilder.Entity<Permission>();
             permissionEntity

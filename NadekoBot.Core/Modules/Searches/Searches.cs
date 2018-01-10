@@ -69,22 +69,12 @@ namespace NadekoBot.Modules.Searches
 
             if (nearest != null)
             {
-                //wrap this into some class, ther'es the same code in execsql too
-                var msg = await Context.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
+                var embed = new EmbedBuilder()
                         .WithTitle(GetText("crypto_not_found"))
-                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")))
-                        .WithFooter("Y/n")).ConfigureAwait(false);
+                        .WithDescription(GetText("did_you_mean", Format.Bold($"{crypto.Name} ({crypto.Symbol})")));
 
-                var input = await GetUserInputAsync(Context.User.Id, Context.Channel.Id);
-                input = input?.ToLowerInvariant().ToString();
-
-                if (input != "yes" && input != "y")
-                {
-                    var __ = msg.DeleteAsync();
+                if (!await PromptUserConfirmAsync(embed))
                     return;
-                }
-                var _ = msg.DeleteAsync();
             }
 
             await Context.Channel.EmbedAsync(new EmbedBuilder()
@@ -122,7 +112,7 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             var rep = new ReplacementBuilder()
-                        .WithDefault(Context.User, Context.Channel, Context.Guild, (DiscordSocketClient)Context.Client)
+                        .WithDefault(Context.User, Context.Channel, (SocketGuild)Context.Guild, (DiscordSocketClient)Context.Client)
                         .Build();
 
             if (CREmbed.TryParse(message, out var embedData))
@@ -397,7 +387,7 @@ namespace NadekoBot.Modules.Searches
 
             terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
-            var fullQueryLink = $"https://www.google.com/search?q={ terms }&gws_rd=cr,ssl";
+            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl";
             var config = Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
 
@@ -435,9 +425,11 @@ namespace NadekoBot.Modules.Searches
                 .WithFooter(efb => efb.WithText(totalResults));
 
             var desc = await Task.WhenAll(results.Select(async res =>
-                    $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link))})\n{res?.Text}\n\n"))
+                    $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link))})\n{res?.Text?.TrimTo(400 - res.Value.Title.Length - res.Value.Link.Length)}\n\n"))
                 .ConfigureAwait(false);
-            await Context.Channel.EmbedAsync(embed.WithDescription(string.Concat(desc))).ConfigureAwait(false);
+            var descStr = string.Concat(desc);
+            _log.Info(descStr.Length);
+            await Context.Channel.EmbedAsync(embed.WithDescription(descStr)).ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
