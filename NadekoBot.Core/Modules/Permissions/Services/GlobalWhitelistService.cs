@@ -455,6 +455,8 @@ namespace NadekoBot.Modules.Permissions.Services
                     .Where( x => x.Name.Equals(name) )
                     .FirstOrDefault();
 
+				uow.Complete();
+
                 if (item == null) { return false; }
                 else { return true; }
             }
@@ -476,9 +478,47 @@ namespace NadekoBot.Modules.Permissions.Services
                     .Where( x => x.Name.Equals(name) )
                     .FirstOrDefault();
 
+				uow.Complete();
+
                 if (item == null) { return false; }
                 else { return true; }
             }
         }
+
+		public UnblockedCmdOrMdl[] GetGroupUnblocked(GlobalWhitelistSet group)
+		{
+			UnblockedCmdOrMdl[] items;
+			using (var uow = _db.UnitOfWork)
+            {
+                // Retrieve a list of unblocked names linked to group on GlobalUnblockedSets.UnblockedPK
+                items = group.GlobalUnblockedSets
+					.Join(
+						uow._context.Set<UnblockedCmdOrMdl>(), 
+						gu => gu.UnblockedPK, u => u.Id,
+						(relation, unblocked) => unblocked
+						)
+					.ToArray();
+                uow.Complete();
+            }
+			return items;
+		}
+
+		public string[] GetGroupUnblockedNames(GlobalWhitelistSet group, UnblockedType type)
+		{
+			string[] names;
+			using (var uow = _db.UnitOfWork)
+            {
+                // Retrieve a list of unblocked names linked to group on GlobalUnblockedSets.UnblockedPK
+                names = group.GlobalUnblockedSets
+					.Join(
+						uow._context.Set<UnblockedCmdOrMdl>().Where(u => u.Type.Equals(type)), 
+						gu => gu.UnblockedPK, u => u.Id,
+						(relation, unblocked) => unblocked.Name
+						)
+					.ToArray();
+                uow.Complete();
+            }
+			return names;
+		}
     }
 }
