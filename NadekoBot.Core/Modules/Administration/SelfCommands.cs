@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using NadekoBot.Extensions;
 using System;
@@ -18,6 +18,8 @@ using Newtonsoft.Json;
 using NadekoBot.Common.ShardCom;
 using Discord.Net;
 using NadekoBot.Core.Common;
+using NadekoBot.Common;
+using NadekoBot.Common.Replacements;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -31,18 +33,16 @@ namespace NadekoBot.Modules.Administration
             private static readonly object _locker = new object();
             private readonly DiscordSocketClient _client;
             private readonly IImageCache _images;
-            private readonly IBotConfigProvider _bc;
             private readonly NadekoBot _bot;
             private readonly IBotCredentials _creds;
             private readonly IDataCache _cache;
 
             public SelfCommands(DbService db, NadekoBot bot, DiscordSocketClient client,
-                IBotConfigProvider bc, IBotCredentials creds, IDataCache cache)
+                IBotCredentials creds, IDataCache cache)
             {
                 _db = db;
                 _client = client;
                 _images = cache.LocalImages;
-                _bc = bc;
                 _bot = bot;
                 _creds = creds;
                 _cache = cache;
@@ -415,7 +415,7 @@ namespace NadekoBot.Modules.Administration
 
             [NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetGame(PlayingType type, [Remainder] string game = null)
+            public async Task SetGame(ActivityType type, [Remainder] string game = null)
             {
                 await _bot.SetGameAsync(game, type).ConfigureAwait(false);
 
@@ -428,7 +428,7 @@ namespace NadekoBot.Modules.Administration
             {
                 name = name ?? "";
 
-                await _client.SetGameAsync(name, url, StreamType.Twitch).ConfigureAwait(false);
+                await _client.SetGameAsync(name, url, ActivityType.Streaming).ConfigureAwait(false);
 
                 await ReplyConfirmLocalized("set_stream").ConfigureAwait(false);
             }
@@ -449,6 +449,10 @@ namespace NadekoBot.Modules.Administration
                 if (server == null)
                     return;
 
+                var rep = new ReplacementBuilder()
+                    .WithDefault(Context)
+                    .Build();
+
                 if (ids[1].ToUpperInvariant().StartsWith("C:"))
                 {
                     var cid = ulong.Parse(ids[1].Substring(2));
@@ -457,7 +461,16 @@ namespace NadekoBot.Modules.Administration
                     {
                         return;
                     }
-                    await ch.SendMessageAsync(msg).ConfigureAwait(false);
+
+                    if (CREmbed.TryParse(msg, out var crembed))
+                    {
+                        rep.Replace(crembed);
+                        await ch.EmbedAsync(crembed.ToEmbed(), $"`#{Context.User}` 📣 " + crembed.PlainText?.SanitizeMentions())
+                            .ConfigureAwait(false);
+                        await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
+                        return;
+                    }
+                    await ch.SendMessageAsync($"**{Context.User}** 📣 " + rep.Replace(msg)?.SanitizeMentions());
                 }
                 else if (ids[1].ToUpperInvariant().StartsWith("U:"))
                 {
@@ -467,7 +480,17 @@ namespace NadekoBot.Modules.Administration
                     {
                         return;
                     }
-                    await user.SendMessageAsync(msg).ConfigureAwait(false);
+
+                    if (CREmbed.TryParse(msg, out var crembed))
+                    {
+                        rep.Replace(crembed);
+                        await (await user.GetOrCreateDMChannelAsync()).EmbedAsync(crembed.ToEmbed(), $"`{Context.User}` 📣 " + crembed.PlainText?.SanitizeMentions())
+                            .ConfigureAwait(false);
+                        await ReplyConfirmLocalized("message_sent").ConfigureAwait(false);
+                        return;
+                    }
+
+                    await (await user.GetOrCreateDMChannelAsync()).SendMessageAsync($"`{Context.User}` 📣 " + rep.Replace(msg)?.SanitizeMentions());
                 }
                 else
                 {

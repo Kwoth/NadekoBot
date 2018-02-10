@@ -137,6 +137,43 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        //[NadekoCommand, Usage, Description, Aliases]
+        //public async Task Distance(string p1, string p2)
+        //{
+        //    if (string.IsNullOrWhiteSpace(p1) || string.IsNullOrWhiteSpace(p2))
+        //        return;
+
+        //    var embed = new EmbedBuilder();
+        //    string[] response;
+        //    try
+        //    {
+        //        response = await Task.WhenAll(
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p1}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"),
+        //            _service.Http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={p2}&appid=42cd627dd60debf25a5739e50a217d74&units=metric"));
+
+
+        //        var d1 = JsonConvert.DeserializeObject<WeatherData>(response[0]);
+        //        var d2 = JsonConvert.DeserializeObject<WeatherData>(response[1]);
+
+        //        double R = 6371000; // metres
+        //        var φ1 = 0.0174533 * d1.Coord.Lat;
+        //        var φ2 = 0.0174533 * d2.Coord.Lat;
+        //        var Δφ = 0.0174533 * (d2.Coord.Lat - d1.Coord.Lat);
+        //        var Δλ = 0.0174533 * (d2.Coord.Lon - d1.Coord.Lon);
+
+        //        var a = Math.Sin(Δφ / 2) * Math.Sin(Δφ / 2) +
+        //                Math.Cos(φ1) * Math.Cos(φ2) *
+        //                Math.Sin(Δλ / 2) * Math.Sin(Δλ / 2);
+        //        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+        //        await ReplyConfirmLocalized("distance", p1, p2, R * c).ConfigureAwait(false);
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //}
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Weather([Remainder] string query)
         {
@@ -387,7 +424,7 @@ namespace NadekoBot.Modules.Searches
 
             terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
-            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl";
+            var fullQueryLink = $"https://www.google.ca/search?q={ terms }&gws_rd=cr,ssl&hl=us";
             var config = Configuration.Default.WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink);
 
@@ -579,29 +616,29 @@ namespace NadekoBot.Modules.Searches
                 return;
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = new HttpClient())
+            var res = await _service.Http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
+            try
             {
-                http.DefaultRequestHeaders.Clear();
-                http.DefaultRequestHeaders.Add("Accept", "application/json");
-                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
-                try
+                var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
+                if (items.Any())
                 {
-                    var items = JObject.Parse(res);
-                    var item = items["list"][0];
-                    var word = item["word"].ToString();
-                    var def = item["definition"].ToString();
-                    var link = item["permalink"].ToString();
-                    var embed = new EmbedBuilder().WithOkColor()
-                                     .WithUrl(link)
-                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(word))
-                                     .WithDescription(def);
-                    await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
+                    await Context.Channel.SendPaginatedConfirmAsync((DiscordSocketClient)Context.Client, 0, (p) =>
+                    {
+                        var item = items[p];
+                        return new EmbedBuilder().WithOkColor()
+                                     .WithUrl(item.Permalink)
+                                     .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                                     .WithDescription(item.Definition);
+                    }, items.Length, 1);
+                    return;
                 }
             }
+            catch
+            {
+            }
+            await ReplyErrorLocalized("ud_error").ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -814,6 +851,32 @@ namespace NadekoBot.Modules.Searches
             }
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Bible(string book, string chapterAndVerse)
+        {
+            var obj = new BibleVerses();
+            try
+            {
+                var res = await _service.Http
+                    .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse);
+
+                obj = JsonConvert.DeserializeObject<BibleVerses>(res);
+            }
+            catch
+            {
+            }
+            if (obj.Error != null || obj.Verses == null || obj.Verses.Length == 0)
+                await Context.Channel.SendErrorAsync(obj.Error ?? "No verse found.").ConfigureAwait(false);
+            else
+            {
+                var v = obj.Verses[0];
+                await Context.Channel.EmbedAsync(new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle($"{v.BookName} {v.Chapter}:{v.Verse}")
+                    .WithDescription(v.Text));
+            }
+        }
         //[NadekoCommand, Usage, Description, Aliases]
         //public async Task MCPing([Remainder] string query2 = null)
         //{

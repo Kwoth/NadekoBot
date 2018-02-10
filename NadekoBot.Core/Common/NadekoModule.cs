@@ -19,6 +19,7 @@ namespace NadekoBot.Modules
         public readonly string LowerModuleTypeName;
 
         public NadekoStrings _strings { get; set; }
+        public IBotConfigProvider _bc { get; set; }
         public CommandHandler _cmdHandler { get; set; }
         public ILocalization _localization { get; set; }
 
@@ -72,7 +73,7 @@ namespace NadekoBot.Modules
         public Task<IUserMessage> ReplyErrorLocalized(string textKey, params object[] replacements)
         {
             var text = GetText(textKey, replacements);
-            return Context.Channel.SendErrorAsync(Context.User.Mention + " " + text);
+            return Context.Channel.SendErrorAsync(Format.Bold(Context.User.ToString()) + " " + text);
         }
 
         public Task<IUserMessage> ConfirmLocalized(string textKey, params object[] replacements)
@@ -84,7 +85,7 @@ namespace NadekoBot.Modules
         public Task<IUserMessage> ReplyConfirmLocalized(string textKey, params object[] replacements)
         {
             var text = GetText(textKey, replacements);
-            return Context.Channel.SendConfirmAsync(Context.User.Mention + " " + text);
+            return Context.Channel.SendConfirmAsync(Format.Bold(Context.User.ToString()) + " " + text);
         }
 
         public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed)

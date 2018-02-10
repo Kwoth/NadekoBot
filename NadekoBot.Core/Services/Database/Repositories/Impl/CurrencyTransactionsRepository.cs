@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace NadekoBot.Core.Services.Database.Repositories.Impl
 {
@@ -20,4 +21,4 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToList();
         }
     }
-}   
+}

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
+using System;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -18,15 +19,13 @@ namespace NadekoBot.Modules.Administration
         public class UserPunishCommands : NadekoSubmodule<UserPunishService>
         {
             private readonly DbService _db;
-            private readonly CurrencyService _cs;
-            private readonly IBotConfigProvider _bc;
+            private readonly ICurrencyService _cs;
 
             public UserPunishCommands(DbService db, MuteService muteService,
-                CurrencyService cs, IBotConfigProvider bc)
+                ICurrencyService cs)
             {
                 _db = db;
                 _cs = cs;
-                _bc = bc;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -114,16 +113,18 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
+                    var i = page * 9;
                     foreach (var w in warnings)
                     {
+                        i++;
                         var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"), w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
                         if (w.Forgiven)
                             name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
                         embed.AddField(x => x
-                            .WithName(name)
+                            .WithName($"#`{i}` " + name)
                             .WithValue(w.Reason.TrimTo(1020)));
-                    }
+                    }   
                 }
 
                 await Context.Channel.EmbedAsync(embed);
@@ -165,22 +166,46 @@ namespace NadekoBot.Modules.Administration
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
-            public Task Warnclear(IGuildUser user)
-                => Warnclear(user.Id);
+            public Task Warnclear(IGuildUser user, int index = 0)
+                => Warnclear(user.Id, index);
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.BanMembers)]
-            public async Task Warnclear(ulong userId)
+            public async Task Warnclear(ulong userId, int index = 0)
             {
+                if (index < 0)
+                    return;
+                var success = false;
                 using (var uow = _db.UnitOfWork)
                 {
-                    await uow.Warnings.ForgiveAll(Context.Guild.Id, userId, Context.User.ToString()).ConfigureAwait(false);
+                    if (index == 0)
+                    {
+                        await uow.Warnings.ForgiveAll(Context.Guild.Id, userId, Context.User.ToString()).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        success = uow.Warnings.Forgive(Context.Guild.Id, userId, Context.User.ToString(), index - 1);
+                    }
                     uow.Complete();
                 }
-
-                await ReplyConfirmLocalized("warnings_cleared",
-                    Format.Bold((Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString())).ConfigureAwait(false);
+                var userStr = Format.Bold((Context.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
+                if (index == -1)
+                {
+                    await ReplyConfirmLocalized("warnings_cleared", userStr).ConfigureAwait(false);
+                }
+                else
+                {
+                    if (success)
+                    {
+                        await ReplyConfirmLocalized("warning_cleared", Format.Bold(index.ToString()), userStr)
+                            .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await ReplyErrorLocalized("warning_clear_fail").ConfigureAwait(false);
+                    }
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -286,7 +311,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 }
 
-                await Context.Guild.AddBanAsync(user, 7, msg).ConfigureAwait(false);
+                await Context.Guild.AddBanAsync(user, 7, Context.User.ToString() + " | " + msg).ConfigureAwait(false);
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle("⛔️ " + GetText("banned_user"))
                         .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
@@ -364,7 +389,7 @@ namespace NadekoBot.Modules.Administration
                     }
                 }
 
-                await Context.Guild.AddBanAsync(user, 7).ConfigureAwait(false);
+                await Context.Guild.AddBanAsync(user, 7, Context.User.ToString() + " | " + msg).ConfigureAwait(false);
                 try { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
                 catch { await Context.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
 
@@ -395,7 +420,7 @@ namespace NadekoBot.Modules.Administration
                     catch { }
                 }
 
-                await user.KickAsync(msg).ConfigureAwait(false);
+                await user.KickAsync(Context.User.ToString() + " | " + msg).ConfigureAwait(false);
                 await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("kicked_user"))
                         .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
