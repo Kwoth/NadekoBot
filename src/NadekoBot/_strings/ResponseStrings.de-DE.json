@@ -946,5 +946,7 @@
     "gambling_roll_duel": "",
     "gambling_roll_duel_no_funds": "",
     "gambling_roll_duel_timeout": "",
-    "gambling_roll_duel_already_challenged": ""
+    "gambling_roll_duel_already_challenged": "",
+    "gambling_bj_created": "hat eine neue Runde BlackJack in diesem Channel gestartet.",
+    "gambling_bj_joined": "tretet dieser Runde BlackJack bei."
 }
