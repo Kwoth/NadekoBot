@@ -11,6 +11,8 @@ namespace NadekoBot.Modules.Searches.Common
         int Followers { get; }
         string ApiUrl { get; set; }
         string Icon { get; }
+		string StreamThumbnail { get; }
+		bool AdultStream { get; }
     }
 
     public class SmashcastResponse : IStreamResponse
@@ -19,6 +21,8 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers { get; set; }
         [JsonProperty("user_logo")]
         public string UserLogo { get; set; }
+		[JsonProperty("user_cover")]
+        public string UserCover { get; set; }
         [JsonProperty("is_live")]
         public string IsLive { get; set; }
 
@@ -29,8 +33,11 @@ namespace NadekoBot.Modules.Searches.Common
         public string Icon => !string.IsNullOrWhiteSpace(UserLogo)
             ? "https://edge.sf.hitbox.tv" + UserLogo
             : "";
-
+		public string StreamThumbnail => !string.IsNullOrWhiteSpace(UserCover)
+            ? "https://edge.sf.hitbox.tv" + UserCover
+            : "";
         public string ApiUrl { get; set; }
+		public bool AdultStream => false;
     }
 
     public class PicartoResponse : IStreamResponse
@@ -48,8 +55,21 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers { get; set; }
 
         public string ApiUrl { get; set; }
-        [JsonProperty("thumbnail")]
+        [JsonProperty("avatar")]
         public string Icon { get; set; }
+		
+		public class PicartoThumbnail
+        {
+            public string Web { get; set; }
+        }
+		
+		public PicartoThumbnail Thumbnails { get; set; }
+		
+		[JsonProperty("adult")]
+		public bool AdultStream { get; set; }
+		
+		public string StreamThumbnail => Thumbnails?.Web;
+		
     }
 
     public class TwitchResponse : IStreamResponse
@@ -57,19 +77,24 @@ namespace NadekoBot.Modules.Searches.Common
         public string Error { get; set; } = null;
         public bool IsLive => Stream != null;
         public StreamInfo Stream { get; set; }
-
+		
         public class StreamInfo
         {
             public int Viewers { get; set; }
             public string Game { get; set; }
             public ChannelInfo Channel { get; set; }
-
             public class ChannelInfo
             {
                 public string Status { get; set; }
                 public string Logo { get; set; }
                 public int Followers { get; set; }
             }
+			public TwitchThumbnail Preview { get; set; }
+			public class TwitchThumbnail
+				{
+					public string Large { get; set; }
+				}
+			
         }
 
         public int Viewers => Stream?.Viewers ?? 0;
@@ -79,6 +104,8 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers => Stream?.Channel?.Followers ?? 0;
         public string ApiUrl { get; set; }
         public string Icon => Stream?.Channel?.Logo;
+		public string StreamThumbnail => Stream?.Preview?.Large;
+		public bool AdultStream => false;
     }
 
     public class MixerResponse : IStreamResponse
@@ -92,6 +119,10 @@ namespace NadekoBot.Modules.Searches.Common
         {
             public string Url { get; set; }
         }
+		public class MixerAvatar
+        {
+            public string AvatarUrl { get; set; }
+        }
         public string ApiUrl { get; set; }
         public string Error { get; set; } = null;
 
@@ -102,12 +133,14 @@ namespace NadekoBot.Modules.Searches.Common
         public int NumFollowers { get; set; }
         public MixerType Type { get; set; }
         public MixerThumbnail Thumbnail { get; set; }
-
+		public MixerAvatar User { get; set; }
         public int Viewers => ViewersCurrent;
         public string Title => Name;
         public bool Live => IsLive;
         public string Game => Type?.Name ?? "";
         public int Followers => NumFollowers;
-        public string Icon => Thumbnail?.Url;
+        public string Icon => User?.AvatarUrl;
+		public string StreamThumbnail => Thumbnail?.Url;
+		public bool AdultStream => false;
     }
 }

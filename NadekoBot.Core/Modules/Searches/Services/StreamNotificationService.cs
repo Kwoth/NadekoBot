@@ -136,6 +136,7 @@ namespace NadekoBot.Modules.Searches.Services
                                 .WithValue(status.Live ? status.Viewers.ToString() : "-")
                                 .WithIsInline(true))
                 .WithColor(status.Live ? NadekoBot.OkColor : NadekoBot.ErrorColor);
+				
 
             if (!string.IsNullOrWhiteSpace(status.Title))
                 embed.WithAuthor(status.Title);
@@ -148,9 +149,14 @@ namespace NadekoBot.Modules.Searches.Services
             embed.AddField(GetText(fs, "followers"),
                             status.Followers.ToString(),
                             true);
-
-            if (!string.IsNullOrWhiteSpace(status.Icon))
+							
+			if (!string.IsNullOrWhiteSpace(status.Icon))
                 embed.WithThumbnailUrl(status.Icon);
+			
+            if (!string.IsNullOrWhiteSpace(status.StreamThumbnail))
+				embed.WithImageUrl(status.StreamThumbnail);
+				if (status.AdultStream == true)
+					embed.WithImageUrl("https://i.imgur.com/IvTOV9v.jpg");
 
             return embed;
         }
