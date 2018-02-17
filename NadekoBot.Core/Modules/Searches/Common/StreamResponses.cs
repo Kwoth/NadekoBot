@@ -12,6 +12,7 @@ namespace NadekoBot.Modules.Searches.Common
         string ApiUrl { get; set; }
         string Icon { get; }
 		string StreamThumbnail { get; }
+		bool AdultStream { get; }
     }
 
     public class SmashcastResponse : IStreamResponse
@@ -36,6 +37,7 @@ namespace NadekoBot.Modules.Searches.Common
             ? "https://edge.sf.hitbox.tv" + UserCover
             : "";
         public string ApiUrl { get; set; }
+		public bool AdultStream => false;
     }
 
     public class PicartoResponse : IStreamResponse
@@ -62,6 +64,10 @@ namespace NadekoBot.Modules.Searches.Common
         }
 		
 		public PicartoThumbnail Thumbnails { get; set; }
+		
+		[JsonProperty("adult")]
+		public bool AdultStream { get; set; }
+		
 		public string StreamThumbnail => Thumbnails?.Web;
 		
     }
@@ -99,6 +105,7 @@ namespace NadekoBot.Modules.Searches.Common
         public string ApiUrl { get; set; }
         public string Icon => Stream?.Channel?.Logo;
 		public string StreamThumbnail => Stream?.Preview?.Large;
+		public bool AdultStream => false;
     }
 
     public class MixerResponse : IStreamResponse
@@ -134,5 +141,6 @@ namespace NadekoBot.Modules.Searches.Common
         public int Followers => NumFollowers;
         public string Icon => User?.AvatarUrl;
 		public string StreamThumbnail => Thumbnail?.Url;
+		public bool AdultStream => false;
     }
 }

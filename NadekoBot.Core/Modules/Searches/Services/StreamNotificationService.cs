@@ -154,7 +154,9 @@ namespace NadekoBot.Modules.Searches.Services
                 embed.WithThumbnailUrl(status.Icon);
 			
             if (!string.IsNullOrWhiteSpace(status.StreamThumbnail))
-                embed.WithImageUrl(status.StreamThumbnail);
+				embed.WithImageUrl(status.StreamThumbnail);
+				if (status.AdultStream == true)
+					embed.WithImageUrl("https://i.imgur.com/IvTOV9v.jpg");
 
             return embed;
         }
