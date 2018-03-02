@@ -26,9 +26,11 @@ namespace NadekoBot.Modules.Administration
 
                 if (prev == null)
                     return;
-                
-                var groupRegEx = "^(.+) (:.+:)$";
-                var couples = Regex.Split(string.Join(" ", input), "(?<=:) ");
+
+                var emojiRegex = @"<:[A-z0-9_]{2,}:[0-9]{18}>";
+                var groupRegEx = $"^(.+) ({emojiRegex})$";
+
+                var couples = Regex.Split(string.Join(" ", input), $"(?<={emojiRegex}) ");
                 if(!couples.All(c => Regex.IsMatch(c, groupRegEx)))
                     return;
                 
