@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NadekoBot.Common;
@@ -8,6 +8,7 @@ using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Administration
@@ -25,35 +26,35 @@ namespace NadekoBot.Modules.Administration
 
                 if (prev == null)
                     return;
-
-                if (input.Length % 2 != 0)
+                
+                var groupRegEx = "^(.+) (:.+:)$";
+                var couples = Regex.Split(string.Join(" ", input), "(?<=:) ");
+                if(!couples.All(c => Regex.IsMatch(c, groupRegEx)))
                     return;
-
-                var g = (SocketGuild)Context.Guild;
-
-                var grp = 0;
-                var all = input
-                    .GroupBy(x => grp++ / 2)
-                    .Select(x =>
+                
+                var guild = (SocketGuild)Context.Guild;
+                var all = couples.Select(group =>
+                {
+                    var match = Regex.Match(group, groupRegEx).Groups;
+                    var roleText = match[1].Value;
+                    var emoteText = match[2].Value;
+                    
+                    var role = guild.Roles.FirstOrDefault(r => r.Name.ToLowerInvariant() == roleText.ToLowerInvariant());
+                    if (role == null)
                     {
-                        var inputRoleStr = x.First().ToLowerInvariant();
-                        var role = g.Roles.FirstOrDefault(y => y.Name.ToLowerInvariant() == inputRoleStr);
-                        if (role == null)
-                        {
-                            _log.Warn("Role {0} not found.", inputRoleStr);
-                            return null;
-                        }
-                        var emote = g.Emotes.FirstOrDefault(y => y.ToString() == x.Last());
-                        if (emote == null)
-                        {
-                            _log.Warn("Emote {0} not found.", x.Last());
-                            return null;
-                        }
-                        else
-                            return new { role, emote };
-                    })
-                    .Where(x => x != null);
-
+                        _log.Warn("Role {0} not found.", roleText);
+                        return null;
+                    }
+                    
+                    var emote = guild.Emotes.FirstOrDefault(e => e.ToString() == emoteText.ToLowerInvariant());
+                    if (emote == null)
+                    {
+                        _log.Warn("Emote {0} not found.", emoteText);
+                        return null;
+                    }
+                    return new { role, emote };
+                });
+                
                 if (!all.Any())
                     return;
 
