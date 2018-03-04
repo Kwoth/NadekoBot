@@ -148,7 +148,7 @@
     "administration_renrole_err": "Impossible de renommer ce rôle. Je ne possède pas les permissions suffisantes.",
     "administration_renrole_perms": "Vous ne pouvez pas modifier les rôles supérieurs au vôtre.",
     "administration_reprm": "La répétition du message suivant a été désactivé : {0}",
-    "administration_role_added": "Le rôle {0} a été ajouté à la liste du groupe {1].",
+    "administration_role_added": "Le rôle {0} a été ajouté à la liste du groupe {1}.",
     "administration_role_clean": "{0} introuvable. Nettoyé.",
     "administration_role_in_list": "Le rôle {0} est déjà présent dans la liste.",
     "administration_ropl_added": "Ajouté",
