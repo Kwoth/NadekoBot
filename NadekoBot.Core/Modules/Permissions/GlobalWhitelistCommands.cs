@@ -78,6 +78,17 @@ namespace NadekoBot.Modules.Permissions
 
 				return literal.ToString();
 			}
+
+			private async Task<bool> IsNotValidNumParams(string type, int count) {
+				if (count > 0 && count <= MaxNumInput) { return false; }
+				else if (count > MaxNumInput) {
+					await ReplyErrorLocalized("gwl_toomany_params", Format.Code(type), MaxNumInput).ConfigureAwait(false);
+					return true;
+				} else {
+					await ReplyErrorLocalized("gwl_missing_params", Format.Code(type)).ConfigureAwait(false);
+					return true;
+				}
+			}
 			#endregion
 
 			#region Type Compatibility
@@ -317,15 +328,12 @@ namespace NadekoBot.Modules.Permissions
 			[Priority(1)]
 			public async Task GWLAdd(string listName, GlobalWhitelistService.FieldType field, IGuild server, params ulong[] ids)
 			{
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
-					case GlobalWhitelistService.FieldType.ROLE: 
+					case GlobalWhitelistService.FieldType.ROLE:
+						if (await IsNotValidNumParams("Role", ids.Length)) return;
 						await _AddRemoveRoles(AddRemove.Add, listName, server.Id, ids);
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
@@ -337,24 +345,27 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, GlobalWhitelistService.FieldType field, params ulong[] ids)
 			{
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
 					case GlobalWhitelistService.FieldType.SERVER: 
+						if (await IsNotValidNumParams("Server", ids.Length)) return;
 						await _AddRemove(AddRemove.Add, GWLItemType.Server, listName, ids);
 						return;
-					case GlobalWhitelistService.FieldType.CHANNEL: 
+
+					case GlobalWhitelistService.FieldType.CHANNEL:
+						if (await IsNotValidNumParams("Channel", ids.Length)) return;
 						await _AddRemove(AddRemove.Add, GWLItemType.Channel, listName, ids);
 						return;
-					case GlobalWhitelistService.FieldType.USER: 
+
+					case GlobalWhitelistService.FieldType.USER:
+						if (await IsNotValidNumParams("User", ids.Length)) return;
 						await _AddRemove(AddRemove.Add, GWLItemType.User, listName, ids);
 						return;
-					case GlobalWhitelistService.FieldType.ROLE: 
+
+					case GlobalWhitelistService.FieldType.ROLE:
+						if (await IsNotValidNumParams("Role", ids.Length)) return;
 						await _AddRemoveRoles(AddRemove.Add, listName, Context.Guild.Id, ids);
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
@@ -366,21 +377,56 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, GlobalWhitelistService.FieldType field, params string[] names)
 			{
-				// If params is empty, report error
-				if (names.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
 					case GlobalWhitelistService.FieldType.COMMAND: 
+						if (await IsNotValidNumParams("Command", names.Length)) return;
 						await _AddRemove(AddRemove.Add, listName, UnblockedType.Command, GetTrueNames(UnblockedType.Command,names));
 						return;
+
 					case GlobalWhitelistService.FieldType.MODULE: 
+						if (await IsNotValidNumParams("Module", names.Length)) return;
 						await _AddRemove(AddRemove.Add, listName, UnblockedType.Module, GetTrueNames(UnblockedType.Module,names));
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						return;
+				}
+			}
+
+			[NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+			public async Task GWLAdd(string listName, GlobalWhitelistService.FieldType field)
+			{
+				switch(field) {
+					case GlobalWhitelistService.FieldType.COMMAND: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Command")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.MODULE: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Module")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.SERVER: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Server")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.CHANNEL:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Channel")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.USER:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("User")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.ROLE:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Role")).ConfigureAwait(false);
+						return;
+
+					default: 
+						// Not valid
+						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(field.ToString())).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -394,15 +440,12 @@ namespace NadekoBot.Modules.Permissions
 			[Priority(1)]
 			public async Task GWLRemove(string listName, GlobalWhitelistService.FieldType field, IGuild server, params ulong[] ids)
 			{
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
 					case GlobalWhitelistService.FieldType.ROLE: 
+						if (await IsNotValidNumParams("Role", ids.Length)) return;
 						await _AddRemoveRoles(AddRemove.Rem, listName, server.Id, ids);
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
@@ -414,24 +457,27 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, GlobalWhitelistService.FieldType field, params ulong[] ids)
 			{
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
-					case GlobalWhitelistService.FieldType.SERVER: 
+					case GlobalWhitelistService.FieldType.SERVER:
+						if (await IsNotValidNumParams("Server", ids.Length)) return;
 						await _AddRemove(AddRemove.Rem, GWLItemType.Server, listName, ids);
 						return;
-					case GlobalWhitelistService.FieldType.CHANNEL: 
+
+					case GlobalWhitelistService.FieldType.CHANNEL:
+						if (await IsNotValidNumParams("Channel", ids.Length)) return;
 						await _AddRemove(AddRemove.Rem, GWLItemType.Channel, listName, ids);
 						return;
+
 					case GlobalWhitelistService.FieldType.USER: 
+						if (await IsNotValidNumParams("User", ids.Length)) return;
 						await _AddRemove(AddRemove.Rem, GWLItemType.User, listName, ids);
 						return;
+
 					case GlobalWhitelistService.FieldType.ROLE: 
+						if (await IsNotValidNumParams("Role", ids.Length)) return;
 						await _AddRemoveRoles(AddRemove.Rem, listName, Context.Guild.Id, ids);
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
@@ -443,21 +489,56 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, GlobalWhitelistService.FieldType field, params string[] names)
 			{
-				// If params is empty, report error
-				if (names.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(field.ToString())).ConfigureAwait(false);
-                    return;
-				}
 				switch(field) {
 					case GlobalWhitelistService.FieldType.COMMAND: 
+						if (await IsNotValidNumParams("Command", names.Length)) return;
 						await _AddRemove(AddRemove.Rem, listName, UnblockedType.Command, GetTrueNames(UnblockedType.Command,names));
 						return;
-					case GlobalWhitelistService.FieldType.MODULE: 
+
+					case GlobalWhitelistService.FieldType.MODULE:
+						if (await IsNotValidNumParams("Module", names.Length)) return;
 						await _AddRemove(AddRemove.Rem, listName, UnblockedType.Module, GetTrueNames(UnblockedType.Module,names));
 						return;
+
 					default: 
 						// Not valid
 						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						return;
+				}
+			}
+
+			[NadekoCommand, Usage, Description, Aliases]
+            [OwnerOnly]
+			public async Task GWLRemove(string listName, GlobalWhitelistService.FieldType field)
+			{
+				switch(field) {
+					case GlobalWhitelistService.FieldType.COMMAND: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Command")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.MODULE: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Module")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.SERVER: 
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Server")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.CHANNEL:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Channel")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.USER:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("User")).ConfigureAwait(false);
+						return;
+
+					case GlobalWhitelistService.FieldType.ROLE:
+						await ReplyErrorLocalized("gwl_missing_params", Format.Code("Role")).ConfigureAwait(false);
+						return;
+
+					default: 
+						// Not valid
+						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(field.ToString())).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -470,10 +551,8 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params CommandInfo[] cmds)
 			{
-				if (cmds.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Command"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Command", cmds.Length)) return;
+				
 				string[] names = new string[cmds.Length];
 				for (int i=0; i<cmds.Length; i++) {
 					names[i] = cmds[i].Name.ToLowerInvariant();
@@ -486,10 +565,8 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params ModuleInfo[] mdls)
 			{
-				if (mdls.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Module"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Module", mdls.Length)) return;
+
 				string[] names = new string[mdls.Length];
 				for (int i=0; i<mdls.Length; i++) {
 					names[i] = mdls[i].Name.ToLowerInvariant();
@@ -506,10 +583,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params CommandInfo[] cmds)
 			{
-				if (cmds.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Command"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Command", cmds.Length)) return;
 				string[] names = new string[cmds.Length];
 				for (int i=0; i<cmds.Length; i++) {
 					names[i] = cmds[i].Name.ToLowerInvariant();
@@ -522,10 +596,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params ModuleInfo[] mdls)
 			{
-				if (mdls.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Module"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Module", mdls.Length)) return;
 				string[] names = new string[mdls.Length];
 				for (int i=0; i<mdls.Length; i++) {
 					names[i] = mdls[i].Name.ToLowerInvariant();
@@ -542,10 +613,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, IGuild server, params IRole[] roles)
 			{
-				if (roles.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Role"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Role", roles.Length)) return;
 
 				// Ensure that the current serverID is included
 				ulong[] ids = new ulong[roles.Length];
@@ -559,17 +627,19 @@ namespace NadekoBot.Modules.Permissions
 
 			[NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-			public Task GWLAdd(string listName, IGuild server, params ulong[] ids)
-				=> _AddRemoveRoles(AddRemove.Add, listName, server.Id, ids);
+			public async Task GWLAdd(string listName, IGuild server, params ulong[] ids)
+			{
+				if (await IsNotValidNumParams("Role", ids.Length)) return;
+
+				await _AddRemoveRoles(AddRemove.Add, listName, server.Id, ids);
+				return;
+			}
 
 			[NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params IGuild[] servers)
 			{
-				if (servers.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Server"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Server", servers.Length)) return;
 				ulong[] ids = new ulong[servers.Length];
 				for (int i=0; i<servers.Length; i++) {
 					ids[i] = servers[i].Id;
@@ -582,10 +652,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params ITextChannel[] channels)
 			{
-				if (channels.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Channel"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Channel", channels.Length)) return;
 				ulong[] ids = new ulong[channels.Length];
 				for (int i=0; i<channels.Length; i++) {
 					ids[i] = channels[i].Id;
@@ -598,10 +665,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params IUser[] users)
 			{
-				if (users.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("User"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("User", users.Length)) return;
 				ulong[] ids = new ulong[users.Length];
 				for (int i=0; i<users.Length; i++) {
 					ids[i] = users[i].Id;
@@ -614,10 +678,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLAdd(string listName, params IRole[] roles)
 			{
-				if (roles.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Role"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Role", roles.Length)) return;
 
 				// Ensure that the current serverID is included
 				ulong[] ids = new ulong[roles.Length];
@@ -637,11 +698,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, IGuild server, params IRole[] roles)
 			{
-				if (roles.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Role"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
-
+				if (await IsNotValidNumParams("Role", roles.Length)) return;
 				// Ensure that the current serverID is included
 				ulong[] ids = new ulong[roles.Length];
 				for (int i=0; i<roles.Length; i++) {
@@ -654,17 +711,18 @@ namespace NadekoBot.Modules.Permissions
 
 			[NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-			public Task GWLRemove(string listName, IGuild server, params ulong[] ids)
-				=> _AddRemoveRoles(AddRemove.Rem, listName, server.Id, ids);
+			public async Task GWLRemove(string listName, IGuild server, params ulong[] ids)
+			{
+				if (await IsNotValidNumParams("Role", ids.Length)) return;
+				await _AddRemoveRoles(AddRemove.Rem, listName, server.Id, ids);
+				return;
+			}
 
 			[NadekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params IGuild[] servers)
 			{
-				if (servers.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Server"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Server", servers.Length)) return;
 				ulong[] ids = new ulong[servers.Length];
 				for (int i=0; i<servers.Length; i++) {
 					ids[i] = servers[i].Id;
@@ -677,10 +735,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params ITextChannel[] channels)
 			{
-				if (channels.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Channel"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Channel", channels.Length)) return;
 				ulong[] ids = new ulong[channels.Length];
 				for (int i=0; i<channels.Length; i++) {
 					ids[i] = channels[i].Id;
@@ -693,10 +748,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params IUser[] users)
 			{
-				if (users.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("User"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("User", users.Length)) return;
 				ulong[] ids = new ulong[users.Length];
 				for (int i=0; i<users.Length; i++) {
 					ids[i] = users[i].Id;
@@ -709,10 +761,7 @@ namespace NadekoBot.Modules.Permissions
             [OwnerOnly]
 			public async Task GWLRemove(string listName, params IRole[] roles)
 			{
-				if (roles.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code("Role"), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				if (await IsNotValidNumParams("Role", roles.Length)) return;
 
 				// Ensure that the current serverID is included
 				ulong[] ids = new ulong[roles.Length];
@@ -728,17 +777,6 @@ namespace NadekoBot.Modules.Permissions
 
 			private async Task _AddRemove(AddRemove action, GWLItemType type, string listName, params ulong[] ids)
 			{
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(type.ToString())).ConfigureAwait(false);
-                    return;
-				}
-				// If params is too long, report error
-				if (ids.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code(type.ToString()), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
-
 				listName = EscapeText(listName);
 				// If the listName doesn't exist, return an error message
                 if (!string.IsNullOrWhiteSpace(listName) && _service.GetGroupByName(listName.ToLowerInvariant(), out GWLSet group))
@@ -752,11 +790,8 @@ namespace NadekoBot.Modules.Permissions
 					// Remove duplicate IDs
 					ids = ids.GroupBy(i => i).Select(set => set.FirstOrDefault()).Where(i => i > 0)
 						.ToArray();
-					// Check if empty again
-					if (ids.Length < 1) {
-						await ReplyErrorLocalized("gwl_missing_params", Format.Code(type.ToString())).ConfigureAwait(false);
-						return;
-					}
+					// Check param count again after filtering
+					if (await IsNotValidNumParams(type.ToString(), ids.Length)) return;
 
 					// Get string list of name/mention from ids
 					string idList = string.Join("\n",_service.GetMemberNameMention(type,ids,Context.Guild.Id));
@@ -819,28 +854,14 @@ namespace NadekoBot.Modules.Permissions
 			{
 				GWLItemType type = GWLItemType.Role;
 
-				// If params is empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(type.ToString())).ConfigureAwait(false);
-                    return;
-				}
-
 				// Skip the server ID and remove @everyone if it is in the list
 				// Also remove duplicates
 				ids = ids.Where(i => !i.Equals(sid))
 					.GroupBy(i => i).Select(set => set.FirstOrDefault()).Where(i => i > 0)
 					.ToArray();
 
-				// If params is too long, report error
-				if (ids.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code(type.ToString()), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
-				// If params is now empty, report error
-				if (ids.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(type.ToString())).ConfigureAwait(false);
-                    return;
-				}
+				// Check param count again after filtering
+				if (await IsNotValidNumParams(type.ToString(), ids.Length)) return;
 
 				listName = EscapeText(listName);
 				// If the listName doesn't exist, return an error message
@@ -910,16 +931,8 @@ namespace NadekoBot.Modules.Permissions
 
 			private async Task _AddRemove(AddRemove action, string listName, UnblockedType type, params string[] names)
 			{
-				// If params is empty, report error
-				if (names.Length < 1) {
-					await ReplyErrorLocalized("gwl_missing_params", Format.Code(type.ToString())).ConfigureAwait(false);
-                    return;
-				}
-				// If params is too long, report error
-				if (names.Length > MaxNumInput) {
-					await ReplyErrorLocalized("gwl_toomany_params", Format.Code(type.ToString()), MaxNumInput).ConfigureAwait(false);
-                    return;
-				}
+				// Check param count again after filtering (which should have happened earlier)
+				if (await IsNotValidNumParams(type.ToString(), names.Length)) return;
 
 				listName = EscapeText(listName);
 				// If the listName doesn't exist, return an error message
