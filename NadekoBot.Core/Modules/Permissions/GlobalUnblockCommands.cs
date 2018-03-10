@@ -81,7 +81,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -105,7 +105,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -291,7 +291,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -306,7 +306,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -330,7 +330,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -354,7 +354,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_gwl.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}

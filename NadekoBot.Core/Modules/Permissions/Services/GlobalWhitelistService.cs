@@ -35,6 +35,18 @@ namespace NadekoBot.Modules.Permissions.Services
 			M = 8, MEM = M, MEMBER = M, MEMBERS = M
 		};
 
+		public readonly string[] FT_Strings = {
+			"GENERAL", 		// FieldType 0
+			"COMMAND",		// FieldType 1
+			"MODULE", 		// FieldType 2
+			"SERVER", 		// FieldType 3
+			"CHANNEL",		// FieldType 4
+			"USER",			// FieldType 5
+			"ROLE", 		// FieldType 6
+			"UNBLOCKED",	// FieldType 7
+			"MEMBER"		// FieldType 8
+		};
+
         public GlobalWhitelistService(DiscordSocketClient client, DbService db, NadekoStrings strings)
         {
             _db = db;

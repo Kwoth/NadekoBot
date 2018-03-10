@@ -197,7 +197,7 @@ namespace NadekoBot.Modules.Permissions
 						break;
 					default:
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_gwltype", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_gwltype", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 
@@ -336,7 +336,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -368,7 +368,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -390,7 +390,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -426,7 +426,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -448,7 +448,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -480,7 +480,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -502,7 +502,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -538,7 +538,7 @@ namespace NadekoBot.Modules.Permissions
 
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unknown", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1031,7 +1031,7 @@ namespace NadekoBot.Modules.Permissions
 					if (!IsCompatible(group.Type, field) && 
 						!field.Equals(GlobalWhitelistService.FieldType.UNBLOCKED) && 
 						!field.Equals(GlobalWhitelistService.FieldType.MEMBER)) {
-						await ReplyErrorLocalized("gwl_incompat_type", Format.Code(field.ToString()), Format.Bold(group.ListName), Format.Code(group.Type.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_incompat_type", Format.Code(_service.FT_Strings[(int)field]), Format.Bold(group.ListName), Format.Code(group.Type.ToString())).ConfigureAwait(false);
                     	return;
 					}
 
@@ -1116,7 +1116,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1140,7 +1140,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1158,7 +1158,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1346,7 +1346,7 @@ namespace NadekoBot.Modules.Permissions
 					// Ensure the group type is compatible!
 					if (!field.Equals(GlobalWhitelistService.FieldType.ALL) 
 						&& !IsCompatible(group.Type, field)) {
-						await ReplyErrorLocalized("gwl_incompat_type", Format.Code(field.ToString()), Format.Bold(group.ListName), Format.Code(group.Type.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_incompat_type", Format.Code(_service.FT_Strings[(int)field]), Format.Bold(group.ListName), Format.Code(group.Type.ToString())).ConfigureAwait(false);
                     	return;
 					}
 
@@ -1549,7 +1549,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1573,7 +1573,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1591,7 +1591,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1792,7 +1792,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_role", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1816,7 +1816,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_member", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
@@ -1834,7 +1834,7 @@ namespace NadekoBot.Modules.Permissions
 						return;
 					default: 
 						// Not valid
-						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(field.ToString())).ConfigureAwait(false);
+						await ReplyErrorLocalized("gwl_field_invalid_unblock", Format.Bold(_service.FT_Strings[(int)field])).ConfigureAwait(false);
 						return;
 				}
 			}
