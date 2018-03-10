@@ -1878,7 +1878,7 @@ namespace NadekoBot.Modules.Permissions
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     return;
                 } else {
-                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString(), Prefix), _service.GetMemberNameMention(type,id,Context.Guild.Id,true)).ConfigureAwait(false);
+                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString()), _service.GetMemberNameMention(type,id,Context.Guild.Id,true), Prefix).ConfigureAwait(false);
                     return;
                 }
             }
@@ -1910,7 +1910,7 @@ namespace NadekoBot.Modules.Permissions
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     return;
                 } else {
-                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString(), Prefix), _service.GetMemberNameMention(type,id,Context.Guild.Id,true)).ConfigureAwait(false);
+                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString()), _service.GetMemberNameMention(type,id,Context.Guild.Id,true), Prefix).ConfigureAwait(false);
                     return;
                 }
             }
@@ -1947,7 +1947,7 @@ namespace NadekoBot.Modules.Permissions
                     await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     return;
                 } else {
-                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString(), Prefix), _service.GetRoleNameMention(id,sid,Context.Guild.Id,true)).ConfigureAwait(false);
+                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString()), _service.GetRoleNameMention(id,sid,Context.Guild.Id,true), Prefix).ConfigureAwait(false);
                     return;
                 }
             }
@@ -1983,7 +1983,7 @@ namespace NadekoBot.Modules.Permissions
                     return;
                 }
                 else {
-                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString(), Prefix), Format.Bold(name)).ConfigureAwait(false);
+                    await ReplyErrorLocalized("gwl_empty_member", Format.Code(type.ToString()), Format.Bold(name), Prefix).ConfigureAwait(false);
                     return;
                 }
             }
