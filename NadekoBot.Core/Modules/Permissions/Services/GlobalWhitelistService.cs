@@ -616,18 +616,12 @@ namespace NadekoBot.Modules.Permissions.Services
 
             using (var uow = _db.UnitOfWork)
             {
-                var temp = uow._context.Set<GWLItem>()
-					.Where( x => x.Type.Equals(GWLItemType.Role) )
-					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid))
-					.Join(
-						uow._context.Set<GWLItemSet>(), 
-						i => i.Id, gi => gi.ItemPK,
-						(i,gi) => new {
-							i.ItemId,
-							gi.ListPK
-						})
-					// Don't need to verify GWLType since the caller should've checked IsCompat
-					.Where( y => y.ListPK.Equals(group.Id) )
+                var temp = group.GWLItemSets
+					.Join( uow._context.Set<GWLItem>(),
+						x => x.ItemPK, i => i.Id,
+						(x, i) => i)
+					.Where( i => i.Type.Equals(GWLItemType.Role) )
+					.Where( i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid) )
 					.FirstOrDefault();
 
                 uow.Complete();
@@ -879,33 +873,46 @@ namespace NadekoBot.Modules.Permissions.Services
 		public bool CheckIfUnblockedForUserRole(string ubName, UnblockedType ubType, ulong uid, int page, out string[] names, out int count)
 		{
             names = null; count = 0;
+
             using (var uow = _db.UnitOfWork)
             {
-				var groups = uow._context.Set<UnblockedCmdOrMdl>()
+				// Find all roles linked to the given Unblocked data
+				var roles = uow._context.Set<UnblockedCmdOrMdl>()
 					.Where(x => x.Type.Equals(ubType))
 					.Where(x => x.Name.Equals(ubName))
-					.Join(uow._context.Set<GlobalUnblockedSet>(), 
+					.Join(uow._context.Set<GlobalUnblockedSet>(),
 						ub => ub.Id, gub => gub.UnblockedPK, 
 						(ub,gub) => gub.ListPK)
+					// Role GWLSets
 					.Join(uow._context.Set<GWLSet>()
 						.Where(g => g.Type.Equals(GWLType.Role)),
-						//.Where(g => g.IsEnabled.Equals(true)),
+						// .Where(g => g.IsEnabled.Equals(true)),
 						gub => gub, g => g.Id,
-						(gub, g) => g
-						)
+						(gub, g) => g)
 					.Join(uow._context.Set<GWLItemSet>(),
 						g => g.Id, gi => gi.ListPK,
-						(g, gi) => new {
-							g,
-							gi.ItemPK
-						})
+						(g, gi) => gi)
+					// Roles
 					.Join(uow._context.Set<GWLItem>()
-						.Where(x => x.Type.Equals(GWLItemType.Role))
-						.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid)),
-						gi => gi.ItemPK, i => i.Id,
-						(gi, i) => gi.g)
-					.GroupBy(g => g.Id).Select(set => set.FirstOrDefault()).Where(g => g != null)
-					.ToArray();
+						.Where(i => i.Type.Equals(GWLItemType.Role)),
+						rel => rel.ItemPK, i => i.Id,
+						(rel, i) => i)
+					// Remove duplicate roles
+					.GroupBy(r => r.Id).Select(set => set.FirstOrDefault()).Where(r => r != null)
+					// Filter down to only those with the given user
+					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid));
+
+				// Find all groups linked to the filtered roles
+				var groups = roles
+					.Join(uow._context.Set<GWLItemSet>(),
+						i => i.Id, gi => gi.ItemPK,
+						(i, gi) => gi.ListPK)
+					.Join(uow._context.Set<GWLSet>()
+						.Where(g => g.Type.Equals(GWLType.Role)),
+						// .Where(g => g.IsEnabled.Equals(true)),
+						pk => pk, g => g.Id,
+						(pk, g) => g)
+					.GroupBy(g => g.Id).Select(set => set.FirstOrDefault()).Where(g => g != null);
 
                 uow.Complete();
 
@@ -930,32 +937,44 @@ namespace NadekoBot.Modules.Permissions.Services
             names = null; count = 0;
             using (var uow = _db.UnitOfWork)
             {
-				var groups = uow._context.Set<UnblockedCmdOrMdl>()
+				// Find all roles linked to the given Unblocked data
+				var roles = uow._context.Set<UnblockedCmdOrMdl>()
 					.Where(x => 
 						(x.Type.Equals(UnblockedType.Command) && x.Name.Equals(cmdName)) ||
 						(x.Type.Equals(UnblockedType.Module) && x.Name.Equals(mdlName)) )
-					.Join(uow._context.Set<GlobalUnblockedSet>(), 
+					.Join(uow._context.Set<GlobalUnblockedSet>(),
 						ub => ub.Id, gub => gub.UnblockedPK, 
 						(ub,gub) => gub.ListPK)
+					// Role GWLSets
 					.Join(uow._context.Set<GWLSet>()
 						.Where(g => g.Type.Equals(GWLType.Role)),
-						//.Where(g => g.IsEnabled.Equals(true)),
+						// .Where(g => g.IsEnabled.Equals(true)),
 						gub => gub, g => g.Id,
-						(gub, g) => g
-						)
+						(gub, g) => g)
 					.Join(uow._context.Set<GWLItemSet>(),
 						g => g.Id, gi => gi.ListPK,
-						(g, gi) => new {
-							g,
-							gi.ItemPK
-						})
+						(g, gi) => gi)
+					// Roles
 					.Join(uow._context.Set<GWLItem>()
-						.Where(x => x.Type.Equals(GWLItemType.Role))
-						.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid)),
-						gi => gi.ItemPK, i => i.Id,
-						(gi, i) => gi.g)
-					.GroupBy(g => g.Id).Select(set => set.FirstOrDefault()).Where(g => g != null)
-					.ToArray();
+						.Where(i => i.Type.Equals(GWLItemType.Role)),
+						rel => rel.ItemPK, i => i.Id,
+						(rel, i) => i)
+					// Remove duplicate roles
+					.GroupBy(r => r.Id).Select(set => set.FirstOrDefault()).Where(r => r != null)
+					// Filter down to only those with the given user
+					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid));
+				
+				// Find all groups linked to the filtered roles
+				var groups = roles
+					.Join(uow._context.Set<GWLItemSet>(),
+						i => i.Id, gi => gi.ItemPK,
+						(i, gi) => gi.ListPK)
+					.Join(uow._context.Set<GWLSet>()
+						.Where(g => g.Type.Equals(GWLType.Role)),
+						// .Where(g => g.IsEnabled.Equals(true)),
+						pk => pk, g => g.Id,
+						(pk, g) => g)
+					.GroupBy(g => g.Id).Select(set => set.FirstOrDefault()).Where(g => g != null);
 
                 uow.Complete();
 
@@ -1195,36 +1214,45 @@ namespace NadekoBot.Modules.Permissions.Services
 			}
 		}
 
-		public bool IsUserRoleUnblocked(ulong id, string cmdName, string mdlName)
+		public bool IsUserRoleUnblocked(ulong uid, string cmdName, string mdlName)
 		{
 			int count = 0;
 			// In general, a user is likely to have many more roles than there are unblocked roles
 			// So we should iterate over the unblocked roles to find any that contains our user
-			// And then CheckIfUnblocked on those matches
+			// After first finding matching unblocked items
+
 			using (var uow = _db.UnitOfWork)
             {
-                count = uow._context.Set<GWLItem>()
-					.Where(i => i.Type.Equals(GWLItemType.Role))
-					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, id))
-					.Join(uow._context.Set<GWLItemSet>(),
-						i => i.Id, gi => gi.ItemPK,
-						(i,gi) => gi.ListPK)
-					.Join(uow._context.Set<GWLSet>()
-						.Where(g => g.IsEnabled.Equals(true))
-						.Where(g => g.Type.Equals(GWLType.Role)),
-						listPK => listPK, g => g.Id,
-						(listPK, g) => g.Id)
+				// Find all roles linked to the given Unblocked data
+				var roles = uow._context.Set<UnblockedCmdOrMdl>()
+					.Where(x => 
+						(x.Type.Equals(UnblockedType.Command) && x.Name.Equals(cmdName)) ||
+						(x.Type.Equals(UnblockedType.Module) && x.Name.Equals(mdlName)) )
 					.Join(uow._context.Set<GlobalUnblockedSet>(),
-						listPK=>listPK, gu => gu.ListPK,
-						(listPK, gu) => gu.UnblockedPK)
-					.Join(uow._context.Set<UnblockedCmdOrMdl>()
-						.Where(x => 
-							(x.Type.Equals(UnblockedType.Command) && x.Name.Equals(cmdName)) ||
-							(x.Type.Equals(UnblockedType.Module) && x.Name.Equals(mdlName)) ),
-						uPK => uPK, x => x.Id,
-						(uPK, x) => x.Id)
-					.Count();
+						ub => ub.Id, gub => gub.UnblockedPK, 
+						(ub,gub) => gub.ListPK)
+					// Enabled Role GWLSets
+					.Join(uow._context.Set<GWLSet>()
+						.Where(g => g.Type.Equals(GWLType.Role))
+						.Where(g => g.IsEnabled.Equals(true)),
+						gub => gub, g => g.Id,
+						(gub, g) => g)
+					.Join(uow._context.Set<GWLItemSet>(),
+						g => g.Id, gi => gi.ListPK,
+						(g, gi) => gi)
+					// Roles
+					.Join(uow._context.Set<GWLItem>()
+						.Where(i => i.Type.Equals(GWLItemType.Role)),
+						rel => rel.ItemPK, i => i.Id,
+						(rel, i) => i)
+					// Remove duplicate roles
+					.GroupBy(role => role.Id).Select(set => set.FirstOrDefault()).Where(r => r != null)
+					// Filter down to only those with the given user
+					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid));
+				
 				uow.Complete();
+
+				if (roles != null)	count = roles.Count();
             }
 			return (count > 0);
 		}
@@ -1364,18 +1392,31 @@ namespace NadekoBot.Modules.Permissions.Services
             names = null; count = 0;
             using (var uow = _db.UnitOfWork)
             {
-				var groups = uow._context.Set<GWLItem>()
-				.Where(i => i.Type.Equals(GWLItemType.Role))
-				.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid))
-				.Join(uow._context.Set<GWLItemSet>(),
-					i => i.Id, gi => gi.ItemPK,
-					(i, gi) => gi.ListPK)
-				.Join(uow._context.Set<GWLSet>()
-					.Where(g=>g.Type.Equals(GWLType.Role)),
-					listPK => listPK, g => g.Id,
-					(listPK, g) => g)
-				.GroupBy(a => a).Select(set => set.FirstOrDefault()).Where(u => u != null)
-				.ToArray();
+				// Find all roles linked to a Role GWLSet
+				var roles = uow._context.Set<GWLSet>()
+					.Where(g=>g.Type.Equals(GWLType.Role))
+					.Join(uow._context.Set<GWLItemSet>(),
+						g => g.Id, gi => gi.ListPK,
+						(g, gi) => gi)
+					.Join(uow._context.Set<GWLItem>()
+						.Where(i => i.Type.Equals(GWLItemType.Role)),
+						rel => rel.ItemPK, i => i.Id,
+						(rel, i) => i)
+					// Remove duplicates
+					.GroupBy(r => r.Id).Select(set => set.FirstOrDefault()).Where(r => r != null)
+					// Filter down to only those with the given user
+					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid));
+				
+				// Get all groups linked to the filtered roles
+				var groups = roles
+					.Join(uow._context.Set<GWLItemSet>(),
+						i => i.Id, gi => gi.ItemPK,
+						(i, gi) => gi.ListPK)
+					.Join(uow._context.Set<GWLSet>()
+						.Where(g=>g.Type.Equals(GWLType.Role)),
+						listPK => listPK, g => g.Id,
+						(listPK, g) => g)
+					.GroupBy(g => g).Select(set => set.FirstOrDefault()).Where(g => g != null);
 
 				uow.Complete();
 
@@ -1774,11 +1815,25 @@ namespace NadekoBot.Modules.Permissions.Services
 		public bool GetUnblockedNamesForUserRole(UnblockedType type, ulong uid, int page, out string[] names, out int count)
 		{
 			names= null; count = 0;
-			using (var uow = _db.UnitOfWork)
+            using (var uow = _db.UnitOfWork)
             {
-                var anon = uow._context.Set<GWLItem>()
-					.Where(x => x.Type.Equals(GWLItemType.Role))
-					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid))
+				// Find all roles linked to a Role GWLSet
+				var roles = uow._context.Set<GWLSet>()
+					.Where(g=>g.Type.Equals(GWLType.Role))
+					.Join(uow._context.Set<GWLItemSet>(),
+						g => g.Id, gi => gi.ListPK,
+						(g, gi) => gi)
+					.Join(uow._context.Set<GWLItem>()
+						.Where(i => i.Type.Equals(GWLItemType.Role)),
+						rel => rel.ItemPK, i => i.Id,
+						(rel, i) => i)
+					// Remove Duplicates
+					.GroupBy(r => r.Id).Select(set => set.FirstOrDefault()).Where(r => r != null)
+					// Filter down to only those that contain the user
+					.Where(i => GuildRoleHasUser(i.RoleServerId, i.ItemId, uid));
+				
+				// Find all Unblocked data for the filtered roles
+				var anon = roles
 					.Join(uow._context.Set<GWLItemSet>(),
 						i => i.Id, gi => gi.ItemPK,
 						(i, gi) => gi.ListPK)
@@ -1788,13 +1843,14 @@ namespace NadekoBot.Modules.Permissions.Services
 						listPK => listPK, g => g.Id,
 						(listPK, g) => g.Id)
 					.Join(uow._context.Set<GlobalUnblockedSet>(),
-						listPK => listPK, gub => gub.ListPK,
-						(listPK, gub) => gub.UnblockedPK)
+						pk => pk, gub => gub.ListPK,
+						(pk ,gub) => gub.UnblockedPK)
 					.Join(uow._context.Set<UnblockedCmdOrMdl>()
 						.Where(x => x.Type.Equals(type)),
 						uPK => uPK, ub => ub.Id,
 						(uPK, ub) => ub.Name)
-					.GroupBy(a => a).Select(set => set.FirstOrDefault()).Where(u => u != null);
+					.GroupBy(n => n).Select(set => set.FirstOrDefault()).Where(n => n != null);
+
 				uow.Complete();
 
 				if (anon != null) count = anon.Count();
