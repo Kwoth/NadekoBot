@@ -39,7 +39,7 @@ namespace NadekoBot.Modules.Permissions
 				// Error if nothing to show
 				if (!_service.UnblockedModules.Any() && !_service.UnblockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("gub_none").ConfigureAwait(false);
+                    await ReplyErrorLocalized("gub_none", Prefix).ConfigureAwait(false);
                     return;
                 }
 
@@ -153,7 +153,7 @@ namespace NadekoBot.Modules.Permissions
 				// Error if nothing to show
 				if (!_service.UnblockedModules.Any() && !_service.UnblockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("gub_none").ConfigureAwait(false);
+                    await ReplyErrorLocalized("gub_none", Prefix).ConfigureAwait(false);
                     return;
                 }
 
@@ -190,7 +190,7 @@ namespace NadekoBot.Modules.Permissions
 				// Error if nothing to show
 				if (!_service.UnblockedModules.Any() && !_service.UnblockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("gub_none").ConfigureAwait(false);
+                    await ReplyErrorLocalized("gub_none", Prefix).ConfigureAwait(false);
                     return;
                 }
 
@@ -243,7 +243,7 @@ namespace NadekoBot.Modules.Permissions
 				// Error if nothing to show
 				if (!_service.UnblockedModules.Any() && !_service.UnblockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("gub_none").ConfigureAwait(false);
+                    await ReplyErrorLocalized("gub_none", Prefix).ConfigureAwait(false);
                     return;
                 }
 
@@ -748,7 +748,7 @@ namespace NadekoBot.Modules.Permissions
 				// Error if nothing to show
 				if (!_service.UnblockedModules.Any() && !_service.UnblockedCommands.Any())
                 {
-                    await ReplyErrorLocalized("gub_none").ConfigureAwait(false);
+                    await ReplyErrorLocalized("gub_none", Prefix).ConfigureAwait(false);
                     return;
                 }
 
