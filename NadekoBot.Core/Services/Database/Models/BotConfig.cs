@@ -18,7 +18,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public bool RotatingStatuses { get; set; } = false;
         public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
-        
+
         //currency
         public string CurrencySign { get; set; } = "🌸";
         public string CurrencyName { get; set; } = "Nadeko Flower";
@@ -70,7 +70,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
 
         public HashSet<UnblockedCmdOrMdl> UnblockedCommands { get; set; }
         public HashSet<UnblockedCmdOrMdl> UnblockedModules { get; set; }
-		// public HashSet<GWLItem> UnblockedRoles { get; set; }
+        // public HashSet<GWLItem> UnblockedRoles { get; set; }
         public int PermissionVersion { get; set; }
         public string DefaultPrefix { get; set; } = ".";
         public bool CustomReactionsStartWith { get; set; } = false;
@@ -98,11 +98,11 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public override int GetHashCode() => Name.GetHashCode();
     }
 
-    public class UnblockedCmdOrMdl : DbEntity 
+    public class UnblockedCmdOrMdl : DbEntity
     {
         [Required]
-		public string Name { get; set; }
-		public UnblockedType Type { get; set; }
+        public string Name { get; set; }
+        public UnblockedType Type { get; set; }
 
         public ICollection<GlobalUnblockedSet> GlobalUnblockedSets { get; set; }
 
@@ -146,7 +146,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
     public class GWLItem : DbEntity
     {
         public ulong ItemId { get; set; }
-		public ulong RoleServerId { get; set; }
+        public ulong RoleServerId { get; set; }
         public GWLItemType Type { get; set; }
 
         public ICollection<GWLItemSet> GWLItemSets { get; set; }
@@ -164,29 +164,29 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         Server,
         Channel,
         User,
-		Role
+        Role
     }
 
-	public enum GWLType
+    public enum GWLType
     {
         General,
         Member,
         Role
     }
 
-	public enum UnblockedType
-	{
-		Command,
-		Module
-	}
+    public enum UnblockedType
+    {
+        Command,
+        Module
+    }
 
     public class GWLSet : DbEntity {
         [MaxLength(20),Required]
         public string ListName { get; set; }
 
-		public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
 
-		public GWLType Type { get; set; }
+        public GWLType Type { get; set; }
 
         public ICollection<GWLItemSet> GWLItemSets { get; set; }
 
