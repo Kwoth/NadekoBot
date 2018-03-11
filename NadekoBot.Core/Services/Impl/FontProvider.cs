@@ -15,7 +15,7 @@ namespace NadekoBot.Core.Services.Impl
                 {
                     _fonts.Install(file);
                 }
-            UsernameFontUnicode = _fonts.Find("arial_unicode");
+            UsernameFontUnicode = _fonts.Find("Arial Unicode MS");
             UsernameFontFamily = _fonts.Find("Whitney-Bold");
             ClubFontFamily = _fonts.Find("Whitney-Bold");
             LevelFont = _fonts.Find("Whitney-Bold").CreateFont(45);
