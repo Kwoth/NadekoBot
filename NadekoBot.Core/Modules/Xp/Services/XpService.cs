@@ -22,7 +22,6 @@ using System.Net.Http;
 using ImageSharp.Drawing.Pens;
 using ImageSharp.Drawing.Brushes;
 using System.Diagnostics;
-using SixLabors.Fonts;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -611,7 +610,7 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 var username = stats.User.ToString();
 
-                var usernameFont = new FontCollection().Install("data/fonts/arial.ttf").CreateFont(username.Length <= 6
+                var usernameFont = _fonts.UsernameFontUnicode.CreateFont(username.Length <= 6
                          ? 50
                          : 50 - username.Length);
 
