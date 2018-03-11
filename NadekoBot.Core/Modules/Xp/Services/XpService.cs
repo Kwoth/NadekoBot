@@ -22,6 +22,7 @@ using System.Net.Http;
 using ImageSharp.Drawing.Pens;
 using ImageSharp.Drawing.Brushes;
 using System.Diagnostics;
+using SixLabors.Fonts;
 
 namespace NadekoBot.Modules.Xp.Services
 {
@@ -609,10 +610,10 @@ namespace NadekoBot.Modules.Xp.Services
             using (var img = Image.Load(_images.XpCard))
             {
                 var username = stats.User.ToString();
-                var usernameFont = _fonts.UsernameFontFamily
-                    .CreateFont(username.Length <= 6
-                        ? 50
-                        : 50 - username.Length);
+
+                var usernameFont = new FontCollection().Install("data/fonts/arial.ttf").CreateFont(username.Length <= 6
+                         ? 50
+                         : 50 - username.Length);
 
                 img.DrawText("@" + username, usernameFont, Rgba32.White,
                     new PointF(130, 5));
@@ -646,20 +647,20 @@ namespace NadekoBot.Modules.Xp.Services
                 //xp bar
 
                 img.FillPolygon(xpBgBrush, new[] {
-                    new PointF(321, 104),
-                    new PointF(321 + (450 * (global.LevelXp / (float)global.RequiredXp)), 104),
-                    new PointF(286 + (450 * (global.LevelXp / (float)global.RequiredXp)), 235),
-                    new PointF(286, 235),
-                });
+                                new PointF(321, 104),
+                                new PointF(321 + (450 * (global.LevelXp / (float)global.RequiredXp)), 104),
+                                new PointF(286 + (450 * (global.LevelXp / (float)global.RequiredXp)), 235),
+                                new PointF(286, 235),
+                            });
                 img.DrawText($"{global.LevelXp}/{global.RequiredXp}", _fonts.XpFont, brush, pen,
                     new PointF(430, 130));
 
                 img.FillPolygon(xpBgBrush, new[] {
-                    new PointF(282, 248),
-                    new PointF(282 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 248),
-                    new PointF(247 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 379),
-                    new PointF(247, 379),
-                });
+                                new PointF(282, 248),
+                                new PointF(282 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 248),
+                                new PointF(247 + (450 * (guild.LevelXp / (float)guild.RequiredXp)), 379),
+                                new PointF(247, 379),
+                            });
                 img.DrawText($"{guild.LevelXp}/{guild.RequiredXp}", _fonts.XpFont, brush, pen,
                     new PointF(400, 270));
 
