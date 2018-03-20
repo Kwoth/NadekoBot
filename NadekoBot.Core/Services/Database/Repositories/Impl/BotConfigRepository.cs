@@ -24,6 +24,8 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                              .Include(bc => bc.BlockedCommands)
                              .Include(bc => bc.BlockedModules)
                              //.Include(bc => bc.CommandCosts)
+                             .Include(bc => bc.UnblockedCommands)
+                             .Include(bc => bc.UnblockedModules)
                              .FirstOrDefault();
             else
                 config = includes(_set).FirstOrDefault();

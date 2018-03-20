@@ -1,6 +1,7 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace NadekoBot.Core.Services.Database.Models
 {
@@ -68,6 +69,10 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public List<StartupCommand> StartupCommands { get; set; }
         public HashSet<BlockedCmdOrMdl> BlockedCommands { get; set; }
         public HashSet<BlockedCmdOrMdl> BlockedModules { get; set; }
+
+        public HashSet<UnblockedCmdOrMdl> UnblockedCommands { get; set; }
+        public HashSet<UnblockedCmdOrMdl> UnblockedModules { get; set; }
+        // public HashSet<GWLItem> UnblockedRoles { get; set; }
         public int PermissionVersion { get; set; }
         public string DefaultPrefix { get; set; } = ".";
         public bool CustomReactionsStartWith { get; set; } = false;
@@ -100,6 +105,27 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         Simple
     }
 
+    public class UnblockedCmdOrMdl : DbEntity
+    {
+        [Required]
+        public string Name { get; set; }
+        public UnblockedType Type { get; set; }
+
+        public ICollection<GlobalUnblockedSet> GlobalUnblockedSets { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((UnblockedCmdOrMdl)obj).Name.ToLowerInvariant() == Name.ToLowerInvariant();
+        }
+
+        public override int GetHashCode() => Name.GetHashCode();
+    }
+
     public class StartupCommand : DbEntity, IIndexed
     {
         public int Index { get; set; }
@@ -124,11 +150,82 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public BlacklistType Type { get; set; }
     }
 
+    public class GWLItem : DbEntity
+    {
+        public ulong ItemId { get; set; }
+        public ulong RoleServerId { get; set; }
+        public GWLItemType Type { get; set; }
+
+        public ICollection<GWLItemSet> GWLItemSets { get; set; }
+    }
+
     public enum BlacklistType
     {
         Server,
         Channel,
         User
+    }
+
+    public enum GWLItemType
+    {
+        Server,
+        Channel,
+        User,
+        Role
+    }
+
+    public enum GWLType
+    {
+        General,
+        Member,
+        Role
+    }
+
+    public enum UnblockedType
+    {
+        Command,
+        Module
+    }
+
+    public class GWLSet : DbEntity {
+        [MaxLength(20),Required]
+        public string ListName { get; set; }
+
+        public bool IsEnabled { get; set; }
+
+        public GWLType Type { get; set; }
+
+        public ICollection<GWLItemSet> GWLItemSets { get; set; }
+
+        public ICollection<GlobalUnblockedSet> GlobalUnblockedSets { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return ((GWLSet)obj).ListName.ToLowerInvariant() == ListName.ToLowerInvariant();
+        }
+
+        public override int GetHashCode() => ListName.GetHashCode();
+    }
+
+    public class GWLItemSet
+    {
+        public int ListPK { get; set; }
+        public GWLSet List { get; set; }
+        public int ItemPK { get; set; }
+        public GWLItem Item { get; set; }
+    }
+
+    public class GlobalUnblockedSet
+    {
+        public int ListPK { get; set; }
+        public GWLSet List { get; set; }
+        public int UnblockedPK { get; set; }
+        public UnblockedCmdOrMdl CmdOrMdl { get; set; }
     }
 
     public class EightBallResponse : DbEntity

@@ -100,7 +100,18 @@ namespace NadekoBot.Extensions
             msg.Author?.Id == client.CurrentUser.Id;
 
         public static string RealSummary(this CommandInfo cmd, string prefix) => string.Format(cmd.Summary, prefix);
-        public static string RealRemarks(this CommandInfo cmd, string prefix) => string.Join(" or ", JsonConvert.DeserializeObject<string[]>(cmd.Remarks).Select(x => Format.Code(string.Format(x, prefix))));
+        public static string RealRemarks(this CommandInfo cmd, string prefix)
+        {
+            var usage = JsonConvert.DeserializeObject<string[]>(cmd.Remarks);
+            if (usage.Count() > 2)
+            {
+                return "```\n" + string.Join("\n", usage.Select(x => string.Format(x, prefix))) + "\n```";
+            }
+            else
+            {
+                return string.Join(" or ", usage.Select(x => Format.Code(string.Format(x, prefix))));
+            }
+        }
 
         public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
         {
@@ -174,7 +185,7 @@ namespace NadekoBot.Extensions
 
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
             (await role.Guild.GetUsersAsync(CacheMode.CacheOnly)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
-        
+
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
