@@ -3243,14 +3243,6 @@
       "{0}poec Standard \"Mirror of Kalandra\""
     ]
   },
-  "waifuwants": {
-    "Cmd": "waifuwants wants",
-    "Desc": "Shows a list of users that have affinity set to the target user. Defaults to yourself.",
-    "Usage": [
-      "{0}waifuwants",
-      "{0}waifuwants @SomeUser"
-    ]
-  },
   "rollduel": {
     "cmd": "rollduel",
     "desc": "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",

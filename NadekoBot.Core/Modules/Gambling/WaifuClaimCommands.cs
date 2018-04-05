@@ -446,11 +446,13 @@ namespace NadekoBot.Modules.Gambling
                     target = (IGuildUser)Context.User;
                 WaifuInfo w;
                 IList<WaifuInfo> claims;
+                IList<WaifuInfo> affinities;
                 int divorces;
                 using (var uow = _db.UnitOfWork)
                 {
                     w = uow.Waifus.ByWaifuUserId(target.Id);
                     claims = uow.Waifus.ByClaimerUserId(target.Id);
+                    affinities = uow.Waifus.ByAffinityUserId(target.Id);
                     divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
                         x.Old.UserId == target.Id &&
                         x.UpdateType == WaifuUpdateType.Claimed &&
@@ -470,6 +472,10 @@ namespace NadekoBot.Modules.Gambling
                     w.Waifu.Discriminator = target.Discriminator;
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
+
+                // Dedupe, the right way.
+                affinities=affinities.Except(claims).ToList();
+                // Now it only contains unclaimed affinities.
 
                 var claimInfo = GetClaimTitle(target.Id);
                 var affInfo = GetAffinityTitle(target.Id);
@@ -497,51 +503,11 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
-                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
+                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu.ToString()+(x.Affinity?.UserId==target.Id?" *":"")))).WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("waifu_affinities_unclaimed")+$" ({affinities.Count})").WithValue(affinities.Count==0?nobody:string.Join("\n",affinities.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu.ToString()))).WithIsInline(true));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-			
-			[NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-			public async Task WaifuWants([Remainder]IGuildUser target = null)
-			{
-				if (target == null)
-                    target = (IGuildUser)Context.User;
-				WaifuInfo w;
-                IList<WaifuInfo> claims;
-				IList<WaifuInfo> affinities;
-				using (var uow = _db.UnitOfWork)
-				{
-					w=uow.Waifus.ByWaifuUserId(target.Id);
-					claims = uow.Waifus.ByClaimerUserId(target.Id);
-					affinities = uow.Waifus.ByAffinityUserId(target.Id);
-					if (w == null)
-                    {
-                        uow.Waifus.Add(w = new WaifuInfo()
-                        {
-                            Affinity = null,
-                            Claimer = null,
-                            Price = 1,
-                            Waifu = uow.DiscordUsers.GetOrCreate(target),
-                        });
-                    }
-				}
-				
-				IList<String> unclaimedwants=new List<String>();
-				IList<String> claimedwants=new List<String>();
-				foreach (WaifuInfo waifu in affinities)
-				{
-					if(claims.Contains(waifu))
-					{claimedwants.Add(waifu.Waifu.ToString());}
-					else{unclaimedwants.Add(waifu.Waifu.ToString());}
-				}
-				var nobody = GetText("nobody");
-				var embed = new EmbedBuilder().WithOkColor().WithTitle(GetText("waifu_affinities_you", target))
-								.AddField(efb=>efb.WithName(GetText("waifu_affinities_claimed")).WithValue(claimedwants.Count==0?nobody:string.Join("\n", claimedwants)).WithIsInline(true))
-								.AddField(efb=>efb.WithName(GetText("waifu_affinities_unclaimed")).WithValue(unclaimedwants.Count==0?nobody:string.Join("\n",unclaimedwants)).WithIsInline(true));
-				await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
-			}
 			
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
