@@ -7,7 +7,6 @@ using NadekoBot.Modules.Xp.Common;
 using NadekoBot.Modules.Xp.Services;
 using NadekoBot.Core.Services;
 using NadekoBot.Core.Services.Database.Models;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,8 +25,6 @@ namespace NadekoBot.Modules.Xp
         
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        //todo add ratelimit attribute
-        //[Ratelimit(30)]
         public async Task Experience([Remainder]IUser user = null)
         {
             user = user ?? Context.User;

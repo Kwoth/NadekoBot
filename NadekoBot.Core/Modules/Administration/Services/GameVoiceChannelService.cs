@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using NadekoBot.Common.Collections;
 using NadekoBot.Extensions;
 using NadekoBot.Core.Services;
-using NadekoBot.Core.Services.Database.Models;
 using NLog;
 
 namespace NadekoBot.Modules.Administration.Services
@@ -31,6 +29,31 @@ namespace NadekoBot.Modules.Administration.Services
 
             _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
 
+        }
+
+        public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
+        {
+            ulong? id;
+            using (var uow = _db.UnitOfWork)
+            {
+                var gc = uow.GuildConfigs.For(guildId, set => set);
+
+                if (gc.GameVoiceChannel == vchId)
+                {
+                    GameVoiceChannels.TryRemove(vchId);
+                    id = gc.GameVoiceChannel = null;
+                }
+                else
+                {
+                    if (gc.GameVoiceChannel != null)
+                        GameVoiceChannels.TryRemove(gc.GameVoiceChannel.Value);
+                    GameVoiceChannels.Add(vchId);
+                    id = gc.GameVoiceChannel = vchId;
+                }
+
+                uow.Complete();
+            }
+            return id;
         }
 
         private Task Client_UserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState, SocketVoiceState newState)

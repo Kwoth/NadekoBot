@@ -488,6 +488,33 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task PlaylistShow(int id, int page = 1)
+        {
+            if (page-- < 1)
+                return;
+            
+            MusicPlaylist mpl;
+            using (var uow = _db.UnitOfWork)
+            {
+                mpl = uow.MusicPlaylists.GetWithSongs(id);
+            }
+
+            await Context.SendPaginatedConfirmAsync(page, (cur) =>
+            {
+                var i = 0;
+                var str = string.Join("\n", mpl.Songs
+                    .Skip(cur * 20)
+                    .Take(20)
+                    .Select(x => $"`{++i}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`"));
+                return new EmbedBuilder()
+                    .WithTitle($"\"{mpl.Name}\" by {mpl.Author}")
+                    .WithOkColor()
+                    .WithDescription(str);
+            }, mpl.Songs.Count, 20);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Save([Remainder] string name)
         {
             var mp = await _service.GetOrCreatePlayer(Context);
@@ -550,8 +577,11 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         await Task.Yield();
-
-                        await Task.WhenAll(Task.Delay(1000), InternalQueue(mp, await _service.ResolveSong(item.Query, Context.User.ToString(), item.ProviderType), true)).ConfigureAwait(false);
+                        var song = await _service.ResolveSong(item.Query,
+                            Context.User.ToString(),
+                            item.ProviderType);
+                        var queueTask = InternalQueue(mp, song, true);
+                        await Task.WhenAll(Task.Delay(1000), queueTask).ConfigureAwait(false);
                     }
                     catch (SongNotFoundException) { }
                     catch { break; }

@@ -39,7 +39,11 @@ namespace NadekoBot.Core.Services.Impl
         public string MiningProxyUrl { get; }
         public string MiningProxyCreds { get; }
 
-        public string BotListToken { get; set; }
+        public string TwitchClientId { get; }
+
+        public string VotesUrl { get; }
+        public string VotesToken { get; }
+        public string BotListToken { get; }
 
         public BotCredentials()
         {
@@ -76,6 +80,8 @@ namespace NadekoBot.Core.Services.Impl
                 MiningProxyUrl = data[nameof(MiningProxyUrl)];
                 MiningProxyCreds = data[nameof(MiningProxyCreds)];
 
+                VotesToken = data[nameof(VotesToken)];
+                VotesUrl = data[nameof(VotesUrl)];
                 BotListToken = data[nameof(BotListToken)];
 
                 var restartSection = data.GetSection(nameof(RestartCommand));
@@ -119,6 +125,12 @@ namespace NadekoBot.Core.Services.Impl
                             string.IsNullOrWhiteSpace(dbSection["ConnectionString"])
                                 ? "Data Source=data/NadekoBot.db"
                                 : dbSection["ConnectionString"]);
+
+                TwitchClientId = data[nameof(TwitchClientId)];
+                if(string.IsNullOrWhiteSpace(TwitchClientId))
+                {
+                    TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                }
             }
             catch (Exception ex)
             {
@@ -154,6 +166,9 @@ namespace NadekoBot.Core.Services.Impl
             public string MiningProxyCreds { get; set; } = null;
 
             public string BotListToken { get; set; }
+            public string TwitchClientId { get; set; }
+            public string VotesToken { get; set; }
+            public string VotesUrl { get; set; }
         }
 
         private class DbModel
