@@ -61,13 +61,12 @@ namespace NadekoBot.Modules.Utility
                             var emoteImage = new Image(ms);
                             await Context.Guild.CreateEmoteAsync(name, emoteImage).ConfigureAwait(false);
                             await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                 .WithDescription(Context.User.Mention emote **name** was created successfully.));.ConfigureAwait(false);
+                                 .WithDescription(Context.User.Mention, "emote **name** was created successfully."));.ConfigureAwait(false);
                         }
                         else
                         {
                              await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                   .WithDescription(Context.User.Mention the image is more than 250 KB.));.ConfigureAwait(false);
-                          
+                                   .WithDescription(Context.User.Mention, "the image is more than 250 KB."));.ConfigureAwait(false);
                         }
                     }
                 }
@@ -85,13 +84,13 @@ namespace NadekoBot.Modules.Utility
                     }
                     if (staticEmotes.Count == 50)
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention the server already has the limit of 50 non-animated emotes.));
+                            .WithDescription(Context.User.Mention, "the server already has the limit of 50 non-animated emotes."));
                     else if (animatedEmotes.Count == 50)
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention the server already has the limit of 50 animated emotes.));
+                            .WithDescription(Context.User.Mention, "the server already has the limit of 50 animated emotes."));
                     else
                         await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention the image or URL are not working. Be sure to use direct image links.));
+                            .WithDescription(Context.User.Mention, "the image or URL are not working. Be sure to use direct image links."));
                 }
             }
 
