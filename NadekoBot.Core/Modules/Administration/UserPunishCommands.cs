@@ -525,11 +525,6 @@ namespace NadekoBot.Modules.Administration
             [RequireBotPermission(GuildPermission.BanMembers)]
             public async Task Hackban(IGuildUser user, [Remainder] string msg = null)
             {
-                if (Context.User.Id != user.Guild.OwnerId && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)Context.User).GetRoles().Select(r => r.Position).Max()))
-                {
-                    await ReplyErrorLocalized("hierarchy").ConfigureAwait(false);
-                    return;
-                }
                 if (!string.IsNullOrWhiteSpace(msg))
                 {
                     try
