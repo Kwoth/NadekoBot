@@ -518,32 +518,6 @@ namespace NadekoBot.Modules.Administration
                     .WithOkColor()
                     .Build()).ConfigureAwait(false);
             }
-
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.BanMembers)]
-            [RequireBotPermission(GuildPermission.BanMembers)]
-            public async Task Hackban(IGuildUser user, [Remainder] string msg = null)
-            {
-                if (!string.IsNullOrWhiteSpace(msg))
-                {
-                    try
-                    {
-                        await user.SendErrorAsync(GetText("bandm", Format.Bold(Context.Guild.Name), msg));
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-
-                await Context.Guild.AddBanAsync(user, 7, Context.User.ToString() + " | " + msg).ConfigureAwait(false);
-                await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithTitle("⛔️ " + GetText("banned_user"))
-                        .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
-                        .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true)))
-                    .ConfigureAwait(false);
-            }
         }
     }
 }
