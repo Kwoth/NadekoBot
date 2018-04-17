@@ -102,7 +102,7 @@ namespace NadekoBot.Modules.Utility
                 target = res.RequestMessage.RequestUri;
             }
 
-            await Context.Channel.EmbedAsync(new Embedbuilder().WithOkColor()
+            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
                 .WithName("Together Tube")
                 .WithUrl("https://togethertube.com/"))
