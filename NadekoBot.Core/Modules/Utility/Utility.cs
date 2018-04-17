@@ -38,62 +38,60 @@ namespace NadekoBot.Modules.Utility
             _db = db;            
         }
 
-            [NadekoCommand, Usage, Description, Aliases]
-            [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(ManageEmojis)]
-            [RequireContext(ContextType.Guild)]
-            public async Task AddEmote(string name, [Remainder]string url)
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageEmojis)]
+        [RequireContext(ContextType.Guild)]
+        public async Task AddEmote(string name, [Remainder]string url)
+        {
+            name = name.Replace(" ", "_");
+
+            try
             {
-                name = name.Replace(" ", "_");
-
-                try
+                using (var http = new HttpClient())
                 {
-                    using (var http = new HttpClient())
-                    {
-                        var res = await http.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
+                    var res = await http.GetStreamAsync(new Uri(url)).ConfigureAwait(false);
 
-                        var ms = new MemoryStream();
-                        await res.CopyToAsync(ms);
-                        ms.Position = 0;
+                    var ms = new MemoryStream();
+                    await res.CopyToAsync(ms);
+                    ms.Position = 0;
 
-                        if (ms.Length / 1024 <= 256) //in KB
-                        {
-                            var emoteImage = new Image(ms);
-                            await Context.Guild.CreateEmoteAsync(name, emoteImage).ConfigureAwait(false);
-                            await Context.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                 .WithDescription(Context.User.Mention, "emote **name** was created successfully."));.ConfigureAwait(false);
-                        }
-                        else
-                        {
-                             await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                   .WithDescription(Context.User.Mention, "the image is more than 250 KB."));.ConfigureAwait(false);
-                        }
-                    }
-                }
-                catch
-                {
-                    var staticEmotes = new List<IEmote>();
-                    var animatedEmotes = new List<IEmote>();
-                    var emotes = Context.Guild.Emotes;
-                    foreach (var emote in emotes)
+                    if (ms.Length / 1024 <= 256) //in KB
                     {
-                        if (emote.Animated)
-                            animatedEmotes.Add(emote);
-                        else
-                            staticEmotes.Add(emote);
+                        var emoteImage = new Discord.Image(ms);
+                        await Context.Guild.CreateEmoteAsync(name, emoteImage).ConfigureAwait(false);
+                        await ReplyConfirmLocalized(Context.User.Mention, "emote **name** was created successfully.").ConfigureAwait(false);
                     }
-                    if (staticEmotes.Count == 50)
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention, "the server already has the limit of 50 non-animated emotes."));
-                    else if (animatedEmotes.Count == 50)
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention, "the server already has the limit of 50 animated emotes."));
                     else
-                        await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                            .WithDescription(Context.User.Mention, "the image or URL are not working. Be sure to use direct image links."));
+                    {
+                        await ReplyConfirmLocalized(Context.User.Mention, "the image is more than 250 KB.").ConfigureAwait(false);
+                    }
                 }
             }
-
+            catch
+            {
+                var staticEmotes = new List<IEmote>();
+                var animatedEmotes = new List<IEmote>();
+                var emotes = Context.Guild.Emotes;
+                foreach (var emote in emotes)
+                {
+                    if (emote.Animated)
+                        animatedEmotes.Add(emote);
+                    else
+                        staticEmotes.Add(emote);
+                }
+                if (staticEmotes.Count == 50)
+                    await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
+                        .WithDescription($"{Context.User.Mention} the server already has the limit of 50 non-animated emotes.")).ConfigureAwait(false);
+                else if (animatedEmotes.Count == 50)
+                    await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
+                        .WithDescription($"{Context.User.Mention} the server already has the limit of 50 animated emotes.")).ConfigureAwait(false);
+                else
+                    await Context.Channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
+                        .WithDescription($"{Context.User.Mention} the image or URL are not working. Be sure to use direct image links.")).ConfigureAwait(false);
+            }
+        }
+        
         [NadekoCommand, Usage, Description, Aliases]
         public async Task TogetherTube()
         {
