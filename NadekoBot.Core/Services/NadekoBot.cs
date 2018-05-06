@@ -80,7 +80,11 @@ namespace NadekoBot
             _db = new DbService(Credentials);
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                MessageCacheSize = 10,
+#if GLOBAL_NADEKO
+                MessageCacheSize = 0,
+#else
+                MessageCacheSize = 50,
+#endif
                 LogLevel = LogSeverity.Info,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
@@ -290,7 +294,7 @@ namespace NadekoBot
             // start handling messages received in commandhandler
             await commandHandler.StartHandling().ConfigureAwait(false);
 
-            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
+            var _ = await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly, Services);
 
 
             bool isPublicNadeko = false;

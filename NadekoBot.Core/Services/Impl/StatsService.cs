@@ -23,7 +23,7 @@ namespace NadekoBot.Core.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
 
-        public const string BotVersion = "2.17.4";
+        public const string BotVersion = "2.21.1";
         public string Author => "Kwoth#2560";
         public string Library => "Discord.Net";
 
@@ -46,8 +46,7 @@ namespace NadekoBot.Core.Services.Impl
         private readonly ConnectionMultiplexer _redis;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-            IBotCredentials creds, NadekoBot nadeko,
-            IDataCache cache)
+            IBotCredentials creds, NadekoBot nadeko, IDataCache cache)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;

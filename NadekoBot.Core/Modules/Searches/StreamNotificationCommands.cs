@@ -77,6 +77,14 @@ namespace NadekoBot.Modules.Searches
             private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+)/?",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+            private static readonly Dictionary<FollowedStream.FType, Regex> typesWithRegex = new Dictionary<FollowedStream.FType, Regex>()
+            {
+                { FollowedStream.FType.Mixer, mixerRegex },
+                { FollowedStream.FType.Picarto, picartoRegex },
+                { FollowedStream.FType.Smashcast, smashcastRegex },
+                { FollowedStream.FType.Twitch, twitchRegex },
+            };
+
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
@@ -106,6 +114,7 @@ namespace NadekoBot.Modules.Searches
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [Priority(0)]
             public async Task StreamRemove(string link)
             {
                 var streamRegexes = new(Func<string, Task> Func, Regex Regex)[]
@@ -131,8 +140,22 @@ namespace NadekoBot.Modules.Searches
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task ListStreams()
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task StreamsClear()
             {
+                var count = _service.ClearAllStreams(Context.Guild.Id);
+                await ReplyConfirmLocalized("streams_cleared", count).ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task ListStreams(int page = 1)
+            {
+                if (page-- < 1)
+                {
+                    return;
+                }
+
                 IEnumerable<FollowedStream> streams;
                 using (var uow = _db.UnitOfWork)
                 {
@@ -143,7 +166,7 @@ namespace NadekoBot.Modules.Searches
 
                     var toRemove = all.Where(x => ((SocketGuild)Context.Guild).GetTextChannel(x.ChannelId) == null);
                     streams = all.Except(toRemove);
-                    if(toRemove.Any())
+                    if (toRemove.Any())
                     {
                         foreach (var r in toRemove)
                         {
@@ -153,29 +176,93 @@ namespace NadekoBot.Modules.Searches
                         uow.Complete();
                     }
                 }
-
-                if (!streams.Any())
+                await Context.SendPaginatedConfirmAsync(page, async (cur) =>
                 {
-                    await ReplyErrorLocalized("streams_none").ConfigureAwait(false);
-                    return;
-                }
+                    var thisPage = streams.Skip(cur * 15).Take(15);
+                    if (!thisPage.Any())
+                    {
+                        return new EmbedBuilder()
+                            .WithDescription(GetText("streams_none"))
+                            .WithErrorColor();
+                    }
 
-                var text = string.Join("\n", await Task.WhenAll(streams.Select(async snc =>
-                {
-                    var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
-                    return string.Format("{0}'s stream on {1} channel. 【{2}】",
-                        Format.Code(snc.Username),
-                        Format.Bold(ch?.Name ?? "deleted-channel"),
-                        Format.Code(snc.Type.ToString()));
-                })));
+                    var text = string.Join("\n", await Task.WhenAll(thisPage.Select(async snc =>
+                    {
+                        var ch = await Context.Guild.GetTextChannelAsync(snc.ChannelId);
+                        return string.Format("{0}'s stream on {1} channel. 【{2}】",
+                            Format.Code(snc.Username),
+                            Format.Bold(ch?.Name ?? "deleted-channel"),
+                            Format.Code(snc.Type.ToString()));
+                    })));
 
-                await Context.Channel.SendConfirmAsync(GetText("streams_following", streams.Count()) + "\n\n" + text)
-                    .ConfigureAwait(false);
+                    return new EmbedBuilder()
+                        .WithDescription(GetText("streams_following", thisPage.Count()) + "\n\n" + text)
+                        .WithOkColor();
+                }, streams.Count(), 15);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task StreamOffline()
+            {
+                var newValue = _service.ToggleStreamOffline(Context.Guild.Id);
+                if (newValue)
+                {
+                    await ReplyConfirmLocalized("stream_off_enabled").ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("stream_off_disabled").ConfigureAwait(false);
+                }
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            public async Task StreamMessage(string url, [Remainder] string message)
+            {
+                if (!GetNameAndType(url, out var info))
+                {
+                    await ReplyErrorLocalized("stream_not_exist").ConfigureAwait(false);
+                    return;
+                }
+                if (!_service.SetStreamMessage(Context.Guild.Id, info.Value.Item1, info.Value.Item2, message))
+                {
+                    await ReplyConfirmLocalized("stream_not_following").ConfigureAwait(false);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(message))
+                {
+                    await ReplyConfirmLocalized("stream_message_reset", url).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmLocalized("stream_message_set", url).ConfigureAwait(false);
+                }
+            }
+            //todo default message
+
+            private bool GetNameAndType(string url, out (string, FollowedStream.FType)? nameAndType)
+            {
+                nameAndType = null;
+                foreach (var kvp in typesWithRegex)
+                {
+                    var m = kvp.Value.Match(url);
+                    if (m.Captures.Count > 0)
+                    {
+                        nameAndType = (m.Groups["name"].ToString(), kvp.Key);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
+            [Priority(1)]
             public async Task StreamRemove(FollowedStream.FType type, [Remainder] string username)
             {
                 username = username.ToLowerInvariant().Trim();

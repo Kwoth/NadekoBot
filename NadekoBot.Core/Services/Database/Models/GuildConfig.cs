@@ -77,6 +77,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public string TimeZoneId { get; set; } = null;
 
         public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
+        public HashSet<UnbanTimer> UnbanTimer { get; set; } = new HashSet<UnbanTimer>();
         public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
         public HashSet<CommandAlias> CommandAliases { get; set; } = new HashSet<CommandAlias>();
         public List<WarningPunishment> WarnPunishments { get; set; } = new List<WarningPunishment>();
@@ -96,6 +97,7 @@ namespace NadekoBot.Core.Services.Database.Models
         public bool AutoDcFromVc { get; set; }
         public MusicSettings MusicSettings { get; set; } = new MusicSettings();
         public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new IndexedCollection<ReactionRoleMessage>();
+        public bool NotifyStreamOffline { get; set; }
     }
 
     public class DelMsgOnCmdChannel : DbEntity
@@ -214,7 +216,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
     public class UnmuteTimer : DbEntity
     {
-        public ulong UserId { get; set; }
+        public ulong UserId { get; set; }        
         public DateTime UnmuteAt { get; set; }
 
         public override int GetHashCode() =>
@@ -223,6 +225,23 @@ namespace NadekoBot.Core.Services.Database.Models
         public override bool Equals(object obj)
         {
             var ut = obj as UnmuteTimer;
+            if (ut == null)
+                return false;
+            return ut.UserId == UserId;
+        }
+    }
+
+    public class UnbanTimer : DbEntity
+    {
+        public ulong UserId { get; set; }
+        public DateTime UnbanAt { get; set; }
+
+        public override int GetHashCode() =>
+            UserId.GetHashCode();
+
+        public override bool Equals(object obj)
+        {
+            var ut = obj as UnbanTimer;
             if (ut == null)
                 return false;
             return ut.UserId == UserId;

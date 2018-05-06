@@ -32,8 +32,8 @@
     "Cmd": "commands cmds",
     "Desc": "List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.",
     "Usage": [
-      "{0}commands Administration",
-      "{0}cmds Admin"
+      "{0}cmds Admin",
+      "{0}cmds Admin --view 1"
     ]
   },
   "greetdel": {
@@ -125,10 +125,10 @@
   },
   "repeat": {
     "Cmd": "repeat",
-    "Desc": "Repeat a message every `X` minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
+    "Desc": "Repeat a message every specified number of minutes in the current channel. You can instead specify time of day for the message to be repeated at daily (make sure you've set your server's timezone). You can have up to 5 repeating messages on the server in total.",
     "Usage": [
-      "{0}repeat 5 Hello there",
-      "{0}repeat 17:30 tea time"
+      "{0}repeat -i 5 -m \"Hello there\" -n",
+      "{0}repeat 17:30 -m \"tea time\""
     ]
   },
   "rotateplaying": {
@@ -285,6 +285,34 @@
       "{0}dcr 5"
     ]
   },
+  "crclear": {
+    "cmd": "crclear",
+    "desc": "Deletes all custom reactions on this server.",
+    "Usage": [
+      "{0}crclear"
+    ]
+  },
+  "fwclear": {
+    "cmd": "fwclear",
+    "desc": "Deletes all filtered words on this server.",
+    "Usage": [
+      "{0}fwclear"
+    ]
+  },
+  "aliasesclear": {
+    "cmd": "aliasesclear aliasclear",
+    "desc": "Deletes all aliases on this server.",
+    "Usage": [
+      "{0}aliasclear"
+    ]
+  },
+  "streamsclear": {
+    "cmd": "streamsclear",
+    "desc": "Deletes all followed streams on this server.",
+    "Usage": [
+      "{0}streamsclear"
+    ]
+  },
   "autoassignrole": {
     "Cmd": "autoassignrole aar",
     "Desc": "Automaticaly assigns a specified role to every user who joins the server. Provide no parameters to disable.",
@@ -361,18 +389,18 @@
   },
   "rolecolor": {
     "Cmd": "rolecolor roleclr",
-    "Desc": "Set a role's color to the hex or 0-255 rgb color value provided. Provide no color in order to see the hex of the color of the specified role.",
+    "Desc": "Set a role's color using its hex value. Provide no color in order to see the hex value of the color of the specified role.",
     "Usage": [
       "{0}roleclr Admin",
-      "{0}roleclr Admin ffba55",
-      "{0}roleclr Admin 255 128 0"
+      "{0}roleclr Admin ffba55"
     ]
   },
   "ban": {
     "Cmd": "ban b",
-    "Desc": "Bans a user by ID or name with an optional message.",
+    "Desc": "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
     "Usage": [
-      "{0}b \"@some Guy\" Your behaviour is toxic."
+      "{0}b \"@some Guy\" Your behaviour is toxic.",
+      "{0}b 1d12h @b1nzy Come back when u chill"
     ]
   },
   "softban": {
@@ -391,10 +419,10 @@
   },
   "mute": {
     "Cmd": "mute",
-    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time in minutes (up to 1440) for how long the user should be muted.",
+    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted.",
     "Usage": [
       "{0}mute @Someone",
-      "{0}mute 30 @Someone"
+      "{0}mute 1h30m @Someone"
     ]
   },
   "voiceunmute": {
@@ -1687,7 +1715,7 @@
   },
   "color": {
     "Cmd": "color clr",
-    "Desc": "Shows you which colors correspond to the inputed hexes.",
+    "Desc": "Shows you pictures of colors which correspond to the inputed hex values. Max 10.",
     "Usage": [
       "{0}color 00ff00",
       "{0}color f00 0f0 00f"
@@ -1721,11 +1749,11 @@
       "{0}danbooru yuri+kissing"
     ]
   },
-  "atfbooru": {
-    "Cmd": "atfbooru atf",
-    "Desc": "Shows a random hentai image from atfbooru with a given tag. Tag is optional but preferred.",
+  "derpibooru": {
+    "Cmd": "derpibooru derpi",
+    "Desc": "Shows a random image from derpibooru with a given tag. Tag is optional but preferred.",
     "Usage": [
-      "{0}atfbooru yuri+kissing"
+      "{0}derpi yuri+kissing"
     ]
   },
   "gelbooru": {
@@ -2624,11 +2652,18 @@
       "{0}scadd {0}stats"
     ]
   },
+  "autocommandadd": {
+    "Cmd": "autocmdadd",
+    "Desc": "Adds a command to the list of commands which will be executed automatically every X seconds.",
+    "Usage": [
+      "{0}autocmdadd 60 {0}prune 1000"
+    ]
+  },
   "startupcommandremove": {
     "Cmd": "scrm",
-    "Desc": "Removes a startup command with the provided command text.",
+    "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
-      "{0}scrm {0}stats"
+      "{0}scrm 3"
     ]
   },
   "startupcommandsclear": {
@@ -2643,6 +2678,13 @@
     "Desc": "Lists all startup commands in the order they will be executed in.",
     "Usage": [
       "{0}sclist"
+    ]
+  },
+  "autocommands": {
+    "Cmd": "autocmds autolist autocmdlist",
+    "Desc": "Lists all auto commands and the intervals in which they execute.",
+    "Usage": [
+      "{0}autolist"
     ]
   },
   "unban": {
@@ -2677,10 +2719,11 @@
   },
   "warnpunish": {
     "Cmd": "warnpunish warnp",
-    "Desc": "Sets a punishment for a certain number of warnings. Provide no punishment to remove.",
+    "Desc": "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or 'Mute' punishment to make it a temporary mute/ban. Provide no punishment to remove.",
     "Usage": [
-      "{0}warnpunish 5 Ban",
-      "{0}warnpunish 3"
+      "{0}warnp 5 Ban",
+      "{0}warnp 3",
+      "{0}warnp 5 Mute 2d12h"
     ]
   },
   "claimpatreonrewards": {
@@ -3320,14 +3363,28 @@
     "cmd": "edit",
     "desc": "Edits bot's message, you have to specify message ID and new text. Supports embeds.",
     "usage": [
-      ".edit 7479498384 Hi :^)"
+      "{0}edit 7479498384 Hi :^)"
     ]
   },
   "roleid": {
     "cmd": "roleid rid",
     "desc": "Shows the id of the specified role.",
     "usage": [
-      ".rid Some Role"
+      "{0}rid Some Role"
+    ]
+  },
+  "streamoffline": {
+    "cmd": "streamoff stoff",
+    "desc": "Toggles whether the bot will notify about streams going offline.",
+    "usage": [
+      "{0}stoff"
+    ]
+  },
+  "streammessage": {
+    "cmd": "streammsg",
+    "desc": "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
+    "usage": [
+      "{0}streammsg https://www.twitch.tv/trolhamonas/ Hello world"
     ]
   }
 }
