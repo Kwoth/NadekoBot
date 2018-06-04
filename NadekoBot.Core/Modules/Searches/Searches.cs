@@ -263,19 +263,39 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomCat()
         {
-            var res = JObject.Parse(await _service.Http.GetStringAsync("http://aws.random.cat/meow").ConfigureAwait(false));
+            var response = await _service.Http.GetAsync("https://aws.random.cat/meow").ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                await ReplyErrorLocalized("error_occured").ConfigureAwait(false);
+                return;
+            }
+
+            var content = JObject.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+            
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl(Uri.EscapeUriString(res["file"].ToString())))
+                .WithImageUrl(Uri.EscapeUriString(content["file"].ToString())))
                     .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomDog()
         {
+            var response = await _service.Http.GetAsync("https://random.dog/woof").ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                await ReplyErrorLocalized("error_occured").ConfigureAwait(false);
+                return;
+            }
+
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
             await Context.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
-                .WithImageUrl("https://random.dog/" + await _service.Http.GetStringAsync("http://random.dog/woof")));
+                .WithImageUrl("https://random.dog/" + content))
+                    .ConfigureAwait(false);
         }
 
         [NadekoCommand, Usage, Description, Aliases]
