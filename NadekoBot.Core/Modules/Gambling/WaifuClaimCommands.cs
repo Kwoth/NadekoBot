@@ -503,7 +503,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
-                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu.ToString()+(x.Affinity?.UserId==target.Id?" *":"")))).WithIsInline(true))
+                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu.ToString()+(x.Affinity?.UserId==target.Id?" 💞":"")))).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("waifu_affinities_unclaimed")+$" ({affinities.Count})").WithValue(affinities.Count==0?nobody:string.Join("\n",affinities.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu.ToString()))).WithIsInline(true));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
