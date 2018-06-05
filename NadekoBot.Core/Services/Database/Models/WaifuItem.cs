@@ -44,6 +44,7 @@ namespace NadekoBot.Core.Services.Database.Models
             Moon, //100k
             Panda, //5k
             Cake, //2000
+            Tea, //700
             Watermelon,//1000
             Dress, //4000
         }
@@ -112,6 +113,9 @@ namespace NadekoBot.Core.Services.Database.Models
                     break;
                 case ItemName.Bento:
                     wi = new WaifuItem("🍱", 600, itemName);
+                    break;
+                case ItemName.Tea:
+                    wi = new WaifuItem("🍵", 700, itemName);
                     break;
                 case ItemName.MovieTicket:
                     wi = new WaifuItem("🎟", 800, itemName);
@@ -195,4 +199,5 @@ namespace NadekoBot.Core.Services.Database.Models
 💻 Laptop 5k
 🎻 Violin 7.5k
 💍 Ring 10k
+🍵 Tea 700
 */
