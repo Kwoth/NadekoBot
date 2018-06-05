@@ -494,7 +494,7 @@ namespace NadekoBot.Modules.Gambling
                     .AddField(efb => efb.WithName(GetText("price")).WithValue(w.Price.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("claimed_by")).WithValue(w.Claimer?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
+                    .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"{affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("waifus") + $" ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
