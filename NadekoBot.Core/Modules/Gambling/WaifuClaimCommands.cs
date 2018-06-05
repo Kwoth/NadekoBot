@@ -490,14 +490,14 @@ namespace NadekoBot.Modules.Gambling
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("Waifu " + w.Waifu + " - \"the " + claimInfo.Title + "\"")
+                    .WithTitle(GetText("waifu") + w.Waifu + " - \"" + claimInfo.Title + "\"")
                     .AddField(efb => efb.WithName(GetText("price")).WithValue(w.Price.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("claimed_by")).WithValue(w.Claimer?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("likes")).WithValue(w.Affinity?.ToString() ?? nobody).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("changes_of_heart")).WithValue($"{affInfo.Count} - \"the {affInfo.Title}\"").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("divorces")).WithValue(divorces.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("gifts")).WithValue(itemsStr).WithIsInline(false))
-                    .AddField(efb => efb.WithName($"Waifus ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
+                    .AddField(efb => efb.WithName(GetText("waifus") + $" ({claims.Count})").WithValue(claims.Count == 0 ? nobody : string.Join("\n", claims.OrderBy(x => rng.Next()).Take(30).Select(x => x.Waifu))).WithIsInline(false));
 
                 await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -623,7 +623,7 @@ namespace NadekoBot.Modules.Gambling
                 else
                     title = ClaimTitles.Harem_God;
 
-                return new WaifuProfileTitle(count, title.ToString().Replace('_', ' '));
+                return new WaifuProfileTitle(count, GetText(title.ToString()));
             }
 
             private WaifuProfileTitle GetAffinityTitle(ulong userId)
@@ -659,7 +659,7 @@ namespace NadekoBot.Modules.Gambling
                 else
                     title = AffinityTitles.Harlot;
 
-                return new WaifuProfileTitle(count, title.ToString().Replace('_', ' '));
+                return new WaifuProfileTitle(count, GetText(title.ToString()));
             }
         }
     }
