@@ -308,18 +308,18 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Image([Remainder] string terms = null)
         {
-            terms = terms?.Trim();
-            if (string.IsNullOrWhiteSpace(terms))
+            var oterms = terms?.Trim();
+            if (string.IsNullOrWhiteSpace(oterms))
                 return;
 
-            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
+            terms = WebUtility.UrlEncode(oterms).Replace(' ', '+');
 
             try
             {
-                var res = await _google.GetImageAsync(terms).ConfigureAwait(false);
+                var res = await _google.GetImageAsync(oterms).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
+                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
                         .WithUrl("https://www.google.rs/search?q=" + terms + "&source=lnms&tbm=isch")
                         .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                     .WithDescription(res.Link)
