@@ -363,13 +363,13 @@ namespace NadekoBot.Modules.Searches
         [NadekoCommand, Usage, Description, Aliases]
         public async Task RandomImage([Remainder] string terms = null)
         {
-            terms = terms?.Trim();
-            if (string.IsNullOrWhiteSpace(terms))
+            var oterms = terms?.Trim();
+            if (string.IsNullOrWhiteSpace(oterms))
                 return;
-            terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
+            terms = WebUtility.UrlEncode(oterms).Replace(' ', '+');
             try
             {
-                var res = await _google.GetImageAsync(terms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
+                var res = await _google.GetImageAsync(oterms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
@@ -383,7 +383,6 @@ namespace NadekoBot.Modules.Searches
             catch
             {
                 _log.Warn("Falling back to Imgur");
-                terms = WebUtility.UrlEncode(terms).Replace(' ', '+');
 
                 var fullQueryLink = $"http://imgur.com/search?q={ terms }";
                 var config = Configuration.Default.WithDefaultLoader();
