@@ -402,7 +402,7 @@ namespace NadekoBot.Modules.Searches
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
+                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
                             .WithUrl(fullQueryLink)
                             .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
                         .WithDescription(source)
