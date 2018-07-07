@@ -349,7 +349,7 @@ namespace NadekoBot.Modules.Searches
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithAuthor(eab => eab.WithName("Image Search For: " + terms.TrimTo(50))
+                        .WithAuthor(eab => eab.WithName("Image Search For: " + oterms.TrimTo(50))
                             .WithUrl(fullQueryLink)
                             .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
                         .WithDescription(source)
@@ -372,7 +372,7 @@ namespace NadekoBot.Modules.Searches
                 var res = await _google.GetImageAsync(oterms, new NadekoRandom().Next(0, 50)).ConfigureAwait(false);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + terms.TrimTo(50))
+                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
                         .WithUrl("https://www.google.rs/search?q=" + terms + "&source=lnms&tbm=isch")
                         .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                     .WithDescription(res.Link)
