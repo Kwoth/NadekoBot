@@ -19,20 +19,21 @@ namespace NadekoBot.Modules.Utility.Services
 
         private PatreonUserAndReward[] _pledges;
 
-        public readonly Timer Updater;
+        private readonly Timer _updater;
         private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
         private readonly Logger _log;
 
-        public readonly TimeSpan Interval = TimeSpan.FromMinutes(3);
+        public TimeSpan Interval { get; } = TimeSpan.FromMinutes(3);
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly ICurrencyService _currency;
         private readonly IBotConfigProvider _bc;
+        private readonly IHttpClientFactory _httpFactory;
 
         public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
 
-        public PatreonRewardsService(IBotCredentials creds, DbService db, 
-            ICurrencyService currency,
+        public PatreonRewardsService(IBotCredentials creds, DbService db,
+            ICurrencyService currency, IHttpClientFactory factory,
             DiscordSocketClient client, IBotConfigProvider bc)
         {
             _log = LogManager.GetCurrentClassLogger();
@@ -40,9 +41,10 @@ namespace NadekoBot.Modules.Utility.Services
             _db = db;
             _currency = currency;
             _bc = bc;
+            _httpFactory = factory;
 
-            if(client.ShardId == 0)
-                Updater = new Timer(async _ => await RefreshPledges(),
+            if (client.ShardId == 0)
+                _updater = new Timer(async _ => await RefreshPledges().ConfigureAwait(false),
                     null, TimeSpan.Zero, Interval);
         }
 
@@ -57,7 +59,7 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 var rewards = new List<PatreonPledge>();
                 var users = new List<PatreonUser>();
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     http.DefaultRequestHeaders.Clear();
                     http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
@@ -100,12 +102,12 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 getPledgesLocker.Release();
             }
-            
+
         }
 
         public async Task<int> ClaimReward(ulong userId)
         {
-            await claimLockJustInCase.WaitAsync();
+            await claimLockJustInCase.WaitAsync().ConfigureAwait(false);
             var now = DateTime.UtcNow;
             try
             {
@@ -173,7 +175,7 @@ namespace NadekoBot.Modules.Utility.Services
 
         public Task Unload()
         {
-            Updater?.Change(Timeout.Infinite, Timeout.Infinite);
+            _updater?.Change(Timeout.Infinite, Timeout.Infinite);
             return Task.CompletedTask;
         }
     }

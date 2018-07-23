@@ -3,14 +3,17 @@ using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Core.Common.Attributes
 {
-    public class Ratelimit : PreconditionAttribute
+    //todo why is this unused?
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class RatelimitAttribute : PreconditionAttribute
     {
         public int Seconds { get; }
 
-        public Ratelimit(int seconds)
+        public RatelimitAttribute(int seconds)
         {
             if (seconds < 0)
                 throw new ArgumentOutOfRangeException(nameof(seconds));
@@ -23,7 +26,7 @@ namespace NadekoBot.Core.Common.Attributes
             if (Seconds == 0)
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
-            var cache = (IDataCache)services.GetService(typeof(IDataCache));
+            var cache = services.GetService<IDataCache>();
             var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
 
             if(rem == null)

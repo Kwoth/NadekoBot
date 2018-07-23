@@ -14,6 +14,7 @@ using System.IO;
 using Discord.Net;
 using NadekoBot.Common.Collections;
 using NadekoBot.Common.ModuleBehaviors;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Core.Services
 {
@@ -33,12 +34,11 @@ namespace NadekoBot.Core.Services
         private readonly Logger _log;
         private readonly IBotCredentials _creds;
         private readonly NadekoBot _bot;
-        private INServiceProvider _services;
-        private IEnumerable<IEarlyBlocker> _earlyBlockers;
-        private IEarlyBlockingExecutor[] _earlyBlockingExecutors;
-        private IInputTransformer[] _inputTransformers;
-        private ILateBlocker[] _lateBlockers;
-        private ILateExecutor[] _lateExecutors;
+        private IServiceProvider _services;
+        private IEnumerable<IEarlyBehavior> _earlyBehaviors;
+        private IEnumerable<IInputTransformer> _inputTransformers;
+        private IEnumerable<ILateBlocker> _lateBlockers;
+        private IEnumerable<ILateExecutor> _lateExecutors;
 
         public string DefaultPrefix { get; private set; }
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
@@ -55,7 +55,7 @@ namespace NadekoBot.Core.Services
 
         public CommandHandler(DiscordSocketClient client, DbService db,
             IBotConfigProvider bcp, CommandService commandService,
-            IBotCredentials credentials, NadekoBot bot)
+            IBotCredentials credentials, NadekoBot bot, IServiceProvider services)
         {
             _client = client;
             _commandService = commandService;
@@ -63,6 +63,7 @@ namespace NadekoBot.Core.Services
             _bot = bot;
             _db = db;
             _bcp = bcp;
+            _services = services;
 
             _log = LogManager.GetCurrentClassLogger();
 
@@ -93,8 +94,6 @@ namespace NadekoBot.Core.Services
             if (string.IsNullOrWhiteSpace(prefix))
                 throw new ArgumentNullException(nameof(prefix));
 
-            prefix = prefix.ToLowerInvariant();
-
             using (var uow = _db.UnitOfWork)
             {
                 uow.BotConfig.GetOrCreate(set => set).DefaultPrefix = prefix;
@@ -110,11 +109,9 @@ namespace NadekoBot.Core.Services
             if (guild == null)
                 throw new ArgumentNullException(nameof(guild));
 
-            prefix = prefix.ToLowerInvariant();
-
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guild.Id, set => set);
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.Prefix = prefix;
                 uow.Complete();
             }
@@ -124,33 +121,22 @@ namespace NadekoBot.Core.Services
         }
 
 
-        public void AddServices(INServiceProvider services)
+        public void AddServices(IServiceCollection services)
         {
-            _services = services;
-
-            _earlyBlockers = services
-                .Select(x => x as IEarlyBlocker)
-                .Where(x => x != null)
+            _lateBlockers = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
+                .Select(x => _services.GetService(x.ImplementationType) as ILateBlocker)
                 .ToArray();
 
-            _earlyBlockingExecutors = services
-                .Select(x => x as IEarlyBlockingExecutor)
-                .Where(x => x != null)
+            _lateExecutors = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateExecutor)) ?? false)
+                .Select(x => _services.GetService(x.ImplementationType) as ILateExecutor)
                 .ToArray();
 
-            _inputTransformers = services
-                .Select(x => x as IInputTransformer)
-                .Where(x => x != null)
+            _inputTransformers = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(IInputTransformer)) ?? false)
+                .Select(x => _services.GetService(x.ImplementationType) as IInputTransformer)
                 .ToArray();
 
-            _lateBlockers = services
-                .Select(x => x as ILateBlocker)
-                .Where(x => x != null)
-                .ToArray();
-
-            _lateExecutors = services
-                .Select(x => x as ILateExecutor)
-                .Where(x => x != null)
+            _earlyBehaviors = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
+                .Select(x => _services.GetService(x.ImplementationType) as IEarlyBehavior)
                 .ToArray();
         }
 
@@ -159,8 +145,7 @@ namespace NadekoBot.Core.Services
             if (guildId != null)
             {
                 var guild = _client.GetGuild(guildId.Value);
-                var channel = guild?.GetChannel(channelId) as SocketTextChannel;
-                if (channel == null)
+                if (!(guild?.GetChannel(channelId) is SocketTextChannel channel))
                 {
                     _log.Warn("Channel for external execution not found.");
                     return;
@@ -259,7 +244,7 @@ namespace NadekoBot.Core.Services
                 var channel = msg.Channel as ISocketMessageChannel;
                 var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
-                await TryRunCommand(guild, channel, usrMsg);
+                await TryRunCommand(guild, channel, usrMsg).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -280,27 +265,24 @@ namespace NadekoBot.Core.Services
             //its nice to have early blockers and early blocking executors separate, but
             //i could also have one interface with priorities, and just put early blockers on
             //highest priority. :thinking:
-            foreach (var blocker in _earlyBlockers)
+            foreach (var beh in _earlyBehaviors)
             {
-                if (await blocker.TryBlockEarly(guild, usrMsg).ConfigureAwait(false))
+                if (await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false))
                 {
-                    _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, blocker.GetType().Name);
+                    if (beh.BehaviorType == ModuleBehaviorType.Blocker)
+                    {
+                        _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, beh.GetType().Name);
+                    }
+                    else if (beh.BehaviorType == ModuleBehaviorType.Executor)
+                    {
+                        _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, beh.GetType().Name);
+
+                    }
                     return;
                 }
             }
 
             var exec2 = Environment.TickCount - execTime;
-
-            foreach (var exec in _earlyBlockingExecutors)
-            {
-                if (await exec.TryExecuteEarly(_client, guild, usrMsg).ConfigureAwait(false))
-                {
-                    _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, exec.GetType().Name);
-                    return;
-                }
-            }
-
-            var exec3 = Environment.TickCount - execTime;
 
             string messageContent = usrMsg.Content;
             foreach (var exec in _inputTransformers)
@@ -313,24 +295,24 @@ namespace NadekoBot.Core.Services
                 }
             }
             var prefix = GetPrefix(guild?.Id);
-            var isPrefixCommand = messageContent.StartsWith(".prefix");
+            var isPrefixCommand = messageContent.StartsWith(".prefix", StringComparison.InvariantCultureIgnoreCase);
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(prefix) || isPrefixCommand)
+            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand)
             {
-                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best);
+                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best).ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
                 if (Success)
                 {
-                    await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, exec3, execTime).ConfigureAwait(false);
+                    await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime).ConfigureAwait(false);
                     await CommandExecuted(usrMsg, Info).ConfigureAwait(false);
                     return;
                 }
                 else if (Error != null)
                 {
-                    LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, exec3, execTime);
+                    LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, execTime);
                     if (guild != null)
-                        await CommandErrored(Info, channel as ITextChannel, Error);
+                        await CommandErrored(Info, channel as ITextChannel, Error).ConfigureAwait(false);
                 }
             }
             else

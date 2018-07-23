@@ -5,11 +5,13 @@ using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
-using Image = ImageSharp.Image;
-using ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
 using NadekoBot.Core.Modules.Gambling.Common;
 using NadekoBot.Modules.Gambling.Services;
 using NadekoBot.Core.Common;
+using System;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -33,49 +35,43 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Flip(int count = 1)
             {
-                if (count == 1)
-                {
-                    var coins = _images.ImageUrls.Coins;
-                    if (rng.Next(0, 2) == 1)
-                    {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder()
-                            .WithOkColor()
-                            .WithImageUrl(coins.Heads[rng.Next(0, coins.Heads.Length)])
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("heads")))));
-
-                    }
-                    else
-                    {
-                        await Context.Channel.EmbedAsync(new EmbedBuilder()
-                            .WithOkColor()
-                            .WithImageUrl(coins.Tails[rng.Next(0, coins.Tails.Length)])
-                            .WithDescription(Context.User.Mention + " " + GetText("flipped", Format.Bold(GetText("tails")))));
-
-                    }
-                    return;
-                }
                 if (count > 10 || count < 1)
                 {
                     await ReplyErrorLocalized("flip_invalid", 10).ConfigureAwait(false);
                     return;
                 }
+                var headCount = 0;
+                var tailCount = 0;
                 var imgs = new Image<Rgba32>[count];
                 for (var i = 0; i < count; i++)
                 {
-                    using (var heads = _images.Heads[rng.Next(0, _images.Heads.Length)].ToStream())
-                    using (var tails = _images.Tails[rng.Next(0, _images.Tails.Length)].ToStream())
+                    var headsArr = _images.Heads[rng.Next(0, _images.Heads.Count)];
+                    var tailsArr = _images.Tails[rng.Next(0, _images.Tails.Count)];
+                    if (rng.Next(0, 10) < 5)
                     {
-                        if (rng.Next(0, 10) < 5)
-                        {
-                            imgs[i] = Image.Load(heads);
-                        }
-                        else
-                        {
-                            imgs[i] = Image.Load(tails);
-                        }
+                        imgs[i] = Image.Load(headsArr);
+                        headCount++;
+                    }
+                    else
+                    {
+                        imgs[i] = Image.Load(tailsArr);
+                        tailCount++;
                     }
                 }
-                await Context.Channel.SendFileAsync(imgs.Merge().ToStream(), $"{count} coins.png").ConfigureAwait(false);
+                using (var img = imgs.Merge())
+                using (var stream = img.ToStream())
+                {
+                    foreach (var i in imgs)
+                    {
+                        i.Dispose();
+                    }
+                    var msg = count != 1
+                        ? Format.Bold(Context.User.ToString()) + " " + GetText("flip_results", count, headCount, tailCount)
+                        : Format.Bold(Context.User.ToString()) + " " + GetText("flipped", headCount > 0
+                            ? Format.Bold(GetText("heads"))
+                            : Format.Bold(GetText("tails")));
+                    await Context.Channel.SendFileAsync(stream, $"{count} coins.png", msg).ConfigureAwait(false);
+                }
             }
 
             public enum BetFlipGuess
@@ -91,17 +87,17 @@ namespace NadekoBot.Modules.Gambling
             [NadekoCommand, Usage, Description, Aliases]
             public async Task Betflip(ShmartNumber amount, BetFlipGuess guess)
             {
-                if (!await CheckBetMandatory(amount) || amount == 1)
+                if (!await CheckBetMandatory(amount).ConfigureAwait(false) || amount == 1)
                     return;
 
                 var removed = await _cs.RemoveAsync(Context.User, "Betflip Gamble", amount, false, gamble: true).ConfigureAwait(false);
                 if (!removed)
                 {
-                    await ReplyErrorLocalized("not_enough", _bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
+                    await ReplyErrorLocalized("not_enough", Bc.BotConfig.CurrencyPluralName).ConfigureAwait(false);
                     return;
                 }
                 BetFlipGuess result;
-                string imageToSend;
+                Uri imageToSend;
                 var coins = _images.ImageUrls.Coins;
                 if (rng.Next(0, 2) == 1)
                 {
@@ -117,8 +113,8 @@ namespace NadekoBot.Modules.Gambling
                 string str;
                 if (guess == result)
                 {
-                    var toWin = (long)(amount * _bc.BotConfig.BetflipMultiplier);
-                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + _bc.BotConfig.CurrencySign);
+                    var toWin = (long)(amount * Bc.BotConfig.BetflipMultiplier);
+                    str = Format.Bold(Context.User.ToString()) + " " + GetText("flip_guess", toWin + Bc.BotConfig.CurrencySign);
                     await _cs.AddAsync(Context.User, "Betflip Gamble", toWin, false, gamble: true).ConfigureAwait(false);
                 }
                 else
@@ -129,7 +125,7 @@ namespace NadekoBot.Modules.Gambling
                 await Context.Channel.EmbedAsync(new EmbedBuilder()
                     .WithDescription(str)
                     .WithOkColor()
-                    .WithImageUrl(imageToSend));
+                    .WithImageUrl(imageToSend.ToString())).ConfigureAwait(false);
             }
         }
     }

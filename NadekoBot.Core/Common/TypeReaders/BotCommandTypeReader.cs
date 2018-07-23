@@ -6,6 +6,7 @@ using NadekoBot.Core.Services;
 using NadekoBot.Modules.CustomReactions.Services;
 using NadekoBot.Core.Common.TypeReaders;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Common.TypeReaders
 {
@@ -17,11 +18,11 @@ namespace NadekoBot.Common.TypeReaders
 
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
-            var _cmds = ((INServiceProvider)services).GetService<CommandService>();
-            var _cmdHandler = ((INServiceProvider)services).GetService<CommandHandler>();
+            var _cmds = services.GetService<CommandService>();
+            var _cmdHandler = services.GetService<CommandHandler>();
             input = input.ToUpperInvariant();
             var prefix = _cmdHandler.GetPrefix(context.Guild);
-            if (!input.StartsWith(prefix.ToUpperInvariant()))
+            if (!input.StartsWith(prefix.ToUpperInvariant(), StringComparison.InvariantCulture))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
 
             input = input.Substring(prefix.Length);
@@ -49,11 +50,11 @@ namespace NadekoBot.Common.TypeReaders
         {
             input = input.ToUpperInvariant();
 
-            var _crs = ((INServiceProvider)services).GetService<CustomReactionsService>();
+            var _crs = services.GetService<CustomReactionsService>();
 
             if (_crs.GlobalReactions.Any(x => x.Trigger.ToUpperInvariant() == input))
             {
-                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
             }
             var guild = context.Guild;
             if (guild != null)
@@ -62,15 +63,15 @@ namespace NadekoBot.Common.TypeReaders
                 {
                     if (crs.Concat(_crs.GlobalReactions).Any(x => x.Trigger.ToUpperInvariant() == input))
                     {
-                        return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input));
+                        return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
                     }
                 }
             }
 
-            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services);
+            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services).ConfigureAwait(false);
             if (cmd.IsSuccess)
             {
-                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name));
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name, CommandOrCrInfo.Type.Normal));
             }
             return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
         }
@@ -78,11 +79,20 @@ namespace NadekoBot.Common.TypeReaders
 
     public class CommandOrCrInfo
     {
-        public string Name { get; set; }
+        public enum Type
+        {
+            Normal,
+            Custom,
+        }
 
-        public CommandOrCrInfo(string input)
+        public string Name { get; set; }
+        public Type CmdType { get; set; }
+        public bool IsCustom => CmdType == Type.Custom;
+
+        public CommandOrCrInfo(string input, Type type)
         {
             this.Name = input;
+            this.CmdType = type;
         }
     }
 }

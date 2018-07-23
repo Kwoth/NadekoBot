@@ -13,11 +13,30 @@ using NadekoBot.Core.Services.Database.Models;
 using NLog;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using NadekoBot.Core.Common;
+using CommandLine;
 
 namespace NadekoBot.Modules.Administration.Services
 {
-    public class SlowmodeService : IEarlyBlocker, INService
+    public class SlowmodeService : IEarlyBehavior, INService
     {
+        public class Options : INadekoCommandOptions
+        {
+            [Option('m', "message-count", Required = false, Default = 1, HelpText = "Number of messages user can send.")]
+            public uint MessageCount { get; set; } = 1;
+
+            [Option('s', "seconds", Required = false, Default = 5, HelpText = "Interval in which the user can send the specified number of messages.")]
+            public int PerSec { get; set; } = 5;
+
+            public void NormalizeOptions()
+            {
+                if (MessageCount < 1 || MessageCount > 100)
+                    MessageCount = 1;
+                if (PerSec < 1 || PerSec > 3600)
+                    PerSec = 5;
+            }
+        }
+
         public class SlowmodeIgnores
         {
             public HashSet<ulong> IgnoredRoles { get; set; }
@@ -30,15 +49,19 @@ namespace NadekoBot.Modules.Administration.Services
 
         private Timer _deleteTimer;
         // channels with a queue of messages scheduled for deletion
-        public readonly ConcurrentDictionary<(ulong GuildId, ulong ChannelId), ConcurrentQueue<ulong>> _slowmodeToDelete
+        public ConcurrentDictionary<(ulong GuildId, ulong ChannelId), ConcurrentQueue<ulong>> SlowmodeToDelete { get; }
             = new ConcurrentDictionary<(ulong, ulong), ConcurrentQueue<ulong>>();
 
         // ignored roles and users
-        private readonly ConcurrentDictionary<ulong, SlowmodeIgnores> _ignores =
-            new ConcurrentDictionary<ulong, SlowmodeIgnores>();
+        private readonly ConcurrentDictionary<ulong, SlowmodeIgnores> _ignores
+            = new ConcurrentDictionary<ulong, SlowmodeIgnores>();
 
         // where the slowmode is actually running
-        public ConcurrentDictionary<ulong, Slowmoder> SlowmodeChannels = new ConcurrentDictionary<ulong, Slowmoder>();
+        public ConcurrentDictionary<ulong, Slowmoder> SlowmodeChannels { get; }
+            = new ConcurrentDictionary<ulong, Slowmoder>();
+
+        public int Priority => -49;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
         public SlowmodeService(DiscordSocketClient client, NadekoBot bot, DbService db)
         {
@@ -86,12 +109,12 @@ namespace NadekoBot.Modules.Administration.Services
         {
             try
             {
-                await Task.WhenAll(_slowmodeToDelete.Keys
+                await Task.WhenAll(SlowmodeToDelete.Keys
                     .ToArray()
                     .Select(async x =>
                     {
                         await Task.Yield();
-                        if (_slowmodeToDelete.TryRemove(x, out var q))
+                        if (SlowmodeToDelete.TryRemove(x, out var q))
                         {
                             var list = new List<ulong>();
                             while (q.TryDequeue(out var id))
@@ -108,7 +131,7 @@ namespace NadekoBot.Modules.Administration.Services
                                 return;
 
                             var manualDelete = list.Take(5);
-                            var msgs = await Task.WhenAll(manualDelete.Select(y => ch.GetMessageAsync(y)));
+                            var msgs = await Task.WhenAll(manualDelete.Select(y => ch.GetMessageAsync(y))).ConfigureAwait(false);
                             var __ = Task.WhenAll(msgs
                                 .Where(m => m != null)
                                 .Select(m => m.DeleteAsync()));
@@ -116,15 +139,15 @@ namespace NadekoBot.Modules.Administration.Services
                             var rem = list.Skip(5).ToArray();
                             if (rem.Any())
                             {
-                                await ch.DeleteMessagesAsync(rem);
+                                await ch.DeleteMessagesAsync(rem).ConfigureAwait(false);
                             }
                         }
-                    }));
+                    })).ConfigureAwait(false);
             }
             catch { }
         }
 
-        public async Task<bool> TryBlockEarly(IGuild g, IUserMessage usrMsg)
+        public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild g, IUserMessage usrMsg)
         {
             await Task.Yield();
             try
@@ -148,7 +171,7 @@ namespace NadekoBot.Modules.Administration.Services
                 if (CheckUserSlowmode(limiter, channel.Guild.Id, usrMsg.Author.Id, user))
                 {
                     // if message is falls under slowmode, schedule it for deletion
-                    _slowmodeToDelete.AddOrUpdate((channel.Guild.Id, channel.Id),
+                    SlowmodeToDelete.AddOrUpdate((channel.Guild.Id, channel.Id),
                         new ConcurrentQueue<ulong>(new[] { usrMsg.Id }),
                         (key, old) =>
                         {
@@ -194,7 +217,7 @@ namespace NadekoBot.Modules.Administration.Services
 
             var _ = Task.Run(async () =>
             {
-                await Task.Delay(rl.PerSeconds * 1000);
+                await Task.Delay(rl.PerSeconds * 1000).ConfigureAwait(false);
                 var newVal = rl.Users.AddOrUpdate(userId, 0, (key, old) => --old);
             });
             return false;
@@ -212,7 +235,7 @@ namespace NadekoBot.Modules.Administration.Services
             bool removed;
             using (var uow = _db.UnitOfWork)
             {
-                usrs = uow.GuildConfigs.For(guildId, set => set.Include(x => x.SlowmodeIgnoredUsers))
+                usrs = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.SlowmodeIgnoredUsers))
                     .SlowmodeIgnoredUsers;
 
                 // try removing - if remove is unsuccessful, add
@@ -250,7 +273,7 @@ namespace NadekoBot.Modules.Administration.Services
             bool removed;
             using (var uow = _db.UnitOfWork)
             {
-                roles = uow.GuildConfigs.For(guildId, set => set.Include(x => x.SlowmodeIgnoredRoles))
+                roles = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.SlowmodeIgnoredRoles))
                     .SlowmodeIgnoredRoles;
                 // try removing the role - if it's not removed, add it
                 if (!(removed = roles.Remove(sir)))

@@ -12,7 +12,6 @@ using NadekoBot.Core.Services.Impl;
 using NadekoBot.Common;
 using NLog;
 using CommandLine;
-using CommandLine.Text;
 
 namespace NadekoBot.Modules.Help.Services
 {
@@ -77,7 +76,7 @@ namespace NadekoBot.Modules.Help.Services
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(NadekoBot.OkColor);
 
-            var opt = ((NadekoOptions)com.Attributes.FirstOrDefault(x => x is NadekoOptions))?.OptionType;
+            var opt = ((NadekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is NadekoOptionsAttribute))?.OptionType;
             if (opt != null)
             {
                 var hs = GetCommandOptionHelp(opt);
@@ -88,7 +87,7 @@ namespace NadekoBot.Modules.Help.Services
             return em;
         }
 
-        public string GetCommandOptionHelp(Type opt)
+        public static string GetCommandOptionHelp(Type opt)
         {
             var strs = opt.GetProperties()
                 .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
@@ -108,7 +107,7 @@ namespace NadekoBot.Modules.Help.Services
             return string.Join("\n", strs);
         }
 
-        public string[] GetCommandRequirements(CommandInfo cmd) =>
+        public static string[] GetCommandRequirements(CommandInfo cmd) =>
             cmd.Preconditions
                   .Where(ca => ca is OwnerOnlyAttribute || ca is RequireUserPermissionAttribute)
                   .Select(ca =>
@@ -122,11 +121,11 @@ namespace NadekoBot.Modules.Help.Services
                       if (cau.GuildPermission != null)
                       {
                           return (cau.GuildPermission.ToString() + " Server Permission")
-                                       .Replace("Guild", "Server");
+                                       .Replace("Guild", "Server", StringComparison.InvariantCulture);
                       }
 
                       return (cau.ChannelPermission + " Channel Permission")
-                                       .Replace("Guild", "Server");
+                                       .Replace("Guild", "Server", StringComparison.InvariantCulture);
                   })
                 .ToArray();
 

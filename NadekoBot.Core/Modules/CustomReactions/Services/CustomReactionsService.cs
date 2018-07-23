@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace NadekoBot.Modules.CustomReactions.Services
 {
-    public class CustomReactionsService : IEarlyBlockingExecutor, INService
+    public class CustomReactionsService : IEarlyBehavior, INService
     {
         public enum CrField
         {
@@ -28,11 +28,14 @@ namespace NadekoBot.Modules.CustomReactions.Services
             ContainsAnywhere,
             Message,
         }
-
-        public CustomReaction[] GlobalReactions = new CustomReaction[] { };
-        public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions { get; } = new ConcurrentDictionary<ulong, CustomReaction[]>();
+        //todo move all logic inside and this can become a property
+        public CustomReaction[] GlobalReactions = Array.Empty<CustomReaction>();
+        public ConcurrentDictionary<ulong, CustomReaction[]> GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>();
 
         public ConcurrentDictionary<string, uint> ReactionStats { get; } = new ConcurrentDictionary<string, uint>();
+
+        public int Priority => -1;
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
         private readonly Logger _log;
         private readonly DbService _db;
@@ -83,7 +86,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 }
             }, StackExchange.Redis.CommandFlags.FireAndForget);
 
-            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => (long)x.GuildId));
+            var items = uow.CustomReactions.GetGlobalAndFor(bot.AllGuildConfigs.Select(x => x.GuildId));
 
             GuildReactions = new ConcurrentDictionary<ulong, CustomReaction[]>(items
                 .Where(g => g.GuildId != null && g.GuildId != 0)
@@ -107,7 +110,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             {
                 using (var uow = _db.UnitOfWork)
                 {
-                    var crs = uow.CustomReactions.For(gc.GuildId);
+                    var crs = uow.CustomReactions.ForId(gc.GuildId);
                     GuildReactions.AddOrUpdate(gc.GuildId, crs, (key, old) => crs);
                 }
             });
@@ -148,8 +151,8 @@ namespace NadekoBot.Modules.CustomReactions.Services
                         var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
                         return ((cr.ContainsAnywhere &&
                             (content.GetWordPosition(trigger) != WordPosition.None))
-                            || (hasTarget && content.StartsWith(trigger + " "))
-                            || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))
+                            || (hasTarget && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
+                            || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
                             || content == trigger);
                     }).ToArray();
 
@@ -173,8 +176,8 @@ namespace NadekoBot.Modules.CustomReactions.Services
                 var trigger = cr.TriggerWithContext(umsg, _client).Trim().ToLowerInvariant();
                 return ((cr.ContainsAnywhere &&
                             (content.GetWordPosition(trigger) != WordPosition.None))
-                        || (hasTarget && content.StartsWith(trigger + " "))
-                        || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " "))
+                        || (hasTarget && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
+                        || (_bc.BotConfig.CustomReactionsStartWith && content.StartsWith(trigger + " ", StringComparison.InvariantCulture))
                         || content == trigger);
             }).ToArray();
             if (grs.Length == 0)
@@ -184,7 +187,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             return greaction;
         }
 
-        public async Task<bool> TryExecuteEarly(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             // maybe this message is a custom reaction
             var cr = await Task.Run(() => TryGetCustomReaction(msg)).ConfigureAwait(false);
@@ -199,7 +202,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
 
                     if (guild is SocketGuild sg)
                     {
-                        var pc = _perms.GetCache(guild.Id);
+                        var pc = _perms.GetCacheFor(guild.Id);
                         if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualCustomReactions",
                             out int index))
                         {
@@ -234,7 +237,7 @@ namespace NadekoBot.Modules.CustomReactions.Services
             CustomReaction cr;
             using (var uow = _db.UnitOfWork)
             {
-                cr = uow.CustomReactions.Get(id);
+                cr = uow.CustomReactions.GetById(id);
                 if (cr == null)
                     return Task.CompletedTask;
                 if (field == CrField.AutoDelete)

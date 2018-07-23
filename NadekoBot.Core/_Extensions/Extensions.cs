@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using ImageSharp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -21,6 +20,14 @@ using SixLabors.Shapes;
 using System.Numerics;
 using System.Diagnostics;
 using NLog;
+using System.Net.Http.Headers;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Drawing;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NadekoBot.Extensions
 {
@@ -33,16 +40,17 @@ namespace NadekoBot.Extensions
         {
             var corners = BuildCorners(img.Width, img.Height, cornerRadius);
             // now we have our corners time to draw them
-            img.Fill(Rgba32.Transparent, corners, new GraphicsOptions(true)
+            img.Mutate(x => x.Fill(new GraphicsOptions(true)
             {
-                BlenderMode = ImageSharp.PixelFormats.PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
-            });
+                BlenderMode = PixelBlenderMode.Src // enforces that any part of this shape that has color is punched out of the background
+            },
+            Rgba32.Transparent, corners));
         }
 
         public static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
         {
             // first create a square
-            var rect = new RectangularePolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
+            var rect = new RectangularPolygon(-0.5f, -0.5f, cornerRadius, cornerRadius);
 
             // then cut out of the square a circle so we are left with a corner
             var cornerToptLeft = rect.Clip(new EllipsePolygon(cornerRadius - 0.5f, cornerRadius - 0.5f, cornerRadius));
@@ -87,9 +95,9 @@ namespace NadekoBot.Extensions
             return sb.ToString();
         }
 
-        public static void ThrowIfNull<T>(this T obj, string name) where T : class
+        public static void ThrowIfNull<T>(this T o, string name) where T : class
         {
-            if (obj == null)
+            if (o == null)
                 throw new ArgumentNullException(nameof(name));
         }
 
@@ -127,18 +135,24 @@ namespace NadekoBot.Extensions
             return wrap;
         }
 
-        public static void AddFakeHeaders(this HttpClient http)
+        public static HttpClient AddFakeHeaders(this HttpClient http)
         {
-            http.DefaultRequestHeaders.Clear();
-            http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
-            http.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            AddFakeHeaders(http.DefaultRequestHeaders);
+            return http;
+        }
+
+        public static void AddFakeHeaders(this HttpHeaders dict)
+        {
+            dict.Clear();
+            dict.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            dict.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
         }
 
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds)
         {
             Task.Run(async () =>
             {
-                await Task.Delay(seconds * 1000);
+                await Task.Delay(seconds * 1000).ConfigureAwait(false);
                 try { await msg.DeleteAsync().ConfigureAwait(false); }
                 catch { }
             });
@@ -173,15 +187,15 @@ namespace NadekoBot.Extensions
         public static double UnixTimestamp(this DateTime dt) => dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
 
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
-            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
-        
+            (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u => u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
+
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented) =>
             JsonConvert.SerializeObject(any, formatting);
 
-        public static MemoryStream ToStream(this ImageSharp.Image<Rgba32> img)
+        public static MemoryStream ToStream(this Image<Rgba32> img)
         {
             var imageStream = new MemoryStream();
-            img.SaveAsPng(imageStream, new ImageSharp.Formats.PngEncoder() { CompressionLevel = 9});
+            img.SaveAsPng(imageStream, new PngEncoder() { CompressionLevel = 9 });
             imageStream.Position = 0;
             return imageStream;
         }
@@ -254,8 +268,8 @@ namespace NadekoBot.Extensions
             var xOffset = 0;
             for (int i = 0; i < imgs.Length; i++)
             {
-                canvas.DrawImage(imgs[i], 100, default, new Point(xOffset, 0));
-                xOffset += imgs[i].Bounds.Width;
+                canvas.Mutate(x => x.DrawImage(GraphicsOptions.Default, imgs[i], new Point(xOffset, 0)));
+                xOffset += imgs[i].Bounds().Width;
             }
 
             return canvas;
@@ -265,6 +279,91 @@ namespace NadekoBot.Extensions
         {
             _log.Info(name + " | " + sw.Elapsed.TotalSeconds.ToString("F2"));
             sw.Reset();
+        }
+
+        public static bool IsImage(this HttpResponseMessage msg)
+        {
+            if (msg.Content.Headers.ContentType.MediaType != "image/png"
+                                && msg.Content.Headers.ContentType.MediaType != "image/jpeg"
+                                && msg.Content.Headers.ContentType.MediaType != "image/gif")
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static long? GetImageSize(this HttpResponseMessage msg)
+        {
+            if (msg.Content.Headers.ContentLength == null)
+            {
+                return null;
+            }
+
+            return msg.Content.Headers.ContentLength / 1.MB();
+        }
+
+
+
+        public static IEnumerable<Type> LoadFrom(this IServiceCollection collection, Assembly assembly)
+        {
+            // list of all the types which are added with this method
+            List<Type> addedTypes = new List<Type>();
+
+            Type[] allTypes;
+            try
+            {
+                // first, get all types in te assembly
+                allTypes = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                Console.WriteLine(ex.LoaderExceptions[0]);
+                return Enumerable.Empty<Type>();
+            }
+            // all types which have INService implementation are services
+            // which are supposed to be loaded with this method
+            // ignore all interfaces and abstract classes
+            var services = new Queue<Type>(allTypes
+                    .Where(x => x.GetInterfaces().Contains(typeof(INService))
+                        && !x.GetTypeInfo().IsInterface && !x.GetTypeInfo().IsAbstract
+#if GLOBAL_NADEKO
+                        && x.GetTypeInfo().GetCustomAttribute<NoPublicBotAttribute>() == null
+#endif
+                            )
+                    .ToArray());
+
+            // we will just return those types when we're done instantiating them
+            addedTypes.AddRange(services);
+
+            // get all interfaces which inherit from INService
+            // as we need to also add a service for each one of interfaces
+            // so that DI works for them too
+            var interfaces = new HashSet<Type>(allTypes
+                    .Where(x => x.GetInterfaces().Contains(typeof(INService))
+                        && x.GetTypeInfo().IsInterface));
+
+            // keep instantiating until we've instantiated them all
+            while (services.Count > 0)
+            {
+                var serviceType = services.Dequeue(); //get a type i need to add
+
+                if (collection.FirstOrDefault(x => x.ServiceType == serviceType) != null) // if that type is already added, skip
+                    continue;
+
+                //also add the same type 
+                var interfaceType = interfaces.FirstOrDefault(x => serviceType.GetInterfaces().Contains(x));
+                if (interfaceType != null)
+                {
+                    addedTypes.Add(interfaceType);
+                    collection.AddSingleton(interfaceType, serviceType);
+                }
+                else
+                {
+                    collection.AddSingleton(serviceType, serviceType);
+                }
+            }
+
+            return addedTypes;
         }
     }
 }

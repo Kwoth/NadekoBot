@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services.Database.Models;
 using NadekoBot.Extensions;
 using NadekoBot.Modules.Administration.Services;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ namespace NadekoBot.Modules.Administration
 
             public async Task InternalReactionRoles(bool exclusive, params string[] input)
             {
-                var msgs = await ((SocketTextChannel)Context.Channel).GetMessagesAsync().FlattenAsync();
+                var msgs = await ((SocketTextChannel)Context.Channel).GetMessagesAsync().FlattenAsync().ConfigureAwait(false);
                 var prev = (IUserMessage)msgs.FirstOrDefault(x => x is IUserMessage && x.Id != Context.Message.Id);
 
                 if (prev == null)
@@ -128,7 +128,7 @@ namespace NadekoBot.Modules.Administration
                     foreach (var rr in rrs)
                     {
                         var ch = g.GetTextChannel(rr.ChannelId);
-                        var msg = (await ch?.GetMessageAsync(rr.MessageId)) as IUserMessage;
+                        var msg = (await (ch?.GetMessageAsync(rr.MessageId)).ConfigureAwait(false)) as IUserMessage;
                         var content = msg?.Content.TrimTo(30) ?? "DELETED!"; 
                         embed.AddField($"**{rr.Index + 1}.** {(ch?.Name ?? "DELETED!")}", 
                             GetText("reaction_roles_message", rr.ReactionRoles?.Count ?? 0, content));
@@ -289,7 +289,7 @@ namespace NadekoBot.Modules.Administration
             [Priority(1)]
             public async Task RoleColor([Remainder] IRole role)
             {
-                await Context.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("X"));
+                await Context.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("X")).ConfigureAwait(false);
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -318,13 +318,13 @@ namespace NadekoBot.Modules.Administration
             {
                 if(!role.IsMentionable)
                 {
-                    await role.ModifyAsync(x => x.Mentionable = true);
-                    await Context.Channel.SendMessageAsync(role.Mention);
-                    await role.ModifyAsync(x => x.Mentionable = false);
+                    await role.ModifyAsync(x => x.Mentionable = true).ConfigureAwait(false);
+                    await Context.Channel.SendMessageAsync(role.Mention).ConfigureAwait(false);
+                    await role.ModifyAsync(x => x.Mentionable = false).ConfigureAwait(false);
                 }
                 else
                 {
-                    await Context.Channel.SendMessageAsync(role.Mention);
+                    await Context.Channel.SendMessageAsync(role.Mention).ConfigureAwait(false);
                 }
             }
         }

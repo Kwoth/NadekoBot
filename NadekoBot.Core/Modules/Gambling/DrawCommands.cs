@@ -8,8 +8,11 @@ using System.IO;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Gambling.Common;
-using Image = ImageSharp.Image;
-using ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using NadekoBot.Core.Services;
+using System.Linq;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -19,8 +22,13 @@ namespace NadekoBot.Modules.Gambling
         public class DrawCommands : NadekoSubmodule
         {
             private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
-            private const string _cardsPath = "data/images/cards";
-            
+            private readonly IImageCache _images;
+
+            public DrawCommands(IDataCache data)
+            {
+                _images = data.LocalImages;
+            }
+
             private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
             {
                 if (num < 1 || num > 10)
@@ -45,18 +53,24 @@ namespace NadekoBot.Modules.Gambling
                     }
                     var currentCard = cards.Draw();
                     cardObjects.Add(currentCard);
-                    using (var stream = File.OpenRead(Path.Combine(_cardsPath, currentCard.ToString().ToLowerInvariant() + ".jpg").Replace(' ', '_')))
-                        images.Add(Image.Load(stream));
+                    images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant().Replace(' ', '_'))));
                 }
-                MemoryStream bitmapStream = new MemoryStream();
-                images.Merge().SaveAsPng(bitmapStream);
-                bitmapStream.Position = 0;
+                using (var img = images.Merge())
+                {
+                    foreach (var i in images)
+                    {
+                        i.Dispose();
+                    }
 
-                var toSend = $"{Context.User.Mention}";
-                if (cardObjects.Count == 5)
-                    toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
+                    var toSend = $"{Format.Bold(Context.User.ToString())}";
+                    if (cardObjects.Count == 5)
+                        toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
 
-                return (bitmapStream, toSend);
+                    if (guildId != null)
+                        toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
+
+                    return (img.ToStream(), toSend);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -68,8 +82,11 @@ namespace NadekoBot.Modules.Gambling
                 if (num > 10)
                     num = 10;
 
-                var data = await InternalDraw(num, Context.Guild.Id).ConfigureAwait(false);
-                await Context.Channel.SendFileAsync(data.ImageStream, num + " cards.jpg", data.ToSend).ConfigureAwait(false);
+                var (ImageStream, ToSend) = await InternalDraw(num, Context.Guild.Id).ConfigureAwait(false);
+                using (ImageStream)
+                {
+                    await Context.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -80,8 +97,11 @@ namespace NadekoBot.Modules.Gambling
                 if (num > 10)
                     num = 10;
 
-                var data = await InternalDraw(num).ConfigureAwait(false);
-                await Context.Channel.SendFileAsync(data.ImageStream, num + " cards.jpg", data.ToSend).ConfigureAwait(false);
+                var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
+                using (ImageStream)
+                {
+                    await Context.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                }
             }
 
             [NadekoCommand, Usage, Description, Aliases]

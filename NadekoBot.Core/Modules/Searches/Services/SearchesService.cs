@@ -17,19 +17,23 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using AngleSharp;
 using System.Threading;
-using ImageSharp;
-using Image = ImageSharp.Image;
+using Image = SixLabors.ImageSharp.Image;
 using SixLabors.Primitives;
 using SixLabors.Fonts;
 using NadekoBot.Core.Services.Impl;
 using NadekoBot.Core.Modules.Searches.Common;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing.Text;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Transforms;
+using SixLabors.ImageSharp.Processing.Drawing;
 
 namespace NadekoBot.Modules.Searches.Services
 {
     public class SearchesService : INService, IUnloadableService
     {
-        public HttpClient Http { get; }
-
+        private readonly IHttpClientFactory _httpFactory;
         private readonly DiscordSocketClient _client;
         private readonly IGoogleApiService _google;
         private readonly DbService _db;
@@ -39,7 +43,8 @@ namespace NadekoBot.Modules.Searches.Services
         private readonly FontProvider _fonts;
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
-        public ConcurrentDictionary<UserChannelPair, string> UserLanguages { get; } = new ConcurrentDictionary<UserChannelPair, string>();
+        // (userId, channelId)
+        public ConcurrentDictionary<(ulong UserId, ulong ChannelId), string> UserLanguages { get; } = new ConcurrentDictionary<(ulong, ulong), string>();
 
         public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
         public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
@@ -64,9 +69,11 @@ namespace NadekoBot.Modules.Searches.Services
 
                 if (data == null)
                 {
-                    data = await Http.GetStringAsync("https://api.coinmarketcap.com/v1/ticker/")
-                        .ConfigureAwait(false);
-
+                    using (var http = _httpFactory.CreateClient())
+                    {
+                        data = await http.GetStringAsync(new Uri("https://api.coinmarketcap.com/v1/ticker/"))
+                            .ConfigureAwait(false);
+                    }
                     await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(1)).ConfigureAwait(false);
                 }
             }
@@ -79,11 +86,10 @@ namespace NadekoBot.Modules.Searches.Services
         }
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-            DbService db, NadekoBot bot, IDataCache cache,
+            DbService db, NadekoBot bot, IDataCache cache, IHttpClientFactory factory,
             FontProvider fonts)
         {
-            Http = new HttpClient();
-            Http.AddFakeHeaders();
+            _httpFactory = factory;
             _client = client;
             _google = google;
             _db = db;
@@ -104,18 +110,13 @@ namespace NadekoBot.Modules.Searches.Services
                 {
                     try
                     {
-                        var umsg = msg as SocketUserMessage;
-                        if (umsg == null)
+                        if (!(msg is SocketUserMessage umsg))
                             return;
 
                         if (!TranslatedChannels.TryGetValue(umsg.Channel.Id, out var autoDelete))
                             return;
 
-                        var key = new UserChannelPair()
-                        {
-                            UserId = umsg.Author.Id,
-                            ChannelId = umsg.Channel.Id,
-                        };
+                        var key = (umsg.Author.Id, umsg.Channel.Id);
 
                         if (!UserLanguages.TryGetValue(key, out string langs))
                             return;
@@ -124,7 +125,9 @@ namespace NadekoBot.Modules.Searches.Services
                                             .ConfigureAwait(false);
                         if (autoDelete)
                             try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
-                        await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` " + text.Replace("<@ ", "<@").Replace("<@! ", "<@!")).ConfigureAwait(false);
+                        await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` "
+                            + text.Replace("<@ ", "<@", StringComparison.InvariantCulture)
+                                  .Replace("<@! ", "<@!", StringComparison.InvariantCulture)).ConfigureAwait(false);
                     }
                     catch { }
                 });
@@ -147,60 +150,67 @@ namespace NadekoBot.Modules.Searches.Services
                 _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
         }
 
-        public async Task<Image<Rgba32>> GetRipPictureAsync(string text, string imgUrl)
+        public async Task<Image<Rgba32>> GetRipPictureAsync(string text, Uri imgUrl)
         {
-            var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl);
+            var (succ, data) = await _cache.TryGetImageDataAsync(imgUrl).ConfigureAwait(false);
             if (!succ)
             {
-                using (var temp = await Http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead))
+                using (var http = _httpFactory.CreateClient())
+                using (var temp = await http.GetAsync(imgUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
-                    if (temp.Content.Headers.ContentType.MediaType != "image/png"
-                        && temp.Content.Headers.ContentType.MediaType != "image/jpeg"
-                        && temp.Content.Headers.ContentType.MediaType != "image/gif")
+                    if (!temp.IsImage())
+                    {
                         data = null;
+                    }
                     else
                     {
-                        using (var tempDraw = ImageSharp.Image.Load(await temp.Content.ReadAsStreamAsync()).Resize(69, 70))
+                        var imgData = await temp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                        using (var tempDraw = Image.Load(imgData))
                         {
+                            tempDraw.Mutate(x => x.Resize(69, 70));
                             tempDraw.ApplyRoundedCorners(35);
-                            data = tempDraw.ToStream().ToArray();
+                            using (var tds = tempDraw.ToStream())
+                            {
+                                data = tds.ToArray();
+                            }
                         }
                     }
                 }
 
-                await _cache.SetImageDataAsync(imgUrl, data);
+                await _cache.SetImageDataAsync(imgUrl, data).ConfigureAwait(false);
             }
-            var bg = ImageSharp.Image.Load(_imgs.Rip.ToArray());
+            var bg = Image.Load(_imgs.Rip.ToArray());
 
             //avatar 82, 139
             if (data != null)
             {
-                using (var avatar = Image.Load(data).Resize(85, 85))
+                using (var avatar = Image.Load(data))
                 {
-                    bg.DrawImage(avatar,
-                        default,
-                        new Point(82, 139),
-                        GraphicsOptions.Default);
+                    avatar.Mutate(x => x.Resize(85, 85));
+                    bg.Mutate(x => x
+                        .DrawImage(GraphicsOptions.Default,
+                            avatar,
+                            new Point(82, 139)));
                 }
             }
             //text 63, 241
-            bg.DrawText(text,
-                _fonts.RipNameFont,
-                Rgba32.Black,
-                new PointF(25, 225),
-                new ImageSharp.Drawing.TextGraphicsOptions()
+            bg.Mutate(x => x.DrawText(
+                new TextGraphicsOptions()
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     WrapTextWidth = 190,
-                });
+                },
+                text,
+                _fonts.NotoSans.CreateFont(20, FontStyle.Bold),
+                Rgba32.Black,
+                new PointF(25, 225)));
 
             //flowa
-            using (var flowers = Image.Load(_imgs.FlowerCircle.ToArray()))
+            using (var flowers = Image.Load(_imgs.RipOverlay.ToArray()))
             {
-                bg.DrawImage(flowers,
-                    default,
-                    new Point(0, 0),
-                    GraphicsOptions.Default);
+                bg.Mutate(x => x.DrawImage(GraphicsOptions.Default,
+                    flowers,
+                    new Point(0, 0)));
             }
 
             return bg;
@@ -208,14 +218,14 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<string> Translate(string langs, string text = null)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentException("Text is empty or null", nameof(text));
             var langarr = langs.ToLowerInvariant().Split('>');
             if (langarr.Length != 2)
-                throw new ArgumentException();
+                throw new ArgumentException("Langs does not have 2 parts separated by a >", nameof(langs));
             var from = langarr[0];
             var to = langarr[1];
             text = text?.Trim();
-            if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentException();
             return (await _google.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions();
         }
 
@@ -225,13 +235,13 @@ namespace NadekoBot.Modules.Searches.Services
             {
                 var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher());
+                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tag, isExplicit, type, blacklistedTags);
             }
             else
             {
-                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher());
+                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tag, isExplicit, type);
             }
@@ -254,7 +264,7 @@ namespace NadekoBot.Modules.Searches.Services
             bool added;
             using (var uow = _db.UnitOfWork)
             {
-                var gc = uow.GuildConfigs.For(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
                 if (gc.NsfwBlacklistedTags.Add(tagObj))
                     added = true;
                 else
@@ -280,14 +290,17 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<string> GetYomamaJoke()
         {
-            var response = await Http.GetStringAsync("http://api.yomomma.info/").ConfigureAwait(false);
-            return JObject.Parse(response)["joke"].ToString() + " 😆";
+            using (var http = _httpFactory.CreateClient())
+            {
+                var response = await http.GetStringAsync(new Uri("http://api.yomomma.info/")).ConfigureAwait(false);
+                return JObject.Parse(response)["joke"].ToString() + " 😆";
+            }
         }
 
-        public async Task<(string Text, string BaseUri)> GetRandomJoke()
+        public static async Task<(string Text, string BaseUri)> GetRandomJoke()
         {
             var config = AngleSharp.Configuration.Default.WithDefaultLoader();
-            using (var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random"))
+            using (var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random").ConfigureAwait(false))
             {
                 var html = document.QuerySelector(".post > .joke-body-wrap > .joke-content");
 
@@ -300,8 +313,11 @@ namespace NadekoBot.Modules.Searches.Services
 
         public async Task<string> GetChuckNorrisJoke()
         {
-            var response = await Http.GetStringAsync("http://api.icndb.com/jokes/random/").ConfigureAwait(false);
-            return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
+            using (var http = _httpFactory.CreateClient())
+            {
+                var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/")).ConfigureAwait(false);
+                return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
+            }
         }
 
         public Task Unload()
@@ -316,11 +332,5 @@ namespace NadekoBot.Modules.Searches.Services
             _imageCacher.Clear();
             return Task.CompletedTask;
         }
-    }
-
-    public struct UserChannelPair
-    {
-        public ulong UserId { get; set; }
-        public ulong ChannelId { get; set; }
     }
 }

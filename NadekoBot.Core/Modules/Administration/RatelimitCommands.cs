@@ -5,6 +5,7 @@ using NadekoBot.Core.Services;
 using System.Threading.Tasks;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Modules.Administration.Services;
+using NadekoBot.Core.Common;
 
 namespace NadekoBot.Modules.Administration
 {
@@ -13,16 +14,11 @@ namespace NadekoBot.Modules.Administration
         [Group]
         public class SlowModeCommands : NadekoSubmodule<SlowmodeService>
         {
-            private readonly DbService _db;
-
-            public SlowModeCommands(DbService db)
-            {
-                _db = db;
-            }
-
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
+            [NadekoOptions(typeof(SlowmodeService.Options))]
+            [Priority(1)]
             public Task Slowmode()
             {
                 if (_service.StopSlowmode(Context.Channel.Id))
@@ -31,24 +27,27 @@ namespace NadekoBot.Modules.Administration
                 }
                 else
                 {
-                    return Slowmode(1, 5);
+                    return Slowmode("-m", "1", "-s", "5");
                 }
             }
 
             [NadekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.ManageMessages)]
-            public async Task Slowmode(uint msgCount, int perSec)
+            [NadekoOptions(typeof(SlowmodeService.Options))]
+            [Priority(0)]
+            public async Task Slowmode(params string[] args)
             {
-                if (msgCount < 1 || perSec < 1 || msgCount > 100 || perSec > 3600)
+                var (opts, succ) = OptionsParser.ParseFrom(new SlowmodeService.Options(), args);
+                if (!succ)
                 {
                     await ReplyErrorLocalized("invalid_params").ConfigureAwait(false);
                     return;
                 }
-                if (_service.StartSlowmode(Context.Channel.Id, msgCount, perSec))
+                if (_service.StartSlowmode(Context.Channel.Id, opts.MessageCount, opts.PerSec))
                 {
                     await Context.Channel.SendConfirmAsync(GetText("slowmode_init"),
-                            GetText("slowmode_desc", Format.Bold(msgCount.ToString()), Format.Bold(perSec.ToString())))
+                            GetText("slowmode_desc", Format.Bold(opts.MessageCount.ToString()), Format.Bold(opts.PerSec.ToString())))
                                                 .ConfigureAwait(false);
                 }
             }

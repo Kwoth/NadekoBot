@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadekoBot.Modules.Games.Common.Hangman
 {
     [Flags]
-    public enum TermType
+    public enum TermTypes
     {
         Countries = 0,
         Movies = 1,

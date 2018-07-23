@@ -20,11 +20,13 @@ namespace NadekoBot.Modules.Searches
         {
             private readonly IGoogleApiService _google;
             private readonly IBotCredentials _creds;
+            private readonly IHttpClientFactory _httpFactory;
 
-            public OsuCommands(IGoogleApiService google, IBotCredentials creds)
+            public OsuCommands(IGoogleApiService google, IBotCredentials creds, IHttpClientFactory factory)
             {
                 _google = google;
                 _creds = creds;
+                _httpFactory = factory;
             }
 
             [NadekoCommand, Usage, Description, Aliases]
@@ -33,7 +35,7 @@ namespace NadekoBot.Modules.Searches
                 if (string.IsNullOrWhiteSpace(usr))
                     return;
 
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     try
                     {
@@ -43,12 +45,12 @@ namespace NadekoBot.Modules.Searches
                             m = ResolveGameMode(mode);
                         }
                         http.AddFakeHeaders();
-                        var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false);
-
-                        var ms = new MemoryStream();
-                        res.CopyTo(ms);
-                        ms.Position = 0;
-                        await Context.Channel.SendFileAsync(ms, $"{usr}.png", $"🎧 **{GetText("profile_link")}** <https://new.ppy.sh/u/{Uri.EscapeDataString(usr)}>\n`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        using (var res = await http.GetStreamAsync(new Uri($"http://lemmmy.pw/osusig/sig.php?uname={ usr }&flagshadow&xpbar&xpbarhex&pp=2&mode={m}")).ConfigureAwait(false))
+                        {
+                            await Context.Channel.SendFileAsync(res, $"{usr}.png", $"🎧 **{GetText("profile_link")}** " +
+                                $"<https://new.ppy.sh/u/{Uri.EscapeDataString(usr)}>\n" +
+                                $"`Image provided by https://lemmmy.pw/osusig`").ConfigureAwait(false);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -72,7 +74,7 @@ namespace NadekoBot.Modules.Searches
 
                 try
                 {
-                    using (var http = new HttpClient())
+                    using (var http = _httpFactory.CreateClient())
                     {
                         var mapId = ResolveMap(map);
                         var reqString = $"https://osu.ppy.sh/api/get_beatmaps?k={_creds.OsuApiKey}&{mapId}";
@@ -107,7 +109,7 @@ namespace NadekoBot.Modules.Searches
                     await channel.SendErrorAsync("Please provide a username.").ConfigureAwait(false);
                     return;
                 }
-                using (var http = new HttpClient())
+                using (var http = _httpFactory.CreateClient())
                 {
                     try
                     {
@@ -184,22 +186,22 @@ namespace NadekoBot.Modules.Searches
                 var m = new Regex(@"&m=", RegexOptions.IgnoreCase).Match(mapLink);
                 if (s.Success)
                 {
-                    var mapId = mapLink.Substring(mapLink.IndexOf("/s/") + 3);
+                    var mapId = mapLink.Substring(mapLink.IndexOf("/s/", StringComparison.InvariantCulture) + 3);
                     return $"s={mapId}";
                 }
                 else if (b.Success)
                 {
                     if (m.Success)
-                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/") + 3, mapLink.IndexOf("&m") - (mapLink.IndexOf("/b/") + 3))}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/", StringComparison.InvariantCulture) + 3, mapLink.IndexOf("&m", StringComparison.InvariantCulture) - (mapLink.IndexOf("/b/", StringComparison.InvariantCulture + 3)))}";
                     else
-                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/") + 3)}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("/b/", StringComparison.InvariantCulture) + 3)}";
                 }
                 else if (p.Success)
                 {
                     if (m.Success)
-                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=") + 3, mapLink.IndexOf("&m") - (mapLink.IndexOf("?b=") + 3))}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3, mapLink.IndexOf("&m", StringComparison.InvariantCulture) - (mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3))}";
                     else
-                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=") + 3)}";
+                        return $"b={mapLink.Substring(mapLink.IndexOf("?b=", StringComparison.InvariantCulture) + 3)}";
                 }
                 else
                 {
@@ -209,18 +211,18 @@ namespace NadekoBot.Modules.Searches
 
             private static int ResolveGameMode(string mode)
             {
-                switch (mode.ToLower())
+                switch (mode.ToUpperInvariant())
                 {
-                    case "std":
-                    case "standard":
+                    case "STD":
+                    case "STANDARD":
                         return 0;
-                    case "taiko":
+                    case "TAIKO":
                         return 1;
-                    case "ctb":
-                    case "catchthebeat":
+                    case "CTB":
+                    case "CATCHTHEBEAT":
                         return 2;
-                    case "mania":
-                    case "osu!mania":
+                    case "MANIA":
+                    case "OSU!MANIA":
                         return 3;
                     default:
                         return 0;
@@ -264,7 +266,7 @@ namespace NadekoBot.Modules.Searches
                 return modString;
             }
 
-            private static bool IsBitSet(int mods, int pos) => 
+            private static bool IsBitSet(int mods, int pos) =>
                 (mods & (1 << pos)) != 0;
         }
     }

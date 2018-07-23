@@ -56,10 +56,22 @@ namespace NadekoBot.Core.Services
                 throw new ArgumentException("You can't add negative amounts. Use RemoveAsync method for that.", nameof(amount));
             }
 
+            if (gamble)
+                EnsureBotCreated();
+
             using (var uow = _db.UnitOfWork)
             {
                 InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
+            }
+        }
+
+        private void EnsureBotCreated()
+        {
+            using (var uow = _db.UnitOfWork)
+            {
+                uow.DiscordUsers.GetOrCreate(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId);
+                uow.Complete();
             }
         }
 
@@ -70,17 +82,17 @@ namespace NadekoBot.Core.Services
 
         public async Task AddAsync(IUser user, string reason, long amount, bool sendMessage = false, bool gamble = false)
         {
-            await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble);
+            await InternalAddAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount, gamble).ConfigureAwait(false);
             if (sendMessage)
             {
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync())
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false))
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle($"Received {_config.BotConfig.CurrencySign}")
                             .AddField("Amount", amount)
-                            .AddField("Reason", reason));
+                            .AddField("Reason", reason)).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -98,6 +110,9 @@ namespace NadekoBot.Core.Services
             if (idArray.Length != reasonArray.Length || reasonArray.Length != amountArray.Length)
                 throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
 
+            if (gamble)
+                EnsureBotCreated();
+
             var userIdHashSet = new HashSet<ulong>(idArray.Length);
             using (var uow = _db.UnitOfWork)
             {
@@ -107,7 +122,7 @@ namespace NadekoBot.Core.Services
                     if (userIdHashSet.Add(idArray[i]))
                         InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
                 }
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
         }
 
@@ -117,12 +132,14 @@ namespace NadekoBot.Core.Services
             {
                 throw new ArgumentException("You can't remove negative amounts. Use AddAsync method for that.", nameof(amount));
             }
+            if (gamble)
+                EnsureBotCreated();
 
             bool result;
             using (var uow = _db.UnitOfWork)
             {
                 result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
-                await uow.CompleteAsync();
+                await uow.CompleteAsync().ConfigureAwait(false);
             }
             return result;
         }

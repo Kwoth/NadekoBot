@@ -5,8 +5,8 @@ namespace NadekoBot.Core.Services.Database.Repositories
 {
     public interface ICustomReactionRepository : IRepository<CustomReaction>
     {
-        CustomReaction[] GetGlobalAndFor(IEnumerable<long> ids);
-        CustomReaction[] For(ulong id);
+        CustomReaction[] GetGlobalAndFor(IEnumerable<ulong> ids);
+        CustomReaction[] ForId(ulong id);
         int ClearFromGuild(ulong id);
     }
 }

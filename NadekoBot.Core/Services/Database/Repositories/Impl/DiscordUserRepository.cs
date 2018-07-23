@@ -39,12 +39,12 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         {
             if (!_set.Where(y => y.UserId == id).Any())
             {
-                return await _set.CountAsync() + 1;
+                return await _set.CountAsync().ConfigureAwait(false) + 1;
             }
             return await _set.CountAsync(x => x.TotalXp >=
                 _set.Where(y => y.UserId == id)
                     .DefaultIfEmpty()
-                    .Sum(y => y.TotalXp));
+                    .Sum(y => y.TotalXp)).ConfigureAwait(false);
         }
 
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)
@@ -72,9 +72,9 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         public long GetUserCurrency(IUser user) =>
             GetOrCreate(user).CurrencyAmount;
 
-        public void RemoveFromMany(List<long> ids)
+        public void RemoveFromMany(List<ulong> ids)
         {
-            var items = _set.Where(x => ids.Contains((long)x.UserId));
+            var items = _set.Where(x => ids.Contains(x.UserId));
             foreach (var item in items)
             {
                 item.CurrencyAmount = 0;
@@ -149,7 +149,7 @@ VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
             _context.Database.ExecuteSqlCommand($@"
 UPDATE DiscordUser
 SET CurrencyAmount=CurrencyAmount-ROUND(CurrencyAmount*{decay}-0.5)
-WHERE UserId!={botId};");
+WHERE CurrencyAmount>0 AND UserId!={botId};");
         }
 
         public long GetCurrencyDecayAmount(float decay)

@@ -665,14 +665,14 @@
       "Aliases": [
         ".slowmode"
       ],
-      "Description": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, followed by an interval in seconds. For example 1 message every 5 seconds.",
+      "Description": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
       "Usage": [
-        ".slowmode 1 5",
+        ".slowmode -m 1 -s 5",
         ".slowmode"
       ],
       "Submodule": "SlowModeCommands",
       "Module": "Administration",
-      "Options": null,
+      "Options": "--message-count (-m)   Number of messages user can send.  \n--seconds (-s)   Interval in which the user can send the specified number of messages.  ",
       "Requirements": [
         "ManageMessages Server Permission"
       ]
@@ -1101,7 +1101,9 @@
     },
     {
       "Aliases": [
-        ".scrm"
+        ".scrm",
+        ".autocmdrm",
+        ".autorm"
       ],
       "Description": "Removes a startup or auto command with the provided index.",
       "Usage": [
@@ -2569,7 +2571,7 @@
         ".gift",
         ".gifts"
       ],
-      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
+      "Description": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
       "Usage": [
         ".gifts",
         ".gift Rose @Himesama"
@@ -2747,9 +2749,10 @@
       "Aliases": [
         ".pick"
       ],
-      "Description": "Picks the currency planted in this channel. 60 seconds cooldown.",
+      "Description": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
       "Usage": [
-        ".pick"
+        ".pick",
+        ".pick passwd"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -2760,10 +2763,10 @@
       "Aliases": [
         ".plant"
       ],
-      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+      "Description": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
       "Usage": [
-        ".plant",
-        ".plant 5"
+        ".plant 5",
+        ".plant 10 meow"
       ],
       "Submodule": "PlantPickCommands",
       "Module": "Games",
@@ -4514,6 +4517,35 @@
     },
     {
       "Aliases": [
+        ".randomfood",
+        ".yum"
+      ],
+      "Description": "Shows a random food image.",
+      "Usage": [
+        ".yum"
+      ],
+      "Submodule": "Searches",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
+        ".randombird",
+        ".birb",
+        ".bird"
+      ],
+      "Description": "Shows a random bird image.",
+      "Usage": [
+        ".birb"
+      ],
+      "Submodule": "Searches",
+      "Module": "Searches",
+      "Options": null,
+      "Requirements": []
+    },
+    {
+      "Aliases": [
         ".image",
         ".img"
       ],
@@ -4603,20 +4635,6 @@
       "Description": "Searches for a Hearthstone card and shows its image. Takes a while to complete.",
       "Usage": [
         ".hs Ysera"
-      ],
-      "Submodule": "Searches",
-      "Module": "Searches",
-      "Options": null,
-      "Requirements": []
-    },
-    {
-      "Aliases": [
-        ".yodify",
-        ".yoda"
-      ],
-      "Description": "Translates your normal sentences into Yoda styled sentences!",
-      "Usage": [
-        ".yoda my feelings hurt"
       ],
       "Submodule": "Searches",
       "Module": "Searches",
@@ -5919,7 +5937,7 @@
       "Aliases": [
         ".remind"
       ],
-      "Description": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+      "Description": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
       "Usage": [
         ".remind me 1d5h Do something",
         ".remind #general 1m Start now!"
@@ -6154,7 +6172,8 @@
       ],
       "Description": "Shows your xp stats. Specify the user to show that user's stats instead.",
       "Usage": [
-        ".xp"
+        ".xp",
+        ".xp @someguy"
       ],
       "Submodule": "Xp",
       "Module": "Xp",
@@ -6298,6 +6317,22 @@
       "Options": null,
       "Requirements": [
         "Administrator Server Permission"
+      ]
+    },
+    {
+      "Aliases": [
+        ".xptempreload",
+        ".xptr"
+      ],
+      "Description": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `.xp` card.",
+      "Usage": [
+        ".xptr"
+      ],
+      "Submodule": "Xp",
+      "Module": "Xp",
+      "Options": null,
+      "Requirements": [
+        "Bot Owner Only"
       ]
     },
     {

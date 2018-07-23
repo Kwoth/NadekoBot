@@ -19,6 +19,7 @@ using System.Threading;
 using System.Collections.Concurrent;
 using System;
 using Octokit;
+using System.Net.Http;
 
 namespace NadekoBot.Modules.Administration.Services
 {
@@ -42,11 +43,12 @@ namespace NadekoBot.Modules.Administration.Services
         private readonly IBotConfigProvider _bc;
         private readonly IDataCache _cache;
         private readonly IImageCache _imgs;
+        private readonly IHttpClientFactory _httpFactory;
         private readonly Timer _updateTimer;
 
         public SelfService(DiscordSocketClient client, NadekoBot bot, CommandHandler cmdHandler, DbService db,
             IBotConfigProvider bc, ILocalization localization, NadekoStrings strings, IBotCredentials creds,
-            IDataCache cache)
+            IDataCache cache, IHttpClientFactory factory)
         {
             _redis = cache.Redis;
             _bot = bot;
@@ -60,6 +62,7 @@ namespace NadekoBot.Modules.Administration.Services
             _bc = bc;
             _cache = cache;
             _imgs = cache.LocalImages;
+            _httpFactory = factory;
             if (_client.ShardId == 0)
             {
                 _updateTimer = new Timer(async _ =>
@@ -69,15 +72,15 @@ namespace NadekoBot.Modules.Administration.Services
                         var ch = ownerChannels?.Values.FirstOrDefault();
 
                         if (ch == null) // no owner channels
-                        return;
+                            return;
 
                         var cfo = _bc.BotConfig.CheckForUpdates;
                         if (cfo == UpdateCheckType.None)
                             return;
 
                         string data;
-                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit()) != null)
-                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease()) != null))
+                        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
+                            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
                         {
                             await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
                         }
@@ -94,6 +97,33 @@ namespace NadekoBot.Modules.Administration.Services
                 delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
             sub.Subscribe(_creds.RedisKey() + "_reload_bot_config",
                 delegate { _bc.Reload(); }, CommandFlags.FireAndForget);
+            sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (ch, v) =>
+            {
+                try
+                {
+                    var guildStr = v.ToString()?.Trim().ToUpperInvariant();
+                    if (string.IsNullOrWhiteSpace(guildStr))
+                        return;
+                    var server = _client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
+                        _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
+
+                    if (server == null)
+                    {
+                        return;
+                    }
+                    if (server.OwnerId != _client.CurrentUser.Id)
+                    {
+                        await server.LeaveAsync().ConfigureAwait(false);
+                        _log.Info($"Left server {server.Name} [{server.Id}]");
+                    }
+                    else
+                    {
+                        await server.DeleteAsync().ConfigureAwait(false);
+                        _log.Info($"Deleted server {server.Name} [{server.Id}]");
+                    }
+                }
+                catch { }
+            }, CommandFlags.FireAndForget);
 
             Task.Run(async () =>
             {
@@ -112,7 +142,7 @@ namespace NadekoBot.Modules.Administration.Services
 
                 foreach (var cmd in bc.BotConfig.StartupCommands.Where(x => x.Interval <= 0))
                 {
-                    try { await ExecuteCommand(cmd); } catch { }
+                    try { await ExecuteCommand(cmd).ConfigureAwait(false); } catch { }
                 }
             });
 
@@ -125,6 +155,8 @@ namespace NadekoBot.Modules.Administration.Services
                 if (client.ShardId == 0)
                     await LoadOwnerChannels().ConfigureAwait(false);
             });
+
+
         }
 
         private async Task<string> GetNewCommit()
@@ -134,7 +166,7 @@ namespace NadekoBot.Modules.Administration.Services
             var commits = await client.Repository.Commit.GetAll("Kwoth", "NadekoBot", new CommitRequest()
             {
                 Since = lu,
-            });
+            }).ConfigureAwait(false);
 
             commits = commits.Where(x => x.Commit.Committer.Date.UtcDateTime > lu)
                 .Take(10)
@@ -143,7 +175,7 @@ namespace NadekoBot.Modules.Administration.Services
             if (!commits.Any())
                 return null;
 
-            SetNewLastUpdate(commits.First().Commit.Committer.Date.UtcDateTime);
+            SetNewLastUpdate(commits[0].Commit.Committer.Date.UtcDateTime);
 
             var newCommits = commits
                 .Select(x => $"[{x.Sha.TrimTo(6, true)}]({x.HtmlUrl})  {x.Commit.Message.TrimTo(50)}");
@@ -167,7 +199,7 @@ namespace NadekoBot.Modules.Administration.Services
         {
             var client = new GitHubClient(new ProductHeaderValue("nadekobot"));
             var lu = _bc.BotConfig.LastUpdate;
-            var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot")).FirstOrDefault();
+            var release = (await client.Repository.Release.GetAll("Kwoth", "NadekoBot").ConfigureAwait(false)).FirstOrDefault();
 
             if (release == null || release.CreatedAt.UtcDateTime <= lu)
                 return null;
@@ -196,7 +228,7 @@ namespace NadekoBot.Modules.Administration.Services
 
         private Timer TimerFromStartupCommand(StartupCommand x)
         {
-            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj),
+            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj).ConfigureAwait(false),
                 x,
                 x.Interval * 1000,
                 x.Interval * 1000);
@@ -208,9 +240,9 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
                 //if someone already has .die as their startup command, ignore it
-                if (cmd.CommandText.StartsWith(prefix + "die"))
+                if (cmd.CommandText.StartsWith(prefix + "die", StringComparison.InvariantCulture))
                     return;
-                await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText);
+                await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText).ConfigureAwait(false);
                 await Task.Delay(400).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -259,7 +291,7 @@ namespace NadekoBot.Modules.Administration.Services
                     return Task.FromResult<IDMChannel>(null);
 
                 return user.GetOrCreateDMChannelAsync();
-            }));
+            })).ConfigureAwait(false);
 
             ownerChannels = channels.Where(x => x != null)
                 .ToDictionary(x => x.Recipient.Id, x => x)
@@ -269,6 +301,12 @@ namespace NadekoBot.Modules.Administration.Services
                 _log.Warn("No owner channels created! Make sure you've specified correct OwnerId in the credentials.json file.");
             else
                 _log.Info($"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+        }
+
+        public Task LeaveGuild(string guildStr)
+        {
+            var sub = _cache.Redis.GetSubscriber();
+            return sub.PublishAsync(_creds.RedisKey() + "_leave_guild", guildStr);
         }
 
         // forwards dms
@@ -327,6 +365,18 @@ namespace NadekoBot.Modules.Administration.Services
             }
         }
 
+        public bool RestartBot()
+        {
+            var cmd = _creds.RestartCommand;
+            if (string.IsNullOrWhiteSpace(cmd?.Cmd))
+            {
+                return false;
+            }
+
+            Restart();
+            return true;
+        }
+
         public bool RemoveStartupCommand(int index, out StartupCommand cmd)
         {
             using (var uow = _db.UnitOfWork)
@@ -349,6 +399,32 @@ namespace NadekoBot.Modules.Administration.Services
                 }
             }
             return false;
+        }
+
+        public async Task<bool> SetAvatar(string img)
+        {
+            if (string.IsNullOrWhiteSpace(img))
+                return false;
+
+            if (!Uri.IsWellFormedUriString(img, UriKind.Absolute))
+                return false;
+
+            var uri = new Uri(img);
+
+            using (var http = _httpFactory.CreateClient())
+            using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+            {
+                if (!sr.IsImage())
+                    return false;
+
+                // i can't just do ReadAsStreamAsync because dicord.net's image poops itself
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                using (var imgStream = imgData.ToStream())
+                {
+                    await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+                }
+            }
+            return true;
         }
 
         public void ClearStartupCommands()
@@ -374,9 +450,7 @@ namespace NadekoBot.Modules.Administration.Services
         public void ReloadImages()
         {
             var sub = _cache.Redis.GetSubscriber();
-            sub.Publish(_creds.RedisKey() + "_reload_images",
-                "",
-                CommandFlags.FireAndForget);
+            sub.Publish(_creds.RedisKey() + "_reload_images", "");
         }
 
         public void Die()
@@ -403,12 +477,17 @@ namespace NadekoBot.Modules.Administration.Services
             sub.Publish(_creds.RedisKey() + "_die", "", CommandFlags.FireAndForget);
         }
 
-        public void RestartShard(int shardId)
+        public bool RestartShard(int shardId)
         {
+            if (shardId < 0 || shardId >= _creds.TotalShards)
+                return false;
+
             var pub = _cache.Redis.GetSubscriber();
             pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
                 JsonConvert.SerializeObject(shardId),
                 CommandFlags.FireAndForget);
+
+            return true;
         }
 
         public void ForwardToAll()
@@ -422,7 +501,7 @@ namespace NadekoBot.Modules.Administration.Services
             _bc.Reload();
         }
 
-        public IEnumerable<ShardComMessage> GetAllShardStatuses(int page)
+        public IEnumerable<ShardComMessage> GetAllShardStatuses()
         {
             var db = _cache.Redis.GetDatabase();
             return db.ListRange(_creds.RedisKey() + "_shardstats")

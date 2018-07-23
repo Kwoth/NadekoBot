@@ -162,9 +162,9 @@
   },
   "slowmode": {
     "Cmd": "slowmode",
-    "Desc": "Toggles slowmode. Disable by specifying no parameters. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages each user can send, followed by an interval in seconds. For example 1 message every 5 seconds.",
+    "Desc": "Toggles slowmode. Slowmode deletes any excess messages users type over the specified limit of messages per X seconds. To enable, specify a number of messages (-m) each user can send, and an interval in seconds (-i).  Disable by specifying no parameters.",
     "Usage": [
-      "{0}slowmode 1 5",
+      "{0}slowmode -m 1 -s 5",
       "{0}slowmode"
     ]
   },
@@ -583,7 +583,7 @@
   },
   "remind": {
     "Cmd": "remind",
-    "Desc": "Sends a message to you or a channel after certain amount of time. First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+    "Desc": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
@@ -1110,17 +1110,18 @@
   },
   "pick": {
     "Cmd": "pick",
-    "Desc": "Picks the currency planted in this channel. 60 seconds cooldown.",
+    "Desc": "Picks the currency planted in this channel. If the plant has a password, you need to specify it.",
     "Usage": [
-      "{0}pick"
+      "{0}pick",
+      "{0}pick passwd"
     ]
   },
   "plant": {
     "Cmd": "plant",
-    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. (If bot is restarted or crashes, the currency will be lost)",
+    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
     "Usage": [
-      "{0}plant",
-      "{0}plant 5"
+      "{0}plant 5",
+      "{0}plant 10 meow"
     ]
   },
   "gencurrency": {
@@ -1599,6 +1600,20 @@
     "Desc": "Shows a random dog image.",
     "Usage": [
       "{0}woof"
+    ]
+  },
+  "randomfood": {
+    "Cmd": "randomfood yum",
+    "Desc": "Shows a random food image.",
+    "Usage": [
+      "{0}yum"
+    ]
+  },
+  "randombird": {
+    "Cmd": "randombird birb bird",
+    "Desc": "Shows a random bird image.",
+    "Usage": [
+      "{0}birb"
     ]
   },
   "image": {
@@ -2143,13 +2158,6 @@
       "{0}mtg about face"
     ]
   },
-  "yodify": {
-    "Cmd": "yodify yoda",
-    "Desc": "Translates your normal sentences into Yoda styled sentences!",
-    "Usage": [
-      "{0}yoda my feelings hurt"
-    ]
-  },
   "attack": {
     "Cmd": "attack",
     "Desc": "Attacks a target with the given move. Use `{0}movelist` to see a list of moves your type can use.",
@@ -2432,7 +2440,7 @@
   },
   "waifugift": {
     "Cmd": "waifugift gift gifts",
-    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if they don't have affinity set towards you, or 100% if they do. Provide no parameters to see a list of items that you can gift.",
+    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
     "Usage": [
       "{0}gifts",
       "{0}gift Rose @Himesama"
@@ -2660,7 +2668,7 @@
     ]
   },
   "startupcommandremove": {
-    "Cmd": "scrm",
+    "Cmd": "scrm autocmdrm autorm",
     "Desc": "Removes a startup or auto command with the provided index.",
     "Usage": [
       "{0}scrm 3"
@@ -2905,7 +2913,15 @@
     "Cmd": "experience xp",
     "Desc": "Shows your xp stats. Specify the user to show that user's stats instead.",
     "Usage": [
-      "{0}xp"
+      "{0}xp",
+      "{0}xp @someguy"
+    ]
+  },
+  "xptemplatereload": {
+    "cmd": "xptempreload xptr",
+    "desc": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `{0}xp` card.",
+    "usage": [
+      "{0}xptr"
     ]
   },
   "xpexclusionlist": {
@@ -3166,7 +3182,14 @@
   },
   "deletewaifus": {
     "cmd": "deletewaifus",
-    "desc": "Deletes everything from WaifuUpdates and WaifuInfo tables.",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables.",
+    "usage": [
+      "{0}deletewaifus"
+    ]
+  },
+  "deletewaifu": {
+    "cmd": "deletewaifu",
+    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
     "usage": [
       "{0}deletewaifus"
     ]

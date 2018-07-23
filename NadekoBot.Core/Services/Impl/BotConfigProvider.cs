@@ -90,7 +90,7 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         break;
                     case BotConfigEditType.TriviaCurrencyReward:
-                        if (int.TryParse(newValue, out var triviaReward) && triviaReward > 0)
+                        if (int.TryParse(newValue, out var triviaReward) && triviaReward >= 0)
                             bc.TriviaCurrencyReward = triviaReward;
                         else
                             return false;
@@ -120,7 +120,7 @@ namespace NadekoBot.Core.Services.Impl
                             return false;
                         break;
                     case BotConfigEditType.DailyCurrencyDecay:
-                        if (float.TryParse(newValue, out var decay) && decay > 0)
+                        if (float.TryParse(newValue, out var decay) && decay >= 0)
                             bc.DailyCurrencyDecay = decay;
                         else
                             return false;
@@ -176,7 +176,7 @@ namespace NadekoBot.Core.Services.Impl
                     case BotConfigEditType.OkColor:
                         try
                         {
-                            newValue = newValue.Replace("#", "");
+                            newValue = newValue.Replace("#", "", StringComparison.InvariantCulture);
                             var c = new Color(Convert.ToUInt32(newValue, 16));
                             NadekoBot.OkColor = c;
                             bc.OkColor = newValue;
@@ -189,7 +189,7 @@ namespace NadekoBot.Core.Services.Impl
                     case BotConfigEditType.ErrorColor:
                         try
                         {
-                            newValue = newValue.Replace("#", "");
+                            newValue = newValue.Replace("#", "", StringComparison.InvariantCulture);
                             var c = new Color(Convert.ToUInt32(newValue, 16));
                             NadekoBot.ErrorColor = c;
                             bc.ErrorColor = newValue;
@@ -208,6 +208,11 @@ namespace NadekoBot.Core.Services.Impl
                         if (!Enum.TryParse<UpdateCheckType>(newValue, true, out var up))
                             return false;
                         bc.CheckForUpdates = up;
+                        break;
+                    case BotConfigEditType.CurrencyGenerationPassword:
+                        if (!bool.TryParse(newValue, out var pw))
+                            return false;
+                        bc.CurrencyGenerationPassword = pw;
                         break;
                     default:
                         return false;

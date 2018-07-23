@@ -21,25 +21,25 @@ namespace NadekoBot.Modules.Utility.Services
                 .StringGet("converter_units")
                 .ToString()
                 .MapJson<ConvertUnit[]>();
-                
+
         private readonly Logger _log;
         private readonly Timer _currencyUpdater;
         private readonly TimeSpan _updateInterval = new TimeSpan(12, 0, 0);
         private readonly DbService _db;
         private readonly IDataCache _cache;
-        private readonly HttpClient _http;
+        private readonly IHttpClientFactory _httpFactory;
 
         public ConverterService(DiscordSocketClient client, DbService db,
-            IDataCache cache)
+            IDataCache cache, IHttpClientFactory factory)
         {
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _cache = cache;
-            _http = new HttpClient();
+            _httpFactory = factory;
 
             if (client.ShardId == 0)
             {
-                _currencyUpdater = new Timer(async (shouldLoad) => await UpdateCurrency((bool)shouldLoad),
+                _currencyUpdater = new Timer(async (shouldLoad) => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
                     client.ShardId == 0,
                     TimeSpan.Zero,
                     _updateInterval);
@@ -48,8 +48,11 @@ namespace NadekoBot.Modules.Utility.Services
 
         private async Task<Rates> GetCurrencyRates()
         {
-            var res = await _http.GetStringAsync("http://api.fixer.io/latest").ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<Rates>(res);
+            using (var http = _httpFactory.CreateClient())
+            {
+                var res = await http.GetStringAsync("https://convertapi.nadekobot.me/latest").ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<Rates>(res);
+            }
         }
 
         private async Task UpdateCurrency(bool shouldLoad)
@@ -59,7 +62,7 @@ namespace NadekoBot.Modules.Utility.Services
                 var unitTypeString = "currency";
                 if (shouldLoad)
                 {
-                    var currencyRates = await GetCurrencyRates();
+                    var currencyRates = await GetCurrencyRates().ConfigureAwait(false);
                     var baseType = new ConvertUnit()
                     {
                         Triggers = new[] { currencyRates.Base },

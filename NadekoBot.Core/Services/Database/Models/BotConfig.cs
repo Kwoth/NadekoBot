@@ -27,7 +27,7 @@ namespace NadekoBot.Core.Services.Database.Models
 
         public int TriviaCurrencyReward { get; set; } = 0;
         /// <summary> UNUSED </summary>
-        [Obsolete]
+        [Obsolete("Use MinBet instead.")]
         public int MinimumBetAmount { get; set; } = 2;
         public float BetflipMultiplier { get; set; } = 1.95f;
         public int CurrencyDropAmount { get; set; } = 1;
@@ -40,11 +40,6 @@ namespace NadekoBot.Core.Services.Database.Models
         public float DailyCurrencyDecay { get; set; } = 0;
         public DateTime LastCurrencyDecay { get; set; } = DateTime.MinValue;
         public int MinWaifuPrice { get; set; } = 50;
-        //public HashSet<CommandCost> CommandCosts { get; set; } = new HashSet<CommandCost>();
-
-        /// <summary>I messed up, don't use</summary>
-        [Obsolete] public HashSet<CommandPrice> CommandPrices { get; set; } = new HashSet<CommandPrice>();
-
 
         public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
         public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();
@@ -88,6 +83,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string UpdateString { get; set; } = "New update has been released.";
         public UpdateCheckType CheckForUpdates { get; set; } = UpdateCheckType.Release;
         public DateTime LastUpdate { get; set; } = new DateTime(2018, 5, 5, 0, 0, 0, DateTimeKind.Utc);
+        public bool CurrencyGenerationPassword { get; set; }
     }
 
     public enum UpdateCheckType
@@ -100,10 +96,10 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string Name { get; set; }
 
         public override bool Equals(object obj) =>
-            (obj as BlockedCmdOrMdl)?.Name?.ToLowerInvariant() == Name.ToLowerInvariant();
+            (obj as BlockedCmdOrMdl)?.Name?.ToUpperInvariant() == Name.ToUpperInvariant();
 
         public override int GetHashCode() =>
-            Name.GetHashCode();
+            Name.GetHashCode(System.StringComparison.InvariantCulture);
     }
 
     public enum ConsoleOutputType
@@ -149,7 +145,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string Text { get; set; }
 
         public override int GetHashCode() =>
-            Text.GetHashCode();
+            Text.GetHashCode(StringComparison.InvariantCulture);
 
         public override bool Equals(object obj) =>
             (obj is EightBallResponse response)
@@ -163,7 +159,7 @@ Nadeko Support Server: https://discord.gg/nadekobot";
         public string Name { get; set; }
 
         public override int GetHashCode() =>
-            Icon.GetHashCode();
+            Icon.GetHashCode(StringComparison.InvariantCulture);
 
         public override bool Equals(object obj) =>
             (obj is RaceAnimal animal)

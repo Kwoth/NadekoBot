@@ -6,12 +6,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using ImageSharp;
 using NadekoBot.Common;
 using NadekoBot.Common.Attributes;
 using NadekoBot.Core.Services;
 using NadekoBot.Extensions;
-using Image = ImageSharp.Image;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace NadekoBot.Modules.Gambling
 {
@@ -39,17 +40,16 @@ namespace NadekoBot.Modules.Gambling
 
                 var num1 = gen / 10;
                 var num2 = gen % 10;
-                var imageStream = await Task.Run(() =>
-                {
-                    var ms = new MemoryStream();
-                    new[] { GetDice(num1), GetDice(num2) }.Merge().SaveAsPng(ms);
-                    ms.Position = 0;
-                    return ms;
-                }).ConfigureAwait(false);
 
-                await Context.Channel.SendFileAsync(imageStream,
-                    "dice.png",
-                    Context.User.Mention + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
+                using (var img1 = GetDice(num1))
+                using (var img2 = GetDice(num2))
+                using (var img = new[] { img1, img2 }.Merge())
+                using (var ms = img.ToStream())
+                {
+                    await Context.Channel.SendFileAsync(ms,
+                        "dice.png",
+                        Context.User.Mention + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
+                }
             }
 
             public enum RollOrderType
@@ -125,16 +125,21 @@ namespace NadekoBot.Modules.Gambling
                     values.Insert(toInsert, randomNumber);
                 }
 
-                var bitmap = dice.Merge();
-                var ms = new MemoryStream();
-                bitmap.SaveAsPng(ms);
-                ms.Position = 0;
-                await Context.Channel.SendFileAsync(ms, "dice.png",
-                    Context.User.Mention + " " +
-                    GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
-                    " " + GetText("total_average",
-                        Format.Bold(values.Sum().ToString()),
-                        Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
+                using (var bitmap = dice.Merge())
+                using (var ms = bitmap.ToStream())
+                {
+                    foreach (var d in dice)
+                    {
+                        d.Dispose();
+                    }
+
+                    await Context.Channel.SendFileAsync(ms, "dice.png",
+                        Context.User.Mention + " " +
+                        GetText("dice_rolled_num", Format.Bold(values.Count.ToString())) +
+                        " " + GetText("total_average",
+                            Format.Bold(values.Sum().ToString()),
+                            Format.Bold((values.Sum() / (1.0f * values.Count)).ToString("N2")))).ConfigureAwait(false);
+                }
             }
 
             private async Task InternallDndRoll(string arg, bool ordered)
@@ -164,8 +169,10 @@ namespace NadekoBot.Modules.Gambling
                         int.TryParse(match.Groups["n2"].ToString(), out int n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                     {
-                        int.TryParse(match.Groups["add"].Value, out int add);
-                        int.TryParse(match.Groups["sub"].Value, out int sub);
+                        if (!int.TryParse(match.Groups["add"].Value, out int add))
+                            add = 0;
+                        if (!int.TryParse(match.Groups["sub"].Value, out int sub))
+                            sub = 0;
 
                         var arr = new int[n1];
                         for (int i = 0; i < n1; i++)
@@ -217,19 +224,13 @@ namespace NadekoBot.Modules.Gambling
                 if (num == 10)
                 {
                     var images = _images.Dice;
-                    using (var imgOneStream = images[1].ToStream())
-                    using (var imgZeroStream = images[0].ToStream())
+                    using (var imgOne = Image.Load(images[1]))
+                    using (var imgZero = Image.Load(images[0]))
                     {
-                        var imgOne = Image.Load(imgOneStream);
-                        var imgZero = Image.Load(imgZeroStream);
-
                         return new[] { imgOne, imgZero }.Merge();
                     }
                 }
-                using (var die = _images.Dice[num].ToStream())
-                {
-                    return Image.Load(die);
-                }
+                return Image.Load(_images.Dice[num]);
             }
         }
     }
