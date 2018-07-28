@@ -37,6 +37,7 @@
     <PackageReference Include="StackExchange.Redis" Version="1.2.7-alpha-00002" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="YoutubeExplode" Version="4.2.8" />
+    <PackageReference Include="RateLimiter" Version="1.1.1" />
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">

@@ -57,33 +57,6 @@ namespace NadekoBot.Modules.Searches.Services
 
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
 
-        private readonly SemaphoreSlim _cryptoLock = new SemaphoreSlim(1, 1);
-        public async Task<CryptoData[]> CryptoData()
-        {
-            string data;
-            var r = _cache.Redis.GetDatabase();
-            await _cryptoLock.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                data = await r.StringGetAsync("crypto_data").ConfigureAwait(false);
-
-                if (data == null)
-                {
-                    using (var http = _httpFactory.CreateClient())
-                    {
-                        data = await http.GetStringAsync(new Uri("https://api.coinmarketcap.com/v1/ticker/"))
-                            .ConfigureAwait(false);
-                    }
-                    await r.StringSetAsync("crypto_data", data, TimeSpan.FromHours(1)).ConfigureAwait(false);
-                }
-            }
-            finally
-            {
-                _cryptoLock.Release();
-            }
-
-            return JsonConvert.DeserializeObject<CryptoData[]>(data);
-        }
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
             DbService db, NadekoBot bot, IDataCache cache, IHttpClientFactory factory,
