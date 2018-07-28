@@ -995,8 +995,8 @@
     "gambling_waifu": "Waifu",
     "utility_remind_too_long": "O tempo de lembrete excede o máximo permitido.",
     "administration_updates_check_set": "A verificação de atualizações foi definida para {0}.",
-    "administration_images_loading": "",
-    "gambling_flip_results": "",
-    "gambling_cards_left": "",
-    "xp_template_reloaded": ""
+    "administration_images_loading": "As imagens serão recarregadas em alguns segundos.",
+    "gambling_flip_results": "girou {0} moedas. {1} caras, {2} coroas.",
+    "gambling_cards_left": "Há {0} cartas restantes no baralho.",
+    "xp_template_reloaded": "Cartão de XP recarregado."
 }
