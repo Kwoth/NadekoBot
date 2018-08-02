@@ -243,6 +243,14 @@ namespace NadekoBot.Modules.Help
             await ReplyConfirmLocalized("donate", PatreonUrl, PaypalUrl).ConfigureAwait(false);
         }
 
+        [NadekoCommand, Usage, Description, Aliases]
+        public async Task Invite()
+        {
+            var InviteLink = ($"https://discordapp.com/oauth2/authorize?scope=bot&client_id={_creds.ClientId}&permissions=66186303");
+            await ReplyConfirmLocalized("invite", InviteLink).ConfigureAwait(false);
+        }
+
+
         private string GetRemarks(string[] arr)
         {
             return string.Join(" or ", arr.Select(x => Format.Code(x)));
