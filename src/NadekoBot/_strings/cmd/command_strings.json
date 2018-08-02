@@ -21,6 +21,14 @@
       "{0}donate"
     ]
   },
+  "invite": {
+    "Cmd": "invite inv",
+    "Desc": "Sends an Invite link to your current channel.",
+    "Usage": [
+      "{0}invite",
+      "{0}inv"
+    ]
+  },
   "modules": {
     "Cmd": "modules mdls",
     "Desc": "Lists all bot modules.",
