@@ -227,7 +227,7 @@ namespace NadekoBot.Modules.Gambling
                     uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }
-                await Context.Channel.EmbedAsync(EntryToEmbed(entry)
+                await Context.Channel.EmbedAsync(EntryToEmbed(entry, null)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
             }
 
@@ -255,7 +255,7 @@ namespace NadekoBot.Modules.Gambling
                     uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }
-                await Context.Channel.EmbedAsync(EntryToEmbed(entry)
+                await Context.Channel.EmbedAsync(EntryToEmbed(entry, null)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
             }
 
@@ -326,13 +326,88 @@ namespace NadekoBot.Modules.Gambling
                 if (removed == null)
                     await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
                 else
-                    await Context.Channel.EmbedAsync(EntryToEmbed(removed)
+                    await Context.Channel.EmbedAsync(EntryToEmbed(removed, null)
                         .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
             }
 
-            public EmbedBuilder EntryToEmbed(ShopEntry entry)
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task ShopSwitch(int index1, int index2)
             {
-                var embed = new EmbedBuilder().WithOkColor();
+                index1 -= 1;
+                index2 -= 1;
+                if (index1 < 0 || index2 < 0)
+                    return;
+                ShopEntry entry1;
+                ShopEntry entry2;
+                using (var uow = _db.UnitOfWork)
+                {
+                    var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set
+                        .Include(x => x.ShopEntries)
+                        .ThenInclude(x => x.Items));
+
+                    var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
+                    entry1 = entries.ElementAtOrDefault(index1);
+                    entry2 = entries.ElementAtOrDefault(index2);
+                    if (entry1 != null && entry2 != null)
+                    {
+                        entry1.Index = index2;
+                        entry2.Index = index1;
+                        uow._context.Update(entry1);
+                        uow._context.Update(entry2);
+                        uow.Complete();
+                    }
+                }
+
+                if (entry1 == null || entry2 == null)
+                    await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
+                else
+                    await Context.Channel.EmbedAsync(
+                        new EmbedBuilder().WithOkColor()
+                        .WithTitle(GetText("shop_item_switch"))
+                        .AddField(efb => efb.WithName($"#{entry2.Index + 1} - {entry2.Price}{Bc.BotConfig.CurrencySign}").WithValue(EntryToString(entry2)).WithIsInline(true))
+                        .AddField(efb => efb.WithName($"#{entry1.Index + 1} - {entry1.Price}{Bc.BotConfig.CurrencySign}").WithValue(EntryToString(entry1)).WithIsInline(true)))
+                    .ConfigureAwait(false);
+            }
+
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task ShopPrice(int index, int price)
+            {
+                index -= 1;
+                if (index < 0)
+                    return;
+                ShopEntry entry;
+                using (var uow = _db.UnitOfWork)
+                {
+                    var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set
+                        .Include(x => x.ShopEntries)
+                        .ThenInclude(x => x.Items));
+
+                    var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
+                    entry = entries.ElementAtOrDefault(index);
+                    if (entry != null)
+                    {
+                        entry.Price = price;
+                        uow._context.Update(entry);
+                        uow.Complete();
+                    }
+                }
+
+                if (entry == null)
+                    await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
+                else
+                    await Context.Channel.EmbedAsync(
+                        EntryToEmbed(entry, null).WithTitle(GetText("shop_item_price")))
+                    .ConfigureAwait(false);
+            }
+
+            public EmbedBuilder EntryToEmbed(ShopEntry entry, EmbedBuilder embed)
+            {
+                if (embed == null)
+                    embed = new EmbedBuilder().WithOkColor();
 
                 if (entry.Type == ShopEntryType.Role)
                     return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(GetText("shop_role", Format.Bold(Context.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"))).WithIsInline(true))

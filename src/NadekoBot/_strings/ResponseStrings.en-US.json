@@ -753,6 +753,8 @@
   "gambling_shop_item_not_found": "No item on that index found.",
   "gambling_shop_item_purchase": "Item purchase successful.",
   "gambling_shop_item_rm": "Shop item removed",
+  "gambling_shop_item_switch": "Shop items switched",
+  "gambling_shop_item_price": "Shop item price updated",
   "gambling_shop_item_wrong_type": "That shop entry does not support item adding.",
   "gambling_shop_list_item_added": "Item successfully added.",
   "gambling_shop_list_item_not_unique": "That item is already added.",

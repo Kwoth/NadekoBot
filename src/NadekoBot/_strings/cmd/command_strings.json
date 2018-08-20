@@ -2805,6 +2805,20 @@
       "{0}shoprm 1"
     ]
   },
+  "shopswitch": {
+    "Cmd": "shopswitch shopsw",
+    "Desc": "Switches two items from the shop by their IDs.",
+    "Usage": [
+      "{0}shopswitch 1 2"
+    ]
+  },
+  "shopprice": {
+    "Cmd": "shopprice",
+    "Desc": "Change the price of a shop item by its ID.",
+    "Usage": [
+      "{0}shopprice 1 1000"
+    ]
+  },
   "shop": {
     "Cmd": "shop",
     "Desc": "Lists this server's administrators' shop. Paginated.",
