@@ -404,6 +404,42 @@ namespace NadekoBot.Modules.Gambling
                     .ConfigureAwait(false);
             }
 
+            [NadekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task ShopName(int index, [Remainder]string name)
+            {
+                index -= 1;
+                if (index < 0)
+                    return;
+                ShopEntry entry;
+                bool rightType = false;
+                using (var uow = _db.UnitOfWork)
+                {
+                    var config = uow.GuildConfigs.ForId(Context.Guild.Id, set => set
+                        .Include(x => x.ShopEntries)
+                        .ThenInclude(x => x.Items));
+
+                    var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
+                    entry = entries.ElementAtOrDefault(index);
+                    if (entry != null && (rightType = (entry.Type == ShopEntryType.List)))
+                    {
+                        entry.Name = name;
+                        uow._context.Update(entry);
+                        uow.Complete();
+                    }
+                }
+
+                if (entry == null)
+                    await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
+                else if (!rightType)
+                    await ReplyErrorLocalized("shop_item_wrong_type_name").ConfigureAwait(false);
+                else
+                    await Context.Channel.EmbedAsync(
+                        EntryToEmbed(entry).WithTitle(GetText("shop_item_name")))
+                    .ConfigureAwait(false);
+            }
+
             public EmbedBuilder EntryToEmbed(ShopEntry entry)
             {
                 var embed = new EmbedBuilder().WithOkColor();

@@ -2819,6 +2819,13 @@
       "{0}shopprice 1 1000"
     ]
   },
+  "shopname": {
+    "Cmd": "shopname shoprename",
+    "Desc": "Change the name of a shop item by its ID.",
+    "Usage": [
+      "{0}shopname 1 New Item Name"
+    ]
+  },
   "shop": {
     "Cmd": "shop",
     "Desc": "Lists this server's administrators' shop. Paginated.",
