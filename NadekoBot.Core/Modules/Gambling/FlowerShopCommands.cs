@@ -227,7 +227,7 @@ namespace NadekoBot.Modules.Gambling
                     uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }
-                await Context.Channel.EmbedAsync(EntryToEmbed(entry, null)
+                await Context.Channel.EmbedAsync(EntryToEmbed(entry)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
             }
 
@@ -255,7 +255,7 @@ namespace NadekoBot.Modules.Gambling
                     uow.GuildConfigs.ForId(Context.Guild.Id, set => set).ShopEntries = entries;
                     uow.Complete();
                 }
-                await Context.Channel.EmbedAsync(EntryToEmbed(entry, null)
+                await Context.Channel.EmbedAsync(EntryToEmbed(entry)
                     .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
             }
 
@@ -326,7 +326,7 @@ namespace NadekoBot.Modules.Gambling
                 if (removed == null)
                     await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
                 else
-                    await Context.Channel.EmbedAsync(EntryToEmbed(removed, null)
+                    await Context.Channel.EmbedAsync(EntryToEmbed(removed)
                         .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
             }
 
@@ -400,14 +400,13 @@ namespace NadekoBot.Modules.Gambling
                     await ReplyErrorLocalized("shop_item_not_found").ConfigureAwait(false);
                 else
                     await Context.Channel.EmbedAsync(
-                        EntryToEmbed(entry, null).WithTitle(GetText("shop_item_price")))
+                        EntryToEmbed(entry).WithTitle(GetText("shop_item_price")))
                     .ConfigureAwait(false);
             }
 
-            public EmbedBuilder EntryToEmbed(ShopEntry entry, EmbedBuilder embed)
+            public EmbedBuilder EntryToEmbed(ShopEntry entry)
             {
-                if (embed == null)
-                    embed = new EmbedBuilder().WithOkColor();
+                var embed = new EmbedBuilder().WithOkColor();
 
                 if (entry.Type == ShopEntryType.Role)
                     return embed.AddField(efb => efb.WithName(GetText("name")).WithValue(GetText("shop_role", Format.Bold(Context.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"))).WithIsInline(true))
