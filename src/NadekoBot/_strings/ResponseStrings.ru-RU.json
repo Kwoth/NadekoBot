@@ -973,5 +973,11 @@
     "xp_template_reloaded": "Образец для опыта был перезагружен.",
     "gambling_new_gamestatus_event": "Введите секретный код в любом канале чтобы получить {1}\n{2} осталось для выдачи.",
     "gambling_event_duration_footer": "Это событие будет активно в течение {0} часов.",
-    "gambling_event_title": "Событие {0} началось!"
+    "gambling_event_title": "Событие {0} началось!",
+    "gambling_economy_state": "Состояние экономики",
+    "gambling_currency_owned": "Общая валюта, принадлежащая пользователям",
+    "gambling_currency_one_percent": "% валюты, принадлежащей ТОП 1%",
+    "gambling_currency_planted": "Валюта в настоящее время посажена",
+    "gambling_owned_waifus_total": "Общая стоимость принадлежащих вайфу",
+    "gambling_bot_currency": "Владения валюты ботом"
 }
