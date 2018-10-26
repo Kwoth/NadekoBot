@@ -130,7 +130,8 @@ namespace NadekoBot.Modules.Games
                 hot = NextDouble(8, 10);
                 crazy = NextDouble(2, 3.99d);
                 advice = "You've met a girl she's above 8 hot, and not crazy at all (below 4)... totally cool?" +
-                         " You should be careful. That's a dude. You're talking to a tranny!";
+                         "It's a trap!  I mean, that's cool and all, just don't be spooked if their junk is bigger than yours." +
+                         "Just have a good time!";
             }
             else
             {
