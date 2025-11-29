@@ -1,0 +1,17 @@
+title: NadekoBot Docs
+description: Documentation and resources for NadekoBot Discord Bot
+theme: jekyll-theme-cayman
+baseurl: "/NadekoBot"
+url: "https://kwoth.github.io"
+
+# SEO
+author: NadekoBot
+twitter:
+  username: nabortest
+
+# Google verification (optional)
+# google_site_verification: your-code-here
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
