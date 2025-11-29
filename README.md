@@ -1,16 +1,10 @@
 # NadekoBot
 
-[![CI/CD](https://github.com/nadeko-bot/nadekobot/actions/workflows/ci.yml/badge.svg)](https://github.com/nadeko-bot/nadekobot/actions/workflows/ci.yml)
-
 NadekoBot is an open source Discord bot. It is written in C# and is built on .NET 8.
 
 If you have any questions, please visit our Discord: https://discord.nadeko.bot
 
 ## Installation
-
-### Default option
-
-You may want to consider using [upeko](https://github.com/nadeko-bot/upeko/releases) if you want to run bot on your PC.+
 
 ### Hosting on a linux server
 
@@ -35,8 +29,10 @@ We love your input! We want to make contributing to this project as easy as poss
 - Becoming a maintainer
 
 ### Streaming Tools & Resources
-
-- [Stream Tools](https://www.theviewbot.com/tools) - Repository of analytical tools to help accelerate your growth rapidly on Twitch and Kick
+- [Self-Hosting Guides](https://docs.nadeko.bot) - Complete setup documentation
+- [Streamer Resources](https://kwoth.github.io/NadekoBot/streamer-resources) - Analytics tools and growth guides
+- [Stream Notifications](https://kwoth.github.io/NadekoBot/stream-notifications) - Twitch & Kick alert setup
+- [Stream Tools](https://www.theviewbot.com/tools) - Analytic and metric tools for Twitch and Kick
 
 ### Contribution
 
