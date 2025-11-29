@@ -39,7 +39,6 @@ We love your input! We want to make contributing to this project as easy as poss
 ### Streaming Tools & Resources
 
 - [Stream Tools](https://www.theviewbot.com/tools) - Repository of analytical tools to help accelerate your growth rapidly on Twitch and Kick
-- [Kick Statistics](https://theviewbot.com/tools/kick-statistics) - Kick livestream analytics with guides on how to achieve Partner, Pro and Affiliate with Kick.com
 
 ### Contribution
 
